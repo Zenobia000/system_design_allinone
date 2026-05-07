@@ -124,14 +124,14 @@ render_pdf() {
   local input="$1"
   local output="$2"
   echo "→ Rendering PDF: ${output}"
-  ${MARP} "${input}" --theme-set "${THEME_DIR}" --pdf --allow-local-files -o "${output}"
+  ${MARP} "${input}" --theme-set "${THEME_DIR}" --pdf --allow-local-files --browser-timeout 300000 -o "${output}"
 }
 
 render_html() {
   local input="$1"
   local output="$2"
   echo "→ Rendering HTML: ${output}"
-  ${MARP} "${input}" --theme-set "${THEME_DIR}" --html --allow-local-files -o "${output}"
+  ${MARP} "${input}" --theme-set "${THEME_DIR}" --html --allow-local-files --browser-timeout 300000 -o "${output}"
 }
 
 cmd="${1:-full}"
