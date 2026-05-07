@@ -10,17 +10,26 @@
 
 ## Quickstart
 
+從**專案根目錄**執行（不是 `ppt/` 內）：
+
 ```bash
-# 安裝 Marp CLI（一次）
+# 安裝 Marp CLI（一次；npx 也可）
 npm install -g @marp-team/marp-cli
 
-# 編譯單一主題
-marp --theme-set themes/ 01-foundation/01_networking.md --pdf
+# 整套 PDF + HTML，輸出到 ../dist/
+bash ../scripts/build.sh full
 
-# 產出整套合輯（依資料夾與檔名排序）
-bash scripts/build.sh           # → build/combined.md
-bash scripts/build.sh --pdf     # → build/combined.pdf（需 marp）
-bash scripts/build.sh --html    # → build/combined.html
+# 精簡版（cover + roadmap + 章節 overview + cheatsheet）
+bash ../scripts/build.sh minimal
+
+# 單一章節
+bash ../scripts/build.sh chapter 01-foundation
+
+# 只產 build/combined.md（不轉 PDF）
+bash ../scripts/build.sh combined
+
+# 編譯單一主題（直接用 marp）
+marp --theme-set themes/ 01-foundation/01_networking.md --pdf
 ```
 
 ---
@@ -40,8 +49,7 @@ ppt/
 ├── 90-appendix/          附錄（Capstone、Cheatsheet、後續資源）
 ├── themes/anthropic.css  Anthropic 主題樣式
 ├── assets/               圖示、流程圖
-├── scripts/build.sh      合輯產生腳本
-└── build/                編譯產出（gitignore）
+└── build/                編譯產出（gitignore；由根目錄 scripts/build.sh 產出）
 ```
 
 ### 命名規範
