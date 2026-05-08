@@ -21,7 +21,9 @@ footer: '系統設計實戰 · v1.0'
 - 講者語氣：穩、列舉具體場景
 -->
 
+
 ---
+
 
 ## OBJECTIVES · 學習目標
 
@@ -36,7 +38,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/03 + 07 + 08 + 12
 
+
 ---
+
 
 ## MENTAL MODEL · 資料層的四個維度
 
@@ -54,5 +58,7 @@ footer: '系統設計實戰 · v1.0'
 ```
 
 <span class="muted">這四層由下而上累加成本。違反 PHYSICS 的設計在任何資料庫上都跑不快。</span>
+
+![w:560](../assets/diagrams/02-data-fundamentals/00_mental_model.png)
 
 > Source: 整理自 基本觀念/03 + 07 + 08 + 12

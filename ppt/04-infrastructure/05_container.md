@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Container
 ## *「應用 + 依賴」打成一個不可變的包，到處都跑得起來*
 
+
 ---
+
 
 ## CONTAINER · WHY
 
@@ -43,7 +45,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/05 Container.pdf · §虛擬機器 vs. 容器
 
+
 ---
+
 
 ## CONTAINER · 隔離邊界
 
@@ -73,7 +77,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/05 Container.pdf · §容器和 VM 在你的設計裡什麼時候各自適合
 
+
 ---
+
 
 ## CONTAINER · 編排層
 
@@ -90,9 +96,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**K8s 解的核心問題**：node 壞掉 / 流量變化 / 版本切換時，**自動把目標狀態 reconcile 出來**。HPA 根據 CPU / 記憶體 / 自訂指標自動擴縮 Pod 數量。</span>
 
+![w:560](../assets/diagrams/04-infrastructure/05_container_02_k8s.png)
+
 > Source: 常用技術/05 Container.pdf · §Kubernetes 的核心概念
 
 ---
+
 
 ## CONTAINER · Liveness vs Readiness
 
@@ -118,9 +127,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/04-infrastructure/05_container_03_probes.png)
+
 > Source: 常用技術/05 Container.pdf · §容器崩潰了怎麼辦
 
 ---
+
 
 ## CONTAINER · 無狀態設計
 
@@ -144,7 +156,9 @@ Session / 用戶狀態  →  Redis
 
 > Source: 常用技術/05 Container.pdf · §無狀態設計的重要性
 
+
 ---
+
 
 ## CONTAINER · TRADE-OFF
 
@@ -179,7 +193,9 @@ Session / 用戶狀態  →  Redis
 
 > Source: 常用技術/05 Container.pdf · §什麼時候在面試裡用這些
 
+
 ---
+
 
 <!-- _class: end -->
 

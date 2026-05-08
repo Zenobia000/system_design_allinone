@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Search System
 ## *搜尋是相關性排序 · 不是精確比對 · 不該住在主資料庫*
 
+
 ---
+
 
 ## SEARCH · WHY
 
@@ -36,7 +38,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/06 Search System.pdf · §為什麼搜尋是一個獨立的設計問題
 
+
 ---
+
 
 ## SEARCH · 倒排索引
 
@@ -62,9 +66,12 @@ footer: '系統設計實戰 · v1.0'
 Tokenize → Lowercase → Stop word removal → Stemming（running/runs/ran → run）。**index 和 query 必須走同一條 pipeline**才能匹配。
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/05_search_01_inverted_index.png)
+
 > Source: 設計模式/06 Search System.pdf · §倒排索引
 
 ---
+
 
 ## SEARCH · Indexing Pipeline
 
@@ -89,9 +96,12 @@ PostgreSQL ──WAL──→ Debezium ──events──→ Kafka ──→ Ind
 
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/05_search_02_cdc_alias.png)
+
 > Source: 設計模式/06 Search System.pdf · §Indexing Pipeline
 
 ---
+
 
 ## SEARCH · 相關性排序
 
@@ -114,7 +124,9 @@ TF-IDF 改良版 · 加入文件長度標準化 · TF 飽和函數。<strong>「
 
 > Source: 設計模式/06 Search System.pdf · §相關性排序
 
+
 ---
+
 
 ## SEARCH · 進階：Vector / Hybrid
 
@@ -138,7 +150,9 @@ indexing 時把 "running" 拆成 r/ru/run/runn/runni/runnin/running，**每個�
 
 > Source: 設計模式/06 Search System.pdf · §Autocomplete + RAG context
 
+
 ---
+
 
 ## SEARCH · Elasticsearch 部署
 
@@ -161,7 +175,9 @@ indexing 時把 "running" 拆成 r/ru/run/runn/runni/runnin/running，**每個�
 
 > Source: 設計模式/06 Search System.pdf · §搜尋系統的擴展
 
+
 ---
+
 
 ## SEARCH · Reindex with Alias
 
@@ -185,7 +201,9 @@ indexing 時把 "running" 拆成 r/ru/run/runn/runni/runnin/running，**每個�
 
 > Source: 設計模式/06 Search System.pdf · §重建索引
 
+
 ---
+
 
 ## SEARCH · 分頁陷阱
 
@@ -205,7 +223,9 @@ indexing 時把 "running" 拆成 r/ru/run/runn/runni/runnin/running，**每個�
 
 > Source: 設計模式/06 Search System.pdf · §分頁
 
+
 ---
+
 
 <!-- _class: end -->
 

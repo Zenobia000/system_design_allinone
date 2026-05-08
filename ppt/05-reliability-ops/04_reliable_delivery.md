@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Reliable Delivery
 ## *故障不是例外而是常態，6 道防線讓系統優雅應對*
 
+
 ---
+
 
 ## RELIABLE DELIVERY · WHY
 
@@ -39,7 +41,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §1
 
+
 ---
+
 
 ## RELIABLE DELIVERY · 六大防線
 
@@ -63,9 +67,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**理解它們的關係，比記每個定義更重要**。每一個防線建立在前一個的基礎上。</span>
 
+![w:560](../assets/diagrams/05-reliability-ops/04_delivery_01_6_lines.png)
+
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §概念串接
 
 ---
+
 
 ## RELIABLE DELIVERY · Timeout
 
@@ -93,7 +100,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §超時
 
+
 ---
+
 
 ## RELIABLE DELIVERY · Retry 該不該重試？
 
@@ -126,7 +135,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §重試
 
+
 ---
+
 
 ## RELIABLE DELIVERY · Idempotency
 
@@ -152,7 +163,9 @@ Server 先查去重表：有就直接回前次結果，沒有才執行並存結�
 
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §冪等性 + Stripe API
 
+
 ---
+
 
 ## RELIABLE DELIVERY · Backoff + Jitter
 
@@ -182,7 +195,9 @@ def retry_with_jitter(fn, max_retries=5, base_delay=1.0, max_delay=30.0):
 
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §退避加抖動 (AWS)
 
+
 ---
+
 
 ## RELIABLE DELIVERY · Circuit Breaker
 
@@ -211,9 +226,12 @@ Closed（正常） → 失敗率超過閾值 → Open（熔斷）
 
 <span class="muted">**Half-Open 的關鍵**：恢復後**不要立刻全流量放開**，要 traffic ramp-up 逐步放量，否則突然全流量再次擊垮剛恢復的服務。</span>
 
+![w:560](../assets/diagrams/05-reliability-ops/04_delivery_02_circuit_breaker.png)
+
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §熔斷器三狀態
 
 ---
+
 
 ## RELIABLE DELIVERY · Failover vs Fallback
 
@@ -242,7 +260,9 @@ Closed（正常） → 失敗率超過閾值 → Open（熔斷）
 
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §故障切換 + 降級回應
 
+
 ---
+
 
 ## RELIABLE DELIVERY · Outbox / DLQ
 
@@ -267,9 +287,12 @@ Closed（正常） → 失敗率超過閾值 → Open（熔斷）
 
 </div>
 
+![w:560](../assets/diagrams/05-reliability-ops/04_delivery_03_outbox.png)
+
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §3 + 整合 Outbox 慣例
 
 ---
+
 
 ## RELIABLE DELIVERY · 一段話講完
 
@@ -287,7 +310,9 @@ Closed（正常） → 失敗率超過閾值 → Open（熔斷）
 
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §面試裡的說法
 
+
 ---
+
 
 <!-- _class: end -->
 

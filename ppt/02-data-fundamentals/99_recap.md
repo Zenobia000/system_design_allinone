@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Ch.2 整合 & 收尾
 ## *把資料層四件事串成一個電商下訂單*
 
+
 ---
+
 
 ## CASE STUDY · 把資料層四件事串起來
 
@@ -36,9 +38,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/02-data-fundamentals/99_recap_01_ecommerce_flow.png)
+
 > Source: 整合 Ch.2 全章 + Shopify Engineering Blog 公開資料
 
 ---
+
 
 ## RECAP · 第二章帶走的東西
 
@@ -65,7 +70,9 @@ footer: '系統設計實戰 · v1.0'
   </div>
 </div>
 
+
 ---
+
 
 <!-- _class: end -->
 

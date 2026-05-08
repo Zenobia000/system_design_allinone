@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Recap & Graduation
 ## *把 7 個進階模式串起來 · 整門課的終點*
 
+
 ---
+
 
 ## CASE STUDY · 把進階模式串起來
 
@@ -36,9 +38,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/99_recap_01_ai_assistant.png)
+
 > Source: 整合 Ch.7 全章 + Anthropic / OpenAI 公開 best practice
 
 ---
+
 
 ## RECAP · 第七章帶走的東西
 
@@ -66,7 +71,9 @@ footer: '系統設計實戰 · v1.0'
   </div>
 </div>
 
+
 ---
+
 
 ## 整套課程 · 7 章地圖
 
@@ -87,7 +94,9 @@ Ch.7 Advanced         Queue · Long · Blob · RT · Search · Pipe · RAG
 
 </div>
 
+
 ---
+
 
 ## 畢業 · 下一步學什麼
 
@@ -103,7 +112,9 @@ Ch.7 Advanced         Queue · Long · Blob · RT · Search · Pipe · RAG
 
 <span class="muted">**最重要的事**：不要只看理論——**自己挖一個系統的 bug、自己 scale 一次 production**，比讀十本書都有用。</span>
 
+
 ---
+
 
 ## 給未來面試 / 工作的你
 
@@ -123,7 +134,9 @@ Ch.7 Advanced         Queue · Long · Blob · RT · Search · Pipe · RAG
 
 <span class="muted">技術會過時，**判斷力不會**。Linus 說的：「Theory and practice sometimes clash. Theory loses. Every single time.」</span>
 
+
 ---
+
 
 <!-- _class: end -->
 

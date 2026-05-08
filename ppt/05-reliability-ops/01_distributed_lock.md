@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Distributed Lock
 ## *在同一時間，只允許一個實體對某資源進行操作*
 
+
 ---
+
 
 ## DISTRIBUTED LOCK · WHY
 
@@ -36,7 +38,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/09 Distributed Lock.pdf · §1 為什麼需要
 
+
 ---
+
 
 ## DISTRIBUTED LOCK · 4 個經典場景
 
@@ -55,7 +59,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/09 Distributed Lock.pdf · §1 使用場景
 
+
 ---
+
 
 ## DISTRIBUTED LOCK · HOW
 
@@ -76,7 +82,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/09 Distributed Lock.pdf · §2 實作工具與策略
 
+
 ---
+
 
 ## DISTRIBUTED LOCK · 三大陷阱
 
@@ -100,9 +108,12 @@ Master 拿到鎖後同步給 replica 之前掛掉，新 master 不知道這個�
 **解法**：Redlock 多數決，或用強一致的 etcd / ZooKeeper
 </div>
 
+![w:560](../assets/diagrams/05-reliability-ops/01_distributed_lock_03_fencing.png)
+
 > Source: 常用技術/09 Distributed Lock.pdf · §3 常見陷阱
 
 ---
+
 
 ## DISTRIBUTED LOCK · Deadlock 與時鐘偏差
 
@@ -126,7 +137,9 @@ Master 拿到鎖後同步給 replica 之前掛掉，新 master 不知道這個�
 
 > Source: 常用技術/09 Distributed Lock.pdf · §3 + §5 時鐘偏差
 
+
 ---
+
 
 ## DISTRIBUTED LOCK · TRADE-OFF
 
@@ -162,7 +175,9 @@ Master 拿到鎖後同步給 replica 之前掛掉，新 master 不知道這個�
 
 > Source: 常用技術/09 Distributed Lock.pdf · §4 + §6 最後思考
 
+
 ---
+
 
 <!-- _class: end -->
 

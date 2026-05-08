@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Scaling Writes
 ## *Sharding、批量、佇列、階層聚合——讓每個元件只扛得住的負載*
 
+
 ---
+
 
 ## SCALE WRITES · WHY + 4 個策略
 
@@ -45,9 +47,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**選擇順序**：Vertical 壓榨 → Sharding → Batch / Queue → Hierarchical（極端）。**核心**：降低每個元件的吞吐壓力。</span>
 
+![w:560](../assets/diagrams/06-scaling-patterns/02_scaling_writes_01_strategies.png)
+
 > Source: 設計模式/02 Scaling Writes.pdf · §1-2
 
 ---
+
 
 ## SCALE WRITES · Sharding · Hot Key · Vertical Partition
 
@@ -69,7 +74,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/02 Scaling Writes.pdf · §2 Sharding & Vertical · §6 Hot Key
 
+
 ---
+
 
 ## SCALE WRITES · Queue · Load Shedding · Batching
 
@@ -88,9 +95,12 @@ Strava / Robotaxi 位置：丟一筆沒差，幾秒後就有新的。Analytics �
 **應用層**（從 Kafka 讀一批寫一批，崩潰可重讀）／**中介層**（Like Batcher 60s 聚合 100 讚 = 1 寫）／**DB 層 write-behind**（Redis 100ms flush，**金融絕對不能用**——崩潰丟資料）。
 </div>
 
+![w:560](../assets/diagrams/06-scaling-patterns/02_scaling_writes_04_write_behind.png)
+
 > Source: 設計模式/02 Scaling Writes.pdf · §3 Queue · §4 Batching
 
 ---
+
 
 ## SCALE WRITES · Hierarchical Aggregation + TRADE-OFF
 

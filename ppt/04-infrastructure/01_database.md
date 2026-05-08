@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Database
 ## *選錯資料庫的代價：migrate 一張 10 億筆的表 = 數週工程 + 不可逆風險*
 
+
 ---
+
 
 ## DATABASE · WHY
 
@@ -40,7 +42,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/01 Database.pdf · §1 為什麼選擇這麼複雜
 
+
 ---
+
 
 ## DATABASE · 兩個正交維度
 
@@ -70,9 +74,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**兩維度正交（互相獨立）**——「PostgreSQL OLTP」「ClickHouse OLAP」「Cassandra OLTP NoSQL」都是兩維交叉的結果。</span>
 
+![w:560](../assets/diagrams/04-infrastructure/01_database_01_matrix.png)
+
 > Source: 常用技術/01 Database.pdf · §兩個維度看清資料庫的全景
 
 ---
+
 
 ## DATABASE · 六大類型
 
@@ -92,7 +99,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/01 Database.pdf · §NoSQL 資料庫 + Vector Database
 
+
 ---
+
 
 ## DATABASE · NoSQL 適用場景
 
@@ -127,7 +136,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/01 Database.pdf · §NoSQL 資料庫
 
+
 ---
+
 
 ## DATABASE · TRADE-OFF
 
@@ -162,7 +173,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/01 Database.pdf · §在面試中如何選擇資料庫
 
+
 ---
+
 
 ## DATABASE · 面試答題公式
 
@@ -187,7 +200,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/01 Database.pdf · §不要一開始就比較 SQL vs NoSQL + §說出你的理由
 
+
 ---
+
 
 <!-- _class: end -->
 

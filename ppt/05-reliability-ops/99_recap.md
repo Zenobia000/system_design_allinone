@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Recap & Case Study
 ## *一個 incident，把 5 層可靠性串起來*
 
+
 ---
+
 
 ## CASE STUDY · 訂單系統的可靠性堆疊
 
@@ -30,7 +32,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 整合 Ch.5 全章 + Stripe / Shopify Engineering Blog
 
+
 ---
+
 
 ## CASE STUDY · Incident 演練
 
@@ -52,7 +56,10 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/05-reliability-ops/99_recap_01_incident_timeline.png)
+
 ---
+
 
 ## RECAP · 第五章帶走的東西
 
@@ -77,7 +84,9 @@ footer: '系統設計實戰 · v1.0'
   </div>
 </div>
 
+
 ---
+
 
 ## RECAP · 一句話總結每個主題
 
@@ -101,7 +110,9 @@ footer: '系統設計實戰 · v1.0'
 <span class="term">Observability</span> Metrics 是儀表板，Traces 縮範圍，Logs 給細節。對症狀警告，不對原因警告。
 </div>
 
+
 ---
+
 
 <!-- _class: end -->
 

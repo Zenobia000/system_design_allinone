@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Real-time Updates
 ## *Push 不是 Pull — 但 stateful 連線會帶走你一半的擴展性*
 
+
 ---
+
 
 ## REAL-TIME · WHY
 
@@ -36,7 +38,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/05 Real-time Updates.pdf · §問題在哪裡
 
+
 ---
+
 
 ## REAL-TIME · 兩個 HOP
 
@@ -58,7 +62,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/05 Real-time Updates.pdf · §解法的架構
 
+
 ---
+
 
 ## REAL-TIME · HOP 1 · 4 種推送技術
 
@@ -79,7 +85,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/05 Real-time Updates.pdf · §第一個 Hop
 
+
 ---
+
 
 ## REAL-TIME · L4 vs L7 LB
 
@@ -101,7 +109,9 @@ HTTP 層 · 終止連線後對 backend 開新連線 · **每個 HTTP request 重
 
 > Source: 設計模式/05 Real-time Updates.pdf · §負載平衡器
 
+
 ---
+
 
 ## REAL-TIME · HOP 2 · 100 萬連線
 
@@ -130,7 +140,9 @@ HTTP 層 · 終止連線後對 backend 開新連線 · **每個 HTTP request 重
 
 > Source: 設計模式/05 Real-time Updates.pdf · §第二個 Hop
 
+
 ---
+
 
 ## REAL-TIME · 1M 連線架構
 
@@ -148,9 +160,12 @@ HTTP 層 · 終止連線後對 backend 開新連線 · **每個 HTTP request 重
   <div class="layer infra"><strong>④ 重連 + Last Event ID</strong>　 SSE 標準支援；WebSocket 要自己實作補發</div>
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/04_realtime_02_two_hop_fanout.png)
+
 > Source: 設計模式/05 Real-time Updates.pdf · §連線失敗和重新連線
 
 ---
+
 
 ## REAL-TIME · TRADE-OFF
 
@@ -181,7 +196,9 @@ HTTP 層 · 終止連線後對 backend 開新連線 · **每個 HTTP request 重
 
 > Source: 設計模式/05 Real-time Updates.pdf · §選擇指南
 
+
 ---
+
 
 ## REAL-TIME · 進階問題
 
@@ -199,7 +216,9 @@ Google Docs 字元級協作的兩種衝突解決方法：**OT** 透過 transform
 
 > Source: 設計模式/05 Real-time Updates.pdf · §常見的 Deep Dive 問題
 
+
 ---
+
 
 <!-- _class: end -->
 

@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Replication
 ## *把同一份資料複製到多台機器，挑戰永遠在「資料會變」*
 
+
 ---
+
 
 ## REPLICATION · WHY
 
@@ -40,7 +42,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/11 Replication.pdf · §1 Why Replicate
 
+
 ---
+
 
 ## REPLICATION · HOW
 
@@ -60,9 +64,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/03-data-distribution/03_replication_02_sync_async.png)
+
 > Source: 基本觀念/11 Replication.pdf · §2 Sync vs Async
 
 ---
+
 
 ## REPLICATION · 拓撲
 
@@ -93,9 +100,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**單 datacenter 用 multi-leader 不值得**——複雜度遠超過好處。Multi-leader 是為跨 region 而生。</span>
 
+![w:560](../assets/diagrams/03-data-distribution/03_replication_01_topologies.png)
+
 > Source: 基本觀念/11 Replication.pdf · §3 Topologies
 
 ---
+
 
 ## REPLICATION · Replication Log
 
@@ -118,7 +128,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/11 Replication.pdf · §4 Replication Log
 
+
 ---
+
 
 ## REPLICATION · 一致性陷阱
 
@@ -143,7 +155,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/11 Replication.pdf · §5 Lag Issues
 
+
 ---
+
 
 ## REPLICATION · Failover
 
@@ -171,7 +185,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/11 Replication.pdf · §3 Handling Failures + §10 Deep Dive
 
+
 ---
+
 
 ## REPLICATION · TRADE-OFF
 
@@ -205,7 +221,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/11 Replication.pdf · §6 Quorum + §11 Cost
 
+
 ---
+
 
 <!-- _class: end -->
 

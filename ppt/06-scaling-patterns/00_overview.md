@@ -21,7 +21,9 @@ footer: '系統設計實戰 · v1.0'
 - 講者語氣：模式驅動，每個 pattern 都對應一個明確的 bottleneck
 -->
 
+
 ---
+
 
 ## OBJECTIVES · MENTAL MODEL · NUMBERS
 
@@ -40,5 +42,7 @@ footer: '系統設計實戰 · v1.0'
 | Read replica（有 index） | 50K–100K rps | replication lag |
 
 <span class="muted">**讀寫不對稱**：90% 系統讀:寫 = 100:1。先優化讀，撞牆再優化寫。</span>
+
+![w:560](../assets/diagrams/06-scaling-patterns/00_mental_model.png)
 
 > Source: 常用技術/08 + 10 · 設計模式/01 §2 · 02 §1

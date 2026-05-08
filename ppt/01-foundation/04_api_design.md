@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # API Design
 ## *對外 REST、對內 gRPC，剩下看清楚再選。*
 
+
 ---
+
 
 ## API DESIGN · 風格選型
 
@@ -35,7 +37,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/05 API Design.pdf + 01 Networking · §gRPC
 
+
 ---
+
 
 ## API DESIGN · 決策樹
 
@@ -58,9 +62,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">面試裡 99% 用 REST 就對了。除非題目明確要靈活查詢（GraphQL）或內部高效能（gRPC），不要過早跳。</span>
 
+![w:560](../assets/diagrams/01-foundation/04_api_design_01_decision_tree.png)
+
 > Source: 基本觀念/05 API Design.pdf · §決策樹
 
 ---
+
 
 ## API DESIGN · 反模式
 
@@ -89,7 +96,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/01 Networking · §REST + GraphQL 動機
 
+
 ---
+
 
 ## API DESIGN · 隱性決策
 
@@ -113,9 +122,12 @@ Offset/Limit（簡單但深翻慢）vs Cursor（快、不可跳頁）。<br>
 **大量資料用 Cursor**，避免 OFFSET 1000000 的全掃。
 </div>
 
+![w:560](../assets/diagrams/01-foundation/04_api_design_02_idempotency.png)
+
 > Source: 基本觀念/01 Networking · §冪等性 + REST §Methods
 
 ---
+
 
 <!-- _class: end -->
 

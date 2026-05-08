@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Consistent Hashing
 ## *讓「加減一台」不再等於「全部重洗」*
 
+
 ---
+
 
 ## CONSISTENT HASHING · WHY
 
@@ -37,7 +39,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/06 Consistent Hashing.pdf · §1 Why
 
+
 ---
+
 
 ## CONSISTENT HASHING · HOW
 
@@ -65,9 +69,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/03-data-distribution/01_consistent_hashing_01_ring.png)
+
 > Source: 基本觀念/06 Consistent Hashing.pdf · §2 Algorithm
 
 ---
+
 
 ## CONSISTENT HASHING · 加減節點
 
@@ -96,7 +103,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/06 Consistent Hashing.pdf · §2 (b)(c) Add/Remove
 
+
 ---
+
 
 ## CONSISTENT HASHING · 虛擬節點
 
@@ -127,9 +136,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/03-data-distribution/01_consistent_hashing_03_vnode.png)
+
 > Source: 基本觀念/06 Consistent Hashing.pdf · §3 Virtual Nodes
 
 ---
+
 
 ## CONSISTENT HASHING · 應用
 
@@ -148,7 +160,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/06 Consistent Hashing.pdf · §4 Applications
 
+
 ---
+
 
 <!-- _class: end -->
 

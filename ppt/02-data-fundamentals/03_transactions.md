@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Database Transactions
 ## *讓多步操作要嘛全做、要嘛全不做*
 
+
 ---
+
 
 ## TRANSACTIONS · WHY
 
@@ -40,7 +42,9 @@ Step 2: B.balance += 100
 
 > Source: 基本觀念/08 Database Transactions.pdf · §1 Why Tx
 
+
 ---
+
 
 ## TRANSACTIONS · HOW
 
@@ -59,7 +63,9 @@ Step 2: B.balance += 100
 
 > Source: 基本觀念/08 Database Transactions.pdf · §2 ACID
 
+
 ---
+
 
 ## TRANSACTIONS · ACID-C ≠ CAP-C
 
@@ -90,7 +96,9 @@ Step 2: B.balance += 100
 
 > Source: 基本觀念/08 Database Transactions.pdf · §Q6
 
+
 ---
+
 
 ## TRANSACTIONS · 隔離級別
 
@@ -114,7 +122,9 @@ Step 2: B.balance += 100
 
 > Source: 基本觀念/08 Database Transactions.pdf · §3 Isolation Levels
 
+
 ---
+
 
 ## TRANSACTIONS · Phantom Read 範例
 
@@ -142,7 +152,9 @@ T1: SELECT count(*) FROM accounts WHERE balance > 1000;
 
 > Source: 基本觀念/08 Database Transactions.pdf · §三種並發異常
 
+
 ---
+
 
 ## TRANSACTIONS · MVCC
 
@@ -166,7 +178,9 @@ T4 在 T2 commit 之後開始 → 看到 version 2 (500)
 
 > Source: 基本觀念/08 Database Transactions.pdf · §資料庫如何實現隔離
 
+
 ---
+
 
 ## TRANSACTIONS · TRADE-OFF
 
@@ -199,7 +213,9 @@ T4 在 T2 commit 之後開始 → 看到 version 2 (500)
 
 > Source: 基本觀念/08 Database Transactions.pdf · §4 Concurrency
 
+
 ---
+
 
 ## TRANSACTIONS · Lost Update
 
@@ -237,7 +253,9 @@ T2: 寫入 700，commit  ← 覆蓋了 T1，T1 的扣款消失了
 
 > Source: 基本觀念/08 Database Transactions.pdf · §Lost Update
 
+
 ---
+
 
 ## TRANSACTIONS · Deadlock
 
@@ -261,7 +279,9 @@ Application 必須處理重試邏輯——不要假設「commit 一定成功」�
 
 > Source: 基本觀念/08 Database Transactions.pdf · §悲觀鎖 + §主動說明死鎖風險
 
+
 ---
+
 
 ## TRANSACTIONS · 分散式延伸
 
@@ -294,7 +314,9 @@ Application 必須處理重試邏輯——不要假設「commit 一定成功」�
 
 > Source: 基本觀念/08 Database Transactions.pdf · §5 Distributed Tx
 
+
 ---
+
 
 ## TRANSACTIONS · Saga 補償交易細節
 
@@ -318,9 +340,12 @@ Application 必須處理重試邏輯——不要假設「commit 一定成功」�
 
 </div>
 
+![w:560](../assets/diagrams/02-data-fundamentals/03_transactions_03_saga.png)
+
 > Source: 基本觀念/08 Database Transactions.pdf · §Saga Pattern
 
 ---
+
 
 <!-- _class: end -->
 

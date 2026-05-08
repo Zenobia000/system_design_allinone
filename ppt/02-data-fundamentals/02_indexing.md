@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Database Indexing
 ## *快讀慢寫的物理交易*
 
+
 ---
+
 
 ## INDEXING · WHY
 
@@ -38,7 +40,9 @@ Index 把查詢成本壓到 **O(log N)**——10 億資料只要 30 次磁碟跳
 
 > Source: 基本觀念/07 Database Indexing.pdf · §1 Why Index
 
+
 ---
+
 
 ## INDEXING · HOW
 
@@ -69,9 +73,12 @@ Index 把查詢成本壓到 **O(log N)**——10 億資料只要 30 次磁碟跳
 
 <span class="muted">**選擇法則**：讀多寫少用 B+Tree（PostgreSQL、MySQL InnoDB）；寫多讀次之用 LSM（Cassandra、RocksDB、HBase）。</span>
 
+![w:560](../assets/diagrams/02-data-fundamentals/02_indexing_01_btree_vs_lsm.png)
+
 > Source: 基本觀念/07 Database Indexing.pdf · §2-3 Tree Structures
 
 ---
+
 
 ## INDEXING · 加速哪些操作？
 
@@ -90,7 +97,9 @@ Index 把查詢成本壓到 **O(log N)**——10 億資料只要 30 次磁碟跳
 
 > Source: 基本觀念/07 Database Indexing.pdf · §Q3 自我測驗
 
+
 ---
+
 
 ## INDEXING · TRADE-OFF
 
@@ -123,7 +132,9 @@ Index 把查詢成本壓到 **O(log N)**——10 億資料只要 30 次磁碟跳
 
 > Source: 基本觀念/07 Database Indexing.pdf · §4 Best Practices
 
+
 ---
+
 
 ## INDEXING · 複合索引欄位順序
 
@@ -150,7 +161,9 @@ Composite 欄位數通常 ≤ 3，再多查詢規畫器選不出來。
 
 > Source: 基本觀念/07 Database Indexing.pdf · §4 Composite Index
 
+
 ---
+
 
 ## INDEXING · Covering Index
 
@@ -174,7 +187,9 @@ Composite 欄位數通常 ≤ 3，再多查詢規畫器選不出來。
 
 > Source: 基本觀念/07 Database Indexing.pdf · §Best Practices
 
+
 ---
+
 
 ## INDEXING · 速判決策
 
@@ -197,9 +212,12 @@ Composite 欄位數通常 ≤ 3，再多查詢規畫器選不出來。
 
 </div>
 
+![w:560](../assets/diagrams/02-data-fundamentals/02_indexing_02_decision.png)
+
 > Source: 基本觀念/07 Database Indexing.pdf · §5 Decision Framework
 
 ---
+
 
 <!-- _class: end -->
 

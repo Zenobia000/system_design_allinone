@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Handling Large Blobs
 ## *讓 bytes 繞過你的伺服器 — 你只當售票員*
 
+
 ---
+
 
 ## LARGE BLOBS · WHY
 
@@ -39,7 +41,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/04 Handling Large Blobs.pdf · §問題在哪裡
 
+
 ---
+
 
 ## LARGE BLOBS · Presigned URL
 
@@ -64,9 +68,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/03_blobs_01_presigned_url.png)
+
 > Source: 設計模式/04 Handling Large Blobs.pdf · §簡單直傳上傳
 
 ---
+
 
 ## LARGE BLOBS · Multipart Upload
 
@@ -91,9 +98,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**注意**：未完成的 multipart 是要錢的。**設 lifecycle rule 24-48h 自動清理**。</span>
 
+![w:560](../assets/diagrams/07-advanced-patterns/03_blobs_02_multipart.png)
+
 > Source: 設計模式/04 Handling Large Blobs.pdf · §斷點續傳
 
 ---
+
 
 ## LARGE BLOBS · 雲廠商對照
 
@@ -113,7 +123,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/04 Handling Large Blobs.pdf · §各雲端供應商的術語對照
 
+
 ---
+
 
 ## LARGE BLOBS · 狀態同步
 
@@ -138,7 +150,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/04 Handling Large Blobs.pdf · §狀態同步的挑戰
 
+
 ---
+
 
 ## LARGE BLOBS · 防濫用 & 下載
 
@@ -161,7 +175,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/04 Handling Large Blobs.pdf · §怎麼防止濫用 + §怎麼確保下載夠快
 
+
 ---
+
 
 ## LARGE BLOBS · 什麼時候不適用
 
@@ -187,7 +203,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/04 Handling Large Blobs.pdf · §什麼時候不適合用
 
+
 ---
+
 
 <!-- _class: end -->
 

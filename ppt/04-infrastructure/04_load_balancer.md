@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Load Balancer
 ## *流量分配的本質不是「平均」，而是「整體吞吐最大化、避免局部過載」*
 
+
 ---
+
 
 ## LOAD BALANCER · WHY
 
@@ -38,7 +40,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/04 Load Balancer.pdf · §基本概念 + §核心功能
 
+
 ---
+
 
 ## LOAD BALANCER · HOW
 
@@ -67,7 +71,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/04 Load Balancer.pdf · §在系統設計面試中如何談 Load Balancer
 
+
 ---
+
 
 ## LOAD BALANCER · 演算法
 
@@ -85,9 +91,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**現代雲端 LB 通常結合即時負載資訊（連線數、延遲、錯誤率）做動態調整**——比靜態演算法聰明得多。</span>
 
+![w:560](../assets/diagrams/04-infrastructure/04_lb_02_algo_tree.png)
+
 > Source: 常用技術/04 Load Balancer.pdf · §常見演算法
 
 ---
+
 
 ## LOAD BALANCER · Health Check
 
@@ -118,7 +127,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/04 Load Balancer.pdf · §健康檢查（Health Check）
 
+
 ---
+
 
 ## LOAD BALANCER · Sticky Session
 
@@ -149,7 +160,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/04 Load Balancer.pdf · §Session Persistence（Sticky Session）
 
+
 ---
+
 
 ## LOAD BALANCER · Connection Draining
 
@@ -177,7 +190,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/04 Load Balancer.pdf · §健康檢查 + 對應雲端服務行為（ALB connection draining 預設 300s）
 
+
 ---
+
 
 ## LOAD BALANCER · 部署拓撲
 
@@ -206,7 +221,9 @@ Internet
 
 > Source: 常用技術/04 Load Balancer.pdf · §多區域分流 + 整理自雲端典型架構
 
+
 ---
+
 
 <!-- _class: end -->
 

@@ -21,7 +21,9 @@ footer: '系統設計實戰 · v1.0'
 - 講者語氣：謹慎，因為這章的每個決策都是不可逆的
 -->
 
+
 ---
+
 
 ## OBJECTIVES · 學習目標
 
@@ -36,7 +38,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/06 + 09 + 10 + 11
 
+
 ---
+
 
 ## MENTAL MODEL · 分散式資料層的 4 個動作
 
@@ -55,9 +59,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**Sharding 是切**（資料分片）；**Replication 是散**（每片再複製多份）。兩者正交，可以組合使用。</span>
 
+![w:560](../assets/diagrams/03-data-distribution/00_mental_model.png)
+
 > Source: 整理自 基本觀念/06 + 09 + 10 + 11
 
 ---
+
 
 <!-- _class: end -->
 

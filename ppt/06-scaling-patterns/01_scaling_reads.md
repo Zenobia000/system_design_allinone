@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Scaling Reads
 ## *讀流量的 4 層階梯，撐起 90% 系統*
 
+
 ---
+
 
 ## SCALE READS · WHY + HOW（4 層命中階梯）
 
@@ -31,9 +33,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**4 層命中率複合**：99.9% 請求都打到 L3 以前。**這就是 Twitter 撐 100K QPS 的原理**。</span>
 
+![w:560](../assets/diagrams/06-scaling-patterns/01_scaling_reads_01_ladder.png)
+
 > Source: 設計模式/01 Scaling Reads.pdf · §1 + §3 Layers
 
 ---
+
 
 ## SCALE READS · 三個進階模式
 
@@ -59,7 +64,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/01 Scaling Reads.pdf · §5 Advanced
 
+
 ---
+
 
 ## SCALE READS · Cache 三大反模式
 
@@ -82,7 +89,9 @@ TTL 到期那一秒 100K 請求同時 miss、同時打 DB = 自我 DDoS。<br>
 
 > Source: 設計模式/01 Scaling Reads.pdf · §6-7 Deep Dive
 
+
 ---
+
 
 ## SCALE READS · TRADE-OFF
 

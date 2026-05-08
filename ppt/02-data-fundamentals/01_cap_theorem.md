@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # CAP Theorem
 ## *分區是現實，C 與 A 才是你能選的*
 
+
 ---
+
 
 ## CAP · WHY
 
@@ -38,7 +40,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/03 CAP Theorem.pdf · §1-2
 
+
 ---
+
 
 ## CAP · 真實案例：ATM 提款機
 
@@ -69,7 +73,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/03 CAP Theorem.pdf · §ATM Real-World Example
 
+
 ---
+
 
 ## CAP · HOW
 
@@ -90,9 +96,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/02-data-fundamentals/01_cap_theorem_02_pacelc.png)
+
 > Source: 基本觀念/03 CAP Theorem.pdf · §3 PACELC
 
 ---
+
 
 ## CAP · 具體系統參數
 
@@ -125,7 +134,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/03 CAP Theorem.pdf · §4 + 公開技術文件
 
+
 ---
+
 
 ## CAP · TRADE-OFF
 
@@ -162,7 +173,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/03 CAP Theorem.pdf · §4 Use Cases
 
+
 ---
+
 
 ## CAP · 面試金句
 
@@ -185,7 +198,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/03 CAP Theorem.pdf · §Interview Default
 
+
 ---
+
 
 <!-- _class: end -->
 

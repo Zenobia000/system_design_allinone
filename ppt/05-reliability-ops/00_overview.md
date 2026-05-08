@@ -21,7 +21,9 @@ footer: '系統設計實戰 · v1.0'
 - 講者語氣：嚴肅，因為這章的失敗都會上新聞
 -->
 
+
 ---
+
 
 ## OBJECTIVES · 學習目標
 
@@ -37,7 +39,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/09 + 維運與可靠性/01 + 02 + 03 + 04
 
+
 ---
+
 
 ## MENTAL MODEL · 可靠性的 5 個層次
 
@@ -58,9 +62,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**Reliability 不是單點優化**，而是 5 層交織。任何一層缺失都會讓系統在壓力下崩潰。</span>
 
+![w:560](../assets/diagrams/05-reliability-ops/00_mental_model.png)
+
 > Source: 整理自 常用技術/09 + 維運與可靠性/01-04
 
 ---
+
 
 ## MENTAL MODEL · 故障是常態，不是例外
 
@@ -84,7 +91,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/03 Reliable Delivery.pdf · §1 開篇
 
+
 ---
+
 
 <!-- _class: end -->
 

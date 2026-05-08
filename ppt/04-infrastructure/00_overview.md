@@ -21,7 +21,9 @@ footer: '系統設計實戰 · v1.0'
 - 講者語氣：選型導向，每個物件都附「什麼時候用、什麼時候別用」
 -->
 
+
 ---
+
 
 ## OBJECTIVES · 學習目標
 
@@ -36,7 +38,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/01 + 02 + 03 + 04 + 05 + 06
 
+
 ---
+
 
 ## MENTAL MODEL · 基礎設施的 3 個維度
 
@@ -53,9 +57,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**選型不是「哪個最強」，而是「哪個跟你的限制最相容」**——團隊規模、預算、SLA、合規。</span>
 
+![w:560](../assets/diagrams/04-infrastructure/00_mental_model.png)
+
 > Source: 整理自 常用技術/01-06
 
 ---
+
 
 ## MENTAL MODEL · 三個共用的選型問題
 
@@ -77,7 +84,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 整理自 常用技術/01-06
 
+
 ---
+
 
 <!-- _class: end -->
 

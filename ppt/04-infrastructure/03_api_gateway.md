@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # API Gateway
 ## *微服務的前門——把橫切關注點集中，讓業務碼乾淨*
 
+
 ---
+
 
 ## API GATEWAY · WHY
 
@@ -38,7 +40,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/03 API Gateway.pdf · §什麼是 API Gateway
 
+
 ---
+
 
 ## API GATEWAY · HOW
 
@@ -81,7 +85,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/03 API Gateway.pdf · §API Gateway 的核心職責
 
+
 ---
+
 
 ## API GATEWAY · 認證職責切分
 
@@ -110,7 +116,9 @@ Client                  API Gateway              後端服務
 
 > Source: 常用技術/03 API Gateway.pdf · §怎麼做認證：在 Gateway 還是在服務裡
 
+
 ---
+
 
 ## API GATEWAY · 主流產品對比
 
@@ -129,7 +137,9 @@ Client                  API Gateway              後端服務
 
 > Source: 常用技術/03 API Gateway.pdf · §常見的 API Gateway 實作
 
+
 ---
+
 
 ## API GATEWAY · TRADE-OFF
 
@@ -163,7 +173,9 @@ Client                  API Gateway              後端服務
 
 > Source: 常用技術/03 API Gateway.pdf · §總結 + §API Gateway 的效能怎麼保證
 
+
 ---
+
 
 ## API GATEWAY · BFF 模式
 
@@ -186,9 +198,12 @@ Third-party    → Public API GW ──┘
 
 <span class="muted">**代價**：你現在有多個 Gateway 要維護。**只有當客戶端差異夠大時 BFF 才划算**——小團隊用一個統一 Gateway 就好。</span>
 
+![w:560](../assets/diagrams/04-infrastructure/03_gw_02_bff.png)
+
 > Source: 常用技術/03 API Gateway.pdf · §BFF（Backend for Frontend）模式
 
 ---
+
 
 <!-- _class: end -->
 

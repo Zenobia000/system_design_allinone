@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Queue
 ## *系統的緩衝、解耦、削峰、重試 — 但不是萬靈丹*
 
+
 ---
+
 
 ## QUEUE · WHY
 
@@ -41,9 +43,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/01_queue_01_basic_flow.png)
+
 > Source: 常用技術/07 Queue.pdf · §基本概念
 
 ---
+
 
 ## QUEUE · 三大選型
 
@@ -64,7 +69,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/07 Queue.pdf · §常見產品與服務
 
+
 ---
+
 
 ## QUEUE · 核心機制
 
@@ -92,7 +99,9 @@ SQS 的訊息被 pull 後隱藏 N 秒；worker 沒回 ack 就會被別人重試�
 
 > Source: 常用技術/07 Queue.pdf · §面試重點 + 設計模式/03 §處理故障
 
+
 ---
+
 
 ## QUEUE · Backpressure
 
@@ -116,9 +125,12 @@ SQS 的訊息被 pull 後隱藏 N 秒；worker 沒回 ack 就會被別人重試�
 
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/01_queue_03_backpressure.png)
+
 > Source: 常用技術/07 Queue.pdf · §反壓 + 設計模式/03 §管理 Backpressure
 
 ---
+
 
 ## QUEUE · TRADE-OFF
 
@@ -153,7 +165,9 @@ SQS 的訊息被 pull 後隱藏 N 秒；worker 沒回 ack 就會被別人重試�
 
 > Source: 常用技術/07 Queue.pdf · §適用場景
 
+
 ---
+
 
 <!-- _class: end -->
 

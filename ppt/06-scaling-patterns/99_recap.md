@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Ch.6 Recap
 ## *把 4 個擴展模式串成真實系統*
 
+
 ---
+
 
 ## CASE STUDY · 新聞網站（極致讀擴展）
 
@@ -27,7 +29,10 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**99% 讀請求在 L2 命中**——讀流量看似 1M QPS，DB 實際只承受 1k QPS。</span>
 
+![w:560](../assets/diagrams/06-scaling-patterns/99_recap_01_news_site.png)
+
 ---
+
 
 ## RECAP · 第六章帶走的東西
 
@@ -53,7 +58,9 @@ footer: '系統設計實戰 · v1.0'
   </div>
 </div>
 
+
 ---
+
 
 <!-- _class: end -->
 

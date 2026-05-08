@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Networking
 ## *光速是天花板，物理問題不是工程問題。*
 
+
 ---
+
 
 ## NETWORKING · WHY
 
@@ -40,7 +42,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/01 Networking Essentials.pdf · §區域化和延遲
 
+
 ---
+
 
 ## NETWORKING · HOW
 
@@ -58,9 +62,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**HTTP/3 + QUIC** 在弱網（行動）下顯著優於 HTTP/2，但伺服器支援度仍在追趕。</span>
 
+![w:560](../assets/diagrams/01-foundation/01_networking_01_stack.png)
+
 > Source: 基本觀念/01 Networking Essentials.pdf · §傳輸層 + 應用層
 
 ---
+
 
 ## NETWORKING · TRADE-OFF
 
@@ -91,9 +98,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/01-foundation/01_networking_03_tls.png)
+
 > Source: 基本觀念/01 Networking Essentials.pdf · §HTTP keep-alive
 
 ---
+
 
 ## NETWORKING · 邊緣加速
 
@@ -119,7 +129,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/01 Networking Essentials.pdf · §CDN + Regional Partitioning
 
+
 ---
+
 
 ## NETWORKING · 故障模式
 
@@ -139,9 +151,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/01-foundation/01_networking_05_circuit.png)
+
 > Source: 基本觀念/01 Networking Essentials.pdf · §處理故障和失敗模式
 
 ---
+
 
 <!-- _class: end -->
 

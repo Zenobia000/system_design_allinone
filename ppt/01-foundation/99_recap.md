@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Foundation 收斂
 ## *四件事，串成一個發推文的故事。*
 
+
 ---
+
 
 ## CASE STUDY · 把四件事串起來
 
@@ -36,9 +38,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/01-foundation/99_recap_01_twitter.png)
+
 > Source: 整合 Ch.1 全章 + Twitter Engineering Blog 公開資料
 
 ---
+
 
 ## RECAP · 第一章帶走的東西
 
@@ -63,7 +68,9 @@ footer: '系統設計實戰 · v1.0'
   </div>
 </div>
 
+
 ---
+
 
 <!-- _class: end -->
 

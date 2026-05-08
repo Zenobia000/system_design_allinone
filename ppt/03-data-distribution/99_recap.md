@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Case Study & Recap
 ## *把分散式資料層的四個動作串起來看*
 
+
 ---
+
 
 ## CASE STUDY · 把分散式資料層串起來
 
@@ -36,9 +38,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/03-data-distribution/99_recap_01_twitter.png)
+
 > Source: 整合 Ch.3 全章 + Twitter Engineering 公開資料
 
 ---
+
 
 ## RECAP · 第三章帶走的東西
 
@@ -65,7 +70,9 @@ footer: '系統設計實戰 · v1.0'
   </div>
 </div>
 
+
 ---
+
 
 <!-- _class: end -->
 

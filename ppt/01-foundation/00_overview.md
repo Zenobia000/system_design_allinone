@@ -21,7 +21,9 @@ footer: '系統設計實戰 · v1.0'
 - 講者語氣：穩、不急
 -->
 
+
 ---
+
 
 ## OBJECTIVES · 學習目標
 
@@ -36,7 +38,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/01,02,04,05.pdf
 
+
 ---
+
 
 ## MENTAL MODEL · Foundation 的四層責任
 
@@ -55,9 +59,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">這四層責任清楚分離，是「分散式系統可以演化」的前提。</span>
 
+![w:560](../assets/diagrams/01-foundation/00_mental_model.png)
+
 > Source: 整理自 基本觀念/01 + 02
 
 ---
+
 
 <!-- _class: end -->
 

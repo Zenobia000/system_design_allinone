@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Distributed Cache
 ## *當 cache 自己也變成需要被設計的分散式系統*
 
+
 ---
+
 
 ## DISTRIBUTED CACHE · WHY + Cluster 架構
 
@@ -40,9 +42,12 @@ footer: '系統設計實戰 · v1.0'
 直播間/明星占 20%+ 流量 = bottleneck。**解**：Key 多副本 · App-level local cache · Key fanout。
 </div>
 
+![w:560](../assets/diagrams/06-scaling-patterns/03_distributed_cache_01_topology.png)
+
 > Source: 常用技術/08 Distributed Cache.pdf · §1-3
 
 ---
+
 
 ## DISTRIBUTED CACHE · Failure Modes
 
@@ -69,7 +74,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/08 Distributed Cache.pdf · §3 Replication · §4 Failure Modes
 
+
 ---
+
 
 ## DISTRIBUTED CACHE · TRADE-OFF + 容量
 

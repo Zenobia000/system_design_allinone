@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Data Pipeline
 ## *把原始事件搬到能被分析的地方 — 別在 OLTP 上跑 OLAP*
 
+
 ---
+
 
 ## PIPELINE · WHY
 
@@ -37,7 +39,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/07 Data Pipeline.pdf · §什麼是 Data Pipeline
 
+
 ---
+
 
 ## PIPELINE · Batch vs Stream
 
@@ -68,7 +72,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/07 Data Pipeline.pdf · §批次還是串流
 
+
 ---
+
 
 ## PIPELINE · Stream 視窗
 
@@ -89,9 +95,12 @@ footer: '系統設計實戰 · v1.0'
 按用戶活動分組 · 閒置超過 N 分鐘算 session 結束。**大小可變**——適合分析用戶行為流。
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/06_pipeline_02_etl_windows.png)
+
 > Source: 設計模式/07 Data Pipeline Design.pdf · §Apache Flink
 
 ---
+
 
 ## PIPELINE · Event Time & Watermark
 
@@ -117,7 +126,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/07 Data Pipeline.pdf · §Event Time vs Processing Time
 
+
 ---
+
 
 ## PIPELINE · Lambda vs Kappa
 
@@ -150,7 +161,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/07 Data Pipeline.pdf · §兩種架構哲學
 
+
 ---
+
 
 ## PIPELINE · ETL vs ELT
 
@@ -183,7 +196,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/07 Data Pipeline.pdf · §ETL 與 ELT
 
+
 ---
+
 
 ## PIPELINE · 資料去哪？
 
@@ -206,7 +221,9 @@ S3 上加格式層（**Apache Iceberg / Delta Lake**）→ 支援 ACID 事務、
 
 > Source: 設計模式/07 Data Pipeline.pdf · §資料去哪裡
 
+
 ---
+
 
 ## PIPELINE · 容錯機制
 
@@ -231,7 +248,9 @@ S3 上加格式層（**Apache Iceberg / Delta Lake**）→ 支援 ACID 事務、
 
 > Source: 設計模式/07 Data Pipeline.pdf · §容錯機制
 
+
 ---
+
 
 ## PIPELINE · CDC + Fan-out
 
@@ -256,7 +275,9 @@ S3 上加格式層（**Apache Iceberg / Delta Lake**）→ 支援 ACID 事務、
 
 > Source: 設計模式/07 Data Pipeline.pdf · §三個常見的管線模式
 
+
 ---
+
 
 <!-- _class: end -->
 

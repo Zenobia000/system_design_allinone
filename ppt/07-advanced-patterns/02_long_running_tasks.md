@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Long Running Tasks
 ## *把「接受請求」和「處理請求」徹底分開*
 
+
 ---
+
 
 ## LONG TASKS · WHY
 
@@ -38,7 +40,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/03 Manage Long Running Tasks.pdf · §問題在哪裡
 
+
 ---
+
 
 ## LONG TASKS · HOW
 
@@ -59,9 +63,12 @@ footer: '系統設計實戰 · v1.0'
    └──── poll task_id ─→ [State Store] ←─update───┘
 ```
 
+![w:560](../assets/diagrams/07-advanced-patterns/02_longtasks_01_four_mechanisms.png)
+
 > Source: 設計模式/03 Manage Long Running Tasks.pdf · §解法的架構
 
 ---
+
 
 ## LONG TASKS · 關鍵設計
 
@@ -84,7 +91,9 @@ Worker 定期向 queue 回報「我還活著」。沒心跳 → queue 假設它�
 
 > Source: 設計模式/03 Manage Long Running Tasks.pdf · §防止重複工作 + §處理反覆失敗
 
+
 ---
+
 
 ## LONG TASKS · 編排引擎
 
@@ -107,7 +116,9 @@ Worker 定期向 queue 回報「我還活著」。沒心跳 → queue 假設它�
 
 > Source: 設計模式/03 Manage Long Running Tasks.pdf · §協調有依賴關係的 Job
 
+
 ---
+
 
 ## LONG TASKS · 混合工作負載
 
@@ -136,7 +147,9 @@ queues:
 
 > Source: 設計模式/03 Manage Long Running Tasks.pdf · §處理混合工作負載
 
+
 ---
+
 
 <!-- _class: end -->
 

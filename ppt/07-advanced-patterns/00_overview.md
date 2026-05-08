@@ -21,7 +21,9 @@ footer: '系統設計實戰 · v1.0'
 - 每個都標註「什麼系統真的需要」
 -->
 
+
 ---
+
 
 ## OBJECTIVES · 學習目標
 
@@ -39,7 +41,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/07 + 設計模式/03 + 04 + 05 + 06 + 07 + 08
 
+
 ---
+
 
 ## MENTAL MODEL · 進階模式 7 個方向
 
@@ -64,9 +68,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**這章的 pattern 大多是「不需要時就別用」**——加一個 Kafka 進來，整個系統複雜度跳一階。</span>
 
+![w:560](../assets/diagrams/07-advanced-patterns/00_mental_model.png)
+
 > Source: 整理自 常用技術/07 + 設計模式/03/04/05/06/07/08
 
 ---
+
 
 <!-- _class: end -->
 

@@ -14,7 +14,10 @@ footer: '系統設計實戰 · v1.0'
 # Case Study & Recap
 ## *把 6 個基礎設施串成一個真實系統*
 
+![w:560](../assets/diagrams/04-infrastructure/99_recap_01_video_arch.png)
+
 ---
+
 
 ## CASE STUDY · 影片上傳 + 轉碼 + 播放
 
@@ -37,7 +40,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 整合 Ch.4 全章 + AWS Reference Architecture
 
+
 ---
+
 
 ## CASE STUDY · 選型理由說明
 
@@ -57,7 +62,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 整合 Ch.4 全章選型決策
 
+
 ---
+
 
 ## RECAP · 第四章帶走的東西
 
@@ -83,7 +90,9 @@ footer: '系統設計實戰 · v1.0'
   </div>
 </div>
 
+
 ---
+
 
 <!-- _class: end -->
 

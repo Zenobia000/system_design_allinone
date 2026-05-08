@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Blob Storage
 ## *二進位資料不進資料庫——這是現代系統設計的鐵律之一*
 
+
 ---
+
 
 ## BLOB STORAGE · WHY
 
@@ -43,7 +45,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/02 Blob Storage.pdf · §什麼是 Blob Storage
 
+
 ---
+
 
 ## BLOB STORAGE · 三種儲存對比
 
@@ -65,7 +69,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/02 Blob Storage.pdf · §什麼是 Blob Storage
 
+
 ---
+
 
 ## BLOB STORAGE · HOW
 
@@ -84,7 +90,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/02 Blob Storage.pdf · §核心概念 + §耐久性和可用性
 
+
 ---
+
 
 ## BLOB STORAGE · 5 個儲存等級
 
@@ -108,7 +116,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/02 Blob Storage.pdf · §儲存分層
 
+
 ---
+
 
 ## BLOB STORAGE · 模式
 
@@ -132,9 +142,12 @@ Client 跟 Server 拿短時效 URL，**直接上傳到 S3**，不經過你的伺
 **典型場景**：log、備份、用戶上傳的歷史檔案——存了 7 年沒人看。
 </div>
 
+![w:560](../assets/diagrams/04-infrastructure/02_blob_02_multipart.png)
+
 > Source: 常用技術/02 Blob Storage.pdf · §生命週期策略
 
 ---
+
 
 ## BLOB STORAGE · 安全與災備
 
@@ -173,7 +186,9 @@ Client 跟 Server 拿短時效 URL，**直接上傳到 S3**，不經過你的伺
 
 > Source: 常用技術/02 Blob Storage.pdf · §存取控制 + §跨區域複製 + §怎麼防止 S3 Bucket 被公開曝露
 
+
 ---
+
 
 ## BLOB STORAGE · TRADE-OFF
 
@@ -204,7 +219,9 @@ Client 跟 Server 拿短時效 URL，**直接上傳到 S3**，不經過你的伺
 
 > Source: 常用技術/02 Blob Storage.pdf · §怎麼決定用哪個
 
+
 ---
+
 
 <!-- _class: end -->
 

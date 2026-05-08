@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Serverless
 ## *Serverless 不是「沒有伺服器」，是「你不需要管」*
 
+
 ---
+
 
 ## SERVERLESS · WHY
 
@@ -38,7 +40,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/06 Serverless.pdf · §什麼是 Serverless
 
+
 ---
+
 
 ## SERVERLESS · HOW
 
@@ -63,9 +67,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**Warm 期**：函式執行完不會立刻銷毀，保溫 5-15 分鐘。下次請求進來直接 warm start，無額外延遲。</span>
 
+![w:560](../assets/diagrams/04-infrastructure/06_serverless_02_faas_flow.png)
+
 > Source: 常用技術/06 Serverless.pdf · §Cold Start 與 Warm Start
 
 ---
+
 
 ## SERVERLESS · 三層降溫
 
@@ -88,7 +95,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/06 Serverless.pdf · §Cold Start 怎麼辦
 
+
 ---
+
 
 ## SERVERLESS · 適合 / 不適合
 
@@ -121,7 +130,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 常用技術/06 Serverless.pdf · §Serverless 適合什麼 + §Serverless 不適合什麼
 
+
 ---
+
 
 ## SERVERLESS · 連線打爆陷阱
 
@@ -154,7 +165,9 @@ Lambda：1000 並發實例 → 各自開連線 → DB 直接被打掛
 
 > Source: 常用技術/06 Serverless.pdf · §處理資料庫連線
 
+
 ---
+
 
 ## SERVERLESS · 成本估算
 
@@ -182,7 +195,9 @@ Lambda：1000 並發實例 → 各自開連線 → DB 直接被打掛
 
 > Source: 常用技術/06 Serverless.pdf · §Serverless 的成本怎麼估算
 
+
 ---
+
 
 ## SERVERLESS · TRADE-OFF
 
@@ -213,7 +228,9 @@ Lambda：1000 並發實例 → 各自開連線 → DB 直接被打掛
 
 > Source: 常用技術/06 Serverless.pdf · §Serverless 與其他部署方式的比較 + §Serverless 有 vendor lock-in 的問題嗎
 
+
 ---
+
 
 <!-- _class: end -->
 

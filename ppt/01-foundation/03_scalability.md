@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Scalability
 ## *單機撐不住，但別急著分散。*
 
+
 ---
+
 
 ## SCALABILITY · WHY
 
@@ -43,7 +45,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/04 Scalability.pdf · §為什麼重要
 
+
 ---
+
 
 ## SCALABILITY · HOW
 
@@ -65,9 +69,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">三個前提缺一不可。沒有 stateless 就沒有自由路由；沒有 shared storage 就沒有一致性。</span>
 
+![w:560](../assets/diagrams/01-foundation/03_scalability_02_three_prereq.png)
+
 > Source: 基本觀念/04 Scalability.pdf · §Horizontal Scaling
 
 ---
+
 
 ## SCALABILITY · TRADE-OFF
 
@@ -101,7 +108,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/04 Scalability.pdf · §比較表 + 01 §負載平衡
 
+
 ---
+
 
 ## SCALABILITY · 案例
 
@@ -130,7 +139,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 整合 基本觀念/04 + 01 §Regional Partitioning
 
+
 ---
+
 
 <!-- _class: end -->
 

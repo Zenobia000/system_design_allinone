@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Caching
 ## *把貴的、慢的、共用的計算結果暫存——萬靈丹也是萬惡源*
 
+
 ---
+
 
 ## CACHING · WHY
 
@@ -39,7 +41,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/09 Caching.pdf · §1 Why Cache
 
+
 ---
+
 
 ## CACHING · 五層擺放
 
@@ -61,9 +65,12 @@ footer: '系統設計實戰 · v1.0'
 
 <span class="muted">**CDN 威力數字**：跨洲（VA → 印度）原本 **250-300 ms**，CDN 邊緣快取 **20-40 ms**。延遲量級的差距。</span>
 
+![w:560](../assets/diagrams/03-data-distribution/04_caching_01_hierarchy.png)
+
 > Source: 基本觀念/09 Caching.pdf · §2 Layers
 
 ---
+
 
 ## CACHING · 模式
 
@@ -96,7 +103,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/09 Caching.pdf · §3 Patterns
 
+
 ---
+
 
 ## CACHING · Eviction 策略
 
@@ -115,7 +124,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/09 Caching.pdf · §4 Eviction Policy
 
+
 ---
+
 
 ## CACHING · 三大反模式
 
@@ -141,7 +152,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/09 Caching.pdf · §5 Failure Modes
 
+
 ---
+
 
 ## CACHING · Hot Key
 
@@ -161,7 +174,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/09 Caching.pdf · §5 Hot Keys
 
+
 ---
+
 
 ## CACHING · TRADE-OFF
 
@@ -191,7 +206,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 基本觀念/09 Caching.pdf · §6 Trade-offs + §7 Interview
 
+
 ---
+
 
 <!-- _class: end -->
 

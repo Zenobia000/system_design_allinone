@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # RAG (Retrieval-Augmented Generation)
 ## *把外部知識喂給 LLM — 把幻覺換成引用*
 
+
 ---
+
 
 ## RAG · WHY
 
@@ -35,7 +37,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/08 RAG.pdf · §Foundation Model 的限制
 
+
 ---
+
 
 ## RAG · HOW · 4 個元件
 
@@ -59,9 +63,12 @@ footer: '系統設計實戰 · v1.0'
   <div class="layer infra"><strong>④ Generation</strong>　 LLM 基於 context 生成答案 + 引用</div>
 </div>
 
+![w:560](../assets/diagrams/07-advanced-patterns/07_rag_01_four_components.png)
+
 > Source: 設計模式/08 RAG.pdf · §RAG 是怎麼運作的
 
 ---
+
 
 ## RAG · Chunking
 
@@ -90,7 +97,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 設計模式/08 RAG.pdf · §第一步：Ingestion
 
+
 ---
+
 
 ## RAG · Hybrid Search & Rerank
 
@@ -123,7 +132,9 @@ Prompt 強制「**只用 context 內容回答 + 引用來源 ID**」。沒命中
 
 > Source: 設計模式/08 RAG.pdf · §RAG 怎麼運作 + §什麼是 RAG
 
+
 ---
+
 
 ## RAG · Hallucination 對策
 
@@ -152,7 +163,9 @@ Prompt 強制「**只用 context 內容回答 + 引用來源 ID**」。沒命中
 
 > Source: 設計模式/08 RAG.pdf · §失去用戶信任 + §RAG 帶來的好處
 
+
 ---
+
 
 ## RAG · Vector DB 選型
 
@@ -185,7 +198,9 @@ Prompt 強制「**只用 context 內容回答 + 引用來源 ID**」。沒命中
 
 > Source: 設計模式/08 RAG.pdf · §第二步：Retrieval
 
+
 ---
+
 
 ## RAG · Agentic RAG
 
@@ -214,7 +229,9 @@ Prompt 強制「**只用 context 內容回答 + 引用來源 ID**」。沒命中
 
 > Source: 設計模式/08 RAG.pdf · §RAG 在 Agentic Workflow 中的角色
 
+
 ---
+
 
 <!-- _class: end -->
 

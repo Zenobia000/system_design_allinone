@@ -14,7 +14,9 @@ footer: '系統設計實戰 · v1.0'
 # Contention
 ## *讀寫不是原子的，那個微小的窗口足以讓你超賣*
 
+
 ---
+
 
 ## CONTENTION · WHY
 
@@ -39,7 +41,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/01 Dealing with Contention.pdf · §1 問題
 
+
 ---
+
 
 ## CONTENTION · 五層解法的複雜度遞進
 
@@ -59,7 +63,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/01 Dealing with Contention.pdf · §2 解法架構
 
+
 ---
+
 
 ## CONTENTION · Pessimistic vs Optimistic
 
@@ -92,9 +98,12 @@ footer: '系統設計實戰 · v1.0'
 
 </div>
 
+![w:560](../assets/diagrams/05-reliability-ops/02_contention_01_pessimistic_vs_occ.png)
+
 > Source: 維運與可靠性/01 Dealing with Contention.pdf · §2 + ABA 警告
 
 ---
+
 
 ## CONTENTION · Isolation Level
 
@@ -115,7 +124,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/01 Dealing with Contention.pdf · §2 Isolation Level
 
+
 ---
+
 
 ## CONTENTION · 多節點解法
 
@@ -146,7 +157,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/01 Dealing with Contention.pdf · §3 多節點
 
+
 ---
+
 
 ## CONTENTION · 5 種方案速判表
 
@@ -164,7 +177,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/01 Dealing with Contention.pdf · §4 選擇正確的做法
 
+
 ---
+
 
 ## CONTENTION · 應用層預留模式
 
@@ -186,7 +201,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/01 Dealing with Contention.pdf · §3 + §5 面試情境
 
+
 ---
+
 
 ## CONTENTION · TRADE-OFF
 
@@ -220,7 +237,9 @@ footer: '系統設計實戰 · v1.0'
 
 > Source: 維運與可靠性/01 Dealing with Contention.pdf · §5 不要過度設計
 
+
 ---
+
 
 <!-- _class: end -->
 
