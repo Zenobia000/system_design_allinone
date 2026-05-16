@@ -24,6 +24,17 @@ if ! command -v node >/dev/null 2>&1; then
   exit 1
 fi
 
+# Auto-detect a usable Chrome for marp-cli PDF rendering when none is on PATH.
+# Falls back to puppeteer's cached chromium (installed by previous npx runs).
+if [[ -z "${CHROME_PATH:-}" ]] && ! command -v chromium >/dev/null 2>&1 \
+   && ! command -v google-chrome >/dev/null 2>&1 && ! command -v chrome >/dev/null 2>&1; then
+  detected=$(find "${HOME}/.cache/puppeteer/chrome" -maxdepth 4 -name chrome -type f -executable 2>/dev/null | sort -V | tail -1)
+  if [[ -n "${detected}" ]]; then
+    export CHROME_PATH="${detected}"
+    echo "[chrome] using puppeteer cache: ${CHROME_PATH}"
+  fi
+fi
+
 mkdir -p "${OUT_DIR}" "${BUILD_DIR}"
 
 # Single source of truth for chapter ordering
@@ -71,13 +82,15 @@ combine_files() {
       continue
     fi
     if ${first}; then
-      cat "${f}" >> "${out}"
+      # Normalize CRLF → LF so marp parses frontmatter correctly
+      sed 's/\r$//' "${f}" >> "${out}"
       first=false
     else
-      # Strip leading YAML frontmatter (between first pair of --- markers)
-      awk 'BEGIN{fm=0; printed=0}
+      # Strip leading YAML frontmatter (between first pair of --- markers).
+      # sed first normalizes CRLF → LF; without it awk's /^---$/ won't match ---\r
+      sed 's/\r$//' "${f}" | awk 'BEGIN{fm=0; printed=0}
            /^---$/{ if(fm==0){fm=1; next} else if(fm==1){fm=2; printed=1; next} }
-           { if(fm==2 || printed){print} else if(fm==0){fm=2; print} }' "${f}" >> "${out}"
+           { if(fm==2 || printed){print} else if(fm==0){fm=2; print} }' >> "${out}"
     fi
     printf "\n\n---\n\n" >> "${out}"
   done
