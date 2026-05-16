@@ -95,7 +95,7 @@ Mermaid 圖節點數 ≤ 12、層數 ≤ 4，否則必然溢出。
 ## 8. 檔案規範
 
 - 所有 `.md` 寫**LF 行尾**（不要 CRLF）。Windows 編輯器要設定。
-  - 已知坑：CRLF 會讓 `scripts/build.sh` 的 frontmatter 合併失敗。
+  - 已知坑：CRLF 會讓 `ppt/scripts/build.sh` 的 frontmatter 合併失敗。
 - frontmatter 必填欄位：`marp: true`、`theme: anthropic`、`paginate: true`、`size: 16:9`、`header`、`footer`。
 - 投影片分隔用獨立一行的 `---`（前後留空行）。
 
@@ -104,8 +104,8 @@ Mermaid 圖節點數 ≤ 12、層數 ≤ 4，否則必然溢出。
 每次大改後執行：
 
 ```bash
-bash scripts/build.sh chapter 01-foundation   # 單章節快速驗證
-bash scripts/build.sh full                    # 完整 deck
+bash ppt/scripts/build.sh chapter 01-foundation   # 單章節快速驗證
+bash ppt/scripts/build.sh full                    # 完整 deck
 ```
 
 產出在 `dist/`。打開 PDF 翻一遍，目視確認沒有溢出再 commit。

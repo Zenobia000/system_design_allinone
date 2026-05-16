@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # Build script for 系統設計實戰 Marp slides.
 #
-# Usage:
-#   bash scripts/build.sh full                       # 整套 PDF + HTML
-#   bash scripts/build.sh minimal                    # 精簡版
-#   bash scripts/build.sh chapter 01-foundation      # 單一章節（資料夾名）
-#   bash scripts/build.sh html-only                  # 僅產生 HTML
-#   bash scripts/build.sh clean                      # 清除 dist/ 與 _combined*.md
+# Usage (from project root):
+#   bash ppt/scripts/build.sh full                       # 整套 PDF + HTML
+#   bash ppt/scripts/build.sh minimal                    # 精簡版
+#   bash ppt/scripts/build.sh chapter 01-foundation      # 單一章節（資料夾名）
+#   bash ppt/scripts/build.sh html-only                  # 僅產生 HTML
+#   bash ppt/scripts/build.sh clean                      # 清除 dist/ 與 _combined*.md
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PPT_DIR="${ROOT_DIR}/ppt"
 THEME_DIR="${PPT_DIR}/themes"
 THEME_FILE="${THEME_DIR}/anthropic.css"

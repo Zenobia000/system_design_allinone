@@ -26,7 +26,7 @@ system_design_allinone/
 │   ├── 06-scaling-patterns/  Ch.6 · Reads、Writes、Distributed Cache、CDN
 │   ├── 07-advanced-patterns/ Ch.7 · Queue、Long Tasks、Real-time、Search、Pipeline、RAG
 │   └── 90-appendix/         附錄（Capstone、Cheatsheet、Resources）
-├── scripts/build.sh         編譯腳本（PDF / HTML / 單章節）
+│   └── scripts/build.sh    編譯腳本（PDF / HTML / 單章節）
 └── README.md                本檔
 ```
 
@@ -53,11 +53,11 @@ system_design_allinone/
 nvm install 20 && nvm use 20
 
 # 從專案根目錄執行
-bash scripts/build.sh full          # 整套 PDF + HTML，輸出到 dist/
-bash scripts/build.sh minimal       # 精簡版（只 cover + roadmap + 章節 + cheatsheet）
-bash scripts/build.sh chapter 01-foundation   # 單一章節
-bash scripts/build.sh html-only     # 僅產生 HTML
-bash scripts/build.sh clean         # 清除 dist/ 與 _combined*.md
+bash ppt/scripts/build.sh full          # 整套 PDF + HTML，輸出到 dist/
+bash ppt/scripts/build.sh minimal       # 精簡版（只 cover + roadmap + 章節 + cheatsheet）
+bash ppt/scripts/build.sh chapter 01-foundation   # 單一章節
+bash ppt/scripts/build.sh html-only     # 僅產生 HTML
+bash ppt/scripts/build.sh clean         # 清除 dist/ 與 _combined*.md
 ```
 
 ### 直接閱讀 Markdown
