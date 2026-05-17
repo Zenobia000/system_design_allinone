@@ -1,0 +1,13 @@
+flowchart TB
+  B["BUSINESS<br/>商業策略 / ROI / 風險"]
+  A["ARCHITECTURE<br/>系統決策 / 取捨 / 標準"]
+  I["IMPLEMENTATION<br/>代碼實作 / debug / refactor"]
+  B -->|向上翻譯| A
+  A -->|向下翻譯| I
+
+  classDef biz fill:#FFE5D0,stroke:#8B6F47,color:#2A2520,stroke-width:2px
+  classDef arc fill:#D97757,stroke:#8B6F47,color:#F5F1E8,stroke-width:3px
+  classDef imp fill:#F5F1E8,stroke:#8B6F47,color:#2A2520,stroke-width:2px
+  class B biz
+  class A arc
+  class I imp
