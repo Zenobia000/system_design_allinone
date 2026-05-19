@@ -46,6 +46,18 @@ PM 的工作是**壓縮**：把客戶的話往下挖，
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/02-pm/01_requirement_funnel.png)
+
+</div>
+
+
+---
+
+
 <!-- _class: compact -->
 
 ## OUTPUTS · 5 個經典產出

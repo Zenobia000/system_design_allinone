@@ -17,6 +17,30 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/04-tech-stack-data/02_sql_nosql_01_tree_concept.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/04-tech-stack-data/02_sql_nosql_02_polyglot_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何不是「誰比較快」的問題？
 

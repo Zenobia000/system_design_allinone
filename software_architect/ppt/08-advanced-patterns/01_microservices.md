@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/08-advanced-patterns/01_microservices_01_split_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何不是「拆得越細越好」？
 

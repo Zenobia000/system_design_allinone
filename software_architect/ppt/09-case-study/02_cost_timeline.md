@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/09-case-study/02_cost_01_triangle_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何不能追求「完美架構」？
 

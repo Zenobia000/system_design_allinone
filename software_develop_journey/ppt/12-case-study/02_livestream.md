@@ -47,6 +47,18 @@ DevOps        ████████████████████ ★�
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/12-case-study/02_livestream_gantt.png)
+
+</div>
+
+
+---
+
+
 ## STREAM · vs 電商
 
 # 哪些一樣，哪些變了
@@ -98,6 +110,18 @@ DevOps        ████████████████████ ★�
 <span class="muted">**核心金句**：NFR 不是 Architect 的專利，是**跨角色契約**。</span>
 
 > Source: _source/braindump.md · §直播串流系統挑戰
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/12-case-study/02_latency_contract.png)
+
+</div>
 
 
 ---

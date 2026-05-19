@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/90-appendix/01_cheatsheet_hero.png)
+
+</div>
+
+
+---
+
+
 
 ## INDEX · 速查表目錄
 

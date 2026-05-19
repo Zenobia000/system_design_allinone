@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/07-system-architecture/02_cache_01_patterns_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何這兩件兵器必學？
 

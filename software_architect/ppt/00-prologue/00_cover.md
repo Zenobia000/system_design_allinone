@@ -26,6 +26,18 @@ footer: 'v1.0 · 2026'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/00-prologue/00_cover_hero.png)
+
+</div>
+
+
+---
+
+
 
 <!-- _class: cover -->
 <!-- _paginate: false -->

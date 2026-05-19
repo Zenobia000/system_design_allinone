@@ -47,6 +47,18 @@ DevOps        ████████████████████ ★�
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/12-case-study/03_ai_video_gantt.png)
+
+</div>
+
+
+---
+
+
 ## AIVID · vs 電商
 
 # 哪些一樣，哪些變了
@@ -92,6 +104,18 @@ DevOps        ████████████████████ ★�
 <span class="muted">**核心金句**：在 AI 系統裡，**QA 從「驗證已知」變成「定義未知」**——這是角色職責**隨領域漂移**最強的例子。</span>
 
 > Source: _source/braindump.md · §AI 影視生成挑戰
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/12-case-study/03_defining_good.png)
+
+</div>
 
 
 ---

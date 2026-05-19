@@ -92,6 +92,18 @@ API 名稱 SD / Dev / Architect 都會講
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/11-collaboration/02_overlap_matrix.png)
+
+</div>
+
+
+---
+
+
 ## MATRIX · 看懂這個矩陣
 
 <div class="note">

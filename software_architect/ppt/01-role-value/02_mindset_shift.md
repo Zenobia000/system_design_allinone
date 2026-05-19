@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/01-role-value/02_mindset_shift_01_matrix_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## MINDSET · WHY
 

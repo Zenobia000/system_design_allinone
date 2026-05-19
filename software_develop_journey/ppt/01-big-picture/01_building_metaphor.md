@@ -69,6 +69,18 @@ footer: '軟體開發旅程 · v1.0'
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/01-big-picture/01_building_metaphor.png)
+
+</div>
+
+
+---
+
+
 ## METAPHOR · 流程像不像？
 
 # 蓋大樓 vs 蓋系統

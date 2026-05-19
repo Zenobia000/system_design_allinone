@@ -18,6 +18,18 @@ footer: '軟體開發旅程 · v1.0'
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/06-sd/00_hero.png)
+
+</div>
+
+
+---
+
+
 ## ROLE · 蓋房子對應
 
 <span class="kicker">METAPHOR ANCHOR</span>

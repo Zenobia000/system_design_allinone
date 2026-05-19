@@ -10,8 +10,8 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-PPT_DIR="${ROOT_DIR}/ppt"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PPT_DIR="${ROOT_DIR}"
 THEME_DIR="${PPT_DIR}/themes"
 THEME_FILE="${THEME_DIR}/anthropic.css"
 OUT_DIR="${ROOT_DIR}/dist"

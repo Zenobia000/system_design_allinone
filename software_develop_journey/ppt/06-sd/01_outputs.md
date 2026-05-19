@@ -92,6 +92,18 @@ Response 423: { "error": "ACCOUNT_LOCKED" }
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/06-sd/01_api_naming.png)
+
+</div>
+
+
+---
+
+
 ## OUTPUTS · 為何 AI 取代不了
 
 <div class="highlight">

@@ -46,6 +46,18 @@ footer: '軟體開發旅程 · v1.0'
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/00-prologue/03_nine_role_bubbles.png)
+
+</div>
+
+
+---
+
+
 <!-- _class: compact -->
 
 ## MASTER TEMPLATE · 9 角色腦中浮現什麼

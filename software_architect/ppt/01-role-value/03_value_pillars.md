@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/01-role-value/03_value_01_influence_map_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## VALUE · WHY
 

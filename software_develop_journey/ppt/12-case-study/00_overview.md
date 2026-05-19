@@ -18,6 +18,18 @@ footer: '軟體開發旅程 · v1.0'
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/12-case-study/00_hero.png)
+
+</div>
+
+
+---
+
+
 ## WHY · 為什麼挑這三個
 
 <span class="kicker">SECTION 1 · WHY THESE THREE</span>

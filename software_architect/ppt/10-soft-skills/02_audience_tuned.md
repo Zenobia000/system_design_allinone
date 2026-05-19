@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/10-soft-skills/02_audience_01_matrix_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何同一份技術決策，要講三種版本？
 

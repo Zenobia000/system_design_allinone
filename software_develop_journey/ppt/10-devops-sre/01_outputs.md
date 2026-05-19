@@ -18,6 +18,18 @@ footer: '軟體開發旅程 · v1.0'
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/10-devops-sre/01_property_management.png)
+
+</div>
+
+
+---
+
+
 <!-- _class: compact -->
 
 ## OUTPUTS · 5 個經典產出

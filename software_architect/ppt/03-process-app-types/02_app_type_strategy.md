@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/03-process-app-types/02_app_type_01_tree_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何應用類型決定一切？
 

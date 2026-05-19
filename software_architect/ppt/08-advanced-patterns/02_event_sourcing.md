@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/08-advanced-patterns/02_es_01_crud_vs_es_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何「儲存所有事件」？
 

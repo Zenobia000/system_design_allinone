@@ -18,6 +18,18 @@ footer: '軟體開發旅程 · v1.0'
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/01-big-picture/00_hero.png)
+
+</div>
+
+
+---
+
+
 ## OBJECTIVES · 學習目標
 
 看完本章，你能回答：

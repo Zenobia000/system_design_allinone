@@ -117,6 +117,18 @@ TC-LOGIN-007: 密碼錯誤 5 次後鎖定帳號
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/09-qa/01_known_to_unknown.png)
+
+</div>
+
+
+---
+
+
 <!-- _class: end -->
 
 # Outputs 完

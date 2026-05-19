@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/05-ilities/02_testability_01_pyramid_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何 Testability 是架構決策？
 

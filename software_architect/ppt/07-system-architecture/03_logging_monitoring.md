@@ -17,6 +17,18 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/07-system-architecture/03_logging_01_correlation_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## WHY · 為何單體 print() 在分散式裡會死？
 

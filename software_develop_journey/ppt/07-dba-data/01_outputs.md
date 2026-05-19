@@ -18,6 +18,18 @@ footer: '軟體開發旅程 · v1.0'
 ---
 
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/07-dba-data/01_data_lifeline.png)
+
+</div>
+
+
+---
+
+
 ## OUTPUTS · 5 個經典產出
 
 <span class="kicker">SECTION 1 · DELIVERABLES</span>

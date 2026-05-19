@@ -17,6 +17,30 @@ footer: '架構師的藍圖 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/04-tech-stack-data/00_hero.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![h:520](../assets/diagrams/04-tech-stack-data/00_mental_model_concept.png)
+
+</div>
+
+
+---
+
+
 
 ## OBJECTIVES · 學習目標
 
