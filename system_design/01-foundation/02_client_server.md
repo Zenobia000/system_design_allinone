@@ -16,6 +16,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/01-foundation/02_client_server_01_vs_p2p.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/01-foundation/02_client_server_02_matrix.png)
+
+</div>
+
+
+---
+
+
 ## CLIENT-SERVER · WHY
 
 <span class="kicker">SECTION 2 · CLIENT-SERVER</span>

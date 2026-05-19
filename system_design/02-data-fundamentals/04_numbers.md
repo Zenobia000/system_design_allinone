@@ -16,6 +16,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/02-data-fundamentals/04_numbers_01_latency_ladder.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/02-data-fundamentals/04_numbers_02_capacity.png)
+
+</div>
+
+
+---
+
+
 ## NUMBERS · WHY
 
 # 為何要記這些數字？

@@ -17,6 +17,18 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/01-foundation/03_scalability_01_up_vs_out.png)
+
+</div>
+
+
+---
+
+
 
 ## SCALABILITY · WHY
 

@@ -17,6 +17,18 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/03_distributed_cache_02_consistent_hash.png)
+
+</div>
+
+
+---
+
+
 
 ## DISTRIBUTED CACHE · WHY + Cluster 架構
 

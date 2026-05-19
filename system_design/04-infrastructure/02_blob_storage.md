@@ -17,6 +17,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/04-infrastructure/02_blob_01_three_storage.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/04-infrastructure/02_blob_03_tier_ladder.png)
+
+</div>
+
+
+---
+
+
 
 ## BLOB STORAGE · WHY
 

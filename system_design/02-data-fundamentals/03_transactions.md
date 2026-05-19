@@ -17,6 +17,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/02-data-fundamentals/03_transactions_01_acid_icons.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/02-data-fundamentals/03_transactions_02_isolation_matrix.png)
+
+</div>
+
+
+---
+
+
 
 ## TRANSACTIONS · WHY
 

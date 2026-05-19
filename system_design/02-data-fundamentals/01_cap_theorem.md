@@ -17,6 +17,42 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/02-data-fundamentals/01_cap_theorem_01_triangle.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/02-data-fundamentals/01_cap_theorem_03_db_quadrant.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/02-data-fundamentals/01_cap_theorem_04_atm_split.png)
+
+</div>
+
+
+---
+
+
 
 ## CAP · WHY
 

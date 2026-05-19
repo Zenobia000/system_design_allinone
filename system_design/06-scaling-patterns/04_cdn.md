@@ -16,6 +16,42 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/04_cdn_01_global_edge.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/04_cdn_02_push_vs_pull.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/04_cdn_03_edge_compute.png)
+
+</div>
+
+
+---
+
+
 ## CDN · WHY + 4 個層級
 
 <div class="highlight">

@@ -16,6 +16,42 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/03-data-distribution/02_sharding_01_strategies.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/03-data-distribution/02_sharding_02_hotshard.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/03-data-distribution/02_sharding_03_shardkey.png)
+
+</div>
+
+
+---
+
+
 ## SHARDING · WHY
 
 # 為何單一資料庫撐不住？

@@ -17,6 +17,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/02_scaling_writes_02_sharding_keys.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/02_scaling_writes_03_hotkey_split.png)
+
+</div>
+
+
+---
+
+
 
 ## SCALE WRITES · WHY + 4 個策略
 

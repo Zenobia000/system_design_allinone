@@ -17,6 +17,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/05-reliability-ops/01_distributed_lock_01_scenarios.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/05-reliability-ops/01_distributed_lock_02_tradeoff.png)
+
+</div>
+
+
+---
+
+
 
 ## DISTRIBUTED LOCK · WHY
 

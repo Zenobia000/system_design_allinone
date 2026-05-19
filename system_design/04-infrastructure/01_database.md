@@ -17,6 +17,18 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/04-infrastructure/01_database_02_nosql_grid.png)
+
+</div>
+
+
+---
+
+
 
 ## DATABASE · WHY
 

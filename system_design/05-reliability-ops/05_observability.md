@@ -16,6 +16,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/05-reliability-ops/05_observability_01_three_pillars.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/05-reliability-ops/05_observability_02_four_signals_slo.png)
+
+</div>
+
+
+---
+
+
 ## OBSERVABILITY · WHY
 
 # 為何「能登入」不等於「能用」？

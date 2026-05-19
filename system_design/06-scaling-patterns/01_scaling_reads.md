@@ -17,6 +17,42 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/01_scaling_reads_02_cqrs.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/01_scaling_reads_03_lag.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/06-scaling-patterns/01_scaling_reads_04_antipatterns.png)
+
+</div>
+
+
+---
+
+
 
 ## SCALE READS · WHY + HOW（4 層命中階梯）
 

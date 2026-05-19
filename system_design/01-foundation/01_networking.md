@@ -17,6 +17,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/01-foundation/01_networking_02_rtt.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/01-foundation/01_networking_04_cdn.png)
+
+</div>
+
+
+---
+
+
 
 ## NETWORKING · WHY
 

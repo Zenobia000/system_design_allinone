@@ -16,6 +16,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/05-reliability-ops/03_overload_01_6_layers.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/05-reliability-ops/03_overload_02_token_vs_leaky.png)
+
+</div>
+
+
+---
+
+
 ## OVERLOAD PROTECTION · WHY
 
 # 為何流量一爆系統就連環炸？

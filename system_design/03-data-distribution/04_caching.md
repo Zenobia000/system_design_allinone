@@ -17,6 +17,42 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/03-data-distribution/04_caching_02_patterns.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/03-data-distribution/04_caching_03_stampede.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/03-data-distribution/04_caching_04_hotkey.png)
+
+</div>
+
+
+---
+
+
 
 ## CACHING · WHY
 

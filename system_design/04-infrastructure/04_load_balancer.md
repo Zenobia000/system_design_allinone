@@ -17,6 +17,30 @@ footer: '系統設計實戰 · v1.0'
 
 ---
 
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/04-infrastructure/04_lb_01_l4_vs_l7.png)
+
+</div>
+
+
+---
+
+
+<!-- _class: cover -->
+
+<div style="text-align:center;">
+
+![w:880](../assets/diagrams/04-infrastructure/04_lb_03_sticky.png)
+
+</div>
+
+
+---
+
+
 
 ## LOAD BALANCER · WHY
 
