@@ -1,113 +1,194 @@
-# 系統設計實戰 · System Design All-in-One
+# System Design All-in-One · 系統設計合集
 
-> 七章 × 四十八主題 · Anthropic 風格 Marp 簡報 + 三十四份原始 PDF 教材
+> 四本獨立講義 · 從新手到 AI 時代架構師的完整學習路徑
+> Anthropic 風格 Marp + open-slide React 雙格式
 
-從基礎到架構，把每個 trade-off 看清楚。給寫過幾年 code、想往架構師走的工程師。
-**不背名詞，學決策。**
+從**會 Python 的小白**到**指揮 AI 的架構師**，這份合集分四階段把整條路徑鋪平：
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│  小白入門            架構深度            AI 時代速成         系統實作  │
+│  ↓                  ↓                  ↓                   ↓        │
+│  software_develop   software_architect ai_native_system    system_  │
+│  _journey/          /                   _design/           design/  │
+│  14 章 9 角色全景    12 章架構深度       11 章速成 + 30 圖   7 章 48  │
+│                                          + AI 工作流          主題   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 內容組成
+## 四本講義
 
-```
-system_design_allinone/
-├── 系統設計實戰/    34 份 PDF 原始教材（4 大類）
-│   ├── 基本觀念/    Networking / CAP / Indexing / Sharding ...（12）
-│   ├── 常用技術/    DB / Blob / Gateway / LB / Container ...（10）
-│   ├── 維運與可靠性/ Contention / Overload / Delivery / O11y（4）
-│   └── 設計模式/    Scaling / Long Tasks / Search / RAG ...（8）
-├── ppt/             Anthropic 風格 Marp 簡報（48 主題）
-│   ├── 00-prologue/         序章（封面、地圖、心智模型）
-│   ├── 01-foundation/       Ch.1 · 網路、C/S、可擴展性、API
-│   ├── 02-data-fundamentals/ Ch.2 · CAP、Indexing、Tx、Numbers
-│   ├── 03-data-distribution/ Ch.3 · Hashing、Sharding、Replication、Caching
-│   ├── 04-infrastructure/    Ch.4 · DB、Blob、GW、LB、Container、Serverless
-│   ├── 05-reliability-ops/   Ch.5 · Lock、Contention、Overload、Delivery、O11y
-│   ├── 06-scaling-patterns/  Ch.6 · Reads、Writes、Distributed Cache、CDN
-│   ├── 07-advanced-patterns/ Ch.7 · Queue、Long Tasks、Real-time、Search、Pipeline、RAG
-│   └── 90-appendix/         附錄（Capstone、Cheatsheet、Resources）
-│   └── scripts/build.sh    編譯腳本（PDF / HTML / 單章節）
-└── README.md                本檔
-```
+### 1️⃣ `software_develop_journey/` · 軟體開發旅程
 
-簡報詳細目錄見 [`ppt/README.md`](ppt/README.md)。
+> **給對軟體開發完全沒概念的人**
+
+| 規模 | 14 章 · ~80 slides · Marp + open-slide |
+|---|---|
+| 風格 | Beginner on-ramp · 蓋大樓比喻 · 9 角色全景 |
+| 主軸 | 「為什麼一個 app 要 9 個角色？」|
+| 適合 | 完全新手、轉職者、想搞懂自家公司分工的人 |
+| 章節 | PM / UX / SA / Architect / SD / DBA / Dev / QA / DevOps + 協作 + 案例 |
+
+詳細目錄：[`software_develop_journey/README.md`](software_develop_journey/README.md)
 
 ---
 
-## 三種使用方式
+### 2️⃣ `software_architect/` · 架構師的藍圖
 
-| 路徑 | 對象 | 內容 |
-|------|------|------|
-| **A · 線性自學** | 8 小時走完 | 從 `00-prologue` 讀到 `90-appendix`，依序 |
-| **B · 主題查詢** | 工作上想懂某個概念 | 直接挑 `0X-章節/NN_topic.md`，搭配對應 PDF 深讀 |
-| **C · 面試衝刺** | 3 天 | `Ch.1` + `Ch.2` + `90-appendix/01_review_cheatsheet.md` + 三個 capstone case |
+> **給已會 code 想成為架構師的人**
+
+| 規模 | 12 章 · 372 slides · Marp + open-slide |
+|---|---|
+| 風格 | 深度教材 · 每章 Why / How / Trade-off · 7 大主題包 |
+| 主軸 | 「面對 trade-off，怎麼做出可解釋的決策」|
+| 適合 | 1-3 年 dev 想升級判斷力、面試準備 staff/principal |
+| 章節 | 角色定位 / 需求量化 / 流程 / 技術選型 / *-ilities / 模式 / 分散式 / 進階 / 案例 / 軟實力 |
+
+詳細目錄：[`software_architect/ppt/README.md`](software_architect/ppt/README.md)
+
+---
+
+### 3️⃣ `ai_native_system_design/` · AI 時代系統設計速成 ⭐ NEW
+
+> **AI 把實作變便宜，判斷力變稀缺。這本只教稀缺的**
+
+| 規模 | 11 章 · ~177 slides · Marp + open-slide |
+|---|---|
+| 風格 | 顧問報告風 · 30 張中英雙語技術圖 · 三句帶走 · 心法貼條 |
+| 主軸 | 「先 ADR 再 code · Context 給法 > prompt 詞」|
+| 適合 | 想把 Claude Code 用得更深、把架構決策結構化的人 |
+| 獨家 | Part 3 整章 24 slides 教 AI 實戰工作流（其他兩本沒有） |
+| 章節 | Prologue / 上路詞彙 / SDLC 全景 / 四方法論 ABCD / 三案例 / AI 工作流 / 附錄 |
+| 品牌 | 桑尼資料科學 · 含 154 頁全 Chrome（麵包屑 / 頁碼 / 版權聲明） |
+
+詳細目錄：[`ai_native_system_design/README.md`](ai_native_system_design/README.md)
+
+---
+
+### 4️⃣ `system_design/` · 系統設計實戰
+
+> **34 份 PDF 原始教材 + 7 章 48 主題 Marp 簡報**
+
+| 規模 | 7 章 · 48 slides · 34 PDF · Marp + open-slide |
+|---|---|
+| 風格 | 主題式速查 · CAP / Sharding / Cache / Queue / RAG... |
+| 主軸 | 「這個技術解決什麼問題？代價？什麼時候不該用？」|
+| 適合 | 工作上想懂某個概念、面試衝刺 |
+| 章節 | Foundation / Data / Distribution / Infrastructure / Reliability / Scaling / Advanced |
+
+詳細目錄：[`system_design/README.md`](system_design/README.md)
+
+---
+
+## 推薦學習路徑
+
+| 你是誰 | 建議順序 | 預估時間 |
+|---|---|---|
+| **完全新手** | 1️⃣ journey → 3️⃣ ai_native → 2️⃣ architect 挑章 | ~3 個月 |
+| **1-3 年工程師** | 3️⃣ ai_native (速成) → 2️⃣ architect (深挖) → 4️⃣ system_design (補主題) | ~6 週 |
+| **資深工程師升架構師** | 2️⃣ architect → 3️⃣ ai_native Part 3 (AI 工作流) | ~3 週 |
+| **面試衝刺** | 3️⃣ ai_native + 4️⃣ system_design 90-appendix cheatsheet | ~1 週 |
+| **想懂特定技術** | 4️⃣ system_design 主題查詢 + 對應 PDF | ~小時級 |
 
 ---
 
 ## Quickstart
 
-### 編譯簡報
+### 編譯 Marp 簡報（PDF / HTML）
+
+每個專案都有獨立 build script：
 
 ```bash
-# 安裝 Node.js >= 18 與 Marp CLI（一次）
-nvm install 20 && nvm use 20
+# software_develop_journey
+bash software_develop_journey/scripts/build.sh full
 
-# 從專案根目錄執行
-bash ppt/scripts/build.sh full          # 整套 PDF + HTML，輸出到 dist/
-bash ppt/scripts/build.sh minimal       # 精簡版（只 cover + roadmap + 章節 + cheatsheet）
-bash ppt/scripts/build.sh chapter 01-foundation   # 單一章節
-bash ppt/scripts/build.sh html-only     # 僅產生 HTML
-bash ppt/scripts/build.sh clean         # 清除 dist/ 與 _combined*.md
+# software_architect
+bash software_architect/scripts/build.sh full
+
+# ai_native_system_design
+bash ai_native_system_design/scripts/build.sh full
+
+# system_design
+bash system_design/ppt/scripts/build.sh full
 ```
 
-### 直接閱讀 Markdown
+### 啟動 open-slide React 簡報（互動 + 動畫）
 
-每份 `ppt/0X-章節/NN_topic.md` 都是獨立的 Marp deck，可在 IDE 內直接讀（VS Code 安裝 Marp 擴充即時預覽）。
+```bash
+# 各專案的 openslide 子目錄
+cd ai_native_system_design/openslide
+pnpm install
+pnpm dev   # http://localhost:5173/
+
+# 同時開兩個（不同 port）
+cd software_develop_journey/openslide && pnpm dev   # 自動 5174
+```
+
+需要 Node.js >= 18、pnpm。
 
 ---
 
-## 設計理念
+## 設計理念（四本共通）
 
-每張 slide 的真正主題只有一句：
+### 1. 不背名詞，學決策
 
-> 這個技術解決什麼問題？代價是什麼？什麼時候不該用？
+每張 slide 真正在問三件事：
+> **這個技術解決什麼問題？代價是什麼？什麼時候不該用？**
 
-如果你能回答這三個問題，你就是架構師。
+### 2. Why → How → Trade-off 三段節奏
 
-簡報結構刻意保留 **Why / How / Trade-off** 三段節奏：
-- **Why**：解決什麼具體問題（不是抽象優勢）
+- **Why**：解決什麼具體痛（不是抽象優勢）
 - **How**：核心機制 + 一張示意圖
-- **Trade-off**：得到什麼 vs 失去什麼，何時不該用
+- **Trade-off**：得到什麼 vs 失去什麼
+
+### 3. 圖為主、文為輔
+
+- 全套採 Anthropic 暖色系（橘 `#D97757` + 米白 `#F5F1E8`）
+- AI 時代速成版（3️⃣）採顧問風技術圖（中英雙語標籤）
+- 每章末「三句帶走」海報式 recap
 
 ---
 
-## 章節能力分級
+## 能力分級（跨四本）
 
-| Level | 描述 | 對應章節 | 典型場景 |
-|-------|------|---------|---------|
-| L1 | 看得懂技術名詞 | Ch.1 + Ch.2 | 讀懂團隊架構文件 |
-| L2 | 能畫出基本架構圖 | + Ch.3 + Ch.4 | 通過初級面試 |
-| L3 | 能落地實作中型系統 | + Ch.5 | 帶領 3-5 人小組 |
-| L4 | 能 review 別人的設計 | + Ch.6 | 跨團隊 architect |
-| L5 | 能設計新 pattern | + Ch.7 + Capstone | Staff / Principal |
-
-本套教材目標：**把你從 L1 帶到 L4 的入口**。
+| Level | 能力 | 對應講義 + 章節 |
+|---|---|---|
+| **L0** | 看得懂 IT 在做什麼 | 1️⃣ journey 全本 |
+| **L1** | 讀懂團隊架構文件 | 4️⃣ system_design Ch.1+2 |
+| **L2** | 能畫基本架構圖 | + 4️⃣ Ch.3+4 / 3️⃣ Module A+B |
+| **L3** | 能落地中型系統 | + 4️⃣ Ch.5 / 3️⃣ 三大案例 |
+| **L4** | 能 review 別人的設計 | + 4️⃣ Ch.6 / 2️⃣ architect Ch.5+7 |
+| **L5** | 能設計新 pattern | + 4️⃣ Ch.7 / 2️⃣ Ch.6+8 + Capstone |
+| **L6** | 能指揮 AI 做架構 | + 3️⃣ Part 3 AI 實戰工作流 |
 
 ---
 
-## 風格
+## 技術棧
 
-- 主題：Marp + Anthropic 配色（暖橙 `#D97757` + 米白底 `#F5F1E8`）
-- 字體：Playfair Display（標題）/ Inter（內文）/ IBM Plex Mono（程式碼）/ Noto Sans TC（中文）
-- 主題 CSS：[`ppt/themes/anthropic.css`](ppt/themes/anthropic.css)
+- **內容源**：Marp markdown
+- **渲染（靜態）**：Marp CLI → PDF / HTML
+- **渲染（互動）**：open-slide React framework + Vite
+- **主題**：Anthropic 同調 CSS（4 本共用 `themes/anthropic.css`）
+- **圖片**：gpt-image-2 生成（30 張 + 12 張 hero）
+- **品牌**：桑尼資料科學 logo · 中英雙語
 
 ---
 
 ## 授權
 
-- **本專案的簡報與腳本**（`ppt/`、`scripts/`）採 MIT License — 見 [LICENSE](LICENSE)
-- **`系統設計實戰/` 內的原始 PDF 教材** 著作權屬原作者所有，僅作個人學習收藏，不對外重新散佈
+- **簡報、腳本、原創文字**（`ppt/`, `openslide/`, `scripts/`）：MIT License — 見 [LICENSE](LICENSE)
+- **`system_design/系統設計實戰/` 內的原始 PDF**：著作權屬原作者，僅作個人學習收藏，不對外散佈
+- **gpt-image-2 生成圖片**：MIT（同 OpenAI policy）
 
 ---
 
-**v1.0 · 2026**
+## 開發者
+
+**桑尼資料科學 · Sunny Data Science**
+🤖 Co-authored with Claude Code (Anthropic)
+
+---
+
+**v2.0 · 2026** · 4 本講義合集
