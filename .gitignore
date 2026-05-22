@@ -46,3 +46,12 @@ out/
 
 # Personal reference images (not project content)
 40803296.jpeg
+
+# Stray images at repo root — Playwright runs, downloads, screenshots.
+# Anchored with leading "/" so subproject assets (product_to_launch/public/**)
+# are not affected.
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+/*.webp
