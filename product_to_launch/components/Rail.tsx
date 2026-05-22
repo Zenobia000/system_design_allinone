@@ -5,7 +5,13 @@ export default function Rail({ active }: { active?: "home" | "roles" | "delivera
   return (
     <header className="rail">
       <Link href="/" className="brand">
-        <img src="/logo/logo-main.png" alt="Launch Atlas logo" />
+        <img
+          src="/logo/logo-main.png"
+          alt="Launch Atlas logo"
+          width="32"
+          height="32"
+          decoding="async"
+        />
         <span>
           Launch<span className="dot">.</span>Atlas
         </span>

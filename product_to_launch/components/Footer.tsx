@@ -6,7 +6,14 @@ export default function Footer() {
       <div className="row">
         <div className="brand-block">
           <span className="mark">
-            <img src="/logo/logo-main.png" alt="Launch Atlas logo" />
+            <img
+              src="/logo/logo-main.png"
+              alt="Launch Atlas logo"
+              width="28"
+              height="28"
+              loading="lazy"
+              decoding="async"
+            />
             落地圖鑑 · Launch Atlas
           </span>
           <p>
