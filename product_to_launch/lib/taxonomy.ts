@@ -83,24 +83,28 @@ export interface DeliverableIndex {
   title: string;
   stage: StageSlug;
   roles: RoleSlug[];
+  /** Minimum necessary set — kept small so the "without this the product
+   *  process actually breaks" signal stays loud. Currently 15 cards:
+   *  2 per stage, with Design weighted at 5 (SA/SD critical mass). */
+  essential?: boolean;
 }
 
 export const DELIVERABLES: DeliverableIndex[] = [
   // — Discovery —
   { slug: "user-research",    order:  1, title: "使用者研究 · User Research", stage: "discovery", roles: ["ux", "pm"] },
-  { slug: "jtbd",             order:  2, title: "JTBD · 任務驅動", stage: "discovery", roles: ["pm", "ux"] },
+  { slug: "jtbd",             order:  2, title: "JTBD · 任務驅動", stage: "discovery", roles: ["pm", "ux"], essential: true },
   { slug: "persona",          order:  3, title: "Persona · 使用者輪廓", stage: "discovery", roles: ["ux", "pm"] },
   { slug: "journey-map",      order:  4, title: "Journey Map · 旅程地圖", stage: "discovery", roles: ["ux"] },
   { slug: "competitive-scan", order:  5, title: "競品掃描 · Competitive Scan", stage: "discovery", roles: ["pm", "ba"] },
-  { slug: "value-hypothesis", order:  6, title: "價值假設卡 · Value Hypothesis", stage: "discovery", roles: ["po", "pm"] },
+  { slug: "value-hypothesis", order:  6, title: "價值假設卡 · Value Hypothesis", stage: "discovery", roles: ["po", "pm"], essential: true },
   { slug: "north-star",       order:  7, title: "北極星指標 · North-Star Metric", stage: "discovery", roles: ["pm", "po"] },
 
   // — Define —
-  { slug: "prd",              order:  8, title: "PRD · 產品需求文件", stage: "define", roles: ["pm"] },
+  { slug: "prd",              order:  8, title: "PRD · 產品需求文件", stage: "define", roles: ["pm"], essential: true },
   { slug: "okr",              order:  9, title: "OKR · 目標與關鍵結果", stage: "define", roles: ["pm", "po"] },
   { slug: "roadmap",          order: 10, title: "Roadmap · 產品路線圖", stage: "define", roles: ["pm"] },
   { slug: "user-story",       order: 11, title: "User Story · 使用者故事", stage: "define", roles: ["po", "ba"] },
-  { slug: "acceptance-criteria", order: 12, title: "Acceptance Criteria · 驗收條件", stage: "define", roles: ["po", "qa"] },
+  { slug: "acceptance-criteria", order: 12, title: "Acceptance Criteria · 驗收條件", stage: "define", roles: ["po", "qa"], essential: true },
   { slug: "srs",              order: 13, title: "SRS · 系統需求規格", stage: "define", roles: ["ba", "sa"] },
   { slug: "frd",              order: 14, title: "FRD · 功能需求文件", stage: "define", roles: ["ba", "pm"] },
   { slug: "stakeholder-map",  order: 15, title: "Stakeholder Map · 利害關係人地圖", stage: "define", roles: ["pm", "ba"] },
@@ -113,28 +117,28 @@ export const DELIVERABLES: DeliverableIndex[] = [
   { slug: "design-system",    order: 20, title: "Design System · 設計系統", stage: "design", roles: ["ui"] },
   { slug: "high-fidelity-mockup", order: 21, title: "高保真稿 · Hi-Fi Mockup", stage: "design", roles: ["ui"] },
   { slug: "usability-test",   order: 22, title: "可用性測試 · Usability Test", stage: "design", roles: ["ux"] },
-  { slug: "adr",              order: 23, title: "ADR · 架構決策紀錄", stage: "design", roles: ["architect"] },
-  { slug: "c4-diagram",       order: 24, title: "C4 圖 · 四層架構視圖", stage: "design", roles: ["architect", "sa"] },
-  { slug: "api-spec",         order: 25, title: "API Spec · OpenAPI 契約", stage: "design", roles: ["architect", "dev"] },
-  { slug: "data-model",       order: 26, title: "Data Model · 資料模型", stage: "design", roles: ["architect", "dev"] },
+  { slug: "adr",              order: 23, title: "ADR · 架構決策紀錄", stage: "design", roles: ["architect"], essential: true },
+  { slug: "c4-diagram",       order: 24, title: "C4 圖 · 四層架構視圖", stage: "design", roles: ["architect", "sa"], essential: true },
+  { slug: "api-spec",         order: 25, title: "API Spec · OpenAPI 契約", stage: "design", roles: ["architect", "dev"], essential: true },
+  { slug: "data-model",       order: 26, title: "Data Model · 資料模型", stage: "design", roles: ["architect", "dev"], essential: true },
   { slug: "sequence-diagram", order: 27, title: "Sequence Diagram · 時序圖", stage: "design", roles: ["sa", "architect"] },
   { slug: "tech-spike",       order: 28, title: "Tech Spike · 技術探索", stage: "design", roles: ["architect", "dev"] },
   { slug: "threat-model",     order: 29, title: "Threat Model · 威脅建模", stage: "design", roles: ["architect"] },
-  { slug: "non-functional-reqs", order: 30, title: "非功能需求 · NFR / -ilities", stage: "design", roles: ["architect", "sa"] },
+  { slug: "non-functional-reqs", order: 30, title: "非功能需求 · NFR / -ilities", stage: "design", roles: ["architect", "sa"], essential: true },
 
   // — Build —
   { slug: "coding-standard",  order: 31, title: "Coding Standard · 編碼規範", stage: "build", roles: ["dev"] },
   { slug: "pr-template",      order: 32, title: "PR Template · PR 模板", stage: "build", roles: ["dev"] },
-  { slug: "code-review-checklist", order: 33, title: "Code Review Checklist", stage: "build", roles: ["dev"] },
-  { slug: "unit-test",        order: 34, title: "Unit Test · 單元測試", stage: "build", roles: ["dev", "qa"] },
+  { slug: "code-review-checklist", order: 33, title: "Code Review Checklist", stage: "build", roles: ["dev"], essential: true },
+  { slug: "unit-test",        order: 34, title: "Unit Test · 單元測試", stage: "build", roles: ["dev", "qa"], essential: true },
   { slug: "integration-test", order: 35, title: "Integration Test · 整合測試", stage: "build", roles: ["qa", "dev"] },
   { slug: "test-plan",        order: 36, title: "Test Plan · 測試計畫", stage: "build", roles: ["qa"] },
   { slug: "feature-flag",     order: 37, title: "Feature Flag · 功能旗標", stage: "build", roles: ["dev", "po"] },
 
   // — Ship —
   { slug: "ci-cd-pipeline",   order: 38, title: "CI/CD Pipeline · 持續交付管線", stage: "ship", roles: ["devops", "dev"] },
-  { slug: "release-plan",     order: 39, title: "Release Plan · 上線計畫", stage: "ship", roles: ["po", "devops"] },
-  { slug: "rollback-plan",    order: 40, title: "Rollback Plan · 回滾計畫", stage: "ship", roles: ["devops"] },
+  { slug: "release-plan",     order: 39, title: "Release Plan · 上線計畫", stage: "ship", roles: ["po", "devops"], essential: true },
+  { slug: "rollback-plan",    order: 40, title: "Rollback Plan · 回滾計畫", stage: "ship", roles: ["devops"], essential: true },
   { slug: "canary-strategy",  order: 41, title: "Canary Strategy · 灰度策略", stage: "ship", roles: ["devops"] },
   { slug: "uat",              order: 42, title: "UAT · 使用者驗收測試", stage: "ship", roles: ["qa", "po"] },
   { slug: "go-no-go-checklist", order: 43, title: "Go/No-Go Checklist · 上線檢查表", stage: "ship", roles: ["po", "devops"] },
@@ -142,9 +146,9 @@ export const DELIVERABLES: DeliverableIndex[] = [
   // — Operate —
   { slug: "slo",              order: 44, title: "SLO · 服務等級目標", stage: "operate", roles: ["devops"] },
   { slug: "error-budget",     order: 45, title: "Error Budget · 誤差預算", stage: "operate", roles: ["devops"] },
-  { slug: "runbook",          order: 46, title: "Runbook · 維運手冊", stage: "operate", roles: ["devops"] },
+  { slug: "runbook",          order: 46, title: "Runbook · 維運手冊", stage: "operate", roles: ["devops"], essential: true },
   { slug: "incident-report",  order: 47, title: "Incident Report · 事故報告", stage: "operate", roles: ["devops"] },
-  { slug: "postmortem",       order: 48, title: "Postmortem · 事後回顧", stage: "operate", roles: ["devops"] },
+  { slug: "postmortem",       order: 48, title: "Postmortem · 事後回顧", stage: "operate", roles: ["devops"], essential: true },
   { slug: "observability-spec", order: 49, title: "Observability Spec · 可觀測規格", stage: "operate", roles: ["devops", "architect"] },
   { slug: "on-call-rotation", order: 50, title: "On-Call Rotation · 值班輪值", stage: "operate", roles: ["devops"] },
   { slug: "capacity-planning", order: 51, title: "Capacity Planning · 容量規劃", stage: "operate", roles: ["devops", "architect"] },

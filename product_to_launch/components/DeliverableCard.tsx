@@ -9,8 +9,13 @@ interface Props {
 
 export default function DeliverableCard({ d, hook }: Props) {
   const stage = STAGE_MAP[d.stage];
+  const cls = `card${d.essential ? " is-essential" : ""}`;
   return (
-    <Link href={`/deliverables/${d.slug}/`} className="card">
+    <Link
+      href={`/deliverables/${d.slug}/`}
+      className={cls}
+      aria-label={d.essential ? `${d.title}（最小必要集）` : undefined}
+    >
       <span className="num">{`#${pad(d.order)} · ${stage.titleEn.toUpperCase()}`}</span>
       <h3>{d.title}</h3>
       <p className="hook">{hook}</p>
