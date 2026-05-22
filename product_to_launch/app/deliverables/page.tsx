@@ -8,6 +8,10 @@ import { getAllDeliverables } from "@/lib/content";
 export const metadata: Metadata = {
   title: "54 個交付物 · Deliverables",
   description: "從 User Research 到 Postmortem — 每張卡，一個可帶走的決策工具。",
+  alternates: {
+    canonical: "/deliverables/",
+    languages: { "zh-Hant": "/deliverables/", "x-default": "/deliverables/" },
+  },
 };
 
 export default function DeliverablesIndexPage() {

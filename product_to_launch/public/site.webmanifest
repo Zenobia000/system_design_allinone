@@ -1,0 +1,15 @@
+{
+  "name": "落地圖鑑 · Launch Atlas",
+  "short_name": "Launch Atlas",
+  "description": "從一個假設，到一座可運維的系統",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f5f1e8",
+  "theme_color": "#0a0e14",
+  "lang": "zh-Hant",
+  "icons": [
+    { "src": "/icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "/apple-icon.png", "type": "image/png", "sizes": "180x180", "purpose": "any" }
+  ]
+}

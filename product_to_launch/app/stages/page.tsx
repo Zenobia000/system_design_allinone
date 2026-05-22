@@ -7,6 +7,10 @@ import { STAGES, deliverablesByStage } from "@/lib/taxonomy";
 export const metadata: Metadata = {
   title: "6 階段 · Stages",
   description: "Discovery → Define → Design → Build → Ship → Operate — 6 個階段，6 個必過的關。",
+  alternates: {
+    canonical: "/stages/",
+    languages: { "zh-Hant": "/stages/", "x-default": "/stages/" },
+  },
 };
 
 export default function StagesIndexPage() {

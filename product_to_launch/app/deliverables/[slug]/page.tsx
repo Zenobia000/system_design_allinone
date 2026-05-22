@@ -3,8 +3,15 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Rail from "@/components/Rail";
 import Footer from "@/components/Footer";
+import PromptActionsMounter from "@/components/PromptActionsMounter";
 import { DELIVERABLES, STAGE_MAP, ROLE_MAP, pad } from "@/lib/taxonomy";
 import { getDeliverable, renderMarkdown } from "@/lib/content";
+import {
+  absoluteUrl,
+  articleJsonLd,
+  breadcrumbJsonLd,
+  jsonLdScript,
+} from "@/lib/seo";
 
 export function generateStaticParams() {
   return DELIVERABLES.map((d) => ({ slug: d.slug }));
@@ -14,10 +21,36 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const d = getDeliverable(slug);
   if (!d) return {};
+  const path = `/deliverables/${slug}/`;
+  const ogImage = d.frontmatter.art ?? "/generated/og-card.webp";
+  const stage = STAGE_MAP[d.frontmatter.stage];
   return {
     title: d.frontmatter.title,
     description: d.frontmatter.hook,
-    openGraph: { images: [d.frontmatter.art ?? "/generated/og-card.png"] },
+    keywords: [
+      d.frontmatter.title,
+      stage?.titleEn,
+      ...(d.frontmatter.roles ?? []).map((r) => ROLE_MAP[r]?.title).filter(Boolean),
+      "落地圖鑑",
+      "Launch Atlas",
+    ].filter(Boolean) as string[],
+    alternates: {
+      canonical: path,
+      languages: { "zh-Hant": path, "x-default": path },
+    },
+    openGraph: {
+      type: "article",
+      title: d.frontmatter.title,
+      description: d.frontmatter.hook,
+      url: absoluteUrl(path),
+      images: [{ url: absoluteUrl(ogImage), width: 1280, height: 853, alt: d.frontmatter.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: d.frontmatter.title,
+      description: d.frontmatter.hook,
+      images: [absoluteUrl(ogImage)],
+    },
   };
 }
 
@@ -33,8 +66,27 @@ export default async function DeliverablePage({ params }: { params: Promise<{ sl
   const prev = idx > 0 ? DELIVERABLES[idx - 1] : null;
   const next = idx < DELIVERABLES.length - 1 ? DELIVERABLES[idx + 1] : null;
 
+  const path = `/deliverables/${slug}/`;
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Deliverables", path: "/deliverables/" },
+    { name: fm.title, path },
+  ]);
+  const article = articleJsonLd({
+    title: fm.title,
+    description: fm.hook,
+    path,
+    image: fm.art ?? "/generated/og-card.webp",
+    section: stage.titleEn,
+    keywords: [stage.titleEn, ...fm.roles.map((r) => ROLE_MAP[r]?.title).filter(Boolean) as string[]],
+  });
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript([breadcrumb, article]) }}
+      />
       <Rail active="deliverables" />
       <main>
         <section className="detail-hero">
@@ -54,7 +106,14 @@ export default async function DeliverablePage({ params }: { params: Promise<{ sl
             </div>
             {fm.art && (
               <div className="art">
-                <img src={fm.art} alt="" />
+                <img
+                  src={fm.art}
+                  alt={`${fm.title} · 卡片插圖`}
+                  width="1280"
+                  height="853"
+                  decoding="async"
+                  fetchPriority="high"
+                />
               </div>
             )}
           </div>
@@ -63,6 +122,7 @@ export default async function DeliverablePage({ params }: { params: Promise<{ sl
         <section className="detail-body">
           <div className="container">
             <article dangerouslySetInnerHTML={{ __html: html }} />
+            <PromptActionsMounter slug={slug} />
             <aside>
               {fm.when_to_use && (
                 <section>

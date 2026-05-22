@@ -1,32 +1,118 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_LOCALE,
+  SITE_LANG,
+  websiteJsonLd,
+  organizationJsonLd,
+  absoluteUrl,
+  jsonLdScript,
+} from "@/lib/seo";
 import "./globals.css";
 
+// Trim from 6 → 3 Google Font families. CJK relies on system fonts
+// (PingFang TC / Microsoft JhengHei / Noto Sans TC) declared in globals.css.
+const GOOGLE_FONTS_HREF =
+  "https://fonts.googleapis.com/css2" +
+  "?family=Instrument+Serif:ital@0;1" +
+  "&family=Geist:wght@300;400;500;600;700" +
+  "&family=JetBrains+Mono:wght@300;400;500;700" +
+  "&display=swap";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "落地圖鑑 · Launch Atlas — 從一個假設，到一座可運維的系統",
-    template: "%s · 落地圖鑑",
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s · ${SITE_NAME}`,
   },
   description:
     "9 個角色 · 54 個交付物 · 一張可走完的地圖。每張卡片只回答四件事：解決什麼、誰負責、何時用、AI 怎麼加速。",
   keywords: [
-    "產品開發", "SDLC", "系統設計", "PRD", "ADR", "Runbook", "SLO",
-    "AI 工作流", "Claude Code", "Product to Launch", "Launch Atlas",
+    "產品開發",
+    "SDLC",
+    "系統設計",
+    "PRD",
+    "ADR",
+    "Runbook",
+    "SLO",
+    "AI 工作流",
+    "Claude Code",
+    "Product to Launch",
+    "Launch Atlas",
   ],
-  authors: [{ name: "System Design All-in-One" }],
-  metadataBase: new URL("https://launch-atlas.local"),
+  authors: [{ name: "桑尼資料科學 Lab", url: "https://sunnydatascience.com/" }],
+  creator: "桑尼資料科學 Lab",
+  publisher: "桑尼資料科學 Lab",
+  alternates: {
+    canonical: "/",
+    languages: {
+      "zh-Hant": "/",
+      "x-default": "/",
+    },
+  },
   openGraph: {
-    title: "落地圖鑑 · Launch Atlas",
-    description: "從一個假設，到一座可運維的系統。9 角色 · 50+ 交付物 · 一張可走完的地圖。",
+    title: SITE_NAME,
+    description: `${SITE_TAGLINE}。9 角色 · 54 交付物 · 一張可走完的地圖。`,
     type: "website",
-    locale: "zh_TW",
+    locale: SITE_LOCALE,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    images: [
+      {
+        url: absoluteUrl("/generated/og-card.webp"),
+        width: 1280,
+        height: 853,
+        alt: "Launch Atlas — 從一個假設，到一座可運維的系統",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "落地圖鑑 · Launch Atlas",
-    description: "從一個假設，到一座可運維的系統。",
+    title: SITE_NAME,
+    description: SITE_TAGLINE,
+    images: [absoluteUrl("/generated/og-card.webp")],
   },
-  icons: { icon: "/logo/logo-main.png" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  manifest: "/site.webmanifest",
 };
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f1e8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0e14" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+};
+
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  "connect-src 'self'",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join("; ");
 
 export default function RootLayout({
   children,
@@ -34,17 +120,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-Hant" data-scroll-behavior="smooth">
+    <html lang={SITE_LANG} data-scroll-behavior="smooth">
       <head>
+        <meta httpEquiv="Content-Security-Policy" content={csp} />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+        <meta name="format-detection" content="telephone=no" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;700&display=swap"
-          rel="stylesheet"
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href={GOOGLE_FONTS_HREF} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: jsonLdScript([websiteJsonLd(), organizationJsonLd()]),
+          }}
         />
       </head>
       <body suppressHydrationWarning>{children}</body>

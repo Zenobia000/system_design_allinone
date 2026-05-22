@@ -5,6 +5,10 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "About · 關於落地圖鑑",
   description: "為架構工作打造的決策手冊。由桑尼資料科學 Lab 整理發行 — 九個角色、六道 SDLC 閘門、五十四項交付物。",
+  alternates: {
+    canonical: "/about/",
+    languages: { "zh-Hant": "/about/", "x-default": "/about/" },
+  },
 };
 
 export default function AboutPage() {

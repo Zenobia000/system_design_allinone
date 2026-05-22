@@ -7,6 +7,12 @@ import DeliverableCard from "@/components/DeliverableCard";
 import { STAGES, STAGE_MAP, deliverablesByStage } from "@/lib/taxonomy";
 import type { StageSlug } from "@/lib/taxonomy";
 import { getStage, getAllDeliverables, renderMarkdown } from "@/lib/content";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  collectionPageJsonLd,
+  jsonLdScript,
+} from "@/lib/seo";
 
 export function generateStaticParams() {
   return STAGES.map((s) => ({ slug: s.slug }));
@@ -16,10 +22,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const stage = getStage(slug as StageSlug);
   if (!stage) return {};
+  const path = `/stages/${slug}/`;
+  const ogImage = stage.frontmatter.art ?? "/generated/og-card.webp";
+  const title = `${stage.frontmatter.title} · ${stage.frontmatter.title_en}`;
   return {
-    title: `${stage.frontmatter.title} · ${stage.frontmatter.title_en}`,
+    title,
     description: stage.frontmatter.hook,
-    openGraph: { images: [stage.frontmatter.art ?? "/generated/og-card.png"] },
+    alternates: {
+      canonical: path,
+      languages: { "zh-Hant": path, "x-default": path },
+    },
+    openGraph: {
+      type: "article",
+      title,
+      description: stage.frontmatter.hook,
+      url: absoluteUrl(path),
+      images: [{ url: absoluteUrl(ogImage), width: 1280, height: 853, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: stage.frontmatter.hook,
+      images: [absoluteUrl(ogImage)],
+    },
   };
 }
 
@@ -34,8 +59,26 @@ export default async function StagePage({ params }: { params: Promise<{ slug: st
   const hookMap = new Map(allDeliv.map((d) => [d.frontmatter.slug, d.frontmatter.hook]));
   const html = renderMarkdown(stage.body);
 
+  const path = `/stages/${slug}/`;
+  const title = `${stage.frontmatter.title} · ${stage.frontmatter.title_en}`;
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Stages", path: "/stages/" },
+    { name: stage.frontmatter.title, path },
+  ]);
+  const collection = collectionPageJsonLd({
+    title,
+    description: stage.frontmatter.hook,
+    path,
+    count: dlist.length,
+  });
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript([breadcrumb, collection]) }}
+      />
       <Rail active="stages" />
       <main>
         <section className="detail-hero">
@@ -54,7 +97,14 @@ export default async function StagePage({ params }: { params: Promise<{ slug: st
             </div>
             {stage.frontmatter.art && (
               <div className="art">
-                <img src={stage.frontmatter.art} alt="" />
+                <img
+                  src={stage.frontmatter.art}
+                  alt={`${stage.frontmatter.title} · 階段插圖`}
+                  width="1280"
+                  height="853"
+                  decoding="async"
+                  fetchPriority="high"
+                />
               </div>
             )}
           </div>

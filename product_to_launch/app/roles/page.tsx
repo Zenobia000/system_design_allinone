@@ -6,6 +6,10 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "10 角色 · Roles",
   description: "從 PM 到 SRE，10 個角色，每個都解決一種特定的不確定性。",
+  alternates: {
+    canonical: "/roles/",
+    languages: { "zh-Hant": "/roles/", "x-default": "/roles/" },
+  },
 };
 
 export default function RolesIndexPage() {

@@ -6,6 +6,12 @@ import Footer from "@/components/Footer";
 import { ROLES, ROLE_MAP, STAGE_MAP, DELIVERABLES, deliverablesByRole } from "@/lib/taxonomy";
 import type { RoleSlug } from "@/lib/taxonomy";
 import { getRole, getAllDeliverables, renderMarkdown } from "@/lib/content";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  collectionPageJsonLd,
+  jsonLdScript,
+} from "@/lib/seo";
 
 export function generateStaticParams() {
   return ROLES.map((r) => ({ slug: r.slug }));
@@ -15,10 +21,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const role = getRole(slug as RoleSlug);
   if (!role) return {};
+  const path = `/roles/${slug}/`;
+  const ogImage = role.frontmatter.art ?? "/generated/og-card.webp";
+  const title = `${role.frontmatter.title} · ${role.frontmatter.title_en}`;
   return {
-    title: `${role.frontmatter.title} · ${role.frontmatter.title_en}`,
+    title,
     description: role.frontmatter.hook,
-    openGraph: { images: [role.frontmatter.art ?? "/generated/og-card.png"] },
+    alternates: {
+      canonical: path,
+      languages: { "zh-Hant": path, "x-default": path },
+    },
+    openGraph: {
+      type: "profile",
+      title,
+      description: role.frontmatter.hook,
+      url: absoluteUrl(path),
+      images: [{ url: absoluteUrl(ogImage), width: 1280, height: 853, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: role.frontmatter.hook,
+      images: [absoluteUrl(ogImage)],
+    },
   };
 }
 
@@ -33,8 +58,26 @@ export default async function RolePage({ params }: { params: Promise<{ slug: str
   const hookMap = new Map(allDeliv.map((d) => [d.frontmatter.slug, d.frontmatter.hook]));
   const html = renderMarkdown(role.body);
 
+  const path = `/roles/${slug}/`;
+  const title = `${role.frontmatter.title} · ${role.frontmatter.title_en}`;
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Roles", path: "/roles/" },
+    { name: role.frontmatter.title, path },
+  ]);
+  const collection = collectionPageJsonLd({
+    title,
+    description: role.frontmatter.hook,
+    path,
+    count: rec.length,
+  });
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript([breadcrumb, collection]) }}
+      />
       <Rail active="roles" />
       <main>
         <section className="detail-hero">
@@ -54,7 +97,14 @@ export default async function RolePage({ params }: { params: Promise<{ slug: str
             </div>
             {role.frontmatter.art && (
               <div className="art">
-                <img src={role.frontmatter.art} alt="" />
+                <img
+                  src={role.frontmatter.art}
+                  alt={`${role.frontmatter.title} · 角色卡插圖`}
+                  width="1280"
+                  height="853"
+                  decoding="async"
+                  fetchPriority="high"
+                />
               </div>
             )}
           </div>
