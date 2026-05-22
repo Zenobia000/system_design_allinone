@@ -7,7 +7,7 @@ order: 4
 hook: "看到使用者在哪一步真正卡住"
 when_to_use: "conversion funnel 多步驟、跨通路體驗、需要找優化點時"
 ai_leverage: "用 Claude 把客服紀錄 + 訪談 → journey 草圖與 pain point 標註"
-art: "/generated/stage-discovery.png"
+art: "/generated/stage-discovery.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

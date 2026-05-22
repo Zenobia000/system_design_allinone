@@ -7,7 +7,7 @@ order: 7
 hook: "全團隊只盯一個數字，避免局部最佳化"
 when_to_use: "團隊 ≥ 10 人、跨 squad 協作、KPI 多到互相打架時"
 ai_leverage: "用 Claude 從商業模式反推候選北極星 + counter-metric"
-art: "/generated/stage-discovery.png"
+art: "/generated/stage-discovery.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

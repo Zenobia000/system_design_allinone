@@ -7,7 +7,7 @@ order: 16
 hook: "把「都很重要」打回現實"
 when_to_use: "Backlog ≥ 30 item、sprint planning 爭執不下時"
 ai_leverage: "用 Claude 評估 RICE/Value-Effort + 提供 ranked backlog"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

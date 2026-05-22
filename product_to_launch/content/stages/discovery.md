@@ -6,7 +6,7 @@ num: "01"
 hook: "驗證問題是否真的存在"
 exit_criteria: "問題、目標用戶、成功指標、out-of-scope 可被 stakeholder 複述"
 typical_stuck: "把臆想當成問題、KPI 不可量測、stakeholder 目標互斥"
-art: "/generated/stage-discovery.png"
+art: "/generated/stage-discovery.webp"
 source: "software_develop_journey/process_map/index.html §discovery"
 ---
 

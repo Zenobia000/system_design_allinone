@@ -7,7 +7,7 @@ order: 18
 hook: "在花錢做精緻 UI 前先驗證 layout 與流程"
 when_to_use: "新功能首版、複雜表單、跨平台一致性對齊時"
 ai_leverage: "用 Claude 從 user flow + IA → 低保真 wireframe 草圖描述"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

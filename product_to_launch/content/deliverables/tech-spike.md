@@ -7,7 +7,7 @@ order: 28
 hook: "用最小成本買回最大不確定性"
 when_to_use: "有技術假設無法靠紙上分析證實，且決策延後比做錯更貴時"
 ai_leverage: "用 Claude 收斂候選方案到 2-3 個 + 列出對應實驗變數"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "software_architect/ppt/05-ilities, deep-research-report.md §Architecture Design"
 ---
 

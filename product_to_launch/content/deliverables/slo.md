@@ -7,7 +7,7 @@ order: 44
 hook: "把『可用性』從感覺變成可量化的合約"
 when_to_use: "服務有 ≥ 1 個外部 user 依賴、且需要對齊維運優先級時"
 ai_leverage: "用 Claude 把使用者抱怨 → SLI candidates，再人工選 SLO 閾值"
-art: "/generated/key-deliverable-slo.png"
+art: "/generated/key-deliverable-slo.webp"
 source: "software_architect/ppt/02-requirements-sla, Google SRE"
 ---
 

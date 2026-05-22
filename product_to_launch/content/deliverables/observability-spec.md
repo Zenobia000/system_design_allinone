@@ -7,7 +7,7 @@ order: 49
 hook: "上線前先決定『出事時要看什麼』"
 when_to_use: "新服務、新模組、或現有服務告警靠人腦補時"
 ai_leverage: "用 Claude 從 SLO 與系統圖反推所需 metric/log/trace"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "software_architect/ppt/05-ilities §Observability, Google SRE"
 ---
 

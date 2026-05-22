@@ -7,7 +7,7 @@ order: 38
 hook: "讓『可發布』從人工判斷變成 pipeline 證據"
 when_to_use: "團隊 ≥ 2 人或變更頻率高於每週一次時"
 ai_leverage: "用 Claude 從現有 pipeline yaml 找出冗餘 stage 與安全 gap"
-art: "/generated/stage-ship.png"
+art: "/generated/stage-ship.webp"
 source: "deep-research-report.md §Implementation, DORA, NIST SSDF"
 ---
 

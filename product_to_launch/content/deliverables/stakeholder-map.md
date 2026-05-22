@@ -7,7 +7,7 @@ order: 15
 hook: "把「誰該知道、誰能決策、誰會擋」一張圖看完"
 when_to_use: "跨部門新功能、合規/稽核專案、敏感資料變更時"
 ai_leverage: "用 Claude 從組織架構 + 專案 scope → stakeholder 分類與溝通節奏"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+// Compress source PNGs in originals/generated/ to WebP at display-relevant
+// widths, writing to public/generated/. Source PNGs stay out of the
+// production deploy. Target: <100KB WebP at 1280w.
+
+import fs from "node:fs";
+import path from "node:path";
+import sharp from "sharp";
+
+const SRC = "originals/generated";
+const DST = "public/generated";
+const TARGET_WIDTH = 1280;
+const QUALITY = 80;
+
+if (!fs.existsSync(SRC)) {
+  console.error(`[optimize-images] source directory missing: ${SRC}`);
+  process.exit(1);
+}
+fs.mkdirSync(DST, { recursive: true });
+
+const files = fs.readdirSync(SRC).filter((f) => f.endsWith(".png"));
+let beforeTotal = 0;
+let afterTotal = 0;
+
+for (const f of files) {
+  const inPath = path.join(SRC, f);
+  const outPath = path.join(DST, f.replace(/\.png$/, ".webp"));
+  const before = fs.statSync(inPath).size;
+  await sharp(inPath)
+    .resize({ width: TARGET_WIDTH, withoutEnlargement: true })
+    .webp({ quality: QUALITY, effort: 5 })
+    .toFile(outPath);
+  const after = fs.statSync(outPath).size;
+  beforeTotal += before;
+  afterTotal += after;
+  console.log(
+    `${(before / 1024).toFixed(0).padStart(5)}KB → ${(after / 1024).toFixed(0).padStart(4)}KB  ${f.replace(/\.png$/, ".webp")}`
+  );
+}
+
+const savedMB = ((beforeTotal - afterTotal) / 1024 / 1024).toFixed(1);
+const ratio = ((1 - afterTotal / beforeTotal) * 100).toFixed(1);
+console.log(`\nTotal: ${(beforeTotal / 1024 / 1024).toFixed(1)}MB → ${(afterTotal / 1024 / 1024).toFixed(1)}MB  (-${savedMB}MB, -${ratio}%)`);

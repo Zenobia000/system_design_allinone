@@ -7,7 +7,7 @@ order: 19
 hook: "在寫程式前用最低成本驗證互動"
 when_to_use: "高風險互動、新手勢/動畫、stakeholder 簽核前"
 ai_leverage: "用 Claude 從 wireframe → 互動腳本 + 可用性測試題目"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

@@ -7,7 +7,7 @@ order: 2
 hook: "把功能慾望翻成使用者真正想完成的任務"
 when_to_use: "團隊在爭論「要做哪個功能」而非「使用者要解什麼問題」時"
 ai_leverage: "用 Claude 把 persona + scenario 反推 JTBD statement"
-art: "/generated/stage-discovery.png"
+art: "/generated/stage-discovery.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

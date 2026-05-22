@@ -6,7 +6,7 @@ num: "05"
 hook: "讓代碼安全地走向使用者"
 exit_criteria: "evidence-based go/no-go、可觀測、可回滾、runbook ready"
 typical_stuck: "test 環境不像 production、exit criteria 不清、canary 沒監控"
-art: "/generated/stage-ship.png"
+art: "/generated/stage-ship.webp"
 source: "software_develop_journey/process_map/index.html §ship"
 ---
 

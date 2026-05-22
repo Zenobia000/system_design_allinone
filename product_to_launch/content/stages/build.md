@@ -6,7 +6,7 @@ num: "04"
 hook: "把藍圖變成跑得起來的代碼"
 exit_criteria: "CI 綠燈、DoD 滿足、可部署、test ready"
 typical_stuck: "code 完成但不可部署、缺 feature flag、telemetry 沒埋、'我 local 沒 bug'"
-art: "/generated/stage-build.png"
+art: "/generated/stage-build.webp"
 source: "software_develop_journey/process_map/index.html §build"
 ---
 

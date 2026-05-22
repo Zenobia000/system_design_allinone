@@ -7,7 +7,7 @@ order: 51
 hook: "在洪峰來臨前先把『撐不撐得住』算清楚"
 when_to_use: "預期流量成長、季節性活動、或硬體/雲端預算規劃時"
 ai_leverage: "用 Claude 從歷史 metric 推導成長曲線與 headroom"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "Google SRE Workbook, AWS Builders' Library"
 ---
 

@@ -7,7 +7,7 @@ order: 47
 hook: "事故當下的事實流水帳，不是檢討會"
 when_to_use: "達 SEV-1/2 等級或對外可見的服務劣化"
 ai_leverage: "用 Claude 從 chatops log 抽 timeline 與 action 摘要"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "deep-research-report.md §Operation, Google SRE"
 ---
 

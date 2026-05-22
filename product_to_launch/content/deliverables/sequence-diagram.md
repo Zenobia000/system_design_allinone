@@ -7,7 +7,7 @@ order: 27
 hook: "把跨服務互動的順序、失敗、回滾畫清楚"
 when_to_use: "跨 ≥ 3 服務互動、有異步事件、有重試/補償邏輯時"
 ai_leverage: "用 Claude 從 API spec + use case → Mermaid sequence diagram"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §開發生命週期 / §三個實務場景"
 ---
 

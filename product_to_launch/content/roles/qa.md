@@ -7,7 +7,7 @@ hook: "用證據說服團隊敢不敢上線"
 hires_for: "在上線前找到 Dev 沒想到的失敗模式"
 fired_when: "只跑既定 test case、不主動探索 risk"
 ai_leverage: "用 Claude 從 PRD 生 test case 矩陣、生 edge case 假設"
-art: "/generated/role-hero-qa.png"
+art: "/generated/role-hero-qa.webp"
 source: "deep-research-report.md §QA"
 ---
 

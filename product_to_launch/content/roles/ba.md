@@ -7,7 +7,7 @@ hook: "搞清楚現況流程、stakeholder、規則"
 hires_for: "把不同部門互相矛盾的口頭規則變成有 ID 的規則表"
 fired_when: "只記錄 happy path、忽略例外與責任歸屬"
 ai_leverage: "把訪談逐字稿 → Claude 提取 business rules、標出衝突"
-art: "/generated/role-hero-ba.png"
+art: "/generated/role-hero-ba.webp"
 source: "deep-research-report.md §BA"
 ---
 

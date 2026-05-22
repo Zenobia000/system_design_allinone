@@ -7,7 +7,7 @@ order: 42
 hook: "用使用者語言確認『這真的是我們要的』"
 when_to_use: "需求由外部使用者或業務單位定義，且接受度有爭議時"
 ai_leverage: "用 Claude 把 PRD 翻成使用者腳本與情境步驟"
-art: "/generated/stage-ship.png"
+art: "/generated/stage-ship.webp"
 source: "deep-research-report.md §Verification"
 ---
 

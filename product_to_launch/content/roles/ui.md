@@ -7,7 +7,7 @@ hook: "把流程變成可交付的視覺規格"
 hires_for: "讓 FE/Mobile 不用猜 spacing、token、state"
 fired_when: "只交圖檔、不交 design token 與 state spec"
 ai_leverage: "用 Claude/Cursor 把 Figma component 同步成 code"
-art: "/generated/role-hero-ui.png"
+art: "/generated/role-hero-ui.webp"
 source: "deep-research-report.md §UI"
 ---
 

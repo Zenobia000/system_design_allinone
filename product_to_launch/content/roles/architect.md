@@ -7,7 +7,7 @@ hook: "決定系統未來會不會死"
 hires_for: "在動工前消除演進與非功能風險（可靠性、安全、可運維）"
 fired_when: "把 ADR 寫滿、但實際決策都靠口頭、誰問都答得不一樣"
 ai_leverage: "用 Claude 把 NFR 與選項分析整理成 ADR draft、列出 trade-off"
-art: "/generated/role-hero-architect.png"
+art: "/generated/role-hero-architect.webp"
 source: "deep-research-report.md §Architect"
 ---
 

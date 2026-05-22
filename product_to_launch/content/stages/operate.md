@@ -6,7 +6,7 @@ num: "06"
 hook: "讓系統在凌晨三點還活著"
 exit_criteria: "SLO 達成、error budget 不超支、incident 有 postmortem 與 action item"
 typical_stuck: "alert 設滿沒人看、postmortem 變甩鍋大會、issue 不回寫 backlog"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "software_develop_journey/process_map/index.html §operate"
 ---
 

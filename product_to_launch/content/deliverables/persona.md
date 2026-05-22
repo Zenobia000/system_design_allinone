@@ -7,7 +7,7 @@ order: 3
 hook: "讓團隊在爭論時有共同的「他」"
 when_to_use: "團隊規模 ≥ 5 人、需要跨職能共識「我們在為誰做」時"
 ai_leverage: "用 Claude 把訪談資料聚類成 3-5 個 persona 草稿"
-art: "/generated/stage-discovery.png"
+art: "/generated/stage-discovery.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

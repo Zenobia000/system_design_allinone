@@ -7,7 +7,7 @@ order: 52
 hook: "讓雲端帳單變成可歸因、可預警的指標"
 when_to_use: "雲端帳單 ≥ 月度預算門檻、或多團隊共用基礎設施"
 ai_leverage: "用 Claude 從帳單明細抽異常 spike 與歸因建議"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "AWS Builders' Library, FinOps Foundation"
 ---
 

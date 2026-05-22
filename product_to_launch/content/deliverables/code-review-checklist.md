@@ -7,7 +7,7 @@ order: 33
 hook: "把 review 從個人品味變成可重現流程"
 when_to_use: "review 品質依賴特定資深人員、或新人 onboarding 多時"
 ai_leverage: "用 Claude 跑 first-pass，人類專注 trade-off 與邊界情況"
-art: "/generated/stage-build.png"
+art: "/generated/stage-build.webp"
 source: "software_architect/ppt/05-ilities §Maintainability"
 ---
 

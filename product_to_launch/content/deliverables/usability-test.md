@@ -7,7 +7,7 @@ order: 22
 hook: "上線前抓出「使用者真的會卡」的點"
 when_to_use: "新功能首版、改版重大互動、高風險 flow 簽核前"
 ai_leverage: "用 Claude 把測試錄影逐字稿 → finding 報告 + 優先級"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

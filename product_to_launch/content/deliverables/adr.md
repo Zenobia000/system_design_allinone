@@ -7,7 +7,7 @@ order: 23
 hook: "把「為什麼這樣選」寫下來，半年後不用考古"
 when_to_use: "跨服務影響、不可逆決策、有 ≥ 2 個合理選項時"
 ai_leverage: "用 Claude 從技術討論紀錄 → ADR 草稿（option / trade-off / consequence）"
-art: "/generated/key-deliverable-adr.png"
+art: "/generated/key-deliverable-adr.webp"
 source: "deep-research-report.md §可複製範本 / §關鍵決策節點"
 ---
 

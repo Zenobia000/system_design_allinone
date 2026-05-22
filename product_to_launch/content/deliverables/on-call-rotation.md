@@ -7,7 +7,7 @@ order: 50
 hook: "讓『誰接電話』有制度，不靠英雄主義"
 when_to_use: "服務有外部使用者、需要 24x7 或業務時段覆蓋時"
 ai_leverage: "用 Claude 統計告警分佈，反推合理輪值密度"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "Google SRE, PagerDuty incident response guide"
 ---
 

@@ -7,7 +7,7 @@ order: 8
 hook: "把模糊需求變可執行規格"
 when_to_use: "團隊 ≥ 3 人、跨職能新功能、需求穩定度 < 60% 時必要"
 ai_leverage: "用 Claude 把訪談 + JTBD + journey → PRD draft，人工審 trade-off"
-art: "/generated/key-deliverable-prd.png"
+art: "/generated/key-deliverable-prd.webp"
 source: "deep-research-report.md §產品與需求相關角色 / §可複製範本"
 ---
 

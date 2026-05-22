@@ -7,7 +7,7 @@ order: 12
 hook: "讓「做完了」這句話有客觀證據"
 when_to_use: "每個 user story 進 sprint 前必備"
 ai_leverage: "用 Claude 從 user story → Given/When/Then 驗收 + edge case"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "deep-research-report.md §產品與需求相關角色 / §SOP與檢核表"
 ---
 

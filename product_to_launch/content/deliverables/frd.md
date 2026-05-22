@@ -7,7 +7,7 @@ order: 14
 hook: "把 PRD 的 what 拆解成每個功能的精細規格"
 when_to_use: "PRD 範圍大、含 ≥ 5 個獨立功能、需向工程精準交付時"
 ai_leverage: "用 Claude 把 PRD section → FRD 功能表 + 規則樹"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

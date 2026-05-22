@@ -7,7 +7,7 @@ order: 5
 hook: "找出對手做了什麼、沒做什麼、為什麼"
 when_to_use: "進入新市場、評估差異化定位、stakeholder 質疑「為何要做」時"
 ai_leverage: "用 Claude 同時分析多家對手 landing page + pricing + review"
-art: "/generated/stage-discovery.png"
+art: "/generated/stage-discovery.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

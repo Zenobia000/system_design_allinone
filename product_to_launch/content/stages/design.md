@@ -6,7 +6,7 @@ num: "03"
 hook: "把規格變成可建造的藍圖"
 exit_criteria: "NFR 確認、ADR 寫定、API contract freeze、DB schema freeze"
 typical_stuck: "UX 等架構、架構等 UX；API 還沒 freeze 就讓人開做"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "software_develop_journey/process_map/index.html §design"
 ---
 

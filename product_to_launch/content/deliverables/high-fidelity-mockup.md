@@ -7,7 +7,7 @@ order: 21
 hook: "讓工程師能像素級實作、不靠猜"
 when_to_use: "Wireframe + flow 已凍結、進入 dev handoff 前"
 ai_leverage: "用 Claude 從 wireframe + design system → component-by-component spec"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

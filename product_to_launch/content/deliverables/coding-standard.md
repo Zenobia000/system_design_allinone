@@ -7,7 +7,7 @@ order: 31
 hook: "把 review 時的口水戰提前壓縮成 linter 設定"
 when_to_use: "團隊 ≥ 3 人或新語言/新框架導入時"
 ai_leverage: "用 Claude 對範例 PR 抽出實際違規模式，補進規範"
-art: "/generated/stage-build.png"
+art: "/generated/stage-build.webp"
 source: "software_architect/ppt/05-ilities §Maintainability"
 ---
 

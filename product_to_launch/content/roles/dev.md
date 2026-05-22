@@ -7,7 +7,7 @@ hook: "把藍圖變成跑得起來的代碼"
 hires_for: "在 spec 與真實使用者之間做最後一次反饋"
 fired_when: "把 'spec 沒寫' 當作不做的理由、不主動補洞"
 ai_leverage: "Claude Code / Cursor 寫 boilerplate、補測試、refactor"
-art: "/generated/role-hero-dev.png"
+art: "/generated/role-hero-dev.webp"
 source: "deep-research-report.md §FE/BE/Mobile"
 ---
 

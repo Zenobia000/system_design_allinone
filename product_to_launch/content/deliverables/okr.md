@@ -7,7 +7,7 @@ order: 9
 hook: "把產品方向翻成可衡量的季度承諾"
 when_to_use: "季度規劃、跨團隊對齊、需要在多個 backlog item 間排優先序時"
 ai_leverage: "用 Claude 從北極星指標反推可量化 Key Result"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

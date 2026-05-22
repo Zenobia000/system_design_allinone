@@ -7,7 +7,7 @@ order: 39
 hook: "把上線從『按 deploy』變成有對齊、有證據、有退路"
 when_to_use: "release 涉及 schema、外部承諾、跨團隊或灰度時"
 ai_leverage: "用 Claude 從 PR 清單生成 release notes + 風險清單"
-art: "/generated/stage-ship.png"
+art: "/generated/stage-ship.webp"
 source: "deep-research-report.md §Delivery Planning, §Deployment"
 ---
 

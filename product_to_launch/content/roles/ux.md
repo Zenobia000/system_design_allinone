@@ -7,7 +7,7 @@ hook: "讓使用者真的能完成任務"
 hires_for: "在動工前就驗證使用者卡在哪、為什麼卡"
 fired_when: "只畫 happy path、不畫 error/empty/loading"
 ai_leverage: "用 Claude 從 usability test 錄影摘要痛點、生 task flow 草稿"
-art: "/generated/role-hero-ux.png"
+art: "/generated/role-hero-ux.webp"
 source: "deep-research-report.md §UX"
 ---
 

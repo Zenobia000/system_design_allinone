@@ -7,7 +7,7 @@ order: 37
 hook: "把『部署』與『發布』拆開"
 when_to_use: "需要灰度、AB、kill switch、或 trunk-based 高頻部署時"
 ai_leverage: "用 Claude 掃 code 找出該被 flag 包起來的高風險變更"
-art: "/generated/stage-build.png"
+art: "/generated/stage-build.webp"
 source: "deep-research-report.md §Implementation, §Deployment, Netflix canary"
 ---
 

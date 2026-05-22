@@ -7,7 +7,7 @@ order: 53
 hook: "把『下架』從口頭承諾變成可追蹤遷移"
 when_to_use: "舊 API、舊 endpoint、舊 schema 仍有使用但需退場時"
 ai_leverage: "用 Claude 從存取日誌找出殘留依賴與聯絡人"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "deep-research-report.md §Architecture, GitLab deprecation policy"
 ---
 

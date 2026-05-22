@@ -7,7 +7,7 @@ order: 41
 hook: "讓上線變成可觀測的實驗，而不是一次性押注"
 when_to_use: "blast radius 大、SLO 緊、或新邏輯需真實流量驗證時"
 ai_leverage: "用 Claude 從 SLO 推導 canary 階段門檻"
-art: "/generated/stage-ship.png"
+art: "/generated/stage-ship.webp"
 source: "deep-research-report.md §Deployment, Netflix canary"
 ---
 

@@ -7,7 +7,7 @@ order: 35
 hook: "確認『各自能跑』之後『接起來還能跑』"
 when_to_use: "跨模組、跨服務、跨外部系統的契約需要被驗證時"
 ai_leverage: "用 Claude 從 API contract 生成 happy + unhappy 路徑"
-art: "/generated/stage-build.png"
+art: "/generated/stage-build.webp"
 source: "deep-research-report.md §Verification"
 ---
 

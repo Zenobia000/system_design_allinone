@@ -7,7 +7,7 @@ hook: "把需求翻成系統規格、補規則的縫隙"
 hires_for: "讓 Dev 不用猜 if/else、QA 不用猜驗收條件"
 fired_when: "只寫主流程、不寫 state machine 與例外"
 ai_leverage: "把 PRD + 訪談 → Claude 生 use case 與 state diagram 草稿"
-art: "/generated/role-hero-sa.png"
+art: "/generated/role-hero-sa.webp"
 source: "deep-research-report.md §SA"
 ---
 

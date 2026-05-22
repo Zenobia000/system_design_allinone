@@ -7,7 +7,7 @@ order: 46
 hook: "凌晨三點被 page 的人能照做不用思考"
 when_to_use: "任何已知告警、已知異常、或新服務上線前"
 ai_leverage: "用 Claude 從 postmortem 與告警規則生成 runbook 草稿"
-art: "/generated/key-deliverable-runbook.png"
+art: "/generated/key-deliverable-runbook.webp"
 source: "deep-research-report.md §Operation, Google SRE"
 ---
 

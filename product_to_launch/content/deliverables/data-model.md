@@ -7,7 +7,7 @@ order: 26
 hook: "把資料關係講清楚，避免半年後查不出真相"
 when_to_use: "新 entity、跨系統資料整合、合規/稽核產業時"
 ai_leverage: "用 Claude 從 SRS + business rules → ERD + DDL 草稿"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

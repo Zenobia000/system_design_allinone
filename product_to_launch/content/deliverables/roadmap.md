@@ -7,7 +7,7 @@ order: 10
 hook: "讓 stakeholder 看到「未來三季要解什麼問題」而非「哪天上 feature」"
 when_to_use: "跨季規劃、stakeholder 對齊、招募與資源預估時"
 ai_leverage: "用 Claude 把 backlog + OKR + 依賴 → outcome-based roadmap"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

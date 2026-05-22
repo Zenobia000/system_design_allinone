@@ -6,7 +6,7 @@ num: "02"
 hook: "把模糊需求變可執行規格"
 exit_criteria: "PRD 簽核、優先級鎖定、business rules 有 ID、SRS draft 通過"
 typical_stuck: "需求一直變、stakeholder 互相打架、沒人能說最後一句話"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "software_develop_journey/process_map/index.html §define"
 ---
 

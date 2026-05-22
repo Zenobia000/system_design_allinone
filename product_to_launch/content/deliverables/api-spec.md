@@ -7,7 +7,7 @@ order: 25
 hook: "Freeze 契約，讓 FE/BE/QA 可平行開發"
 when_to_use: "跨團隊整合、FE/BE 並行開發、對外開放 API 時"
 ai_leverage: "用 Claude 從 SRS / user story → OpenAPI 3.1 spec draft"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §可複製範本 / §Freeze 與 readiness"
 ---
 

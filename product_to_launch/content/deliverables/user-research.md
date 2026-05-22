@@ -7,7 +7,7 @@ order: 1
 hook: "用真實證據打掉腦補假設"
 when_to_use: "新題目啟動、conversion 異常、KPI 停滯時必要"
 ai_leverage: "用 Claude 把訪談錄音逐字稿 → 萃取 pain point 與 quote 庫"
-art: "/generated/stage-discovery.png"
+art: "/generated/stage-discovery.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

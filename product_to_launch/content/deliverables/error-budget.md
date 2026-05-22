@@ -7,7 +7,7 @@ order: 45
 hook: "把『要不要繼續發新功能』變成可計算的決策"
 when_to_use: "SLO 已定義、且團隊需要在新功能 vs 穩定性間做取捨時"
 ai_leverage: "用 Claude 從 SLI 時序資料算出剩餘 budget 與燃燒率"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "Google SRE Workbook, deep-research-report.md §SRE"
 ---
 

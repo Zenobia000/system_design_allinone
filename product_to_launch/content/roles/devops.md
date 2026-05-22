@@ -7,7 +7,7 @@ hook: "讓系統在凌晨三點還活著"
 hires_for: "把可重複部署、可觀測、可回滾從口號變成 pipeline"
 fired_when: "把 alert 設滿、但沒人看、半夜爆炸還是靠運氣"
 ai_leverage: "用 Claude 從 incident timeline 生 postmortem draft、補 runbook"
-art: "/generated/role-hero-devops.png"
+art: "/generated/role-hero-devops.webp"
 source: "deep-research-report.md §DevOps/SRE"
 ---
 

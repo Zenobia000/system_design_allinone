@@ -7,7 +7,7 @@ order: 13
 hook: "把業務需求翻成系統可實作的規格"
 when_to_use: "跨系統整合、合規/稽核產業、需 RFP 對外發包時"
 ai_leverage: "用 Claude 把 PRD + business rules → use case + 規則表"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

@@ -7,7 +7,7 @@ hook: "下一個 sprint 要做哪個、為什麼"
 hires_for: "讓 backlog 有單一 accountable owner、避免委員會決策"
 fired_when: "把所有 stakeholder 的訴求都丟進 backlog、不排序"
 ai_leverage: "用 Claude 把 user story 自動補 acceptance criteria 初稿"
-art: "/generated/role-hero-po.png"
+art: "/generated/role-hero-po.webp"
 source: "deep-research-report.md §Product Owner"
 ---
 

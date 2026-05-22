@@ -7,7 +7,7 @@ order: 48
 hook: "把『誰的錯』改寫成『系統的哪個缺口』"
 when_to_use: "任何 SEV-1/2 事故、或重複出現的 SEV-3"
 ai_leverage: "用 Claude 從 incident report 推系統性根因與改善候選"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "deep-research-report.md §Operation, Google SRE blameless postmortem"
 ---
 

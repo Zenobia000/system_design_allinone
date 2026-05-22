@@ -7,7 +7,7 @@ hook: "決定要解決哪個問題、不解決哪個"
 hires_for: "把使用者模糊的不滿，翻譯成團隊能執行的優先級"
 fired_when: "把所有需求都當成同等重要、不會說不"
 ai_leverage: "把訪談錄音 → Claude 萃取 JTBD、用 prompt 排優先級的初稿"
-art: "/generated/role-hero-pm.png"
+art: "/generated/role-hero-pm.webp"
 source: "deep-research-report.md §產品經理"
 ---
 

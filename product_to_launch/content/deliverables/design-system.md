@@ -7,7 +7,7 @@ order: 20
 hook: "讓全產品視覺一致、開發不重造輪子"
 when_to_use: "產品 ≥ 5 個主要 screen、跨平台、多設計師協作時"
 ai_leverage: "用 Claude 從現有 mockup → token 萃取 + component spec"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

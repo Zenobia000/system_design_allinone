@@ -7,7 +7,7 @@ order: 43
 hook: "把上線決策從『感覺差不多』變成證據簽核"
 when_to_use: "release 影響營收、合規、跨團隊或對外承諾時"
 ai_leverage: "用 Claude 從 Release Plan 抽出尚未完成的證據項"
-art: "/generated/stage-ship.png"
+art: "/generated/stage-ship.webp"
 source: "deep-research-report.md §Verification, §Deployment"
 ---
 

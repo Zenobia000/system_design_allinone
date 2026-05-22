@@ -7,7 +7,7 @@ order: 40
 hook: "在 incident 發生前先決定『按哪顆按鈕』"
 when_to_use: "任何含 schema、契約、或不可逆操作的 release"
 ai_leverage: "用 Claude 對 migration 推導反向腳本與安全窗口"
-art: "/generated/stage-ship.png"
+art: "/generated/stage-ship.webp"
 source: "deep-research-report.md §Deployment, Google SRE"
 ---
 

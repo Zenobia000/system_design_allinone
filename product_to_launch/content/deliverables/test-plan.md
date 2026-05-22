@@ -7,7 +7,7 @@ order: 36
 hook: "用一張表決定『要測什麼、不測什麼、誰簽』"
 when_to_use: "release 含跨模組變更、合規驗收或對外承諾時"
 ai_leverage: "用 Claude 把 acceptance criteria 對應到測試層級"
-art: "/generated/stage-build.png"
+art: "/generated/stage-build.webp"
 source: "deep-research-report.md §Verification, ISO/IEC/IEEE 29119"
 ---
 

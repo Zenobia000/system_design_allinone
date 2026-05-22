@@ -7,7 +7,7 @@ order: 11
 hook: "把 PRD 切成可估、可做、可驗收的最小單位"
 when_to_use: "Sprint planning 前、backlog refinement 時"
 ai_leverage: "用 Claude 把 PRD section → user story 群組 + INVEST 自檢"
-art: "/generated/stage-define.png"
+art: "/generated/stage-define.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

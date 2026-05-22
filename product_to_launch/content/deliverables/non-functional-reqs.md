@@ -7,7 +7,7 @@ order: 30
 hook: "把『要很快、要很穩』改寫成可驗收的數字"
 when_to_use: "功能規格已寫，但延遲、容量、可用性、安全還只是形容詞"
 ai_leverage: "用 Claude 把 PRD 形容詞轉成 SLI/SLO/threshold 候選"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "software_architect/ppt/05-ilities, ISO/IEC/IEEE 29148"
 ---
 

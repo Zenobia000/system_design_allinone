@@ -7,7 +7,7 @@ order: 24
 hook: "用四層抽象讓每種角色看到「他需要看的那層」"
 when_to_use: "跨系統整合、新人 onboarding、stakeholder 溝通架構時"
 ai_leverage: "用 Claude 從現有 codebase + ADR → C4 diagram 描述（PlantUML/Mermaid）"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §產品與需求相關角色 / §開發生命週期"
 ---
 

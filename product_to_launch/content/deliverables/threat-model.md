@@ -7,7 +7,7 @@ order: 29
 hook: "在攻擊者之前先把資料流畫清楚"
 when_to_use: "新系統處理 PII、金流、權限邊界，或對外暴露新 API 時"
 ai_leverage: "用 Claude 跑 STRIDE 對每個 trust boundary 自動列攻擊面"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "software_architect/ppt/05-ilities §Security, NIST SSDF"
 ---
 

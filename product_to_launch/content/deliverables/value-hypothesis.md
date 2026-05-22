@@ -7,7 +7,7 @@ order: 6
 hook: "把「我覺得有用」翻成可驗證的假設"
 when_to_use: "新功能進 backlog 前、需要決定是否投入 sprint 資源時"
 ai_leverage: "用 Claude 把模糊想法 → 可驗證假設 + 驗證實驗"
-art: "/generated/stage-discovery.png"
+art: "/generated/stage-discovery.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

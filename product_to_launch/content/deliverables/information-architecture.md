@@ -7,7 +7,7 @@ order: 17
 hook: "讓使用者找得到、看得懂、不迷路"
 when_to_use: "新產品建構、改版重組、內容/功能 ≥ 30 項時"
 ai_leverage: "用 Claude 把功能清單 → 候選 IA 分類 + card sorting 提案"
-art: "/generated/stage-design.png"
+art: "/generated/stage-design.webp"
 source: "deep-research-report.md §產品與需求相關角色"
 ---
 

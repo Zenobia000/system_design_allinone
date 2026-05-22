@@ -7,7 +7,7 @@ order: 32
 hook: "讓作者在按下 Create PR 之前先回答 reviewer 會問的問題"
 when_to_use: "團隊 PR 數量上升、review 來回成本高時"
 ai_leverage: "用 Claude 從 diff 自動產出 PR 描述初稿"
-art: "/generated/stage-build.png"
+art: "/generated/stage-build.webp"
 source: "deep-research-report.md §Implementation, GitLab Handbook"
 ---
 

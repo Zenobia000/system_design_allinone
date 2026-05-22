@@ -7,7 +7,7 @@ order: 54
 hook: "讓團隊每個 sprint 留下一個小改善"
 when_to_use: "Sprint 結束、release 結束、或重大事件後"
 ai_leverage: "用 Claude 把零散反饋分群並排序可執行性"
-art: "/generated/stage-operate.png"
+art: "/generated/stage-operate.webp"
 source: "Scrum Guide, deep-research-report.md §Process"
 ---
 

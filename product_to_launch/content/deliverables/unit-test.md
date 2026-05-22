@@ -7,7 +7,7 @@ order: 34
 hook: "讓重構不再靠賭"
 when_to_use: "邏輯有分支、邊界條件、或會被其他模組依賴時"
 ai_leverage: "用 Claude 從函數簽名生成 edge case 矩陣"
-art: "/generated/stage-build.png"
+art: "/generated/stage-build.webp"
 source: "deep-research-report.md §Implementation, §Verification"
 ---
 
