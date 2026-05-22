@@ -36,3 +36,13 @@ build/
 *.bak
 .tmp/
 .claude/scheduled_tasks.lock
+
+# Playwright MCP cache
+.playwright-mcp/
+
+# Next.js (for product_to_launch/)
+.next/
+out/
+
+# Personal reference images (not project content)
+40803296.jpeg
