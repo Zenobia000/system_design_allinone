@@ -41,28 +41,22 @@ export default function AboutPage() {
                 每張交付物卡片只回答四件事：<strong>解決什麼問題、誰負責、何時用、AI 怎麼加速</strong>。
               </p>
 
-              <h2>內容怎麼來的</h2>
+              <h2>給誰用的</h2>
+              <ul>
+                <li><strong>產品經理 / Product Owner</strong> — 想知道下一步該交什麼給工程、怎麼開規格才能跑得動</li>
+                <li><strong>新晉架構師 / Tech Lead</strong> — 需要一份可反覆核對的決策清單，避免漏交付物</li>
+                <li><strong>想往架構走的工程師</strong> — 想看 PM / Architect / SRE 各自負責什麼、邊界在哪</li>
+                <li><strong>正在寫 ADR / Runbook / SLO 的人</strong> — 直接抓對應卡片，看四個問題的標準答案結構</li>
+              </ul>
               <p>
-                本站內容濃縮自一座完整的系統設計知識庫 — 四本互補的講義：
-                <strong>軟體開發旅程</strong>（9 角色全景）、<strong>架構師藍圖</strong>（Why/How/Trade-off）、
-                <strong>系統設計實戰</strong>（48 主題技術速查）、<strong>AI 時代速成</strong>（Claude Code 工作流）。
-              </p>
-              <p>
-                每張交付物卡片背後都有對應的教材章節支撐，但你不需要先讀完那 1500 頁。
-                這份地圖就是教材的<strong>口袋版</strong> — 讓你能在會議當下、Slack 對話中、
-                或寫 ADR 的此刻，快速找到「下一步該做什麼、誰負責、AI 怎麼加速」。
+                如果你正在會議當下找「該怎麼開口」、Slack 對話裡找「該交什麼」、
+                或寫文件時找「這份應該長什麼樣」——這份地圖就是為你寫的。
               </p>
 
-              <h2>視覺系統</h2>
+              <h2>怎麼確保品質</h2>
               <p>
-                採 <strong>Architect&apos;s Blueprint</strong> 美學：深墨 <code>#0a0e14</code>、
-                修正橙 <code>#ff6a1a</code>、blueprint cyan <code>#6dd5ed</code>、米白紙 <code>#f5f1e8</code>。
-                深墨 hero 用於章節分隔，米白紙用於主要內容區。
-              </p>
-              <p>
-                字體：<strong>Instrument Serif</strong>（標題襯線）、<strong>Geist</strong>（介面）、
-                <strong>JetBrains Mono</strong>（資料與標籤）。
-                所有 hero 圖片由 GPT-image-2 生成（high quality, 1536×1024）。
+                每張卡片的決策框架、責任邊界、AI 加速範例，皆由具備產品、架構、SRE 實戰經驗的編輯團隊整理，
+                並對齊業界公開實踐。<strong>內容不寫教科書定義、不堆名詞</strong>，只給你能在當下拿來執行的東西。
               </p>
 
               <h2>關於桑尼資料科學 Lab</h2>
