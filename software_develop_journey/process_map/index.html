@@ -1,0 +1,1738 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>軟體開發旅程 · Process Map ⌁ Blueprint Studio</title>
+<meta name="description" content="9 個角色 · 50+ 交付物 · DAG 協作流程地圖 — 每個階段的必要工作項目、參考範本（直接可貼）與責任邊界。" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@300;400;500;700&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────────────
+   Software Development Journey · Process Map
+   Aesthetic: ARCHITECT'S BLUEPRINT — deep ink + cream + correction-orange
+   Typography: Instrument Serif (display) · Geist (UI) · JetBrains Mono (data)
+   ───────────────────────────────────────────────────────────────── */
+
+:root {
+  --ink: #0a0e14;
+  --ink-2: #11161e;
+  --ink-3: #161c26;
+  --paper: #ece5d3;
+  --paper-2: #cdc6b3;
+  --paper-mute: #8e887a;
+  --line: rgba(236, 229, 211, 0.13);
+  --line-2: rgba(236, 229, 211, 0.06);
+  --accent: #ff6a1a;          /* correction orange */
+  --accent-soft: #ffae7d;
+  --blue: #6dd5ed;            /* blueprint cyan */
+  --blue-deep: #2e7d8c;
+  --red: #e54d4d;
+  --grid: rgba(109, 213, 237, 0.05);
+
+  --f-display: "Instrument Serif", "Fraunces", "Times New Roman", serif;
+  --f-sans: "Geist", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --f-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--f-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.005em;
+  overflow-x: hidden;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: 0 0, 0 0;
+}
+
+::selection { background: var(--accent); color: var(--ink); }
+
+a { color: inherit; text-decoration: none; }
+a:hover { color: var(--accent); }
+
+/* ── grain overlay ────────────────────────────────────────────── */
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1000;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.10 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  opacity: 0.5; mix-blend-mode: overlay;
+}
+
+/* ─── top rail ──────────────────────────────────────────────── */
+.rail {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 28px;
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--paper-mute);
+  background: linear-gradient(180deg, rgba(10,14,20,0.95), rgba(10,14,20,0.6) 70%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line-2);
+}
+.rail .brand { color: var(--paper); font-weight: 500; }
+.rail .brand .dot { color: var(--accent); }
+.rail .meta { display: flex; gap: 26px; }
+.rail .meta span { display: inline-flex; gap: 7px; align-items: center; }
+.rail .meta i {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+@media (max-width: 720px) { .rail .meta { display: none; } .rail { padding: 12px 18px; } }
+
+/* ─── coordinates marker ─────────────────────────────────────── */
+.coord {
+  position: absolute;
+  font-family: var(--f-mono); font-size: 10px; color: var(--paper-mute);
+  letter-spacing: 0.2em; text-transform: uppercase;
+}
+.coord::before { content: "+"; color: var(--accent); margin-right: 6px; }
+
+/* ─── hero ──────────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh; position: relative;
+  padding: 120px 6vw 80px;
+  display: grid; grid-template-columns: 1fr; gap: 40px;
+  align-content: center;
+}
+.hero .tag {
+  font-family: var(--f-mono); font-size: 11px; color: var(--accent);
+  letter-spacing: 0.4em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 14px;
+}
+.hero .tag::before { content: ""; width: 60px; height: 1px; background: var(--accent); }
+.hero h1 {
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(48px, 9vw, 138px);
+  line-height: 0.92; letter-spacing: -0.03em;
+  color: var(--paper);
+}
+.hero h1 em {
+  font-style: italic; color: var(--accent);
+  font-feature-settings: "ss01";
+}
+.hero h1 .stroke {
+  -webkit-text-stroke: 1px var(--paper); color: transparent;
+  font-style: italic;
+}
+.hero .deck {
+  max-width: 720px; font-size: 18px; color: var(--paper-2);
+  font-weight: 300; line-height: 1.55;
+}
+.hero .deck .acc { color: var(--accent); }
+.hero .stat-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+  padding-top: 36px; border-top: 1px solid var(--line);
+  max-width: 880px;
+}
+.hero .stat .num {
+  font-family: var(--f-display); font-size: 56px; line-height: 1;
+  color: var(--paper); letter-spacing: -0.02em;
+}
+.hero .stat .num em { font-style: italic; color: var(--accent); }
+.hero .stat .lbl {
+  font-family: var(--f-mono); font-size: 10px; color: var(--paper-mute);
+  text-transform: uppercase; letter-spacing: 0.2em; margin-top: 8px;
+}
+@media (max-width: 720px) { .hero .stat-row { grid-template-columns: repeat(2, 1fr); gap: 28px; } .hero .stat .num { font-size: 38px; } }
+
+/* scroll cue */
+.scroll-cue {
+  position: absolute; bottom: 30px; left: 6vw;
+  font-family: var(--f-mono); font-size: 10px; color: var(--paper-mute);
+  letter-spacing: 0.3em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px;
+}
+.scroll-cue .line {
+  display: inline-block; width: 60px; height: 1px; background: var(--paper-mute);
+  animation: pulseLine 2.4s ease-in-out infinite;
+}
+@keyframes pulseLine { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; transform: scaleX(1.4); transform-origin: left; } }
+
+/* ─── section spec ──────────────────────────────────────────── */
+section {
+  padding: 110px 6vw;
+  position: relative;
+  border-top: 1px dashed var(--line);
+}
+.section-head {
+  display: grid; grid-template-columns: 200px 1fr; gap: 60px;
+  margin-bottom: 64px;
+}
+.section-head .ix {
+  font-family: var(--f-mono); font-size: 11px; color: var(--paper-mute);
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+.section-head .ix .num {
+  display: block; font-family: var(--f-display); font-style: italic;
+  color: var(--accent); font-size: 96px; line-height: 1; margin-top: 8px;
+  letter-spacing: -0.04em;
+}
+.section-head h2 {
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(36px, 5.4vw, 76px); line-height: 0.98;
+  letter-spacing: -0.022em;
+}
+.section-head h2 em { font-style: italic; color: var(--accent); }
+.section-head .deck {
+  max-width: 640px; font-size: 16px; color: var(--paper-2); margin-top: 24px; font-weight: 300;
+}
+@media (max-width: 900px) {
+  .section-head { grid-template-columns: 1fr; gap: 18px; }
+  .section-head .ix .num { font-size: 56px; }
+}
+
+/* ─── DAG ───────────────────────────────────────────────────── */
+.dag-shell {
+  position: relative; padding: 36px 36px 60px;
+  background: linear-gradient(180deg, var(--ink-2) 0%, var(--ink) 100%);
+  border: 1px solid var(--line); border-radius: 2px;
+  overflow: hidden;
+}
+.dag-shell::before {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(109,213,237,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(109,213,237,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+.dag-shell .corner {
+  position: absolute; width: 18px; height: 18px;
+  border: 1px solid var(--accent);
+}
+.dag-shell .corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.dag-shell .corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.dag-shell .corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.dag-shell .corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+.dag-shell .tag-line {
+  position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.3em;
+  color: var(--paper-mute); text-transform: uppercase;
+}
+.dag-shell .tag-line .acc { color: var(--accent); }
+
+.dag-svg {
+  width: 100%; height: auto; display: block; margin-top: 28px;
+  font-family: var(--f-sans);
+}
+
+/* DAG node visuals (SVG-driven, but tooltip lives outside) */
+.dag-node-g { cursor: pointer; transition: transform 0.3s ease; }
+.dag-node-g:hover { transform: translateY(-2px); }
+.dag-node-g:hover .nb { stroke: var(--accent); stroke-width: 1.6; }
+.dag-node-g:hover .nf { fill: var(--accent); }
+.dag-node-g:hover .nt { fill: var(--ink); }
+.dag-edge { transition: stroke 0.25s ease, stroke-width 0.25s ease; }
+
+.dag-legend {
+  display: flex; gap: 28px; flex-wrap: wrap; margin-top: 26px;
+  font-family: var(--f-mono); font-size: 11px;
+  color: var(--paper-mute); letter-spacing: 0.08em;
+}
+.dag-legend .item { display: inline-flex; align-items: center; gap: 10px; }
+.dag-legend .swatch { width: 22px; height: 2px; }
+.dag-legend .swatch.dash { border-top: 1.5px dashed var(--paper-mute); height: 0; }
+.dag-legend .swatch.solid { background: var(--accent); }
+.dag-legend .swatch.feed { background: var(--blue); }
+.dag-legend .swatch.hatched {
+  width: 18px; height: 12px;
+  border: 1px solid var(--paper-2);
+  background-image: repeating-linear-gradient(45deg, var(--paper-2) 0 1px, transparent 1px 4px);
+  background-size: auto;
+}
+
+/* ─── stage cards ───────────────────────────────────────────── */
+.stages {
+  display: grid; gap: 28px;
+}
+.stage {
+  display: grid; grid-template-columns: 100px 1fr; gap: 40px;
+  padding: 44px 36px;
+  border: 1px solid var(--line); border-radius: 2px;
+  background: linear-gradient(180deg, var(--ink-2), var(--ink));
+  position: relative; overflow: hidden;
+  scroll-margin-top: 80px;
+}
+.stage::after {
+  content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+  background: var(--accent);
+}
+.stage[data-accent="blue"]::after { background: var(--blue); }
+.stage[data-accent="red"]::after { background: var(--red); }
+
+.stage .glyph {
+  font-family: var(--f-display); font-style: italic;
+  font-size: 72px; line-height: 0.9; color: var(--paper-mute);
+}
+.stage .glyph .n {
+  display: block; font-size: 22px; font-family: var(--f-mono);
+  font-style: normal; color: var(--accent); letter-spacing: 0.15em;
+  margin-bottom: 10px;
+}
+.stage .body { min-width: 0; }
+.stage .head {
+  display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.stage h3 {
+  font-family: var(--f-display); font-size: 48px; font-weight: 400;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.stage h3 em { font-style: italic; color: var(--accent); }
+.stage .latin {
+  font-family: var(--f-mono); font-size: 11px; color: var(--paper-mute);
+  letter-spacing: 0.25em; text-transform: uppercase;
+}
+.stage .sub {
+  font-family: var(--f-display); font-style: italic; font-size: 18px;
+  color: var(--paper-2); margin-bottom: 22px;
+}
+.stage .insight {
+  border-left: 2px solid var(--accent); padding: 8px 0 8px 18px;
+  margin: 20px 0 28px;
+  font-size: 15.5px; color: var(--paper);
+}
+.stage .insight strong { color: var(--accent); font-weight: 500; }
+
+.delv {
+  border-top: 1px dashed var(--line);
+  padding-top: 22px; margin-top: 12px;
+}
+.delv .delv-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 14px;
+}
+.delv .delv-head h4 {
+  font-family: var(--f-mono); font-size: 11px; color: var(--paper);
+  letter-spacing: 0.3em; text-transform: uppercase;
+}
+.delv .delv-head .cnt {
+  font-family: var(--f-mono); font-size: 10px; color: var(--paper-mute);
+  letter-spacing: 0.2em;
+}
+.delv table {
+  width: 100%; border-collapse: collapse; font-size: 13.5px;
+}
+.delv th, .delv td {
+  text-align: left; padding: 11px 12px; vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.delv th {
+  font-family: var(--f-mono); font-weight: 400; font-size: 10px;
+  color: var(--paper-mute); letter-spacing: 0.2em; text-transform: uppercase;
+  background: var(--ink-3);
+  border-bottom: 1px solid var(--accent);
+}
+.delv td:first-child {
+  font-family: var(--f-display); font-style: italic; color: var(--paper);
+  font-size: 17px; width: 22%;
+}
+.delv td.what { color: var(--paper-2); width: 28%; }
+.delv td.tmpl { width: 50%; font-family: var(--f-sans); }
+.delv td.tmpl a {
+  display: inline-block; padding: 3px 9px; margin: 2px 4px 2px 0;
+  font-family: var(--f-mono); font-size: 10.5px; color: var(--blue);
+  border: 1px solid rgba(109,213,237,0.3); border-radius: 2px;
+  letter-spacing: 0.05em; transition: all 0.18s ease;
+}
+.delv td.tmpl a:hover {
+  background: var(--blue); color: var(--ink); border-color: var(--blue);
+}
+.delv td.tmpl a::before { content: "↗ "; opacity: 0.6; }
+
+.bounds {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+  margin-top: 28px;
+}
+.bound {
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 106, 26, 0.03);
+}
+.bound.in { background: rgba(109, 213, 237, 0.04); border-color: rgba(109,213,237,0.18); }
+.bound.out { background: rgba(255, 106, 26, 0.04); border-color: rgba(255,106,26,0.20); }
+.bound .lbl {
+  font-family: var(--f-mono); font-size: 10px;
+  letter-spacing: 0.25em; text-transform: uppercase; color: var(--paper-mute);
+  margin-bottom: 8px;
+}
+.bound.in .lbl { color: var(--blue); }
+.bound.out .lbl { color: var(--accent); }
+.bound .who {
+  font-family: var(--f-display); font-style: italic; font-size: 22px;
+  color: var(--paper); margin-bottom: 4px;
+}
+.bound .desc { font-size: 13px; color: var(--paper-2); }
+
+.trap {
+  margin-top: 26px;
+  padding: 16px 20px; border: 1px solid rgba(229, 77, 77, 0.3);
+  background: rgba(229, 77, 77, 0.05); display: flex; gap: 16px; align-items: flex-start;
+}
+.trap .tag {
+  font-family: var(--f-mono); font-size: 10px; color: var(--red);
+  letter-spacing: 0.25em; text-transform: uppercase; flex-shrink: 0;
+  padding-top: 2px;
+}
+.trap .body { font-size: 14px; color: var(--paper-2); }
+.trap .body strong { color: var(--red); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .stage { grid-template-columns: 1fr; padding: 32px 22px; }
+  .stage h3 { font-size: 36px; }
+  .stage .glyph { font-size: 48px; }
+  .delv table { font-size: 12px; }
+  .delv td:first-child { font-size: 14px; }
+  .delv th { font-size: 9px; }
+  .bounds { grid-template-columns: 1fr; }
+}
+
+/* ─── matrix ────────────────────────────────────────────────── */
+.matrix-wrap { overflow-x: auto; border: 1px solid var(--line); }
+.matrix {
+  width: 100%; border-collapse: collapse; font-family: var(--f-mono); font-size: 12px;
+  min-width: 880px;
+}
+.matrix th, .matrix td {
+  padding: 12px 14px; text-align: center; vertical-align: middle;
+  border-bottom: 1px solid var(--line); border-right: 1px solid var(--line);
+}
+.matrix th:first-child, .matrix td:first-child {
+  text-align: left; font-family: var(--f-display); font-style: italic; font-size: 15px;
+  color: var(--paper); width: 30%; font-weight: 400; padding-left: 22px;
+}
+.matrix thead th {
+  background: var(--ink-3); color: var(--paper); font-weight: 500;
+  letter-spacing: 0.1em; font-size: 11px; text-transform: uppercase;
+  border-bottom: 2px solid var(--accent);
+}
+.matrix td.lead {
+  color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: 0.05em;
+}
+.matrix td.part { color: var(--paper-2); }
+.matrix td.skip { color: var(--paper-mute); opacity: 0.4; }
+
+/* ─── three views ───────────────────────────────────────────── */
+.views {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border: 1px solid var(--line);
+}
+.view {
+  padding: 32px 26px; border-right: 1px solid var(--line);
+  position: relative;
+}
+.view:last-child { border-right: none; }
+.view .layer {
+  font-family: var(--f-mono); font-size: 10px; color: var(--accent);
+  letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 10px;
+}
+.view h4 {
+  font-family: var(--f-display); font-size: 30px; font-weight: 400;
+  letter-spacing: -0.01em; margin-bottom: 6px;
+}
+.view h4 em { font-style: italic; color: var(--accent); }
+.view .owner { font-family: var(--f-mono); font-size: 11px; color: var(--paper-mute); letter-spacing: 0.15em; margin-bottom: 22px; }
+.view pre {
+  font-family: var(--f-mono); font-size: 12px; line-height: 1.7;
+  color: var(--paper-2); white-space: pre-wrap;
+  background: var(--ink); padding: 18px;
+  border: 1px solid var(--line);
+}
+.view .tools {
+  margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap;
+}
+.view .tools a {
+  font-family: var(--f-mono); font-size: 10px; color: var(--blue);
+  border: 1px solid rgba(109,213,237,0.25);
+  padding: 3px 8px; letter-spacing: 0.05em;
+}
+.view .tools a:hover { background: var(--blue); color: var(--ink); }
+@media (max-width: 900px) {
+  .views { grid-template-columns: 1fr; }
+  .view { border-right: none; border-bottom: 1px solid var(--line); }
+}
+
+/* ─── handoff sheet ─────────────────────────────────────────── */
+.handoff-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 14px;
+}
+.handoff-cell {
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+  font-family: var(--f-mono); font-size: 12px;
+  position: relative; overflow: hidden;
+}
+.handoff-cell::before {
+  content: ""; position: absolute; top: 0; left: 0; height: 100%; width: 2px;
+  background: var(--blue);
+}
+.handoff-cell .arrow {
+  font-family: var(--f-display); font-style: italic; font-size: 17px;
+  color: var(--paper); margin-bottom: 8px; letter-spacing: 0.02em;
+}
+.handoff-cell .arrow .from { color: var(--blue); }
+.handoff-cell .arrow .to { color: var(--accent); }
+.handoff-cell .arrow .sep { color: var(--paper-mute); margin: 0 8px; font-style: normal; font-family: var(--f-mono); font-size: 13px; }
+.handoff-cell ul { list-style: none; padding: 0; color: var(--paper-2); font-size: 11.5px; line-height: 1.8; }
+.handoff-cell ul li::before { content: "▸ "; color: var(--accent); }
+
+/* ─── footer ─────────────────────────────────────────────────── */
+footer {
+  padding: 80px 6vw 60px; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+  font-size: 13px; color: var(--paper-mute);
+}
+footer h5 {
+  font-family: var(--f-mono); font-size: 10px; color: var(--paper);
+  letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 14px;
+}
+footer .lede {
+  font-family: var(--f-display); font-style: italic; font-size: 24px;
+  color: var(--paper); line-height: 1.3; max-width: 480px;
+}
+footer .lede em { color: var(--accent); font-style: italic; }
+footer ul { list-style: none; padding: 0; line-height: 2; }
+footer ul a:hover { color: var(--paper); }
+footer .stamp {
+  margin-top: 32px; font-family: var(--f-mono); font-size: 10px; color: var(--paper-mute);
+  letter-spacing: 0.2em; text-transform: uppercase; padding-top: 18px;
+  border-top: 1px dashed var(--line);
+}
+footer .stamp .acc { color: var(--accent); }
+@media (max-width: 720px) { footer { grid-template-columns: 1fr; } }
+
+/* ─── reveal animations ─────────────────────────────────────── */
+[data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+[data-reveal].in { opacity: 1; transform: none; }
+[data-reveal-delay="1"] { transition-delay: 0.08s; }
+[data-reveal-delay="2"] { transition-delay: 0.16s; }
+[data-reveal-delay="3"] { transition-delay: 0.24s; }
+</style>
+</head>
+<body>
+
+<!-- ──────────────────────────────────────────────────────────── RAIL -->
+<div class="rail">
+  <span class="brand">SDLC<span class="dot">·</span>PROCESS<span class="dot">·</span>MAP</span>
+  <div class="meta">
+    <span><i></i>v1.0 · 2026</span>
+    <span>NINE ROLES · FIFTY+ DELIVERABLES</span>
+    <span>DAG VIEW</span>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────────────────────────── HERO -->
+<section class="hero" id="top">
+  <span class="coord" style="top:118px; right:6vw;">0,0 · ORIGIN</span>
+
+  <div class="tag">DOC 01 · PROCESS BLUEPRINT</div>
+
+  <h1 data-reveal>
+    軟體服務<br>
+    <span class="stroke">的</span> <em>開發流程</em><br>
+    <span style="color:var(--paper-mute);">導覽</span> <em>地圖</em>。
+  </h1>
+
+  <p class="deck" data-reveal data-reveal-delay="1">
+    這份文件把一個產品從<span class="acc">「客戶說一句話」</span>
+    到<span class="acc">「使用者打開 App」</span>之間的每一棒拆開——
+    <strong style="color:var(--paper);font-weight:500;">9 個角色 · 50+ 必要交付物 · 完整 DAG 協作鏈</strong>。
+    每個交付物都附上一個你可以直接複製貼上的公開範本連結。
+  </p>
+
+  <div class="stat-row" data-reveal data-reveal-delay="2">
+    <div class="stat"><div class="num"><em>09</em></div><div class="lbl">Roles · Stages</div></div>
+    <div class="stat"><div class="num">50<em>+</em></div><div class="lbl">Deliverables</div></div>
+    <div class="stat"><div class="num">11</div><div class="lbl">Decision Points</div></div>
+    <div class="stat"><div class="num">∞</div><div class="lbl">Cycle Iterations</div></div>
+  </div>
+
+  <div class="scroll-cue"><span class="line"></span>Scroll · 01 of 06</div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────────── DAG -->
+<section id="dag">
+  <div class="section-head">
+    <div class="ix">SECTION<span class="num">01</span>The DAG</div>
+    <div>
+      <h2>一張 <em>協作流程圖</em><br>看完整個 SDLC。</h2>
+      <p class="deck">
+        左→右是時間軸，從商業需求到使用者落地。實線箭頭代表<strong style="color:var(--accent);">交付物傳遞</strong>，
+        虛線代表<strong style="color:var(--blue);">回饋與校驗</strong>。
+        相鄰的角色不是各自封閉的盒子——他們在每個決策點上都是互相<em style="color:var(--paper);">疊加</em>的。
+      </p>
+    </div>
+  </div>
+
+  <div class="dag-shell" data-reveal>
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+    <span class="tag-line">FIG. 01 · <span class="acc">DELIVERABLE FLOW</span> · LEFT-TO-RIGHT TOPOLOGY</span>
+
+    <svg class="dag-svg" viewBox="0 0 1480 600" preserveAspectRatio="xMidYMid meet" aria-label="Software development DAG">
+      <defs>
+        <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#ff6a1a"/>
+        </marker>
+        <marker id="arrowhead-feed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#6dd5ed"/>
+        </marker>
+        <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(236,229,211,0.08)" stroke-width="1"/>
+        </pattern>
+      </defs>
+
+      <!-- column dividers -->
+      <g stroke="rgba(109,213,237,0.08)" stroke-dasharray="2 6">
+        <line x1="180" y1="20" x2="180" y2="580"/>
+        <line x1="360" y1="20" x2="360" y2="580"/>
+        <line x1="560" y1="20" x2="560" y2="580"/>
+        <line x1="760" y1="20" x2="760" y2="580"/>
+        <line x1="960" y1="20" x2="960" y2="580"/>
+        <line x1="1160" y1="20" x2="1160" y2="580"/>
+        <line x1="1340" y1="20" x2="1340" y2="580"/>
+      </g>
+      <!-- column labels -->
+      <g font-family="JetBrains Mono" font-size="9" fill="#8e887a" letter-spacing="2">
+        <text x="90" y="14" text-anchor="middle">SOURCE</text>
+        <text x="270" y="14" text-anchor="middle">DISCOVERY</text>
+        <text x="460" y="14" text-anchor="middle">DESIGN · WHAT</text>
+        <text x="660" y="14" text-anchor="middle">DESIGN · HOW</text>
+        <text x="860" y="14" text-anchor="middle">DETAIL · DATA</text>
+        <text x="1060" y="14" text-anchor="middle">BUILD</text>
+        <text x="1250" y="14" text-anchor="middle">VERIFY · RUN</text>
+        <text x="1430" y="14" text-anchor="middle">USER</text>
+      </g>
+
+      <!-- ============ EDGES (drawn first so they sit behind nodes) -->
+      <!-- Boss → PM -->
+      <path class="dag-edge" d="M150,300 C 165,300 195,300 220,300" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- PM → UX -->
+      <path class="dag-edge" d="M320,290 C 350,260 370,200 400,170" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- PM → SA -->
+      <path class="dag-edge" d="M320,310 C 350,360 370,420 400,440" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- UX → Architect (consult) -->
+      <path class="dag-edge" d="M520,170 C 560,200 600,260 620,290" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- SA → Architect -->
+      <path class="dag-edge" d="M520,440 C 560,420 600,360 620,310" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- Architect → SD -->
+      <path class="dag-edge" d="M720,290 C 760,260 780,220 820,200" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- Architect → DBA -->
+      <path class="dag-edge" d="M720,310 C 760,360 780,400 820,420" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- Architect → DevOps (NFR target) -->
+      <path class="dag-edge" d="M680,340 C 700,500 1100,570 1240,470" stroke="#ff6a1a" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)" stroke-dasharray="0"/>
+      <!-- SD → Dev -->
+      <path class="dag-edge" d="M920,200 C 960,220 990,260 1020,290" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- DBA → Dev -->
+      <path class="dag-edge" d="M920,420 C 960,400 990,360 1020,310" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- UX → Dev (FE) -->
+      <path class="dag-edge" d="M460,200 C 700,90 980,160 1020,275" stroke="#ff6a1a" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- SD → QA -->
+      <path class="dag-edge" d="M880,220 C 1100,180 1180,250 1220,290" stroke="#ff6a1a" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- Dev → QA -->
+      <path class="dag-edge" d="M1120,300 C 1160,300 1180,300 1220,300" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- QA → DevOps -->
+      <path class="dag-edge" d="M1280,330 C 1280,380 1260,420 1240,440" stroke="#ff6a1a" stroke-width="1.4" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- Dev → DevOps -->
+      <path class="dag-edge" d="M1100,320 C 1140,420 1180,460 1210,468" stroke="#ff6a1a" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- DevOps → Users -->
+      <path class="dag-edge" d="M1310,470 C 1350,470 1400,400 1410,330" stroke="#ff6a1a" stroke-width="1.6" fill="none" marker-end="url(#arrowhead)"/>
+
+      <!-- Feedback dashed (Users → PM) -->
+      <path class="dag-edge" d="M1430,260 C 1300,80 700,40 240,260" stroke="#6dd5ed" stroke-width="1" stroke-dasharray="3 5" fill="none" marker-end="url(#arrowhead-feed)" opacity="0.6"/>
+      <!-- DevOps → Dev incident feedback -->
+      <path class="dag-edge" d="M1240,475 C 1180,540 1100,510 1080,330" stroke="#6dd5ed" stroke-width="0.9" stroke-dasharray="3 5" fill="none" marker-end="url(#arrowhead-feed)" opacity="0.7"/>
+      <!-- QA → Dev bug return -->
+      <path class="dag-edge" d="M1220,330 C 1180,360 1140,360 1120,330" stroke="#6dd5ed" stroke-width="0.9" stroke-dasharray="3 5" fill="none" marker-end="url(#arrowhead-feed)" opacity="0.7"/>
+
+      <!-- ============ NODES -->
+      <!-- Boss / Customer -->
+      <g class="dag-node-g">
+        <rect class="nb" x="40" y="270" width="110" height="60" rx="2" fill="url(#hatch)" stroke="#cdc6b3" stroke-width="1"/>
+        <text class="nt" x="95" y="295" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="17" font-style="italic">Customer</text>
+        <text x="95" y="315" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">SOURCE</text>
+      </g>
+
+      <!-- PM -->
+      <g class="dag-node-g" onclick="document.getElementById('pm').scrollIntoView()">
+        <rect class="nb" x="220" y="270" width="100" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="235" cy="285" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="285" y="290" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">PM</text>
+        <text x="270" y="318" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">PRODUCT MGR</text>
+      </g>
+
+      <!-- UX -->
+      <g class="dag-node-g" onclick="document.getElementById('ux').scrollIntoView()">
+        <rect class="nb" x="400" y="140" width="120" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="415" cy="155" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="465" y="174" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">UX / UI</text>
+        <text x="460" y="192" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">DESIGNER</text>
+      </g>
+
+      <!-- SA -->
+      <g class="dag-node-g" onclick="document.getElementById('sa').scrollIntoView()">
+        <rect class="nb" x="400" y="410" width="120" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="415" cy="425" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="465" y="444" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">SA</text>
+        <text x="460" y="462" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">SYS ANALYST</text>
+      </g>
+
+      <!-- Architect -->
+      <g class="dag-node-g" onclick="document.getElementById('arch').scrollIntoView()">
+        <rect class="nb" x="620" y="270" width="100" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.6"/>
+        <circle class="nf" cx="635" cy="285" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="675" y="295" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="19" font-style="italic">Architect</text>
+        <text x="670" y="317" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">SYS BOUNDARY</text>
+      </g>
+
+      <!-- SD -->
+      <g class="dag-node-g" onclick="document.getElementById('sd').scrollIntoView()">
+        <rect class="nb" x="820" y="170" width="100" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="835" cy="185" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="875" y="205" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">SD</text>
+        <text x="870" y="222" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">SYS DESIGN</text>
+      </g>
+
+      <!-- DBA -->
+      <g class="dag-node-g" onclick="document.getElementById('dba').scrollIntoView()">
+        <rect class="nb" x="820" y="390" width="100" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="835" cy="405" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="875" y="425" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">DBA</text>
+        <text x="870" y="442" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">DATA LIFELINE</text>
+      </g>
+
+      <!-- Dev -->
+      <g class="dag-node-g" onclick="document.getElementById('dev').scrollIntoView()">
+        <rect class="nb" x="1020" y="270" width="100" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.6"/>
+        <circle class="nf" cx="1035" cy="285" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="1075" y="295" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">Dev</text>
+        <text x="1070" y="318" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">FE · BE</text>
+      </g>
+
+      <!-- QA -->
+      <g class="dag-node-g" onclick="document.getElementById('qa').scrollIntoView()">
+        <rect class="nb" x="1220" y="270" width="100" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="1235" cy="285" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="1275" y="295" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">QA</text>
+        <text x="1270" y="318" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">VERIFIER</text>
+      </g>
+
+      <!-- DevOps -->
+      <g class="dag-node-g" onclick="document.getElementById('devops').scrollIntoView()">
+        <rect class="nb" x="1210" y="440" width="120" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="1225" cy="455" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="1275" y="468" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="19" font-style="italic">DevOps</text>
+        <text x="1270" y="488" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">SRE · ONCALL</text>
+      </g>
+
+      <!-- Users -->
+      <g class="dag-node-g">
+        <rect class="nb" x="1395" y="270" width="60" height="60" rx="2" fill="url(#hatch)" stroke="#cdc6b3" stroke-width="1"/>
+        <text class="nt" x="1425" y="295" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="17" font-style="italic">Users</text>
+        <text x="1425" y="315" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5">END</text>
+      </g>
+
+      <!-- Edge labels (deliverable names on key arrows) -->
+      <g font-family="JetBrains Mono" font-size="9" fill="#8e887a" letter-spacing="0.5">
+        <text x="175" y="293" text-anchor="middle" fill="#cdc6b3">briefing</text>
+        <text x="380" y="220" text-anchor="middle">PRD</text>
+        <text x="380" y="385" text-anchor="middle">user story</text>
+        <text x="560" y="380" text-anchor="middle">use case</text>
+        <text x="560" y="226" text-anchor="middle">flow + UI</text>
+        <text x="780" y="246" text-anchor="middle">arch + NFR</text>
+        <text x="780" y="370" text-anchor="middle">data ownership</text>
+        <text x="970" y="246" text-anchor="middle">API spec</text>
+        <text x="970" y="370" text-anchor="middle">schema</text>
+        <text x="1175" y="293" text-anchor="middle">PR + UT</text>
+        <text x="1320" y="395" text-anchor="middle" transform="rotate(90 1320 395)">pass report</text>
+        <text x="1378" y="293" text-anchor="middle">release</text>
+      </g>
+    </svg>
+
+    <div class="dag-legend">
+      <span class="item"><span class="swatch solid"></span>交付物傳遞 · DELIVERABLE</span>
+      <span class="item"><span class="swatch feed dash"></span>回饋 · FEEDBACK / BUG / INCIDENT</span>
+      <span class="item"><span class="swatch hatched"></span>外部角色 · EXTERNAL</span>
+      <span class="item" style="margin-left:auto;">點任一節點直接跳到該角色卡 →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────────── STAGES -->
+<section id="stages">
+  <div class="section-head">
+    <div class="ix">SECTION<span class="num">02</span>Roles</div>
+    <div>
+      <h2>每個階段 · <em>必要交付物</em><br>＋ 可貼上的範本。</h2>
+      <p class="deck">
+        每張卡片都標示三件事：<strong style="color:var(--paper);font-weight:500;">產出</strong>（這階段交什麼）、
+        <strong style="color:var(--blue);font-weight:500;">上下游邊界</strong>（接誰、交給誰）、
+        <strong style="color:var(--red);font-weight:500;">新手陷阱</strong>。
+        所有範本連結都是公開、可立即使用的素材。
+      </p>
+    </div>
+  </div>
+
+  <div class="stages">
+
+    <!-- ===== 01 · PM ===== -->
+    <article class="stage" id="pm">
+      <div class="glyph"><span class="n">/01</span>P<br><span style="color:var(--accent);">M</span></div>
+      <div class="body">
+        <div class="head">
+          <h3>Product <em>Manager</em></h3>
+          <span class="latin">PM · 需求壓縮器</span>
+        </div>
+        <div class="sub">把「我想做 AI」壓縮成可衡量的目標</div>
+        <div class="insight">
+          <strong>核心 ·</strong> 客戶說的永遠不是需求。PM 的工作是把客戶的話往下挖到「降低客服成本 40%」「轉單率 +15%」這種可衡量的目標——不是當<em style="color:var(--paper-mute);">傳聲筒</em>。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>PRD</td>
+                <td class="what">產品需求文件，幾十頁的脈絡與規格</td>
+                <td class="tmpl">
+                  <a href="https://www.atlassian.com/software/confluence/templates/product-requirements" target="_blank" rel="noopener">Atlassian PRD</a>
+                  <a href="https://www.notion.com/templates/category/product" target="_blank" rel="noopener">Notion PM Templates</a>
+                  <a href="https://www.productplan.com/templates" target="_blank" rel="noopener">ProductPlan</a>
+                </td>
+              </tr>
+              <tr>
+                <td>User Story</td>
+                <td class="what">「身為 X，我想 Y，這樣 Z」一句話需求單位</td>
+                <td class="tmpl">
+                  <a href="https://www.atlassian.com/agile/project-management/user-stories" target="_blank" rel="noopener">Atlassian Guide</a>
+                  <a href="https://www.mountaingoatsoftware.com/agile/user-stories" target="_blank" rel="noopener">Mike Cohn</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Backlog</td>
+                <td class="what">Epic → Story → Task 的待辦池</td>
+                <td class="tmpl">
+                  <a href="https://www.atlassian.com/software/jira/templates" target="_blank" rel="noopener">Jira Templates</a>
+                  <a href="https://about.gitlab.com/handbook/engineering/development/principles/" target="_blank" rel="noopener">GitLab Handbook</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Persona</td>
+                <td class="what">目標用戶輪廓 1 頁人物卡</td>
+                <td class="tmpl">
+                  <a href="https://www.hubspot.com/make-my-persona" target="_blank" rel="noopener">HubSpot Persona Tool</a>
+                  <a href="https://xtensio.com/user-persona/" target="_blank" rel="noopener">Xtensio</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Roadmap</td>
+                <td class="what">時程 / 優先級 / 季度路線</td>
+                <td class="tmpl">
+                  <a href="https://www.productplan.com/templates" target="_blank" rel="noopener">ProductPlan Roadmaps</a>
+                  <a href="https://www.aha.io/roadmapping/guide/templates" target="_blank" rel="noopener">Aha! Roadmaps</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM 接誰</div><div class="who">客戶 · 業務 · 老闆</div><div class="desc">商業需求源頭，含口頭、Slack、PPT、email</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM 交誰</div><div class="who">UX · SA · Architect</div><div class="desc">把模糊需求翻譯成下游可執行的東西</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">越界指定<strong>「要用 React」「要用 PostgreSQL」</strong>——那是 Architect 的事。PM 是 Product 不是 Project，管「做什麼」「為什麼做」，不管「用什麼做」。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 02 · UX/UI ===== -->
+    <article class="stage" id="ux">
+      <div class="glyph"><span class="n">/02</span>U<br><span style="color:var(--accent);">X</span></div>
+      <div class="body">
+        <div class="head">
+          <h3><em>UX</em> · UI</h3>
+          <span class="latin">UX · 動線 / UI · 樣品屋</span>
+        </div>
+        <div class="sub">UX 決定「能不能順利做完」 · UI 決定「看起來想不想做」</div>
+        <div class="insight">
+          <strong>核心 ·</strong> UX 是動線、UI 是樣品屋。新手最常見的盲點是「打開 Figma 就開始畫」——成熟的 UX 會先問「給誰看、看什麼決策、多久看一次」。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>User Journey</td>
+                <td class="what">使用者完整體驗地圖 + 情緒曲線</td>
+                <td class="tmpl">
+                  <a href="https://miro.com/templates/customer-journey-map/" target="_blank" rel="noopener">Miro Templates</a>
+                  <a href="https://www.nngroup.com/articles/journey-mapping-101/" target="_blank" rel="noopener">NN/g Guide</a>
+                  <a href="https://www.figma.com/templates/customer-journey-map/" target="_blank" rel="noopener">Figma Journey Map</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Wireframe</td>
+                <td class="what">畫面骨架 · 灰階線框 · 不關心顏色字型</td>
+                <td class="tmpl">
+                  <a href="https://www.figma.com/templates/wireframe-kits/" target="_blank" rel="noopener">Figma Wireframe Kits</a>
+                  <a href="https://wireframe.cc/" target="_blank" rel="noopener">wireframe.cc</a>
+                  <a href="https://balsamiq.com/" target="_blank" rel="noopener">Balsamiq</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Prototype</td>
+                <td class="what">可點擊互動原型</td>
+                <td class="tmpl">
+                  <a href="https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma" target="_blank" rel="noopener">Figma Prototyping</a>
+                  <a href="https://www.proto.io/" target="_blank" rel="noopener">Proto.io</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Mockup</td>
+                <td class="what">高保真視覺稿 · 含顏色 / 字型 / 圖片</td>
+                <td class="tmpl">
+                  <a href="https://www.figma.com/templates/" target="_blank" rel="noopener">Figma Templates</a>
+                  <a href="https://dribbble.com/tags/ui_design" target="_blank" rel="noopener">Dribbble UI</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Design System</td>
+                <td class="what">元件庫 + 規範 + Color / Spacing token</td>
+                <td class="tmpl">
+                  <a href="https://m3.material.io/" target="_blank" rel="noopener">Material Design 3</a>
+                  <a href="https://developer.apple.com/design/human-interface-guidelines" target="_blank" rel="noopener">Apple HIG</a>
+                  <a href="https://atlassian.design/" target="_blank" rel="noopener">Atlassian DS</a>
+                  <a href="https://polaris.shopify.com/" target="_blank" rel="noopener">Shopify Polaris</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">PM</div><div class="desc">拿 PRD、User Story、KPI 來畫流程</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">Architect · SA · FE Dev</div><div class="desc">把可用性結論交給 SA 補規則、給 FE 實作</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">越界決定<strong>「這欄位必填」「逾期就退費」</strong>——那是 SA 的事。UX 只<em>反映</em>規則，不<em>發明</em>規則。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 03 · SA ===== -->
+    <article class="stage" id="sa">
+      <div class="glyph"><span class="n">/03</span>S<br><span style="color:var(--accent);">A</span></div>
+      <div class="body">
+        <div class="head">
+          <h3>System <em>Analyst</em></h3>
+          <span class="latin">SA · 補規則的縫隙</span>
+        </div>
+        <div class="sub">PM 給的是箭頭 · SA 給的是箭頭旁邊的條件</div>
+        <div class="insight">
+          <strong>核心 ·</strong> PM 說「做一個訂單系統」，UX 畫了結帳流程。但沒人說：30 分鐘不付款怎辦？付完才發現庫存不夠怎辦？這些縫隙 SA 必須補完，Dev 才寫得下去。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">6 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Use Case</td>
+                <td class="what">使用案例 · UML 圖 + 描述表</td>
+                <td class="tmpl">
+                  <a href="https://plantuml.com/use-case-diagram" target="_blank" rel="noopener">PlantUML Use Case</a>
+                  <a href="https://www.lucidchart.com/pages/uml-use-case-diagram" target="_blank" rel="noopener">Lucidchart Guide</a>
+                </td>
+              </tr>
+              <tr>
+                <td>State Diagram</td>
+                <td class="what">狀態轉換 · pending→paid→shipped</td>
+                <td class="tmpl">
+                  <a href="https://plantuml.com/state-diagram" target="_blank" rel="noopener">PlantUML State</a>
+                  <a href="https://mermaid.js.org/syntax/stateDiagram.html" target="_blank" rel="noopener">Mermaid stateDiagram</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Business Rule</td>
+                <td class="what">商業規則 · 條列式清單</td>
+                <td class="tmpl">
+                  <a href="https://www.modernanalyst.com/Resources/Templates.aspx" target="_blank" rel="noopener">Modern Analyst</a>
+                  <a href="https://www.iiba.org/career-resources/business-analysis-resources/" target="_blank" rel="noopener">IIBA Resources</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Data Dictionary</td>
+                <td class="what">欄位 + 型別 + 約束</td>
+                <td class="tmpl">
+                  <a href="https://blog.panoply.io/how-to-create-a-data-dictionary" target="_blank" rel="noopener">Panoply Template</a>
+                  <a href="https://dbdiagram.io/" target="_blank" rel="noopener">dbdiagram.io</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Permission Matrix</td>
+                <td class="what">RACI · 角色 × 操作核取表</td>
+                <td class="tmpl">
+                  <a href="https://www.smartsheet.com/content/raci-templates" target="_blank" rel="noopener">Smartsheet RACI</a>
+                  <a href="https://www.atlassian.com/work-management/project-management/raci-chart" target="_blank" rel="noopener">Atlassian RACI</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Exception Flow</td>
+                <td class="what">失敗 / 邊界情境流程</td>
+                <td class="tmpl">
+                  <a href="https://www.lucidchart.com/pages/uml-activity-diagram" target="_blank" rel="noopener">UML Activity</a>
+                  <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noopener">Mermaid Flowchart</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">PM</div><div class="desc">拿 What / Why 來補 How</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">Architect · SD · Dev · QA</div><div class="desc">把業務規則翻成系統規格</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">越界寫<strong>「用 Redis cache」</strong>——SA 該寫的是「這查詢必須 &lt; 1 秒」，<em>怎麼做</em>是 Architect 決定。SA 寫需求，不寫實作。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 04 · Architect ===== -->
+    <article class="stage" id="arch" data-accent="blue">
+      <div class="glyph"><span class="n">/04</span>A<br><span style="color:var(--blue);">R</span></div>
+      <div class="body">
+        <div class="head">
+          <h3>System <em>Architect</em></h3>
+          <span class="latin">ARCH · 城市規劃師 · 定邊界</span>
+        </div>
+        <div class="sub">NFR 才是真正的產品 · 架構圖只是溝通工具</div>
+        <div class="insight">
+          <strong>核心 ·</strong> 新手以為架構師的產出 = 一張漂亮的架構圖。錯。架構師真正在交付的是 <em>NFR（非功能需求）</em>——系統能不能撐流量、會不會掛、好不好改、能不能 debug。功能撐不住 = 全部歸零。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Architecture Diagram</td>
+                <td class="what">系統結構全景 · C4 / 區塊圖</td>
+                <td class="tmpl">
+                  <a href="https://c4model.com/" target="_blank" rel="noopener">C4 Model</a>
+                  <a href="https://structurizr.com/" target="_blank" rel="noopener">Structurizr</a>
+                  <a href="https://excalidraw.com/" target="_blank" rel="noopener">Excalidraw</a>
+                  <a href="https://www.eraser.io/" target="_blank" rel="noopener">Eraser.io</a>
+                </td>
+              </tr>
+              <tr>
+                <td>ADR</td>
+                <td class="what">架構決策紀錄 · 脈絡 / 選項 / 後果</td>
+                <td class="tmpl">
+                  <a href="https://github.com/joelparkerhenderson/architecture-decision-record" target="_blank" rel="noopener">ADR · Nygard</a>
+                  <a href="https://adr.github.io/madr/" target="_blank" rel="noopener">MADR</a>
+                  <a href="https://github.com/adr/madr/tree/main/template" target="_blank" rel="noopener">MADR Templates</a>
+                </td>
+              </tr>
+              <tr>
+                <td>NFR Spec</td>
+                <td class="what">SLA / RPS / Latency 表</td>
+                <td class="tmpl">
+                  <a href="https://www.iso.org/standard/35733.html" target="_blank" rel="noopener">ISO 25010</a>
+                  <a href="https://sre.google/workbook/implementing-slos/" target="_blank" rel="noopener">Google SRE SLO</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Service Boundary</td>
+                <td class="what">領域圖 + 責任清單</td>
+                <td class="tmpl">
+                  <a href="https://www.domainlanguage.com/ddd/" target="_blank" rel="noopener">DDD by Evans</a>
+                  <a href="https://github.com/ddd-crew/bounded-context-canvas" target="_blank" rel="noopener">Bounded Context Canvas</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Integration Pattern</td>
+                <td class="what">同步 REST / 非同步 Event 選擇</td>
+                <td class="tmpl">
+                  <a href="https://www.enterpriseintegrationpatterns.com/" target="_blank" rel="noopener">EIP Catalog</a>
+                  <a href="https://microservices.io/patterns/index.html" target="_blank" rel="noopener">microservices.io</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">PM · SA</div><div class="desc">商業需求 + 業務規則 + NFR</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">SD · DBA · DevOps · Dev</div><div class="desc">技術決策的單點責任 · 跨所有交付角色</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">越界寫 <strong>API endpoint 細節</strong>→ SD 沒空間；不越界又不出手 → 系統長歪。架構師關鍵：定<em>邊界</em>，不定<em>細節</em>。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 05 · SD ===== -->
+    <article class="stage" id="sd">
+      <div class="glyph"><span class="n">/05</span>S<br><span style="color:var(--accent);">D</span></div>
+      <div class="body">
+        <div class="head">
+          <h3>System <em>Design</em></h3>
+          <span class="latin">SD · 建築設計師 · 定細部</span>
+        </div>
+        <div class="sub">Dev 拿到文件，從頭到尾不用再問問題就能寫完</div>
+        <div class="insight">
+          <strong>核心 ·</strong> 很多 SD 寫的「設計文件」滿是業務術語、沒 endpoint、沒欄位、沒錯誤碼，Dev 看完還是要問三遍。好的 SD 產出有一個唯一指標：<em>Dev 看完不用再問問題</em>。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Module Design</td>
+                <td class="what">服務內模組怎麼切 + 責任清單</td>
+                <td class="tmpl">
+                  <a href="https://c4model.com/#ComponentDiagram" target="_blank" rel="noopener">C4 Component</a>
+                  <a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener">System Design Primer</a>
+                </td>
+              </tr>
+              <tr>
+                <td>API Spec</td>
+                <td class="what">對外契約 · OpenAPI / Swagger YAML</td>
+                <td class="tmpl">
+                  <a href="https://swagger.io/specification/" target="_blank" rel="noopener">OpenAPI Spec</a>
+                  <a href="https://editor.swagger.io/" target="_blank" rel="noopener">Swagger Editor</a>
+                  <a href="https://stoplight.io/open-source/elements" target="_blank" rel="noopener">Stoplight Elements</a>
+                  <a href="https://github.com/zalando/restful-api-guidelines" target="_blank" rel="noopener">Zalando Guidelines</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Sequence Diagram</td>
+                <td class="what">一次互動的時間軸</td>
+                <td class="tmpl">
+                  <a href="https://mermaid.js.org/syntax/sequenceDiagram.html" target="_blank" rel="noopener">Mermaid Sequence</a>
+                  <a href="https://plantuml.com/sequence-diagram" target="_blank" rel="noopener">PlantUML Sequence</a>
+                  <a href="https://sequencediagram.org/" target="_blank" rel="noopener">sequencediagram.org</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Component Design</td>
+                <td class="what">元件責任與依賴關係</td>
+                <td class="tmpl">
+                  <a href="https://www.lucidchart.com/pages/uml-component-diagram" target="_blank" rel="noopener">UML Component</a>
+                  <a href="https://docs.structurizr.com/dsl" target="_blank" rel="noopener">Structurizr DSL</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Class Diagram</td>
+                <td class="what">物件結構 · 屬性 / 方法 / 繼承</td>
+                <td class="tmpl">
+                  <a href="https://plantuml.com/class-diagram" target="_blank" rel="noopener">PlantUML Class</a>
+                  <a href="https://mermaid.js.org/syntax/classDiagram.html" target="_blank" rel="noopener">Mermaid Class</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">Architect · SA</div><div class="desc">拿系統邊界 + NFR + 業務規則</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">Dev · DBA · QA · DevOps</div><div class="desc">設計與實作的橋 · 把架構決策落地成可開工的圖</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">SD 越界寫實作邏輯 → Dev 沒空間；不寫 sequence → Dev 各寫各的。<strong>API 命名是 SD 的靈魂</strong>——一致、可預測、不誤導。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 06 · DBA ===== -->
+    <article class="stage" id="dba" data-accent="blue">
+      <div class="glyph"><span class="n">/06</span>D<br><span style="color:var(--blue);">B</span></div>
+      <div class="body">
+        <div class="head">
+          <h3><em>DBA</em> · Data</h3>
+          <span class="latin">DBA · 資料生命線</span>
+        </div>
+        <div class="sub">資料怎麼存 · 怎麼活 · 怎麼回得來</div>
+        <div class="insight">
+          <strong>核心 ·</strong> DBA 不是寫 <code style="font-family:var(--f-mono);color:var(--accent);">CREATE TABLE</code> 完就結束，是把 Schema + Index + Transaction + Backup + Governance 這 5 件事連在一起設計。<em>「真出事還回得來」</em>才是 DBA 的命脈。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>ERD</td>
+                <td class="what">資料實體關聯圖</td>
+                <td class="tmpl">
+                  <a href="https://dbdiagram.io/" target="_blank" rel="noopener">dbdiagram.io</a>
+                  <a href="https://drawsql.app/" target="_blank" rel="noopener">drawSQL</a>
+                  <a href="https://www.lucidchart.com/pages/er-diagrams" target="_blank" rel="noopener">Lucidchart ERD</a>
+                  <a href="https://mermaid.js.org/syntax/entityRelationshipDiagram.html" target="_blank" rel="noopener">Mermaid ER</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Schema + Index</td>
+                <td class="what">DDL + 索引策略 + Partition</td>
+                <td class="tmpl">
+                  <a href="https://www.postgresql.org/docs/current/ddl.html" target="_blank" rel="noopener">PostgreSQL DDL</a>
+                  <a href="https://use-the-index-luke.com/" target="_blank" rel="noopener">Use The Index Luke</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Transaction 策略</td>
+                <td class="what">Saga / Outbox / 鎖表規則</td>
+                <td class="tmpl">
+                  <a href="https://microservices.io/patterns/data/saga.html" target="_blank" rel="noopener">Saga Pattern</a>
+                  <a href="https://microservices.io/patterns/data/transactional-outbox.html" target="_blank" rel="noopener">Outbox Pattern</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Backup Plan</td>
+                <td class="what">RPO / RTO / PITR 文件</td>
+                <td class="tmpl">
+                  <a href="https://aws.amazon.com/backup-recovery/" target="_blank" rel="noopener">AWS Backup</a>
+                  <a href="https://www.postgresql.org/docs/current/continuous-archiving.html" target="_blank" rel="noopener">PostgreSQL PITR</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Data Governance</td>
+                <td class="what">Retention / 稽核 / ACL</td>
+                <td class="tmpl">
+                  <a href="https://gdpr.eu/checklist/" target="_blank" rel="noopener">GDPR Checklist</a>
+                  <a href="https://dama.org/learning-resources/dama-data-management-body-of-knowledge-dmbok/" target="_blank" rel="noopener">DAMA DMBOK</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">Architect</div><div class="desc">決定資料歸屬哪個服務、跨服務一致性策略</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">SD · Dev · QA · DevOps</div><div class="desc">所有要碰 DB 的人</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">越界決定<strong>「該不該拆服務」</strong>會踩到 Architect；Dev 越界決定 <strong>index 順序</strong>會踩到 DBA。DBA 用<em>數據說話</em>，不憑直覺。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 07 · Dev ===== -->
+    <article class="stage" id="dev">
+      <div class="glyph"><span class="n">/07</span>D<br><span style="color:var(--accent);">v</span></div>
+      <div class="body">
+        <div class="head">
+          <h3><em>Developer</em></h3>
+          <span class="latin">DEV · FE / BE · 寫 Code 的人</span>
+        </div>
+        <div class="sub">在 AI 時代，價值從「寫 Code」變成「判斷該寫什麼 Code」</div>
+        <div class="insight">
+          <strong>核心 ·</strong> Dev 不是只交 code，要交 PR + Unit Test + 文件 + Build artifact。AI 可以寫 80% 的 code——但剩下的 20%（架構 fit / debug / 業務理解 / Code Review / 命名）是 Dev 真正的價值。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Code (PR diff)</td>
+                <td class="what">可運行的程式碼 · PR / MR 格式</td>
+                <td class="tmpl">
+                  <a href="https://github.com/conventional-commits/conventionalcommits.org" target="_blank" rel="noopener">Conventional Commits</a>
+                  <a href="https://www.conventionalcommits.org/" target="_blank" rel="noopener">Spec v1.0</a>
+                  <a href="https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/creating-a-pull-request-template-for-your-repository" target="_blank" rel="noopener">GH PR Template</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Unit Tests</td>
+                <td class="what">驗證自己寫的單元 · 跟 PR 一起進</td>
+                <td class="tmpl">
+                  <a href="https://docs.pytest.org/" target="_blank" rel="noopener">pytest</a>
+                  <a href="https://jestjs.io/" target="_blank" rel="noopener">Jest</a>
+                  <a href="https://vitest.dev/" target="_blank" rel="noopener">Vitest</a>
+                  <a href="https://junit.org/junit5/" target="_blank" rel="noopener">JUnit 5</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Documentation</td>
+                <td class="what">README / docstring / ADR</td>
+                <td class="tmpl">
+                  <a href="https://www.makeareadme.com/" target="_blank" rel="noopener">makeareadme.com</a>
+                  <a href="https://diataxis.fr/" target="_blank" rel="noopener">Diátaxis Framework</a>
+                  <a href="https://www.writethedocs.org/" target="_blank" rel="noopener">Write The Docs</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Build Artifacts</td>
+                <td class="what">Docker image / npm package / binary</td>
+                <td class="tmpl">
+                  <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" target="_blank" rel="noopener">Dockerfile Best Practices</a>
+                  <a href="https://github.com/GoogleContainerTools/distroless" target="_blank" rel="noopener">distroless</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Tech Spike / PoC</td>
+                <td class="what">不確定方案先試 · demo repo + 心得</td>
+                <td class="tmpl">
+                  <a href="https://agilealliance.org/agile101/agile-glossary/" target="_blank" rel="noopener">Agile Glossary</a>
+                  <a href="https://github.com/topics/awesome" target="_blank" rel="noopener">awesome lists</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">SD · DBA · UX/UI</div><div class="desc">拿施工圖、schema、Mockup</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">QA · DevOps</div><div class="desc">交給 QA 驗收、交給 DevOps 部署</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">SD 文件沒寫的地方，新手 Dev 自己猜（「retry 3 次吧」）。<strong>師傅樣的 Dev：不猜、不英雄主義，把模糊變明確並寫下來</strong>——拉 SA / Architect 拍板，補進 PR description。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 08 · QA ===== -->
+    <article class="stage" id="qa">
+      <div class="glyph"><span class="n">/08</span>Q<br><span style="color:var(--accent);">A</span></div>
+      <div class="body">
+        <div class="head">
+          <h3>Quality <em>Assurance</em></h3>
+          <span class="latin">QA · 把驗收變成可重複的資產</span>
+        </div>
+        <div class="sub">產出不是「找了幾個 bug」，是留下可重複驗證的資產</div>
+        <div class="insight">
+          <strong>核心 ·</strong> Dev 顧底層（Unit Test），QA 顧上層（Integration / E2E / Load）。在 AI 系統，QA 從「驗證已知」變成「定義未知」——對的答案要先被定義。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Test Case</td>
+                <td class="what">單一驗證步驟 · 前置 / 步驟 / 預期</td>
+                <td class="tmpl">
+                  <a href="https://support.testrail.com/hc/en-us/articles/14927678348052-Test-case-templates" target="_blank" rel="noopener">TestRail Templates</a>
+                  <a href="https://www.atlassian.com/software/jira/templates/test-case-management" target="_blank" rel="noopener">Jira Test Case</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Test Plan</td>
+                <td class="what">一次發版的測試藍圖</td>
+                <td class="tmpl">
+                  <a href="https://www.guru99.com/test-plan-for-project.html" target="_blank" rel="noopener">IEEE 829 Template</a>
+                  <a href="https://www.atlassian.com/agile/software-development/testing" target="_blank" rel="noopener">Atlassian Testing</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Bug Report</td>
+                <td class="what">重現步驟 + log + 截圖 + 優先級</td>
+                <td class="tmpl">
+                  <a href="https://www.atlassian.com/agile/tutorials/jira-bug-report" target="_blank" rel="noopener">Atlassian Bug Report</a>
+                  <a href="https://www.bugzilla.org/docs/" target="_blank" rel="noopener">Bugzilla Docs</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Test Automation</td>
+                <td class="what">自動回歸腳本</td>
+                <td class="tmpl">
+                  <a href="https://playwright.dev/" target="_blank" rel="noopener">Playwright</a>
+                  <a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress</a>
+                  <a href="https://k6.io/" target="_blank" rel="noopener">k6 Load</a>
+                  <a href="https://www.selenium.dev/" target="_blank" rel="noopener">Selenium</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Coverage Report</td>
+                <td class="what">哪些路徑被測過了 + risk map</td>
+                <td class="tmpl">
+                  <a href="https://about.codecov.io/" target="_blank" rel="noopener">Codecov</a>
+                  <a href="https://coverage.readthedocs.io/" target="_blank" rel="noopener">coverage.py</a>
+                  <a href="https://istanbul.js.org/" target="_blank" rel="noopener">Istanbul</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">PM · SA · Dev</div><div class="desc">驗收條件 + 規格 + PR 實作</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">DevOps</div><div class="desc">驗證資產進 CI/CD · release gate</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">Dev 拍胸脯「我測過了」通常只測過 happy path。<strong>E2E + edge case 是 QA 的責任</strong>。新手 QA 只跑 smoke test 就 release——成熟 QA 補完 E2E 並加進回歸 suite，下次自動跑。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 09 · DevOps ===== -->
+    <article class="stage" id="devops" data-accent="blue">
+      <div class="glyph"><span class="n">/09</span>O<br><span style="color:var(--blue);">P</span></div>
+      <div class="body">
+        <div class="head">
+          <h3>DevOps · <em>SRE</em></h3>
+          <span class="latin">OPS · 把運維變成 Code</span>
+        </div>
+        <div class="sub">產出不是「裝好機器」，是讓運維本身可被版本控制 · 可被重複</div>
+        <div class="insight">
+          <strong>核心 ·</strong> 從 Dev 寫完 commit 那刻、到 user 看到頁面那刻，<em>全是責任區</em>。on-call 不是「誰寫的誰修」，是先止血再究責——SRE 文化的核心。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>CI/CD Pipeline</td>
+                <td class="what">自動測試 + 部署 · lint→test→build→deploy</td>
+                <td class="tmpl">
+                  <a href="https://github.com/actions/starter-workflows" target="_blank" rel="noopener">GitHub Actions Starters</a>
+                  <a href="https://docs.gitlab.com/ee/ci/examples/" target="_blank" rel="noopener">GitLab CI Examples</a>
+                  <a href="https://circleci.com/developer/orbs" target="_blank" rel="noopener">CircleCI Orbs</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Infra as Code</td>
+                <td class="what">用程式定義基礎設施</td>
+                <td class="tmpl">
+                  <a href="https://registry.terraform.io/" target="_blank" rel="noopener">Terraform Registry</a>
+                  <a href="https://galaxy.ansible.com/" target="_blank" rel="noopener">Ansible Galaxy</a>
+                  <a href="https://artifacthub.io/" target="_blank" rel="noopener">Helm Charts (ArtifactHub)</a>
+                  <a href="https://github.com/aws/aws-cdk" target="_blank" rel="noopener">AWS CDK</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Monitoring Dashboard</td>
+                <td class="what">系統健康即時可見</td>
+                <td class="tmpl">
+                  <a href="https://grafana.com/grafana/dashboards/" target="_blank" rel="noopener">Grafana Dashboards</a>
+                  <a href="https://prometheus.io/docs/practices/instrumentation/" target="_blank" rel="noopener">Prometheus Best Practices</a>
+                  <a href="https://docs.datadoghq.com/dashboards/" target="_blank" rel="noopener">Datadog Dashboards</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Runbook</td>
+                <td class="what">出事時誰按哪個鈕 · on-call playbook</td>
+                <td class="tmpl">
+                  <a href="https://www.atlassian.com/software/confluence/templates/itsm-runbook" target="_blank" rel="noopener">Atlassian Runbook</a>
+                  <a href="https://response.pagerduty.com/" target="_blank" rel="noopener">PagerDuty Response</a>
+                  <a href="https://github.com/SkeltonThatcher/run-book-template" target="_blank" rel="noopener">Run-book Template</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Incident Report</td>
+                <td class="what">Postmortem · RCA + 行動項</td>
+                <td class="tmpl">
+                  <a href="https://sre.google/sre-book/example-postmortem/" target="_blank" rel="noopener">Google SRE Postmortem</a>
+                  <a href="https://postmortems.pagerduty.com/" target="_blank" rel="noopener">PagerDuty Postmortem</a>
+                  <a href="https://github.com/dastergon/postmortem-templates" target="_blank" rel="noopener">Postmortem Templates</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">Dev · QA</div><div class="desc">產出 code + 測試 → 進 CI/CD</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">使用者 · Monitoring · 自己 (on-call)</div><div class="desc">上線後活下來的系統</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">替 Dev 寫業務 code → 越界。<strong>界線是「程式怎麼跑」，不是「程式做什麼」</strong>。DevOps / SRE 主導 deploy 策略、監控閾值、容量規劃；不主導 API 設計與業務優先級。</div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────────── MATRIX -->
+<section id="matrix">
+  <div class="section-head">
+    <div class="ix">SECTION<span class="num">03</span>Decision</div>
+    <div>
+      <h2>誰<em>拍板</em> · 誰參與。<br>11 個決策 × 9 個角色。</h2>
+      <p class="deck">
+        Overlap 不是壞事，是必要的多重視角——<strong style="color:var(--paper);font-weight:500;">問題不是 overlap，是 overlap 時誰拍板</strong>。<span style="color:var(--accent);">★ 主</span>是拍板人；<span style="color:var(--blue);">●</span>是參與者，「－」代表通常不碰。
+      </p>
+    </div>
+  </div>
+
+  <div class="matrix-wrap" data-reveal>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>決策</th><th>PM</th><th>UX</th><th>SA</th><th>Arch</th><th>SD</th><th>DBA</th><th>Dev</th><th>QA</th><th>Ops</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>商業目標 / KPI</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td></tr>
+        <tr><td>使用者旅程</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td></tr>
+        <tr><td>業務規則 · 狀態機</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td></tr>
+        <tr><td>服務邊界 · 拆幾個 service</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td></tr>
+        <tr><td>技術選型 / NFR / SLA</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td></tr>
+        <tr><td>Data Schema · Index 策略</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td></tr>
+        <tr><td>API endpoint 命名 · Sequence</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td></tr>
+        <tr><td>程式碼結構 · Function 切分</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="lead">★</td><td class="skip">－</td><td class="skip">－</td></tr>
+        <tr><td>Unit / Integration / E2E</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td></tr>
+        <tr><td>CI/CD · Deploy 策略</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td></tr>
+        <tr><td>監控 · Alert · Incident</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────────── THREE VIEWS -->
+<section id="views">
+  <div class="section-head">
+    <div class="ix">SECTION<span class="num">04</span>Three views</div>
+    <div>
+      <h2>同一個需求 · <em>三種翻譯</em>。<br>每翻一次降低一層不確定性。</h2>
+      <p class="deck">
+        以「使用者結帳付款」為例。把同一個需求畫三次，是因為每一層要回答的問題不一樣——這是新手最容易省略、最容易出錯的步驟。
+      </p>
+    </div>
+  </div>
+
+  <div class="views" data-reveal>
+    <div class="view">
+      <div class="layer">LAYER 01 · USER FLOW</div>
+      <h4><em>User</em> Flow</h4>
+      <div class="owner">PM / UX · 回答「使用者怎麼走」</div>
+<pre>購物車
+  ↓
+結帳頁
+  ↓ 填地址
+選付款方式
+  ↓
+完成 · 訂單成立</pre>
+      <div class="tools">
+        <a href="https://miro.com/" target="_blank" rel="noopener">Miro</a>
+        <a href="https://www.figma.com/figjam/" target="_blank" rel="noopener">FigJam</a>
+        <a href="https://overflow.io/" target="_blank" rel="noopener">Overflow</a>
+      </div>
+    </div>
+    <div class="view">
+      <div class="layer">LAYER 02 · SYSTEM FLOW</div>
+      <h4>System <em>Flow</em></h4>
+      <div class="owner">SA · 回答「系統怎麼判斷」</div>
+<pre>check_stock()
+  ↓
+lock_stock(reservation_id)
+  ↓
+create_order(pending_payment)
+  ↓
+call_payment_gateway()
+  ↓ ok ─→ paid · release_reservation
+  ↓ fail → cancel · unlock_stock</pre>
+      <div class="tools">
+        <a href="https://plantuml.com/activity-diagram-beta" target="_blank" rel="noopener">PlantUML Activity</a>
+        <a href="https://mermaid.js.org/syntax/stateDiagram.html" target="_blank" rel="noopener">Mermaid State</a>
+      </div>
+    </div>
+    <div class="view">
+      <div class="layer">LAYER 03 · ARCHITECTURE FLOW</div>
+      <h4>Arch <em>Flow</em></h4>
+      <div class="owner">Architect · 回答「服務 / 資料 / 事件怎麼跑」</div>
+<pre>Web → API GW
+      ↓
+   Order-Svc ──► Payment-Svc
+      ↓               │
+ Inventory-Svc     [3rd Party]
+      ↓
+   Kafka → Notify-Svc
+   Kafka → Analytics</pre>
+      <div class="tools">
+        <a href="https://c4model.com/" target="_blank" rel="noopener">C4 Model</a>
+        <a href="https://structurizr.com/" target="_blank" rel="noopener">Structurizr</a>
+        <a href="https://excalidraw.com/" target="_blank" rel="noopener">Excalidraw</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────────── HANDOFFS -->
+<section id="handoffs">
+  <div class="section-head">
+    <div class="ix">SECTION<span class="num">05</span>Handoffs</div>
+    <div>
+      <h2>每一棒 · <em>交什麼</em>。<br>交棒不是傳球，是傳責任。</h2>
+      <p class="deck">
+        每個角色的產出就是下個角色的輸入——產出爛，下游全部跟著爛。<strong style="color:var(--paper);font-weight:500;">反模式：把交棒當成「丟過去就好」</strong>——不確認下游讀懂，等於沒交。
+      </p>
+    </div>
+  </div>
+
+  <div class="handoff-grid" data-reveal>
+    <div class="handoff-cell"><div class="arrow"><span class="from">PM</span><span class="sep">━━▸</span><span class="to">UX</span></div>
+      <ul><li>PRD</li><li>User Story</li><li>KPI · Persona</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">PM</span><span class="sep">━━▸</span><span class="to">SA</span></div>
+      <ul><li>PRD</li><li>Business Goal</li><li>核心 Use Cases</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">UX</span><span class="sep">━━▸</span><span class="to">FE Dev</span></div>
+      <ul><li>Wireframe + Mockup</li><li>Prototype 連結</li><li>Design System token</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">SA</span><span class="sep">━━▸</span><span class="to">Architect</span></div>
+      <ul><li>Use Case</li><li>State Diagram</li><li>Permission Matrix</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">Architect</span><span class="sep">━━▸</span><span class="to">SD</span></div>
+      <ul><li>Architecture Diagram</li><li>Service Boundary</li><li>NFR Spec + ADR</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">SD</span><span class="sep">━━▸</span><span class="to">Dev</span></div>
+      <ul><li>API Spec (OpenAPI)</li><li>Sequence Diagram</li><li>Module Design + 錯誤碼</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">Architect</span><span class="sep">━━▸</span><span class="to">DBA</span></div>
+      <ul><li>Data Ownership</li><li>一致性策略</li><li>跨服務事件 / Saga</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">SD</span><span class="sep">━━▸</span><span class="to">DBA</span></div>
+      <ul><li>Data Access Pattern</li><li>Query Plan 預估</li><li>讀寫比例</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">Dev</span><span class="sep">━━▸</span><span class="to">QA</span></div>
+      <ul><li>PR + Unit Test</li><li>Test Plan 對應</li><li>Build artifact</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">QA</span><span class="sep">━━▸</span><span class="to">DevOps</span></div>
+      <ul><li>Pass Report</li><li>Coverage Map</li><li>E2E Suite 進 CI</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">Dev/Ops</span><span class="sep">━━▸</span><span class="to">SRE</span></div>
+      <ul><li>Runbook</li><li>Monitoring Spec</li><li>SLO / Alert 閾值</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">User</span><span class="sep">⟵ ⟵</span><span class="to">PM</span></div>
+      <ul><li>使用數據 · NPS</li><li>客服工單</li><li>Postmortem → 下迭代</li></ul>
+    </div>
+  </div>
+
+  <div style="margin-top: 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <div style="padding: 28px; border: 1px solid var(--line); background: rgba(229,77,77,0.04);">
+      <div style="font-family: var(--f-mono); font-size: 10px; color: var(--red); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 12px;">陷阱 01</div>
+      <div style="font-family: var(--f-display); font-style: italic; font-size: 22px; margin-bottom: 8px;">文件過期</div>
+      <div style="font-size: 13px; color: var(--paper-2);">PRD 改了，工程師還在看舊版。永遠**指向同一個 source of truth**，不要複製貼上。</div>
+    </div>
+    <div style="padding: 28px; border: 1px solid var(--line); background: rgba(229,77,77,0.04);">
+      <div style="font-family: var(--f-mono); font-size: 10px; color: var(--red); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 12px;">陷阱 02</div>
+      <div style="font-family: var(--f-display); font-style: italic; font-size: 22px; margin-bottom: 8px;">過度詳細</div>
+      <div style="font-size: 13px; color: var(--paper-2);">寫了 30 頁 PRD 沒人會讀，最後只能靠口頭問。<em>該寫的細，該砍的砍</em>。</div>
+    </div>
+    <div style="padding: 28px; border: 1px solid var(--line); background: rgba(229,77,77,0.04);">
+      <div style="font-family: var(--f-mono); font-size: 10px; color: var(--red); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 12px;">陷阱 03</div>
+      <div style="font-family: var(--f-display); font-style: italic; font-size: 22px; margin-bottom: 8px;">版本對不起來</div>
+      <div style="font-size: 13px; color: var(--paper-2);">Slack 一句、會議一句、Jira 一句——所有決策都應該<em>沉澱到</em> source of truth。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────────────────────── FOOTER -->
+<footer>
+  <div>
+    <h5>核心信條 · MANIFESTO</h5>
+    <p class="lede">
+      角色 = <em>消除不確定性</em>。<br>
+      每加一棒，不確定性降一層；<br>
+      漏一棒，下一棒就<em>背鍋</em>。
+    </p>
+    <div class="stamp">
+      <span class="acc">SDLC · PROCESS · MAP</span> · v1.0 · 2026<br>
+      DERIVED FROM <span class="acc">『軟體開發旅程』</span> · CH.1 ~ CH.11
+    </div>
+  </div>
+  <div>
+    <h5>跳轉 · NAV</h5>
+    <ul>
+      <li><a href="#top">↑ 回首</a></li>
+      <li><a href="#dag">01 · DAG</a></li>
+      <li><a href="#stages">02 · Roles</a></li>
+      <li><a href="#matrix">03 · Decision</a></li>
+      <li><a href="#views">04 · Three Views</a></li>
+      <li><a href="#handoffs">05 · Handoffs</a></li>
+    </ul>
+  </div>
+  <div>
+    <h5>角色快速跳 · ROLES</h5>
+    <ul>
+      <li><a href="#pm">/01 PM</a></li>
+      <li><a href="#ux">/02 UX · UI</a></li>
+      <li><a href="#sa">/03 SA</a></li>
+      <li><a href="#arch">/04 Architect</a></li>
+      <li><a href="#sd">/05 SD</a></li>
+      <li><a href="#dba">/06 DBA</a></li>
+      <li><a href="#dev">/07 Dev</a></li>
+      <li><a href="#qa">/08 QA</a></li>
+      <li><a href="#devops">/09 DevOps · SRE</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+// reveal-on-scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+
+// initial pop for hero elements (since they may already be in view)
+window.addEventListener("load", () => {
+  document.querySelectorAll(".hero [data-reveal]").forEach((el) => el.classList.add("in"));
+});
+
+// scroll-cue counter
+const cue = document.querySelector(".scroll-cue");
+if (cue) {
+  const update = () => {
+    const sections = ["#top","#dag","#stages","#matrix","#views","#handoffs"];
+    const y = window.scrollY + window.innerHeight * 0.4;
+    let idx = 0;
+    sections.forEach((s, i) => { const el = document.querySelector(s); if (el && el.offsetTop <= y) idx = i; });
+    cue.innerHTML = '<span class="line"></span>' + "Section · " + String(idx + 1).padStart(2, "0") + " of 06";
+  };
+  window.addEventListener("scroll", update, { passive: true });
+}
+</script>
+
+</body>
+</html>
