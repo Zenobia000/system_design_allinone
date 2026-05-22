@@ -127,7 +127,18 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href={GOOGLE_FONTS_HREF} />
+        {/* Non-blocking Google Fonts: inject stylesheet with media=print
+            then swap to media=all on load — keeps the link off the
+            render-blocking critical path. noscript fallback ensures
+            users without JS still get the fonts (blocking). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var l=document.createElement("link");l.rel="stylesheet";l.href=${JSON.stringify(GOOGLE_FONTS_HREF)};l.media="print";l.onload=function(){l.media="all"};document.head.appendChild(l);})();`,
+          }}
+        />
+        <noscript>
+          <link rel="stylesheet" href={GOOGLE_FONTS_HREF} />
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

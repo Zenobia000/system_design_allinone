@@ -1,7 +1,7 @@
 export default function Hero() {
   return (
     <section className="hero ink">
-      <div className="hero-art" style={{ backgroundImage: "url(/generated/hero-blueprint-desk.webp)" }} aria-hidden />
+      <div className="hero-art" aria-hidden />
       <span className="tagline">Atlas · No. 01 · Edition 2026</span>
       <h1>
         從一個假設，
