@@ -44,7 +44,3 @@ Prompt: 你是 UX researcher。根據以下 5 份使用者測試逐字稿：
 ```
 
 回審重點：finding 嚴重度是否誇大、是否區分「個別使用者問題」與「系統性問題」。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

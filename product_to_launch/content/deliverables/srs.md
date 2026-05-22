@@ -45,7 +45,3 @@ Prompt: 你是熟悉 ISO 29148 的 system analyst。根據以下 PRD + 業務規
 ```
 
 回審重點：規則是否有 ID 可追溯、exception 是否完整、是否與 PRD 衝突。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

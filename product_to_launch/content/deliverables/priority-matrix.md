@@ -49,7 +49,3 @@ Prompt: 你是熟悉 RICE 框架的 PO。對以下 backlog item 評分：
 ```
 
 回審重點：分數是否誠實（Confidence 容易高估）、是否反映真實 opportunity cost。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

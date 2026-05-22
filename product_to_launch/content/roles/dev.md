@@ -39,7 +39,3 @@ source: "deep-research-report.md §FE/BE/Mobile"
 ## 何時該招這個角色
 
 **永遠都需要**，但 senior Dev 的價值在「知道什麼時候不該寫 code」——買現成、外包、或直接不做。
-
----
-
-> Source: deep-research-report.md §FE/BE/Mobile

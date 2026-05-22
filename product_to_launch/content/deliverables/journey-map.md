@@ -46,7 +46,3 @@ Prompt: 你是 UX 顧問。根據以下客服工單 + 訪談摘要，
 ```
 
 回審重點：是否有真實 evidence、是否涵蓋情緒低點、機會點是否 actionable。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

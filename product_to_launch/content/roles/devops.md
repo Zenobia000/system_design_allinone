@@ -39,7 +39,3 @@ source: "deep-research-report.md §DevOps/SRE"
 ## 何時該招這個角色
 
 **進入 production、或一天部署超過 1 次** 時，沒專職 DevOps 等於每次上線都在賭。
-
----
-
-> Source: deep-research-report.md §DevOps/SRE

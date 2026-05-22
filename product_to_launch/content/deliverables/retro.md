@@ -39,7 +39,3 @@ Feedback：<貼上>
 ```
 
 回審重點：human 判斷 trade-off 與閾值。
-
----
-
-> Source: Scrum Guide, deep-research-report.md §Process

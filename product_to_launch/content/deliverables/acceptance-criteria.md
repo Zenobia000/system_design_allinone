@@ -45,7 +45,3 @@ Prompt: 你是 QA lead。根據以下 user story，產出 acceptance criteria：
 ```
 
 回審重點：edge case 是否真實存在、acceptance 是否可被自動化測試。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色 / §SOP與檢核表

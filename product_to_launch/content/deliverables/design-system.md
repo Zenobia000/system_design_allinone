@@ -45,7 +45,3 @@ Prompt: 你是 design system 顧問。根據以下 mockup 截圖 + spec：
 ```
 
 回審重點：token 是否語意化（不只是 hex）、是否覆蓋暗色模式與 a11y。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

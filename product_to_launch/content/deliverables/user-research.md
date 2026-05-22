@@ -43,7 +43,3 @@ Prompt: 你是資深 UX researcher。以下是 8 份訪談逐字稿。
 ```
 
 回審重點：人工判斷 quote 是否被斷章取義、theme 是否真有 actionable 意涵。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

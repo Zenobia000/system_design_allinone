@@ -39,7 +39,3 @@ source: "deep-research-report.md §UI"
 ## 何時該招這個角色
 
 **有自家 design system、或多平台（web/iOS/Android）** 時，沒專職 UI 會出現每個頁面風格都不一樣。
-
----
-
-> Source: deep-research-report.md §UI

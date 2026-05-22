@@ -38,7 +38,3 @@ SLO + KPI：<貼上>
 ```
 
 回審重點：human 判斷 trade-off 與閾值。
-
----
-
-> Source: deep-research-report.md §Deployment, Netflix canary

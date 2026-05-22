@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "About · 關於落地圖鑑",
-  description: "為什麼做這份地圖、引用了哪些來源、設計理念是什麼。",
+  description: "為什麼做這份地圖、設計理念是什麼、誰會用到。",
 };
 
 export default function AboutPage() {
@@ -41,20 +41,21 @@ export default function AboutPage() {
                 這樣你不只知道有哪些工具，還知道什麼時候該停下來，把工具收進口袋。
               </p>
 
-              <h2>引用來源</h2>
-              <p>本站內容由以下姊妹專案整合而成，每張卡片底部都有 <code>{`> Source: ...`}</code> 行：</p>
-              <ul>
-                <li><strong>軟體開發旅程</strong>（<code>software_develop_journey/</code>）— 14 章 384 頁，9 角色全景與 SDLC 地圖</li>
-                <li><strong>架構師藍圖</strong>（<code>software_architect/</code>）— 10 章深度教材，Why/How/Trade-off 三段式</li>
-                <li><strong>系統設計實戰</strong>（<code>system_design/</code>）— 7 章 48 主題，34 份 PDF 原始教材</li>
-                <li><strong>AI 時代速成</strong>（<code>ai_native_system_design/</code>）— 11 章 200 頁，Claude Code 工作流</li>
-                <li><strong>研究報告</strong>（<code>deep-research-report.md</code>）— 角色 RACI、交付物清單、三 Flow 並行</li>
-                <li><strong>Process Map</strong>（<code>process_map/index.html</code>）— DAG 互動流程地圖</li>
-              </ul>
+              <h2>內容怎麼來的</h2>
+              <p>
+                本站內容濃縮自一座完整的系統設計知識庫——四本互補的講義：
+                <strong>軟體開發旅程</strong>（9 角色全景）、<strong>架構師藍圖</strong>（Why/How/Trade-off）、
+                <strong>系統設計實戰</strong>（48 主題技術速查）、<strong>AI 時代速成</strong>（Claude Code 工作流）。
+              </p>
+              <p>
+                每張交付物卡片背後都有對應的教材章節支撐，但你不需要先讀完那 1500 頁。
+                這份地圖就是教材的<strong>口袋版</strong>——讓你能在會議當下、Slack 對話中、或寫
+                ADR 的此刻，快速找到「下一步該做什麼、誰負責、AI 怎麼加速」。
+              </p>
 
               <h2>視覺系統</h2>
               <p>
-                配色沿用既有 process_map 的 <strong>Architect's Blueprint</strong> 美學：深墨 <code>#0a0e14</code>、
+                採 <strong>Architect&apos;s Blueprint</strong> 美學：深墨 <code>#0a0e14</code>、
                 修正橙 <code>#ff6a1a</code>、blueprint cyan <code>#6dd5ed</code>、米白紙 <code>#f5f1e8</code>。
                 深墨 hero 用於章節分隔，米白紙用於主要內容區。
               </p>
@@ -80,8 +81,6 @@ export default function AboutPage() {
 
               <h2>授權</h2>
               <p>MIT License · © 2026 · Part of System Design All-in-One</p>
-
-              <div className="source">deep-research-report.md, software_develop_journey/process_map/index.html, software_architect/, ai_native_system_design/</div>
             </article>
             <aside>
               <section>
@@ -93,12 +92,12 @@ export default function AboutPage() {
                 <p className="mono">Launch Atlas v1.0 · 2026 · MIT</p>
               </section>
               <section>
-                <h4>姊妹專案</h4>
+                <h4>延伸閱讀</h4>
                 <ul>
-                  <li><a href="../software_develop_journey/">軟體開發旅程</a></li>
-                  <li><a href="../software_architect/">架構師藍圖</a></li>
-                  <li><a href="../system_design/">系統設計實戰</a></li>
-                  <li><a href="../ai_native_system_design/">AI 時代速成</a></li>
+                  <li>軟體開發旅程</li>
+                  <li>架構師藍圖</li>
+                  <li>系統設計實戰</li>
+                  <li>AI 時代速成</li>
                 </ul>
               </section>
             </aside>

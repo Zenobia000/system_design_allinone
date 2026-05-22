@@ -39,7 +39,3 @@ source: "deep-research-report.md §產品經理"
 ## 何時該招這個角色
 
 **團隊超過 5 人、同時跑 2 個以上 feature** 時，沒有 PM 會卡在「老闆說什麼都做」的死循環。
-
----
-
-> Source: deep-research-report.md §PM

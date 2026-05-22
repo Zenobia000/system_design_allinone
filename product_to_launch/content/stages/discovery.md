@@ -36,7 +36,3 @@ Discovery 不是寫 PRD 的階段，是**確認問題存在、影響多大、有
 **訪談整理、競品掃描、JTBD 萃取。** AI 不會替你決定值不值得做，但能把 5 小時的整理變 30 分鐘。
 
 加速範例：`從這 10 篇用戶評論萃取 JTBD、按出現頻率排序、附原句引用`。
-
----
-
-> Source: software_develop_journey/process_map/index.html §discovery

@@ -459,15 +459,6 @@ body {
 .detail-body aside ul { list-style: none; display: grid; gap: 4px; }
 @media (max-width: 980px) { .detail-body .container { grid-template-columns: 1fr; } .detail-body aside { position: static; } }
 
-/* ─── source attribution ─────────────────────────────────────── */
-.source {
-  margin-top: 64px; padding-top: 18px;
-  border-top: 1px dashed var(--divider);
-  font-family: var(--f-mono); font-size: 11px;
-  color: var(--ink-mute); letter-spacing: 0.04em;
-}
-.source::before { content: "> Source: "; color: var(--accent); }
-
 /* ─── utility ────────────────────────────────────────────────── */
 .divider {
   height: 1px; background: var(--divider); margin: 48px 0;

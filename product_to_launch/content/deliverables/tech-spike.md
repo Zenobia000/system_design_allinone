@@ -37,7 +37,3 @@ ADR 寫不下去，因為關鍵變數沒人量過。Spike 是時間盒住的實�
 ```
 
 回審重點：human 判斷 trade-off 與閾值。
-
----
-
-> Source: software_architect/ppt/05-ilities, deep-research-report.md §Architecture Design

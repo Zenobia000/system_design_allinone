@@ -39,7 +39,3 @@ source: "deep-research-report.md §SA"
 ## 何時該招這個角色
 
 **金流、訂單、工單、權限、合規** 這類規則密集的系統，沒 SA 會在 UAT 大爆炸。
-
----
-
-> Source: deep-research-report.md §SA

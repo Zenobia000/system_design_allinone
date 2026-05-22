@@ -45,7 +45,3 @@ Prompt: 你是 UX designer。根據以下 user flow + IA：
 ```
 
 回審重點：layout 是否反映資訊優先序、edge state 是否完整。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

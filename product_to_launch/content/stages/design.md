@@ -36,7 +36,3 @@ source: "software_develop_journey/process_map/index.html §design"
 **ADR draft、選項 trade-off、API spec 從 use case 生 OpenAPI、DB migration script。** AI 能列選項，但 consequences 的政治判斷要人。
 
 加速範例：`基於這個 use case 生 OpenAPI 3.1 spec、含 error code 與 idempotency key`。
-
----
-
-> Source: software_develop_journey/process_map/index.html §design

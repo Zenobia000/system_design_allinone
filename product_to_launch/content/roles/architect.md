@@ -39,7 +39,3 @@ source: "deep-research-report.md §Architect"
 ## 何時該招這個角色
 
 **系統開始跨多個 service、團隊超過 20 人、或進入合規領域** 時，沒 Architect 會在第 2 年技術債爆炸。
-
----
-
-> Source: deep-research-report.md §Architect

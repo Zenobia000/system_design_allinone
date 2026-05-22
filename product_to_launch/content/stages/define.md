@@ -36,7 +36,3 @@ source: "software_develop_journey/process_map/index.html §define"
 **PRD 骨架、acceptance criteria、use case 草稿、規則整理。** AI 補洞速度極快，但要由人去驗證跟 stakeholder 對齊。
 
 加速範例：`基於這份 PRD 生 user story + acceptance criteria，附 5 個容易漏的 edge case`。
-
----
-
-> Source: software_develop_journey/process_map/index.html §define

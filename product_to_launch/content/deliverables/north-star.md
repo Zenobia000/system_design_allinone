@@ -45,7 +45,3 @@ Prompt: 你是熟悉 Amplitude/Mixpanel 框架的數據顧問。
 ```
 
 回審重點：指標是否真能反映 long-term value、是否容易被作弊。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

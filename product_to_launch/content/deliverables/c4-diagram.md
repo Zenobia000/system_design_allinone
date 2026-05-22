@@ -45,7 +45,3 @@ Prompt: 你是熟悉 C4 model 的 architect。根據以下系統資料：
 ```
 
 回審重點：各層是否分得乾淨（不混雜 component 進 context）、技術選型是否與 ADR 一致。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色 / §開發生命週期

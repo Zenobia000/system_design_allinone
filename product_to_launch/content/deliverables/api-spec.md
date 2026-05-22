@@ -45,7 +45,3 @@ Prompt: 你是熟悉 OpenAPI 3.1 的 BE architect。根據以下 SRS + user stor
 ```
 
 回審重點：error code 是否完整、idempotency 是否考慮、breaking change policy 是否寫進去。
-
----
-
-> Source: deep-research-report.md §可複製範本 / §Freeze 與 readiness

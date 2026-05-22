@@ -36,7 +36,3 @@ source: "software_develop_journey/process_map/index.html §operate"
 **Log 摘要、incident timeline 整理、postmortem draft、alert rule 建議。** Incident 當下 AI 能輔助看 dashboard，但決定先救誰、先告知誰要人扛。
 
 加速範例：`從這份 incident timeline 生 postmortem draft、按 5-why 列 root cause 與 action item`。
-
----
-
-> Source: software_develop_journey/process_map/index.html §operate

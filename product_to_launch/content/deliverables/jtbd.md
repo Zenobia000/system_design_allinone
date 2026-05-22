@@ -46,7 +46,3 @@ Prompt: 你是熟悉 JTBD 框架的 PM。根據以下 persona 與訪談摘要，
 ```
 
 回審重點：JTBD 是否寫成解法（錯）、是否真有 evidence 支撐。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

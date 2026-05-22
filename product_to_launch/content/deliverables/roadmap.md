@@ -44,7 +44,3 @@ Prompt: 你是產品策略顧問。根據以下 OKR、backlog、依賴清單：
 ```
 
 回審重點：是否真為 outcome（不是 feature）、依賴是否真實、信心分數是否誠實。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

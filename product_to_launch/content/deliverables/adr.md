@@ -47,7 +47,3 @@ Prompt: 你是熟悉 ADR 格式的 architect。根據以下技術討論紀錄：
 ```
 
 回審重點：trade-off 是否誠實（有列 negative consequence）、選項是否真實比較過。
-
----
-
-> Source: deep-research-report.md §可複製範本 / §關鍵決策節點

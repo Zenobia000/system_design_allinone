@@ -46,7 +46,3 @@ Prompt: 你是 UX researcher。根據以下 20 份訪談摘要，
 ```
 
 回審重點：persona 是否能被團隊輕易區辨、是否有 actionable 設計含意。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

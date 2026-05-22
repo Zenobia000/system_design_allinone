@@ -47,7 +47,3 @@ Prompt: 你是資深 BA。將以下 PRD section 轉成 FRD，每個功能條目�
 ```
 
 回審重點：欄位驗證規則是否完整、錯誤情境是否涵蓋、與 PRD 一致性。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

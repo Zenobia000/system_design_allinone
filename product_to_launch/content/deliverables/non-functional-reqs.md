@@ -39,7 +39,3 @@ PRD：<貼上>
 ```
 
 回審重點：human 判斷 trade-off 與閾值。
-
----
-
-> Source: software_architect/ppt/05-ilities, ISO/IEC/IEEE 29148

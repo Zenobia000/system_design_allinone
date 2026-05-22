@@ -45,7 +45,3 @@ Prompt: 你是熟悉分散式系統的 SA。根據以下 use case + API spec：
 ```
 
 回審重點：failure path 是否真實（不是只畫 happy）、補償交易是否考慮、idempotency 是否標清楚。
-
----
-
-> Source: deep-research-report.md §開發生命週期 / §三個實務場景

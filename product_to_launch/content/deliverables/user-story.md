@@ -47,7 +47,3 @@ Prompt: 你是 Scrum Product Owner。根據以下 PRD section，
 ```
 
 回審重點：story 是否真為「一個 sprint 可完成」、acceptance 是否可被 QA 直接拿去寫測試。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

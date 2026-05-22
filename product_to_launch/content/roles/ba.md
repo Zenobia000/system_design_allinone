@@ -39,7 +39,3 @@ source: "deep-research-report.md §BA"
 ## 何時該招這個角色
 
 **遇到跨部門系統、合規系統、ERP 整合** 時，沒 BA 會被需求改 10 次還對不齊。
-
----
-
-> Source: deep-research-report.md §BA

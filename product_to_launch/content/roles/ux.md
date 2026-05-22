@@ -39,7 +39,3 @@ source: "deep-research-report.md §UX"
 ## 何時該招這個角色
 
 **做 B2C 產品、或 B2B 但使用者抱怨多** 時，沒 UX 會卡在「工程做完了，但沒人用」。
-
----
-
-> Source: deep-research-report.md §UX

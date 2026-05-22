@@ -39,7 +39,3 @@ source: "deep-research-report.md §QA"
 ## 何時該招這個角色
 
 **B2C 大流量、金流、合規、或 mobile** 這類「炸了上頭條」的領域，沒專職 QA 等於賭運氣。
-
----
-
-> Source: deep-research-report.md §QA

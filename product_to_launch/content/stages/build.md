@@ -36,7 +36,3 @@ source: "software_develop_journey/process_map/index.html §build"
 **Boilerplate、unit test、refactor、code review 第一輪。** AI 寫得快，但驗證它寫的對不對還是要人。
 
 加速範例：`基於這個 service 補 unit test，目標 line coverage 80%、含 negative case`。
-
----
-
-> Source: software_develop_journey/process_map/index.html §build

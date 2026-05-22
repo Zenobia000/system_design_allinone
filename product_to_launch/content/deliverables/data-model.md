@@ -45,7 +45,3 @@ Prompt: 你是 DB architect。根據以下 SRS + business rules：
 ```
 
 回審重點：是否有 audit 欄位（created_at / updated_at / version）、PII 標註是否完整、index 是否覆蓋主要 query。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

@@ -49,7 +49,3 @@ Prompt: 你是資深 PM，根據以下訪談逐字稿、JTBD、journey map，
 ```
 
 回審重點：human 判斷 trade-off、stakeholder 優先級、合規邊界、out-of-scope 是否誠實。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色 / §可複製範本

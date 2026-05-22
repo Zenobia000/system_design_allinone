@@ -45,7 +45,3 @@ Prompt: 你是熟悉 BABOK 的 BA。根據以下組織架構 + 專案 scope：
 ```
 
 回審重點：是否漏掉法遵/資安/稽核、決策權描述是否準確。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

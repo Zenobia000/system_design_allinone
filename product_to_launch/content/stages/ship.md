@@ -36,7 +36,3 @@ source: "software_develop_journey/process_map/index.html §ship"
 **Runbook draft、release note、checklist 生成。** AI 能整理 checklist，但 go/no-go 還是要人扛責任。
 
 加速範例：`基於這份 incident 歷史，生 deploy runbook 與 5 個最常踩的回滾步驟`。
-
----
-
-> Source: software_develop_journey/process_map/index.html §ship

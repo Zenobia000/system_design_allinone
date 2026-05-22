@@ -39,7 +39,3 @@ source: "deep-research-report.md §Product Owner"
 ## 何時該招這個角色
 
 **跑 Scrum、且 backlog 超過 50 個 item** 時，沒 PO 就會出現「每個人都覺得自己排的優先級才對」。
-
----
-
-> Source: deep-research-report.md §Product Owner

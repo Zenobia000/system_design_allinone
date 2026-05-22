@@ -45,7 +45,3 @@ Prompt: 你是 UX researcher。根據以下 prototype flow：
 ```
 
 回審重點：任務是否真實反映使用者目標、不引導答案。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

@@ -45,7 +45,3 @@ Prompt: 你是 OKR 教練。根據以下北極星指標 + 本季商業目標：
 ```
 
 回審重點：KR 是否真能反映 Objective、是否太保守（信心 > 8）或太激進（信心 < 3）。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

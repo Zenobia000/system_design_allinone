@@ -45,7 +45,3 @@ Prompt: 你是 UI designer。根據以下 wireframe + design system token：
 ```
 
 回審重點：state 是否完整、a11y（對比、focus ring）是否到位、是否與 design system 一致。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色

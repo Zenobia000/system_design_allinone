@@ -45,7 +45,3 @@ Idea：[輸入...]
 ```
 
 回審重點：指標是否真的可量測、kill criteria 是否誠實（不要寫成「不管結果如何都繼續做」）。
-
----
-
-> Source: deep-research-report.md §產品與需求相關角色
