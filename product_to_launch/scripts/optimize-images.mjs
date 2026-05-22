@@ -9,7 +9,8 @@ import sharp from "sharp";
 
 const SRC = "originals/generated";
 const DST = "public/generated";
-const TARGET_WIDTH = 1280;
+// Output two widths for responsive srcset: mobile@1x/desktop@1x, desktop@2x.
+const WIDTHS = [640, 1280];
 const QUALITY = 80;
 
 if (!fs.existsSync(SRC)) {
@@ -24,17 +25,25 @@ let afterTotal = 0;
 
 for (const f of files) {
   const inPath = path.join(SRC, f);
-  const outPath = path.join(DST, f.replace(/\.png$/, ".webp"));
   const before = fs.statSync(inPath).size;
-  await sharp(inPath)
-    .resize({ width: TARGET_WIDTH, withoutEnlargement: true })
-    .webp({ quality: QUALITY, effort: 5 })
-    .toFile(outPath);
-  const after = fs.statSync(outPath).size;
   beforeTotal += before;
-  afterTotal += after;
+  const base = f.replace(/\.png$/, "");
+  const sizes = [];
+  for (const w of WIDTHS) {
+    // Default width (no suffix) matches the largest, so existing &lt;img src&gt;
+    // references stay valid; smaller widths get a -<w>w suffix.
+    const suffix = w === WIDTHS[WIDTHS.length - 1] ? "" : `-${w}w`;
+    const outPath = path.join(DST, `${base}${suffix}.webp`);
+    await sharp(inPath)
+      .resize({ width: w, withoutEnlargement: true })
+      .webp({ quality: QUALITY, effort: 5 })
+      .toFile(outPath);
+    const sz = fs.statSync(outPath).size;
+    sizes.push(sz);
+    afterTotal += sz;
+  }
   console.log(
-    `${(before / 1024).toFixed(0).padStart(5)}KB → ${(after / 1024).toFixed(0).padStart(4)}KB  ${f.replace(/\.png$/, ".webp")}`
+    `${(before / 1024).toFixed(0).padStart(5)}KB → [${sizes.map((s) => `${(s / 1024).toFixed(0)}KB`).join(" + ")}]  ${base}.webp`
   );
 }
 

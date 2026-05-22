@@ -108,6 +108,8 @@ export default async function DeliverablePage({ params }: { params: Promise<{ sl
               <div className="art">
                 <img
                   src={fm.art}
+                  srcSet={`${fm.art.replace(/\.webp$/, "-640w.webp")} 640w, ${fm.art} 1280w`}
+                  sizes="(max-width: 880px) 92vw, 42vw"
                   alt={`${fm.title} · 卡片插圖`}
                   width="1280"
                   height="853"

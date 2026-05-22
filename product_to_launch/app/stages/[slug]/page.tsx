@@ -99,6 +99,8 @@ export default async function StagePage({ params }: { params: Promise<{ slug: st
               <div className="art">
                 <img
                   src={stage.frontmatter.art}
+                  srcSet={`${stage.frontmatter.art.replace(/\.webp$/, "-640w.webp")} 640w, ${stage.frontmatter.art} 1280w`}
+                  sizes="(max-width: 880px) 92vw, 42vw"
                   alt={`${stage.frontmatter.title} · 階段插圖`}
                   width="1280"
                   height="853"

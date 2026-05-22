@@ -99,6 +99,8 @@ export default async function RolePage({ params }: { params: Promise<{ slug: str
               <div className="art">
                 <img
                   src={role.frontmatter.art}
+                  srcSet={`${role.frontmatter.art.replace(/\.webp$/, "-640w.webp")} 640w, ${role.frontmatter.art} 1280w`}
+                  sizes="(max-width: 880px) 92vw, 42vw"
                   alt={`${role.frontmatter.title} · 角色卡插圖`}
                   width="1280"
                   height="853"
