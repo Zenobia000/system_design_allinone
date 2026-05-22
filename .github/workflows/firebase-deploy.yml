@@ -6,9 +6,14 @@ on:
     paths:
       - "product_to_launch/**"
       - ".github/workflows/firebase-deploy.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "product_to_launch/**"
+      - ".github/workflows/firebase-deploy.yml"
   workflow_dispatch:
 
-# Only one deploy at a time per branch; cancel superseded runs.
+# Only one deploy at a time per branch/PR; cancel superseded runs.
 concurrency:
   group: firebase-deploy-${{ github.ref }}
   cancel-in-progress: true
@@ -16,11 +21,14 @@ concurrency:
 permissions:
   contents: read
   id-token: write   # required for Workload Identity Federation OIDC
+  pull-requests: write  # required to comment preview URL on PRs
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Skip PRs from forks — they cannot access WIF OIDC tokens anyway.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     defaults:
       run:
         working-directory: product_to_launch
@@ -37,11 +45,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint (pre-deploy gate)
+        run: npm run lint
+
       - name: Build (static export)
         env:
           NEXT_PUBLIC_SITE_URL: https://atlas.sunnydatascience.com
           NEXT_PUBLIC_BASE_PATH: ""
         run: npm run build
+
+      - name: Verify build output is non-empty
+        # next build can succeed silently while producing nothing (config drift,
+        # missing output: 'export', etc). Guard the deploy by asserting out/ has files.
+        run: |
+          if [ -z "$(ls -A out 2>/dev/null)" ]; then
+            echo "::error::out/ is empty after build — deploy aborted."
+            exit 1
+          fi
+          echo "out/ contains $(find out -type f | wc -l) files."
 
       - name: Authenticate to Google Cloud (Workload Identity Federation)
         id: auth
@@ -50,10 +71,54 @@ jobs:
           workload_identity_provider: projects/420996909723/locations/global/workloadIdentityPools/github/providers/github
           service_account: gh-actions-deploy@sds-lab-prod-a52a1.iam.gserviceaccount.com
 
-      - name: Deploy to Firebase Hosting
+      # ─── Production deploy: only on push to main / manual dispatch ───
+      - name: Deploy to Firebase Hosting (production)
+        if: github.event_name != 'pull_request'
         run: |
           npx firebase-tools@latest deploy \
             --only hosting \
             --project sds-lab-prod-a52a1 \
             --non-interactive \
             --message "GH Actions ${{ github.sha }} on ${{ github.ref_name }}"
+
+      # ─── Preview deploy: PR → ephemeral channel that expires in 7 days ───
+      - name: Deploy to Firebase Hosting (PR preview channel)
+        if: github.event_name == 'pull_request'
+        id: preview
+        run: |
+          CHANNEL="pr-${{ github.event.number }}"
+          OUTPUT=$(npx firebase-tools@latest hosting:channel:deploy "$CHANNEL" \
+            --project sds-lab-prod-a52a1 \
+            --expires 7d \
+            --non-interactive \
+            --json)
+          echo "$OUTPUT"
+          # JSON shape: { status, result: { "<site-id>": { url, expireTime, ... } } }
+          URL=$(echo "$OUTPUT" | jq -r '.result | to_entries[0].value.url // empty')
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Comment preview URL on PR
+        if: github.event_name == 'pull_request' && steps.preview.outputs.url != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = "${{ steps.preview.outputs.url }}";
+            const sha = context.sha.slice(0, 7);
+            const body = `🔥 **Firebase preview** for ${sha}: ${url}\n\n_Expires in 7 days. Pushes to this PR refresh the channel._`;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c => c.user.type === 'Bot' && c.body.startsWith('🔥 **Firebase preview**'));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                comment_id: existing.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: context.issue.number, body,
+              });
+            }
