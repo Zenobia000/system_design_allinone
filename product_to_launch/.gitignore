@@ -4,3 +4,5 @@ out/
 *.log
 .env*.local
 .DS_Store
+public/skills/
+tsconfig.tsbuildinfo

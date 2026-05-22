@@ -131,7 +131,8 @@ export function renderMarkdown(md: string): string {
 
   for (const rawLine of lines) {
     // Fenced code block boundary — track exact line, no trimming inside
-    const fence = /^```(\w*)\s*$/.exec(rawLine);
+    // Allow hyphenated lang tags like `prompt-quick` / `prompt-full`.
+    const fence = /^```([\w-]*)\s*$/.exec(rawLine);
     if (fence) {
       if (inCode) {
         const safe = codeBuf.join("\n")
@@ -139,7 +140,10 @@ export function renderMarkdown(md: string): string {
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;");
         const cls = codeLang ? ` class="lang-${codeLang}"` : "";
-        out.push(`<pre data-prompt-block><code${cls}>${safe}</code></pre>`);
+        const kind = codeLang === "prompt-quick" ? "quick"
+                   : codeLang === "prompt-full" ? "full"
+                   : "default";
+        out.push(`<pre data-prompt-block data-prompt-kind="${kind}"><code${cls}>${safe}</code></pre>`);
         inCode = false; codeLang = ""; codeBuf = [];
       } else {
         flushPara(); flushList(); flushQuote();
@@ -200,7 +204,7 @@ export function renderMarkdown(md: string): string {
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
-    out.push(`<pre data-prompt-block><code>${safe}</code></pre>`);
+    out.push(`<pre data-prompt-block data-prompt-kind="default"><code>${safe}</code></pre>`);
   }
   flushPara(); flushList(); flushQuote();
   return out.join("\n");
