@@ -31,17 +31,139 @@ source: "deep-research-report.md §產品與需求相關角色"
 
 ## AI 怎麼加速
 
-從 SRS + business rules 產 ERD + DDL。
+把 SRS + business rules 丟給 AI 產 ERD + DDL 草稿，人工審 PII 標註與 audit 欄位。
 
+```prompt-quick
+你是有 10+ 年分散式系統經驗的資深 software architect / DB architect（熟悉 ADR / DDD / ISO 27001 / GDPR / 資料分級）。任務：把 SRS + business rules 轉成 data model（YAML 格式）。
+
+<input>
+[SRS / 功能規格]
+[Business rules（約束、計算、合規）]
+[既有 ER / 資料分類政策]
+</input>
+
+輸出 schema：entities[]（含 attributes：type/nullable/constraints）/ relationships[]（cardinality/FK/cascade）/ indexes（B-tree/hash/composite）/ normalization_level / migration_strategy / data_classification（PII/PCI/PHI） / decision_log / out_of_scope（3 條）
+
+每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造欄位。
+結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
 ```
-Prompt: 你是 DB architect。根據以下 SRS + business rules：
-1) 產出 ERD（用 Mermaid erDiagram 語法）
-2) 對每個 entity 列出：column / type / constraint / index / FK
-3) 標註 PII 欄位 + 加密策略 + retention 期間
-4) 列出 ≥ 2 個典型 query pattern + 對應的 index 設計
-5) 給出 initial migration script（DDL）
 
-[輸入...]
+```prompt-full
+<role>
+你是有 10+ 年分散式系統經驗的資深 software architect / DB architect，熟悉 ADR、DDD、ISO 27001、GDPR、HIPAA、PCI DSS、資料分級與保留政策。
+你的輸出會交給 BE（寫 ORM）、DBA（寫 migration）、QA（設計資料測試）、Compliance（PII 稽核）。
+他們需要結構嚴格、欄位含型別/constraint/source 註記的 data model，才能機械生成 migration 與 contract test。
+</role>
+
+<context>
+新 entity 設計、跨系統整合、合規/稽核（有 PII / audit 需求）時用本 data model。
+本卡核心問題：把資料關係、約束、index、retention 講清楚，避免半年後 migration 補洞。
+</context>
+
+<input>
+[SRS / 功能規格（含 entity 邏輯定義）]
+[Business rules（約束、計算、合規、retention）]
+[既有 ER / 資料分類政策 / 主要 query pattern]
+</input>
+
+<rules>
+1. 每個 entity / attribute 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
+2. Trade-off 必須列負面後果（例：正規化到 3NF 則犧牲熱路徑 query 的 join 成本）。
+3. 缺資料的欄位標 TODO(缺什麼)，不要編造欄位或假設業務規則。
+4. 合規 / 資料分級：PII / PCI / PHI 欄位必須標註 + 加密策略 + retention 期間 + GDPR right-to-erasure 處理（任一不適用要說明）。
+5. Out of scope 至少 3 條（例：物理儲存層、cache 策略、analytic warehouse 模型不在本卡）。
+6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
+7. 每個 entity 必含 audit 欄位（created_at / updated_at / version / deleted_at），不可省略。
+</rules>
+
+<output_schema>
+entities:
+  - name: <e.g. Order>
+    attributes:
+      - name: id
+        type: uuid
+        nullable: false
+        constraints: [PK]
+        source: <input ref>
+        confidence: H | M | L
+      - name: status
+        type: enum[PENDING, PAID, SHIPPED, CANCELLED]
+        nullable: false
+        constraints: [<state machine ref>]
+      - name: created_at
+        type: timestamptz
+        nullable: false
+        constraints: [audit]
+    source: <input ref>
+
+relationships:
+  - from: Order
+    to: Customer
+    cardinality: N:1
+    fk: customer_id
+    on_delete: RESTRICT | CASCADE | SET NULL
+    rationale: <why this cascade choice>
+    confidence: H | M | L
+
+indexes:
+  - entity: Order
+    name: idx_order_customer_created
+    type: B-tree | hash | gin | composite
+    columns: [customer_id, created_at DESC]
+    covers_query: <query pattern ref>
+    cost_estimate: <size / write amplification>
+
+normalization_level:
+  current: 3NF | denormalized
+  rationale: <why this level>
+  trade_off: <negative consequence>
+
+migration_strategy:
+  initial_ddl: <link or inline>
+  versioning: <e.g. Flyway / Liquibase>
+  rollback_plan: <how>
+  zero_downtime: true | false + 原因
+
+data_classification:
+  - column: Customer.email
+    class: PII
+    encryption: <at-rest + in-transit>
+    retention: <e.g. 7 years post account closure>
+    gdpr_erasure: <how to handle>
+    source: <input ref>
+
+decision_log:
+  - decision: <e.g. UUID v7 vs auto-increment>
+    options_considered: [A, B, C]
+    chosen: A
+    rejected_reason:
+      B: <why not>
+      C: <why not>
+    confidence: H | M | L
+
+out_of_scope:
+  - 物理儲存層（partition / shard）由 DBA 另開 ADR
+  - Cache / read replica 策略不在本卡
+  - Analytic warehouse / OLAP 模型由 data team 處理
+</output_schema>
+
+<thinking>
+產出前先：
+1. 從 SRS 抓 3-5 個核心 entity 與其生命週期事件，標 H/M/L confidence
+2. 列至少 2 條 viable normalization 路徑（3NF vs 選擇性 denorm），各自負面後果
+3. 列你做了但 input 沒明說的假設（例：假設 soft delete、假設 UTC 儲存）
+4. 確認每個 entity 都有 audit 欄位、每個 PII 都有 retention 政策
+</thinking>
+
+<output>
+（依 output_schema YAML 填寫）
+</output>
+
+<verify>
+1. 哪個欄位 confidence < H？列出來與所需補充資料。
+2. 哪些 constraint / cascade 假設來自我而非 input？標出來。
+3. 如果只能再追加一份 input，是哪一份？為什麼？
+</verify>
 ```
 
-回審重點：是否有 audit 欄位（created_at / updated_at / version）、PII 標註是否完整、index 是否覆蓋主要 query。
+回審重點：audit 欄位完整、PII 標註正確、cascade 行為與業務符合、index 覆蓋主要 query。

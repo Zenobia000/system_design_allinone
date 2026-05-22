@@ -31,17 +31,122 @@ source: "deep-research-report.md §產品與需求相關角色"
 
 ## AI 怎麼加速
 
-從 wireframe + design system 反推所有 state 與標註。
+從 wireframe + design system 反推所有 state 與 a11y 標註，人工只審視覺品味與品牌一致性。
 
+```prompt-quick
+你是有 5+ 年 UI design 經驗的資深 UI designer（熟悉 design tokens、component spec、WCAG 2.2）。任務：把 wireframe + design system 轉成 高保真稿（YAML 格式）。
+
+<input>
+[Wireframe（screen + flow 已凍）]
+[Design system（token + component library）]
+[互動規範 / micro-copy 文案]
+</input>
+
+輸出 schema：screens / components_used / interaction_states / micro_copy / a11y_annotations / responsive_behavior / decision_log / out_of_scope（3 條）
+
+每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
+結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
 ```
-Prompt: 你是 UI designer。根據以下 wireframe + design system token：
-1) 對每個 screen 列出所有 state：
-   default / loading / empty / error / disabled / success / partial
-2) 對每個元件標註：spacing / typography token / interaction
-3) 對每個 CTA 標註：disabled 條件 + error 訊息文案
-4) 標出 ≥ 3 個 wireframe 缺漏的 edge state
 
-[輸入...]
+```prompt-full
+<role>
+你是有 5+ 年 UI design 經驗的資深 UI designer，熟悉 design tokens、component spec、Figma auto-layout、WCAG 2.2 AA。
+你的輸出會交給 FE / Mobile 工程師（像素級實作）、QA（寫 visual regression test）、UX（最後 usability check）。
+他們會用來「不靠猜」直接 build production code，所以每個 state / token / a11y 標註都必須機械可消費。
+</role>
+
+<context>
+Wireframe + flow 已凍結、進入 dev handoff 前才用本卡。
+本卡核心問題：讓工程師能像素級實作、不靠猜——所有 state（default/loading/empty/error/disabled/success/partial）齊全、token 對齊、a11y 達 WCAG 2.2 AA。
+</context>
+
+<input>
+[Wireframe（screen + flow 已凍）]
+[Design system（color/typography/spacing/radius/shadow token + component library）]
+[互動規範 / micro-copy 文案 / 品牌語氣]
+</input>
+
+<rules>
+1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
+2. Trade-off 必須列負面後果（例如：若 CTA 用 primary token，會犧牲 secondary 動作的 visual hierarchy）。
+3. 缺資料的欄位標 TODO(缺什麼)，不編造 token 值或文案；列「需要什麼補上」。
+4. a11y（WCAG 2.2 AA）：對比 ≥ 4.5:1（文字）/ 3:1（UI 元件）、focus ring 可見、touch target ≥ 44×44、ARIA 標註齊全——任一未達需說明為何不適用。
+5. Out of scope 至少 3 條，明寫不做什麼（例：不做 motion spec、不做 i18n 字串、不做後台管理介面）。
+6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
+7. 不重新發明 token；只使用 design system 既有 token，缺的標 TODO 請 design system 補。
+</rules>
+
+<output_schema>
+screens:
+  - name: <screen 名稱>
+    breakpoint: enum[mobile_360 | tablet_768 | desktop_1280]
+    states: [default, loading, empty, error, disabled, success, partial]  # 至少 5 種
+    source: <input ref>
+    confidence: H | M | L
+
+components_used:
+  - ref: <design system component id>
+    variant: <variant 名稱>
+    props_override: <若有客製>
+    source: <input ref>
+
+interaction_states:
+  - element: <CTA / input / link>
+    hover: <token + 行為>
+    focus: <focus ring spec + WCAG 2.4.7>
+    active: <token>
+    disabled: <條件 + 視覺 + a11y aria-disabled>
+
+micro_copy:
+  - context: <button / error / empty>
+    text: <文案>
+    source: <input ref or TODO(需文案 owner)>
+
+a11y_annotations:
+  contrast_ratios: <每個文字/UI 元件實測值>
+  focus_order: <tab 順序>
+  aria_labels: <screen reader 文字>
+  touch_target_min: <px>
+  wcag_level: AA
+  source: <input ref>
+
+responsive_behavior:
+  mobile_360: <layout 描述>
+  tablet_768: <layout 描述>
+  desktop_1280: <layout 描述>
+
+decision_log:
+  - decision: <例：error state 用 inline 還是 toast>
+    options_considered: [inline, toast, modal]
+    chosen: inline
+    rejected_reason:
+      toast: <為何不>
+      modal: <為何不>
+    confidence: H | M | L
+
+out_of_scope:
+  - <例：不做 motion / 動畫 timing spec>
+  - <例：不做 i18n 字串長度測試>
+  - <例：不做後台管理介面>
+</output_schema>
+
+<thinking>
+產出前先：
+1. 從 input 抓 3-5 個關鍵 signal（wireframe 主要 flow / design system 已有的 token / 品牌語氣關鍵字）
+2. 列至少 2 條 viable 視覺路徑（例：CTA 用 filled vs outlined）與各自負面後果
+3. 列你做了但 input 沒明說的假設（例：假設深色模式不在 v1）
+4. 確認 a11y 4 項（對比 / focus / touch target / ARIA）都涵蓋
+</thinking>
+
+<output>
+（依 output_schema YAML 填寫）
+</output>
+
+<verify>
+1. 哪個欄位 confidence < H？列出來與所需補充資料。
+2. 哪些假設來自我而非 input？標出來（特別是 token 客製、文案、a11y 等價判斷）。
+3. 如果只能再追加一份 input，是哪一份？為什麼？
+</verify>
 ```
 
-回審重點：state 是否完整、a11y（對比、focus ring）是否到位、是否與 design system 一致。
+回審重點：human 判斷視覺品味、品牌一致性、state 是否真完整、a11y 是否到位、與 design system 是否一致。

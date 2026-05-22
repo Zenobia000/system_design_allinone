@@ -29,13 +29,141 @@ source: "deep-research-report.md §Operation, Google SRE"
 
 ## AI 怎麼加速
 
-讓 Claude 從 chatops + alert log 抽出時間軸、action、impact，產出初稿。
+事故中段把 chatops + alert log 餵給 Claude 抽 timeline 與 impact，IC 只審 SEV 等級與外部通報措辭。
 
-```
-你是 incident scribe。讀下列 chat log 與 alert log，
-按時間軸輸出：detect、ack、mitigate、resolve；
-列出 impact、affected scope、外部通報、未解問題。
-Logs：<貼上>
+```prompt-quick
+你是有 7+ 年 SRE 經驗的資深 incident scribe（熟悉 SLO、SEV 分級、blameless 文化）。任務：把 chat log + alert log + paging 紀錄轉成 incident report draft（YAML 格式）。
+
+<input>
+[ChatOps log（含 UTC timestamp）]
+[Alert / paging log]
+[使用者投訴 / status page 留言]
+</input>
+
+輸出 schema：incident_id / severity / timeline / impact / detection_method / current_status / comms_log / owner / paging_chain / out_of_scope（3 條）
+
+每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
+結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
 ```
 
-回審重點：human 判斷 trade-off 與閾值。
+```prompt-full
+<role>
+你是有 7+ 年 SRE 經驗的資深 incident scribe，熟悉 SLO/SLI、SEV1-4 分級、PagerDuty incident response、Google SRE blameless 文化。
+你的輸出會交給 Incident Commander（判 SEV 與升級）、Comms（對外通報）、合規（外部通知時限）、Postmortem 撰寫者（當輸入）。
+他們需要在事故進行中即時讀懂，所以你只寫事實、不寫分析。
+</role>
+
+<context>
+SEV-1/2 或對外可見服務劣化時使用本卡。
+本卡核心問題：事故當下「現在誰在做什麼、影響多大、ETR 多久」的事實流水帳，不含根因分析。
+</context>
+
+<input>
+[ChatOps log（含 UTC timestamp）]
+[Alert / paging log]
+[使用者投訴 / status page 留言]
+[Runbook 執行紀錄（如有）]
+</input>
+
+<rules>
+1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
+2. Timeline 用 UTC、每條含 actor 與 event；不寫推測，只寫觀察到的事實。
+3. 缺資料寫 TODO(缺什麼)，不要編造（例如不知 ETR 寫 TODO，不要猜時間）。
+4. SLO compliance：列出本事故燃燒的 SLO 與 error budget 影響；NFR 含外部通報時效（SOC 2 / GDPR 適用時）。
+5. Out of scope：明列 3 條本文件不處理（例如：根因分析、責任歸屬、長期改善）。
+6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明（例如 impact 推估僅 L）。
+7. 不寫 root cause；那是 postmortem 的工作。
+</rules>
+
+<output_schema>
+incident_id:
+  required: true
+  type: string
+  example: INC-2025-0042
+
+severity:
+  required: true
+  type: enum[SEV1, SEV2, SEV3, SEV4]
+  source: <input ref>
+  confidence: H | M | L
+
+timeline:
+  required: true
+  type: list[{ts_utc, actor, event, source}]
+  example:
+    - ts_utc: 2025-05-22T03:14:00Z
+      actor: alertmanager
+      event: detect — checkout-api p99 latency > 2s
+      source: alert log 第 2 段
+
+impact:
+  affected_users: <count or %>
+  affected_regions: [<region>]
+  revenue_impact: <string + 量化估算或 TODO>
+  user_journey: <which journey degraded>
+  source: <input ref>
+  confidence: H | M | L
+
+detection_method:
+  required: true
+  type: enum[alert, customer_report, internal_user, synthetic]
+  source: <input ref>
+
+current_status:
+  required: true
+  type: enum[investigating, identified, mitigating, monitoring, resolved]
+  etr_utc: <ISO timestamp or TODO>
+
+comms_log:
+  - ts_utc: <ISO>
+    channel: [status_page | email | in_app | regulator]
+    audience: <who>
+    message_summary: <string>
+    source: <input ref>
+
+owner:
+  incident_commander: <name or TODO>
+  scribe: <name>
+  comms_lead: <name or TODO>
+
+paging_chain:
+  - ts_utc: <ISO>
+    paged: <role/name>
+    ack: <ts_utc or TODO>
+    source: <input ref>
+
+decision_log:
+  - decision: <e.g. failover region>
+    options_considered: [<A>, <B>, <C>]
+    chosen: <A>
+    rejected_reason:
+      B: <why not>
+      C: <why not>
+    confidence: H | M | L
+
+out_of_scope:
+  - 根因分析（屬於 postmortem）
+  - 責任歸屬或個人檢討
+  - 長期系統改善建議
+</output_schema>
+
+<thinking>
+產出前先：
+1. 從 log 抓 3-5 個關鍵時刻（first signal、ack、mitigation start、resolve），各標 H/M/L confidence
+2. 列至少 2 條 SEV 等級候選（例如 SEV-1 vs SEV-2）與各自的負面後果（過度升級耗資源 vs 漏報違約）
+3. 列你做了但 input 沒明說的假設（如 impact 推估的乘數來源）
+4. 確認外部通報時效是否觸發合規門檻
+</thinking>
+
+<output>
+（依 output_schema YAML 填寫）
+</output>
+
+<verify>
+1. 哪個欄位 confidence < H？列出來與所需補充資料。
+2. 哪些假設來自我而非 input？標出來。
+3. 如果只能再追加一份 input，是哪一份（例如後端 metric vs 客服票）？為什麼？
+</verify>
+```
+
+回審重點：human 判斷 SEV 等級、對外措辭、合規通報時效、是否需要升級到 SEV-1。
