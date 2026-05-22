@@ -104,12 +104,16 @@ export function getAllStages(): Loaded<StageFront>[] {
 
 /** Very small Markdown → HTML used only for short body fragments.
  *  Avoids pulling remark/rehype: we treat the body as light prose with
- *  headings, paragraphs, lists, inline code, bold, and blockquotes. */
+ *  headings, paragraphs, lists, inline code, bold, fenced code blocks,
+ *  and blockquotes. */
 export function renderMarkdown(md: string): string {
   const lines = md.split("\n");
   const out: string[] = [];
   let inList: "ul" | "ol" | null = null;
   let inQuote = false;
+  let inCode = false;
+  let codeLang = "";
+  let codeBuf: string[] = [];
   let para: string[] = [];
 
   const flushPara = () => {
@@ -126,6 +130,25 @@ export function renderMarkdown(md: string): string {
   };
 
   for (const rawLine of lines) {
+    // Fenced code block boundary — track exact line, no trimming inside
+    const fence = /^```(\w*)\s*$/.exec(rawLine);
+    if (fence) {
+      if (inCode) {
+        const safe = codeBuf.join("\n")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+        const cls = codeLang ? ` class="lang-${codeLang}"` : "";
+        out.push(`<pre><code${cls}>${safe}</code></pre>`);
+        inCode = false; codeLang = ""; codeBuf = [];
+      } else {
+        flushPara(); flushList(); flushQuote();
+        inCode = true; codeLang = fence[1];
+      }
+      continue;
+    }
+    if (inCode) { codeBuf.push(rawLine); continue; }
+
     const line = rawLine.replace(/\s+$/, "");
     if (!line.trim()) { flushPara(); flushList(); flushQuote(); continue; }
 
@@ -152,6 +175,14 @@ export function renderMarkdown(md: string): string {
       continue;
     }
     para.push(line);
+  }
+  // defensive flush — if a code fence was left unclosed, treat the buffer as text
+  if (inCode && codeBuf.length) {
+    const safe = codeBuf.join("\n")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    out.push(`<pre><code>${safe}</code></pre>`);
   }
   flushPara(); flushList(); flushQuote();
   return out.join("\n");
