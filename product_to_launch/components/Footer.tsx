@@ -37,7 +37,7 @@ export default function Footer() {
         <div>
           <h4>配套視圖</h4>
           <ul>
-            <li><a href="/atlas-map/">Blueprint Studio</a></li>
+            <li><a href="/atlas-map.html">Blueprint Studio</a></li>
             <li><Link href="/about/">About</Link></li>
           </ul>
         </div>

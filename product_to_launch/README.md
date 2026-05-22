@@ -83,7 +83,7 @@
 
 <img src="./docs/screenshots/08-atlas-map.png" alt="Blueprint Studio" width="900" />
 
-> 從首頁 Map CTA 內部跳轉至 `/atlas-map/` · 鋼藍工程網格 + 9 角色 × 50+ 交付物 handoff 鏈 · 1738 行 inline HTML/CSS/JS 互動視圖。
+> 從首頁 Map CTA 內部跳轉至 `/atlas-map.html` · 鋼藍工程網格 + 9 角色 × 50+ 交付物 handoff 鏈 · 1738 行 inline HTML/CSS/JS 互動視圖。
 
 ### 響應式 · Mobile
 
@@ -219,7 +219,7 @@ source: "deep-research-report.md §產品經理"
 |---|---|
 | [`deep-research-report.md`](../deep-research-report.md) | 9 角色 RACI、54 交付物清單 |
 | [`software_develop_journey/ppt/`](../software_develop_journey/ppt/) | 角色 overview / outputs / boundary |
-| [`public/atlas-map/`](./public/atlas-map/) | Atlas Blueprint Studio (DAG 互動圖) |
+| [`public/atlas-map.html`](./public/atlas-map.html) | Atlas Blueprint Studio (DAG 互動圖) |
 | [`software_architect/ppt/`](../software_architect/) | ADR / C4 / -ilities 引用 |
 | [`ai_native_system_design/ppt/`](../ai_native_system_design/) | AI 加速 prompt 範例 |
 | [`system_design/ppt/`](../system_design/) | SLO / Caching / Sharding 引用 |

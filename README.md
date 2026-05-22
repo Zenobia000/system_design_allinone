@@ -155,7 +155,7 @@ bash scripts/build.sh chapter 01-foundation   # 單章
 
 字體（共用）：Instrument Serif / Playfair Display（標題）· Geist / Inter（內文）· JetBrains Mono / IBM Plex Mono（程式碼）· Noto Sans TC（中文）。
 
-主題 CSS：[`ai_native_system_design/ppt/themes/anthropic.css`](./ai_native_system_design/ppt/themes/anthropic.css) · Atlas Blueprint Studio (inline, see `product_to_launch/public/atlas-map/`)
+主題 CSS：[`ai_native_system_design/ppt/themes/anthropic.css`](./ai_native_system_design/ppt/themes/anthropic.css) · Atlas Blueprint Studio (inline, see `product_to_launch/public/atlas-map.html`)
 
 ---
 
