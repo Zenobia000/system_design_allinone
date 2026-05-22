@@ -27,7 +27,7 @@ Sequence Diagram 強迫把**時間順序、訊息類型、失敗路徑、補償�
 
 - ✅ **必要時機：** 跨 ≥ 3 服務、有異步事件、有交易補償、外部 API 整合
 - ❌ **不需要時：** 單服務內部呼叫、純 CRUD
-- ⚠️ **常見誤用：** 只畫 happy path，沒畫 timeout / retry / rollback；AWS Builders' Library 強調**重試不是免費的**，必須畫 backoff + jitter + idempotency
+- ⚠️ **常見誤用：** 只畫 happy path，沒畫 timeout / retry / rollback；業界實踐強調**重試不是免費的**，必須畫 backoff + jitter + idempotency
 
 ## AI 怎麼加速
 

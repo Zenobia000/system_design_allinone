@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "About · 關於落地圖鑑",
-  description: "落地圖鑑是桑尼資料科學 Lab 的免費實驗品 — 把 1500 頁系統設計教材濃縮成可帶走的口袋地圖。",
+  description: "為架構工作打造的決策手冊。由桑尼資料科學 Lab 整理發行 — 九個角色、六道 SDLC 閘門、五十四項交付物。",
 };
 
 export default function AboutPage() {
@@ -16,13 +16,13 @@ export default function AboutPage() {
           <div className="container">
             <div>
               <div className="meta-row">
-                <span className="tag accent">About · Lab Product</span>
+                <span className="tag accent">About</span>
                 <span className="tag">v1.0 · 2026</span>
               </div>
-              <h1>落地圖鑑是 SDS Lab 的免費實驗品。</h1>
+              <h1>為架構工作打造的決策手冊。</h1>
               <p className="hook">
-                把桑尼資料科學的教材濃縮成可帶走的口袋地圖 — 從一個假設，走到一座可運維的系統。
-                這份地圖免費、開源、可離線開。
+                由桑尼資料科學 Lab 整理發行。九個角色、六道 SDLC 閘門、五十四項交付物——
+                每張卡只回答四件事：解決什麼、誰負責、何時用、AI 怎麼加速。
               </p>
             </div>
           </div>
@@ -33,14 +33,12 @@ export default function AboutPage() {
             <article>
               <h2>為什麼做這個</h2>
               <p>
-                市面上的 PM 框架知識庫已經很多了。但我們需要的不是「更多框架」，而是一條
-                <strong>可走完的路</strong> — 從一個商業假設，走到一個凌晨三點還活著的系統。
+                市面上的產品框架知識庫已經很多了。但工程團隊真正需要的，從來不是「更多框架」，
+                而是一條<strong>可走完的路</strong> — 從一個商業假設，走到一個凌晨三點還活著的系統。
               </p>
               <p>
-                落地圖鑑（Launch Atlas）從 <strong>pm.chiba.tw</strong> 的精選框架知識庫
-                哲學出發，但我們不只列工具 — 而是把工具放回它「該被使用」的位置上。每張交付物卡
-                都回答四個問題：<strong>解決什麼問題、誰負責、何時用、AI 怎麼加速</strong>。
-
+                落地圖鑑把工具放回它「該被使用」的位置上 — 不依附特定方法論、不堆砌名詞，
+                每張交付物卡片只回答四件事：<strong>解決什麼問題、誰負責、何時用、AI 怎麼加速</strong>。
               </p>
 
               <h2>內容怎麼來的</h2>
@@ -69,24 +67,20 @@ export default function AboutPage() {
 
               <h2>關於桑尼資料科學 Lab</h2>
               <p>
-                <strong>桑尼資料科學（Sunny DataScience）</strong>是一個專注於 AI 第二專長的線上學習平台 —
-                從入門到進階的實戰課程，500+ 學員、15+ 門課，覆蓋 Prompt Engineering、Claude Code、AI 工作流、
-                自動化 PoC 等主題。
+                <strong>桑尼資料科學（Sunny DataScience）</strong>是專注於 AI 第二專長的線上學習平台，
+                提供從入門到進階的實戰課程，主題涵蓋 Prompt Engineering、AI 工作流、自動化 PoC、
+                以及主流 AI 助理（如 Claude Code、Cursor）在工程任務上的深度應用。
               </p>
               <p>
-                <strong>SDS Lab</strong> 是平台底下的研發與實驗單位，定期把教材內容拆解成開源免費的內容產品 —
-                <strong>落地圖鑑</strong> 是 Lab 首個對外釋出的長期內容站，把講義裡的角色全景、決策框架、AI prompt
-                例子整合成一張可走完的地圖。
-              </p>
-              <p>
-                如果這份地圖對你有用，主站還有更深入的：完整 SDLC 工作流、Claude Code 進階心法、
-                每月直播 office hours、實戰案例 deep-dive。
+                <strong>SDS Lab</strong> 是平台底下的研發單位，把教材內容重整為對外公開的長期內容站。
+                <strong>落地圖鑑</strong>是 Lab 發行的首個內容站——將角色全景、決策框架、AI 加速範例
+                整合成一份可走完的工程地圖。
               </p>
 
               <div className="cta-strip">
                 <div>
-                  <strong>想學完整 AI 工作流？</strong>
-                  <p>主站有 15+ 門課、500+ 學員、98% 滿意度。免費試讀部分章節。</p>
+                  <strong>想看完整的 AI 工作流課程？</strong>
+                  <p>主站提供結構化的學習路徑與實戰案例，部分章節開放免費試讀。</p>
                 </div>
                 <a
                   href="https://sunnydatascience.com/"
@@ -94,7 +88,7 @@ export default function AboutPage() {
                   rel="noopener"
                   className="cta-primary"
                 >
-                  探索桑尼資料科學 <span className="arrow">↗</span>
+                  前往桑尼資料科學 <span className="arrow">↗</span>
                 </a>
               </div>
 
@@ -112,8 +106,13 @@ export default function AboutPage() {
                 <li>不教 Linus 沒實作的東西 — 凡事都要能跑得起來</li>
               </ul>
 
-              <h2>授權</h2>
+              <h2>授權與引用</h2>
               <p>MIT License · © 2026 · 桑尼資料科學 Lab 出品</p>
+              <p style={{ fontSize: 13, color: "var(--ink-mute)" }}>
+                文字、圖片與排版為原創內容。內文中提及之第三方產品、標準與公司名稱
+                （如 AI 助理、SLO 框架、編程工具等）均屬其各自所有者，僅作描述性引用，
+                與本站不存在贊助、合作或背書關係。
+              </p>
             </article>
             <aside>
               <section>

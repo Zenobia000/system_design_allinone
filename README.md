@@ -27,7 +27,7 @@
 
 **新功能** — 從一個假設，到一座可運維的系統。9 角色 · 54 交付物 · 6 階段 · 一張可走完的地圖。
 
-[`product_to_launch/`](./product_to_launch/) 是這個倉庫的**入口網站**，把四個姊妹專案的內容濃縮成可掃描的卡片網格，靈感來自 [`pm.chiba.tw`](https://pm.chiba.tw/) 但把「框架」換成「**交付物**」、把光面紙翻成**深墨 hero + 米白內容**雙主題。
+[`product_to_launch/`](./product_to_launch/) 是這個倉庫的**入口網站**，把四個姊妹專案的內容濃縮成可掃描的卡片網格。設計上不只列工具，而是把「**交付物**」放回它「該被使用」的位置，採**深墨 hero + 米白內容**雙主題視覺。
 
 <div align="center">
 <img src="./product_to_launch/docs/screenshots/01-hero.png" alt="Launch Atlas Hero" width="900" />

@@ -13,7 +13,7 @@ source: "deep-research-report.md §Implementation, DORA, NIST SSDF"
 
 ## 解決什麼問題
 
-DORA 的四個指標都依賴一件事：pipeline 可信。CI/CD 把 build、test、scan、artifact、deploy 串成可重現流程，並留證據鏈。
+業界公認的四個交付指標（部署頻率、前置時間、變更失敗率、復原時間）都依賴一件事：pipeline 可信。CI/CD 把 build、test、scan、artifact、deploy 串成可重現流程，並留證據鏈。
 
 ## 誰負責、和誰對接
 

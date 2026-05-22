@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: "%s · 落地圖鑑",
   },
   description:
-    "9 個角色 · 50+ 交付物 · 一張可走完的地圖。每張卡附台灣實戰觀點與可帶走的 AI Skill。",
+    "9 個角色 · 54 個交付物 · 一張可走完的地圖。每張卡片只回答四件事：解決什麼、誰負責、何時用、AI 怎麼加速。",
   keywords: [
     "產品開發", "SDLC", "系統設計", "PRD", "ADR", "Runbook", "SLO",
     "AI 工作流", "Claude Code", "Product to Launch", "Launch Atlas",

@@ -13,7 +13,7 @@ export default function Hero() {
       <p className="lede">
         9 個角色 · <b>54 個交付物</b> · 一張可走完的地圖。
         <br />
-        每張卡附台灣實戰觀點與可帶走的 AI Skill — 不背名詞，學決策。
+        每張卡片只回答四件事：<b>解決什麼、誰負責、何時用、AI 怎麼加速</b>。
       </p>
       <div className="meta">
         <span><i /> 6 Stages</span>
