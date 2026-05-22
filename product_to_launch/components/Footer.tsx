@@ -44,7 +44,11 @@ export default function Footer() {
       </div>
       <div className="end">
         <span>© 2026 · Launch Atlas · MIT License</span>
-        <span>v1.0 · 落地圖鑑</span>
+        <span>
+          <a href="https://sunnydatascience.com/" target="_blank" rel="noopener" className="lab-credit">
+            桑尼資料科學 Lab 出品 <span style={{ color: "var(--accent)" }}>↗</span>
+          </a>
+        </span>
       </div>
     </footer>
   );

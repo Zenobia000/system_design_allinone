@@ -252,6 +252,33 @@ body {
 .compass .role-hook { font-size: 13px; color: var(--ink-mute); line-height: 1.55; }
 .compass .role-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 
+/* compact variant — denser grid for landing showcase */
+.compass-compact {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.compass-compact a {
+  padding: 18px 18px;
+  gap: 8px;
+}
+.compass-compact h3 { font-size: 19px; }
+.compass-compact .role-tags { margin-top: 2px; }
+
+/* See-all CTA below compact grids — quiet, monospace, link to full index */
+.section-foot {
+  max-width: var(--maxw); margin: 32px auto 0;
+  display: flex; justify-content: flex-end;
+}
+.see-all {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--f-mono); font-size: 12px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-mute); padding: 8px 0;
+  border-bottom: 1px solid var(--ink-mute);
+  transition: all 0.15s ease;
+}
+.see-all:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
 /* ─── filter bar ─────────────────────────────────────────────── */
 .filter-bar {
   display: flex; flex-wrap: wrap; gap: 10px;
@@ -393,6 +420,8 @@ body {
   letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--paper-mute);
 }
+.footer .lab-credit { color: var(--paper-on-ink); transition: opacity 0.15s ease; }
+.footer .lab-credit:hover { opacity: 0.7; }
 @media (max-width: 720px) { .footer .row { grid-template-columns: 1fr; } .footer .end { flex-direction: column; gap: 12px; } }
 
 /* ─── detail page (role/deliverable/stage) ───────────────────── */
@@ -472,6 +501,38 @@ body {
   font-style: italic; color: var(--ink-mute);
 }
 .detail-body article strong { color: var(--ink-on-cream); font-weight: 500; }
+
+/* — inline CTA strip (used in about page for SDS conversion) — */
+.detail-body article .cta-strip {
+  margin: 32px 0 36px;
+  padding: 24px 28px;
+  background: var(--ink);
+  color: var(--paper-on-ink);
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  border-left: 3px solid var(--accent);
+}
+.detail-body article .cta-strip > div { flex: 1; min-width: 220px; }
+.detail-body article .cta-strip strong {
+  display: block; color: var(--paper-on-ink);
+  font-family: var(--f-display); font-size: 22px;
+  margin-bottom: 6px;
+}
+.detail-body article .cta-strip p {
+  margin: 0; color: var(--paper-mute); font-size: 14px;
+}
+.detail-body article .cta-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 22px;
+  background: var(--accent); color: var(--ink) !important;
+  font-family: var(--f-mono); font-size: 12px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 500; white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.detail-body article .cta-primary:hover { background: var(--accent-soft); }
+.detail-body article .cta-primary .arrow { font-size: 15px; }
+.detail-body aside a { color: var(--accent-warm); text-decoration: none; transition: color 0.15s ease; }
+.detail-body aside a:hover { color: var(--accent); }
 
 .detail-body aside {
   position: sticky; top: 100px; align-self: start;
