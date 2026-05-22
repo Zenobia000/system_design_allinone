@@ -139,7 +139,7 @@ export function renderMarkdown(md: string): string {
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;");
         const cls = codeLang ? ` class="lang-${codeLang}"` : "";
-        out.push(`<pre><code${cls}>${safe}</code></pre>`);
+        out.push(`<pre data-prompt-block><code${cls}>${safe}</code></pre>`);
         inCode = false; codeLang = ""; codeBuf = [];
       } else {
         flushPara(); flushList(); flushQuote();
@@ -171,7 +171,25 @@ export function renderMarkdown(md: string): string {
       flushPara(); flushQuote();
       const kind = liU ? "ul" : "ol";
       if (inList !== kind) { flushList(); out.push(`<${kind}>`); inList = kind as "ul" | "ol"; }
-      out.push(`<li>${inline((liU || liO)![1])}</li>`);
+      let text = (liU || liO)![1];
+      let badge = "";
+      // Convert leading status emoji into stamp-style badges to match the
+      // Architect's Blueprint aesthetic (✅/❌/⚠️ → DO / DON'T / CAUTION)
+      if (/^✅\s+/.test(text)) {
+        badge = '<span class="mark mark-do">DO</span>';
+        text = text.replace(/^✅\s+/, "");
+      } else if (/^❌\s+/.test(text)) {
+        badge = '<span class="mark mark-dont">DON’T</span>';
+        text = text.replace(/^❌\s+/, "");
+      } else if (/^⚠️?\s+/.test(text)) {
+        badge = '<span class="mark mark-caution">CAUTION</span>';
+        text = text.replace(/^⚠️?\s+/, "");
+      }
+      if (badge) {
+        out.push(`<li class="li-mark">${badge}<span class="li-mark-body">${inline(text)}</span></li>`);
+      } else {
+        out.push(`<li>${inline(text)}</li>`);
+      }
       continue;
     }
     para.push(line);
@@ -182,7 +200,7 @@ export function renderMarkdown(md: string): string {
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
-    out.push(`<pre><code>${safe}</code></pre>`);
+    out.push(`<pre data-prompt-block><code>${safe}</code></pre>`);
   }
   flushPara(); flushList(); flushQuote();
   return out.join("\n");

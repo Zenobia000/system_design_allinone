@@ -502,6 +502,43 @@ body {
 }
 .detail-body article strong { color: var(--ink-on-cream); font-weight: 500; }
 
+/* — stamp-style status badges (replaces ✅/❌/⚠️ emoji) — */
+.detail-body article li.li-mark {
+  list-style: none;
+  margin-left: -22px;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 14px;
+  align-items: baseline;
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+.detail-body article li.li-mark .mark {
+  flex: 0 0 auto;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  padding: 4px 10px;
+  text-align: center;
+  text-transform: uppercase;
+  border: 1.5px solid currentColor;
+  border-radius: 1px;
+  background: transparent;
+  white-space: nowrap;
+  /* lift the badge slightly so its center aligns with the prose baseline */
+  position: relative;
+  top: 2px;
+}
+.detail-body article li.li-mark .li-mark-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.detail-body article li.li-mark .mark-do { color: var(--accent); }
+.detail-body article li.li-mark .mark-dont { color: var(--red); }
+.detail-body article li.li-mark .mark-caution { color: var(--blue-deep); }
+
 /* — inline CTA strip (used in about page for SDS conversion) — */
 .detail-body article .cta-strip {
   margin: 32px 0 36px;
@@ -556,6 +593,81 @@ body {
 .muted { color: var(--ink-mute); }
 .center { text-align: center; }
 .mono { font-family: var(--f-mono); letter-spacing: 0.1em; text-transform: uppercase; font-size: 11px; }
+
+/* ─── prompt action bar ──────────────────────────────────────── */
+.prompt-actions-mount {
+  margin: -24px 0 24px;
+}
+.prompt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 12px 18px;
+  background: var(--ink-2);
+  border-left: 3px solid var(--accent);
+  border-top: 1px solid rgba(255, 106, 26, 0.18);
+  font-family: var(--f-mono);
+  font-size: 12px;
+}
+.prompt-actions .pa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--paper-on-ink, #efe9da);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.prompt-actions .pa-primary {
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
+}
+.prompt-actions .pa-primary:hover { background: var(--accent-soft); }
+.prompt-actions .pa-primary.is-copied { background: #4ade80; color: var(--ink); }
+.prompt-actions .pa-secondary {
+  border-color: rgba(245, 241, 232, 0.22);
+  color: var(--cream);
+}
+.prompt-actions .pa-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.prompt-actions .pa-chatbots {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.prompt-actions .pa-label {
+  color: var(--ink-mute);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+.prompt-actions .pa-skill-link {
+  margin-left: auto;
+  color: var(--accent-warm);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent-warm);
+  padding-bottom: 1px;
+}
+.prompt-actions .pa-skill-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+@media (max-width: 640px) {
+  .prompt-actions { font-size: 11px; }
+  .prompt-actions .pa-skill-link { margin-left: 0; width: 100%; }
+}
 
 /* ─── animations ─────────────────────────────────────────────── */
 @keyframes fade-up {
