@@ -67,7 +67,7 @@ system_design_allinone/
 ├── 🗺 product_to_launch/         ← Launch Atlas · 入口網站（新）
 ├── 📐 ai_native_system_design/   ← AI 時代系統設計速成（11 章 200 頁）
 ├── 🏛 software_architect/        ← 架構師的藍圖（10 章 372 頁）
-├── 🛠 software_develop_journey/  ← 軟體開發旅程（14 章 384 頁 + process_map）
+├── 🛠 software_develop_journey/  ← 軟體開發旅程（14 章 384 頁）
 └── 📚 system_design/             ← 系統設計實戰（7 章 48 主題 + 34 PDF）
 ```
 
@@ -151,11 +151,11 @@ bash scripts/build.sh chapter 01-foundation   # 單章
 ## 視覺系統
 
 四套教材統一使用 **Anthropic 風格**（暖橙 `#D97757` + 米白底 `#F5F1E8`）。
-落地圖鑑與 `process_map` 改用 **Architect's Blueprint**（深墨 `#0a0e14` + 修正橙 `#ff6a1a` + blueprint cyan `#6dd5ed`）。
+落地圖鑑與 Atlas Blueprint Studio 改用 **Architect's Blueprint**（深墨 `#0a0e14` + 修正橙 `#ff6a1a` + blueprint cyan `#6dd5ed`）。
 
 字體（共用）：Instrument Serif / Playfair Display（標題）· Geist / Inter（內文）· JetBrains Mono / IBM Plex Mono（程式碼）· Noto Sans TC（中文）。
 
-主題 CSS：[`ai_native_system_design/ppt/themes/anthropic.css`](./ai_native_system_design/ppt/themes/anthropic.css) · [`software_develop_journey/process_map/index.html`](./software_develop_journey/process_map/index.html) (inline)
+主題 CSS：[`ai_native_system_design/ppt/themes/anthropic.css`](./ai_native_system_design/ppt/themes/anthropic.css) · Atlas Blueprint Studio (inline, see `product_to_launch/public/atlas-map/`)
 
 ---
 

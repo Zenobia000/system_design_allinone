@@ -79,6 +79,12 @@
 
 > 多層描圖紙 hero · 退出條件 / 典型卡關側欄 · 14 張階段內交付物網格。
 
+### Blueprint Studio · 配套 DAG 流程地圖
+
+<img src="./docs/screenshots/08-atlas-map.png" alt="Blueprint Studio" width="900" />
+
+> 從首頁 Map CTA 內部跳轉至 `/atlas-map/` · 鋼藍工程網格 + 9 角色 × 50+ 交付物 handoff 鏈 · 1738 行 inline HTML/CSS/JS 互動視圖。
+
 ### 響應式 · Mobile
 
 <img src="./docs/screenshots/06-mobile-hero.png" alt="Mobile Hero" width="300" />
@@ -105,7 +111,7 @@
 
 ## 視覺系統
 
-承接姊妹專案 `process_map/index.html` 的 **Architect's Blueprint** 美學：
+採 **Architect's Blueprint** 美學（與配套視圖 Atlas Blueprint Studio 同調）：
 
 | Token | Hex | 用途 |
 |---|---|---|
@@ -144,7 +150,7 @@ npm run gen:images   # → public/generated/ (22 PNG, ~$4 USD)
 | Framework | Next.js 15 (App Router) | 動態路由 + SSG + 靜態匯出 一條龍 |
 | Runtime | React 19 stable | Server components 簡化資料抓取 |
 | Language | TypeScript 5.6 | type-safe taxonomy + content frontmatter |
-| Styles | 純 CSS + CSS variables | 與 `process_map/index.html` 同調，零相依 |
+| Styles | 純 CSS + CSS variables | 與配套 Blueprint Studio 同調，零相依 |
 | Content | Markdown (gray-matter) | 70 個 `.md`，作者可直接寫 |
 | Images | GPT-image-2 (high quality) | 24 張一致風格、$4 USD、可重生 |
 | Deploy | static export → 任何靜態主機 | GitHub Pages / Netlify / Vercel / S3 |
@@ -213,7 +219,7 @@ source: "deep-research-report.md §產品經理"
 |---|---|
 | [`deep-research-report.md`](../deep-research-report.md) | 9 角色 RACI、54 交付物清單 |
 | [`software_develop_journey/ppt/`](../software_develop_journey/ppt/) | 角色 overview / outputs / boundary |
-| [`software_develop_journey/process_map/index.html`](../software_develop_journey/process_map/index.html) | Blueprint Studio (DAG 互動圖) |
+| [`public/atlas-map/`](./public/atlas-map/) | Atlas Blueprint Studio (DAG 互動圖) |
 | [`software_architect/ppt/`](../software_architect/) | ADR / C4 / -ilities 引用 |
 | [`ai_native_system_design/ppt/`](../ai_native_system_design/) | AI 加速 prompt 範例 |
 | [`system_design/ppt/`](../system_design/) | SLO / Caching / Sharding 引用 |

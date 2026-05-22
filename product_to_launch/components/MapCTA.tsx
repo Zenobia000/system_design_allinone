@@ -9,7 +9,7 @@ export default function MapCTA() {
             打開 Blueprint Studio — 那是一張 DAG 圖，把 9 個角色與 50+ 交付物之間的
             handoff 連起來。看完地圖，你會知道為什麼某個 PR 卡住，是因為兩階段之前漏了一份合約。
           </p>
-          <a className="cta" href="../software_develop_journey/process_map/index.html" target="_blank" rel="noopener">
+          <a className="cta" href="/atlas-map/">
             開啟 Blueprint Studio →
           </a>
         </div>

@@ -35,10 +35,10 @@ export default function Footer() {
           </ul>
         </div>
         <div>
-          <h4>地圖工具</h4>
+          <h4>配套視圖</h4>
           <ul>
-            <li><a href="../software_develop_journey/process_map/index.html" target="_blank" rel="noopener">Blueprint Studio</a></li>
-            <li><a href="../deep-research-report.md">研究報告</a></li>
+            <li><a href="/atlas-map/">Blueprint Studio</a></li>
+            <li><Link href="/about/">About</Link></li>
           </ul>
         </div>
       </div>
