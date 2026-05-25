@@ -17,6 +17,9 @@ import img_05_container_03_probes from './assets/05_container_03_probes.png';
 import img_06_serverless_01_cold_start from './assets/06_serverless_01_cold_start.png';
 import img_06_serverless_02_faas_flow from './assets/06_serverless_02_faas_flow.png';
 import img_99_recap_01_video_arch from './assets/99_recap_01_video_arch.png';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#F5F1E8', text: '#2A2520', accent: '#D97757' },
@@ -54,6 +57,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -62,7 +66,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -95,7 +178,11 @@ const P01: Page = () => (
 const P02: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_00_hero} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={2} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -112,7 +199,11 @@ const P03: Page = () => (
       </div>
     </div>
     <Footer source={'常用技術/01 + 02 + 03 + 04 + 05 + 06'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={3} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -132,7 +223,11 @@ const P04: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_00_mental_model} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'整理自 常用技術/01-06'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={4} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -150,7 +245,11 @@ const P05: Page = () => (
       <Callout tone='#D97757'><strong>Linus 式判斷</strong>：90% 的「該選哪個」，靠這 3 題就能判出來。剩下 10% 才需要 benchmark。</Callout>
     </div>
     <Footer source={'整理自 常用技術/01-06'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={5} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -167,7 +266,11 @@ const P07: Page = () => (
 const P08: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_database_02_nosql_grid} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={8} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -187,7 +290,11 @@ const P09: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}>選錯資料庫的代價：<strong>migrate 一張 10 億筆的表 = 數週工程 + 不可逆風險</strong>。</div>
     </div>
     <Footer source={'常用技術/01 Database.pdf · §1 為什麼選擇這麼複雜'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={9} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -204,7 +311,11 @@ const P10: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_database_01_matrix} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'常用技術/01 Database.pdf · §兩個維度看清資料庫的全景'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={10} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -250,7 +361,11 @@ const P11: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>多數系統會混用 2-3 種</strong>：主資料 RDBMS · 熱資料 Redis · 全文搜尋 Elasticsearch。</span></div>
     </div>
     <Footer source={'常用技術/01 Database.pdf · §NoSQL 資料庫 + Vector Database'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={11} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -277,7 +392,11 @@ const P12: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>NoSQL 共同取捨</strong>：BASE 模型（Basically Available, Soft state, Eventual consistency）—— 放棄強一致性換水平擴展。</span></div>
     </div>
     <Footer source={'常用技術/01 Database.pdf · §NoSQL 資料庫'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={12} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -293,7 +412,11 @@ const P13: Page = () => (
       <Callout tone='#D97757'><strong>Linus 哲學的選型口訣</strong>：<strong>先 PostgreSQL</strong>。撐到撞牆再換——通常永遠撞不到牆。</Callout>
     </div>
     <Footer source={'常用技術/01 Database.pdf · §在面試中如何選擇資料庫'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={13} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -311,7 +434,11 @@ const P14: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>最後一定要說選的「理由」</strong>——選 PostgreSQL 強調 ACID、選 Cassandra 強調寫吞吐 + 多地部署、選 BigQuery 強調 column-oriented 加速分析。</span></div>
     </div>
     <Footer source={'常用技術/01 Database.pdf · §不要一開始就比較 SQL vs NoSQL + §說出你的理由'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={14} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -328,14 +455,22 @@ const P16: Page = () => (
 const P17: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_blob_01_three_storage} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={17} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
 const P18: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_blob_03_tier_ladder} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={18} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -358,7 +493,11 @@ const P19: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：用 BYTEA / BLOB 欄位存大檔。應該存 <strong>URL</strong> 指向 S3 / GCS。</Callout>
     </div>
     <Footer source={'常用技術/02 Blob Storage.pdf · §什麼是 Blob Storage'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={19} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -389,7 +528,11 @@ const P20: Page = () => (
       <Callout tone='#D97757'><strong>Object Storage 的取捨本質</strong>：你放棄了「就地修改」與「低延遲隨機存取」，<strong>換到</strong> 11 個 9 耐久性、近乎無限水平擴展、極低儲存成本。</Callout>
     </div>
     <Footer source={'常用技術/02 Blob Storage.pdf · §什麼是 Blob Storage'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={20} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -408,7 +551,11 @@ const P21: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>S3 收費分 3 部分</strong>：儲存（$/GB-month） + 請求次數（$/1000 ops） + 傳輸（$/GB out）。<strong>讀流量是大頭</strong>——所以才需要 CDN。</span></div>
     </div>
     <Footer source={'常用技術/02 Blob Storage.pdf · §核心概念 + §耐久性和可用性'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={21} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -453,15 +600,20 @@ const P22: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：把熱資料丟去 Glacier 省錢——一次大規模取回的費用可能遠超你省下的儲存成本。</Callout>
     </div>
     <Footer source={'常用技術/02 Blob Storage.pdf · §儲存分層'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={22} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
 const P23: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>大檔案上傳的 3 個必學模式</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>BLOB STORAGE · 模式</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>大檔案上傳的 3 個必學模式</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>BLOB STORAGE · 模式</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Presigned URL Upload</strong>
 Client 跟 Server 拿短時效 URL，<strong>直接上傳到 S3</strong>，不經過你的伺服器。<br />
 <strong>好處</strong>：節省你 server 的頻寬與 RAM，避免 1GB 檔案塞爆 worker。</Callout>
@@ -471,10 +623,17 @@ Client 跟 Server 拿短時效 URL，<strong>直接上傳到 S3</strong>，不�
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Lifecycle Policy</strong>
 <strong>冷資料自動降冷</strong>：30 天後降 Standard-IA · 90 天後降 Glacier · 7 年後刪除。<br />
 <strong>典型場景</strong>：log、備份、用戶上傳的歷史檔案——存了 7 年沒人看。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_02_blob_02_multipart} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_02_blob_02_multipart} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/02 Blob Storage.pdf · §生命週期策略'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={23} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -501,7 +660,11 @@ const P24: Page = () => (
       <Callout tone='#E8634F'><strong>最常見資安事件</strong>：S3 Bucket 配置成公開——用 S3 Access Analyzer 持續掃描。</Callout>
     </div>
     <Footer source={'常用技術/02 Blob Storage.pdf · §存取控制 + §跨區域複製 + §怎麼防止 S3 Bucket 被公開曝露'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={24} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -517,7 +680,11 @@ const P25: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>典型分工</strong>：DB 存 metadata（key、大小、所有者、上傳時間） + Blob Storage 存實際 bytes。需要搜尋就把 metadata 索引到 Elasticsearch。</span></div>
     </div>
     <Footer source={'常用技術/02 Blob Storage.pdf · §怎麼決定用哪個'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={25} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -534,7 +701,11 @@ const P27: Page = () => (
 const P28: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_03_gw_01_responsibilities} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={28} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -554,7 +725,11 @@ const P29: Page = () => (
         </ul>
     </div>
     <Footer source={'常用技術/03 API Gateway.pdf · §什麼是 API Gateway'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={29} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -573,7 +748,11 @@ const P30: Page = () => (
     BFF · 1 個請求合併多後端</div>
       </div>
     <Footer source={'常用技術/03 API Gateway.pdf · §API Gateway 的核心職責'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={30} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -596,7 +775,11 @@ const P31: Page = () => (
 <strong>「這個用戶能不能看這筆訂單？」</strong>——細粒度授權需要資料庫查詢，留在服務裡。</Callout>
     </div>
     <Footer source={'常用技術/03 API Gateway.pdf · §怎麼做認證：在 Gateway 還是在服務裡'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={31} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -631,7 +814,11 @@ const P32: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>典型分工</strong>：外部入口用 Kong / AWS API GW；內部 service-to-service 用 Envoy + Service Mesh。兩者職責不同，常常並存。</span></div>
     </div>
     <Footer source={'常用技術/03 API Gateway.pdf · §常見的 API Gateway 實作'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={32} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -647,15 +834,21 @@ const P33: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：把太多業務邏輯塞進 Gateway，它變成「第二個 monolith」——難測試、難維護。Gateway 應該是<strong>薄薄的、可預期的轉發層</strong>。</Callout>
     </div>
     <Footer source={'常用技術/03 API Gateway.pdf · §總結 + §API Gateway 的效能怎麼保證'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={33} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
 const P34: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>不同客戶端維護各自的 Gateway</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>API GATEWAY · BFF 模式</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>不同客戶端維護各自的 Gateway</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>API GATEWAY · BFF 模式</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <pre style={{ fontSize: 14, fontFamily: 'ui-monospace, monospace', background: '#2A2520', color: '#F5F1E8', padding: '16px 20px', borderRadius: 6, lineHeight: 1.5, overflow: 'hidden', margin: 0, whiteSpace: 'pre-wrap' }}>{`Web Browser    → Web BFF       ──┐
 iOS App        → Mobile BFF    ──┼──→ 後端微服務
 Android App    → Mobile BFF    ──┤
@@ -667,9 +860,16 @@ Third-party    → Public API GW ──┘`}</pre>
       </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>代價</strong>：你現在有多個 Gateway 要維護。<strong>只有當客戶端差異夠大時 BFF 才划算</strong>——小團隊用一個統一 Gateway 就好。</span></div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_03_gw_02_bff} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_03_gw_02_bff} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/03 API Gateway.pdf · §BFF（Backend for Frontend）模式'} />
+    <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+    <PageNum n={34} total={71} />
+    <BrandBar />
   </div>
 );
 
@@ -687,14 +887,22 @@ const P36: Page = () => (
 const P37: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_lb_01_l4_vs_l7} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={37} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
 const P38: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_lb_03_sticky} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={38} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -712,7 +920,11 @@ const P39: Page = () => (
 ③ TLS 終止（unburden 後端）④ Sticky session（必要時）</Callout>
     </div>
     <Footer source={'常用技術/04 Load Balancer.pdf · §基本概念 + §核心功能'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={39} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -735,7 +947,11 @@ const P40: Page = () => (
 <strong>一般 HTTP/HTTPS</strong> → L7 LB（更靈活的內容路由）</Callout>
     </div>
     <Footer source={'常用技術/04 Load Balancer.pdf · §在系統設計面試中如何談 Load Balancer'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={40} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -775,7 +991,11 @@ const P41: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_04_lb_02_algo_tree} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'常用技術/04 Load Balancer.pdf · §常見演算法'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={41} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -794,7 +1014,11 @@ const P42: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：把 health check endpoint 做成「永遠回 200」——這等於沒做。要真的檢查關鍵依賴。</Callout>
     </div>
     <Footer source={'常用技術/04 Load Balancer.pdf · §健康檢查（Health Check）'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={42} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -810,7 +1034,11 @@ const P43: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>正解</strong>：把 session 外移到 Redis / 資料庫，讓應用層保持 stateless。Sticky Session 是過渡方案，不是長期最優架構。</span></div>
     </div>
     <Footer source={'常用技術/04 Load Balancer.pdf · §Session Persistence（Sticky Session）'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={43} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -832,7 +1060,11 @@ const P44: Page = () => (
       <Callout tone='#D97757'><strong>Connection Draining 解的核心問題</strong>：滾動更新、scale-in、節點維護時，<strong>正在處理的請求不會被硬切斷</strong>。和容器的 graceful shutdown 配合（SIGTERM 後先拒絕新請求、等舊的處理完）。</Callout>
     </div>
     <Footer source={'常用技術/04 Load Balancer.pdf · §健康檢查 + 對應雲端服務行為（ALB connection draining 預設 300s）'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={44} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -860,7 +1092,11 @@ const P45: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>現代雲端通常 4 層 LB 串聯</strong>——每層解決一個獨立問題。簡單系統可省略 1-2 層。</span></div>
     </div>
     <Footer source={'常用技術/04 Load Balancer.pdf · §多區域分流 + 整理自雲端典型架構'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={45} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -877,7 +1113,11 @@ const P47: Page = () => (
 const P48: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_05_container_01_vm_vs_container} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={48} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -910,7 +1150,11 @@ const P49: Page = () => (
       <Callout tone='#D97757'><strong>Container 革命的本質</strong>：把「應用 + 依賴」打成一個不可變的包，<strong>到處都跑得起來</strong>。底層機制是 Linux <strong>namespace</strong>（process / network / fs 隔離） + <strong>cgroups</strong>（CPU / memory 限制）。</Callout>
     </div>
     <Footer source={'常用技術/05 Container.pdf · §虛擬機器 vs. 容器'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={49} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -926,15 +1170,21 @@ const P50: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Image 標準</strong>：OCI（Open Container Initiative）image spec 是業界標準——Docker、containerd、Podman 都遵循。換 runtime 不換 image。</span></div>
     </div>
     <Footer source={'常用技術/05 Container.pdf · §容器和 VM 在你的設計裡什麼時候各自適合'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={50} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
 const P51: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>K8s 的核心概念對應</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>CONTAINER · 編排層</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>K8s 的核心概念對應</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>CONTAINER · 編排層</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'Pod'} text={'一組共享網路與儲存的 container · 排程的最小單元'} />
         <StackRow tone='#A1813F' label={'Deployment'} text={'宣告式管理 Pod 副本數與滾動更新'} />
@@ -943,18 +1193,26 @@ const P51: Page = () => (
       </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>K8s 解的核心問題</strong>：node 壞掉 / 流量變化 / 版本切換時，<strong>自動把目標狀態 reconcile 出來</strong>。HPA 根據 CPU / 記憶體 / 自訂指標自動擴縮 Pod 數量。</span></div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_05_container_02_k8s} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_05_container_02_k8s} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/05 Container.pdf · §Kubernetes 的核心概念'} />
+    <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+    <PageNum n={51} total={71} />
+    <BrandBar />
   </div>
 );
 
 
 const P52: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>兩種探針的職責切分</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>CONTAINER · Liveness vs Readiness</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>兩種探針的職責切分</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>CONTAINER · Liveness vs Readiness</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Liveness Probe</strong>
 <strong>「容器還活著嗎？」</strong>——失敗就 kill + restart。<br />
 適合檢查：process 還在、deadlock 沒發生。</Callout>
@@ -963,10 +1221,17 @@ const P52: Page = () => (
 適合檢查：DB 連線、cache warm-up 完成。</Callout>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <Callout tone='#E8634F'><strong>反模式</strong>：兩個 probe 都打同一個 endpoint。Liveness 該寬鬆（避免重啟風暴），Readiness 該嚴格（暖機中先別接流量）。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_05_container_03_probes} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_05_container_03_probes} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/05 Container.pdf · §容器崩潰了怎麼辦'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={52} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -984,7 +1249,11 @@ const P53: Page = () => (
 有狀態 = 容器 A 重啟後存在它記憶體裡的 session 全部消失，用戶被登出。</Callout>
     </div>
     <Footer source={'常用技術/05 Container.pdf · §無狀態設計的重要性'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={53} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1000,7 +1269,11 @@ const P54: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：3 人團隊上 K8s。<strong>運維時間 &gt; 業務時間</strong>，從第一天起就在開倒車。</Callout>
     </div>
     <Footer source={'常用技術/05 Container.pdf · §什麼時候在面試裡用這些'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={54} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1017,7 +1290,11 @@ const P56: Page = () => (
 const P57: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_06_serverless_01_cold_start} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={57} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1037,7 +1314,11 @@ const P58: Page = () => (
         </ul>
     </div>
     <Footer source={'常用技術/06 Serverless.pdf · §什麼是 Serverless'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={58} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1068,7 +1349,11 @@ const P59: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_06_serverless_02_faas_flow} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'常用技術/06 Serverless.pdf · §Cold Start 與 Warm Start'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={59} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1087,7 +1372,11 @@ const P60: Page = () => (
       <Callout tone='#E8634F'><strong>重要區分</strong>：<strong>非同步場景</strong>（SQS 觸發、排程）—— Cold Start 多幾百毫秒<strong>完全無所謂</strong>。只有<strong>同步 API 請求</strong>（P99 SLA &lt; 100ms）才需要認真考慮。</Callout>
     </div>
     <Footer source={'常用技術/06 Serverless.pdf · §Cold Start 怎麼辦'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={60} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1103,7 +1392,11 @@ const P61: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Hybrid 是常態</strong>：核心服務跑 Container，事件處理跑 Lambda。一個系統不用 all-in 或 all-out。</span></div>
     </div>
     <Footer source={'常用技術/06 Serverless.pdf · §Serverless 適合什麼 + §Serverless 不適合什麼'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={61} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1124,7 +1417,11 @@ Lambda：1000 並發實例 → 各自開連線 → DB 直接被打掛`}</pre>
       <Callout tone='#E8634F'><strong>反模式</strong>：把 PostgreSQL/MySQL 直接接 Lambda——並發一上來連線池立刻爆。<strong>必須</strong>配 RDS Proxy 或選 DynamoDB。</Callout>
     </div>
     <Footer source={'常用技術/06 Serverless.pdf · §處理資料庫連線'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={62} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1146,7 +1443,11 @@ const P63: Page = () => (
 流量峰谷大（一天閒置 12+ 小時）→ Serverless 實際費用可能是估算的一半甚至更少。</Callout>
     </div>
     <Footer source={'常用技術/06 Serverless.pdf · §Serverless 的成本怎麼估算'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={63} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1162,7 +1463,11 @@ const P64: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Vendor lock-in 取捨</strong>：Lambda 用了 SQS / DynamoDB / EventBridge 後，搬遷成本高。面試時主動承認這個取捨——「換不需要管基礎設施」。</span></div>
     </div>
     <Footer source={'常用技術/06 Serverless.pdf · §Serverless 與其他部署方式的比較 + §Serverless 有 vendor lock-in 的問題嗎'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={64} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1191,7 +1496,11 @@ const P67: Page = () => (
       <Callout tone='#D97757'>每個元件都對應 Ch.4 的一個 topic。<strong>選型理由說得出來，才算真的會設計</strong>。</Callout>
     </div>
     <Footer source={'整合 Ch.4 全章 + AWS Reference Architecture'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={67} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1229,7 +1538,11 @@ const P68: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>為什麼上傳用 Lambda、轉碼用 Container</strong>？因為上傳是事件觸發 + 短任務，轉碼是長計算 + 穩定 batch——<strong>選最合適的工具，不要 all-in 一種</strong>。</span></div>
     </div>
     <Footer source={'整合 Ch.4 全章選型決策'} />
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={68} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1240,7 +1553,11 @@ const P69: Page = () => (
         <TradeoffCol tone='#5B9770' title={'新的工具'} items={['6 種 DB 選型決策表（含 Vector DB）', 'Blob 三模式（Presigned / Multipart / Lifecycle）', 'API Gateway 7 件事清單 + BFF 模式', 'L4 / L7 LB + 部署拓撲 + Connection Draining', 'Container vs Serverless 選型 + Cold Start 數字']} />
         <TradeoffCol tone='#E8634F' title={'還沒回答的問題'} items={['節點掛了怎麼辦？　→ Ch.5 Reliability', '流量瞬間 10 倍怎麼擋？　→ Ch.5 Overload', '怎麼確保訊息不丟？　→ Ch.5 Reliable Delivery', '系統黑盒裡發生什麼？　→ Ch.5 Observability']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' />
+      <PageNum n={69} total={70} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1250,75 +1567,29 @@ const P70: Page = () => (
 
 
 export const meta: SlideMeta = { title: 'Ch.4 · Infrastructure' };
-export default [
-  P01,
-  P02,
-  P03,
-  P04,
-  P05,
-  P06,
-  P07,
-  P08,
-  P09,
-  P10,
-  P11,
-  P12,
-  P13,
-  P14,
-  P15,
-  P16,
-  P17,
-  P18,
-  P19,
-  P20,
-  P21,
-  P22,
-  P23,
-  P24,
-  P25,
-  P26,
-  P27,
-  P28,
-  P29,
-  P30,
-  P31,
-  P32,
-  P33,
-  P34,
-  P35,
-  P36,
-  P37,
-  P38,
-  P39,
-  P40,
-  P41,
-  P42,
-  P43,
-  P44,
-  P45,
-  P46,
-  P47,
-  P48,
-  P49,
-  P50,
-  P51,
-  P52,
-  P53,
-  P54,
-  P55,
-  P56,
-  P57,
-  P58,
-  P59,
-  P60,
-  P61,
-  P62,
-  P63,
-  P64,
-  P65,
-  P66,
-  P67,
-  P68,
-  P69,
-  P70,
-] satisfies Page[];
+
+// P02b · 本章新術語
+const P02b: Page = () => (
+  <><AnimStyle />
+    <div style={{ ...fill, padding: '40px 70px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ marginBottom: 10 }}><NoviceBadge /></div>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginTop: 4, animationDelay: '0.05s' }}>本章新術語 · 7 個詞</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 800, margin: '8px 0 24px', animationDelay: '0.1s' }}>雲端基礎元件</h1>
+      <div className='osd-stagger' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <TermCard name='VPC' en='Virtual Private Cloud' def='雲上你自己的「虛擬內網」，控制誰能進來。' />
+        <TermCard name='Load Balancer' en='負載均衡器' def='把流量分到多個後端（L4 TCP / L7 HTTP）。' />
+        <TermCard name='Gateway' en='API Gateway' def='統一入口：認證、限流、路由、log。' />
+        <TermCard name='Container / K8s' en='Docker 容器 / Kubernetes' def='把 app 打包成獨立執行單元 + 編排。' />
+        <TermCard name='Serverless' en='無伺服器（FaaS）' def='只寫函數，平台幫你跑（Lambda）。' />
+        <TermCard name='Blob Storage' en='物件儲存' def='存大檔案（圖、影片、log）的便宜服務（S3）。' />
+        <TermCard name='IaC' en='Infrastructure as Code' def='基建用 code 寫（Terraform），可版控可重現。' />
+      </div>
+      <div className='osd-anim-fade-up' style={{ marginTop: 18, fontSize: 16, color: muted, fontStyle: 'italic', animationDelay: '0.6s' }}>📖 完整定義在 90-appendix 詞彙速查表</div>
+      <Breadcrumb part='Part 4' chapter='Ch.04 · 基礎建設' section='本章新術語' />
+      <PageNum n={2} total={71} />
+      <BrandBar />
+    </div>
+  </>
+);
+
+export default [P01, P02b, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50, P51, P52, P53, P54, P55, P56, P57, P58, P59, P60, P61, P62, P63, P64, P65, P66, P67, P68, P69, P70] satisfies Page[];

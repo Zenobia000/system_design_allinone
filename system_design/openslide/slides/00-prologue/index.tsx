@@ -1,4 +1,7 @@
 import type { DesignSystem, Page, SlideMeta } from '@open-slide/core';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 
 export const design: DesignSystem = {
@@ -37,6 +40,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -45,7 +49,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -81,7 +164,11 @@ const P01: Page = () => (
 <span style={{ fontSize: 30, fontWeight: 500 }}>不背名詞，學決策。</span></div>
       <div style={{ fontSize: 18, color: subtle, fontStyle: 'italic', marginTop: 8 }}>7 chapters · 130+ slides · open materials</div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={1} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -99,7 +186,11 @@ const P02: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ fontSize: 30, fontWeight: 500 }}>如果你能回答這三個問題，你就是架構師。</span></div>
     </div>
     <Footer source={'課程設計理念 · 整理自 34 份系統設計實戰教材'} />
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={2} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -116,7 +207,11 @@ const P03: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>下一頁：完整七章地圖 →</span></div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={3} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -148,7 +243,11 @@ const P05: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>每章只依賴前章。可單跳，也可一路往下。</span></div>
     </div>
     <Footer source={'重組自 系統設計實戰/{基本觀念,常用技術,維運與可靠性,設計模式}'} />
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={5} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -160,7 +259,11 @@ const P06: Page = () => (
         <TradeoffCol tone='#E8634F' title={'避開常見錯誤'} items={['不從 K8s 開始（會錯過 stateless 設計動機）', '不從 Microservice 開始（會錯過 CAP 約束）', '不從 RAG 開始（會錯過 retrieval 系統的本質）']} />
       </div>
     <Footer source={'課程設計原則 · 「把約束搞清楚再選工具」'} />
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={6} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -196,7 +299,11 @@ const P07: Page = () => (
         </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>這份課程目標：把你從 L1 帶到 L4 的入口。</span></div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={7} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -207,7 +314,11 @@ const P08: Page = () => (
         <TradeoffCol tone='#5B9770' title={'適合'} items={['寫過 2 年以上後端的工程師', '準備系統設計面試的 mid-level', '想從 senior 走向 staff 的人', '想看 trade-off 而非教條的人']} />
         <TradeoffCol tone='#E8634F' title={'不適合'} items={['完全沒寫過後端的新手', '只想要「最佳實踐」的人', '找特定 framework 教學的人', '找 cloud provider 認證的人']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={8} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -224,7 +335,11 @@ const P09: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <Callout tone='#D97757'>每章看完別急著下一章。<strong>先把該章的決策樹畫一次</strong>——能在白紙上重畫，才算學會。</Callout>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={9} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -238,7 +353,11 @@ const P10: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ fontSize: 30, fontWeight: 500 }}>讀完接著進 03 心智模型，再正式進入 Ch.1。</span></div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={10} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -260,7 +379,11 @@ const P12: Page = () => (
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>定義框</strong>
 專有名詞首次出現時用此格式說明，附中英對照</Callout>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={12} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -280,7 +403,11 @@ const P13: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>所有 PDF 都在 `/系統設計實戰/` 資料夾，34 份共 4 大類。</span></div>
     </div>
     <Footer source={'基本觀念/10 Sharding.pdf · §3'} />
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={13} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -298,7 +425,11 @@ const P14: Page = () => (
       <Callout tone='#D97757'><strong>讀法建議</strong>：先看 Why 與 Trade-off，最後才看 How。  
 這樣能先建立「這東西在哪」的座標感，再學機制細節。</Callout>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={14} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -337,7 +468,11 @@ const P15: Page = () => (
         </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>完整術語表見 90-appendix/01_review_cheatsheet.md。</span></div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={15} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -351,7 +486,11 @@ const P16: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ fontSize: 30, fontWeight: 500 }}>這 4 個維度貫穿全書。Ch.1 開始後，每個技術選型都會回到它們。</span></div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={16} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -378,7 +517,11 @@ const P18: Page = () => (
       <Callout tone='#D97757'><strong>沒有「全選」</strong>　·　每個系統設計決策都在這 4 個維度上做取捨。</Callout>
     </div>
     <Footer source={'CAP 經典 + PACELC 補強 · 整理自 基本觀念/03 CAP Theorem.pdf'} />
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={18} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -395,7 +538,11 @@ const P19: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>同一個「按讚」功能，給 Stripe 用和給 Twitter 用，<strong>架構應該不一樣</strong>。</span></div>
     </div>
     <Footer source={'整理自 基本觀念/03 + 11 Replication.pdf'} />
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={19} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -413,7 +560,11 @@ const P20: Page = () => (
 剩下的就是團隊熟悉度與成本。</Callout>
     </div>
     <Footer source={'整理自 維運與可靠性/04 Observability.pdf · SLO 章節'} />
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={20} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -445,7 +596,11 @@ const P21: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>記住數量級就好。<strong>「跨網路慢」比「跨網路慢 N 倍」更重要</strong>。</span></div>
     </div>
     <Footer source={'基本觀念/12 Numbers to Know.pdf · 完整版見 Ch.2'} />
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={21} total={22} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -461,7 +616,11 @@ const P22: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ fontSize: 30, fontWeight: 500 }}>準備好了 → 進入 Ch.1 Foundation Layer。</span></div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Prologue' chapter='00 · 序章' />
+      <PageNum n={22} total={22} />
+      <BrandBar />
+    </div>
 );
 
 

@@ -15,6 +15,9 @@ import img_04_caching_02_patterns from './assets/04_caching_02_patterns.png';
 import img_04_caching_03_stampede from './assets/04_caching_03_stampede.png';
 import img_04_caching_04_hotkey from './assets/04_caching_04_hotkey.png';
 import img_99_recap_01_twitter from './assets/99_recap_01_twitter.png';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#F5F1E8', text: '#2A2520', accent: '#D97757' },
@@ -52,6 +55,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -60,7 +64,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -93,7 +176,11 @@ const P01: Page = () => (
 const P02: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_00_hero} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={2} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -110,7 +197,11 @@ const P03: Page = () => (
       </div>
     </div>
     <Footer source={'基本觀念/06 + 09 + 10 + 11'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={3} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -132,7 +223,11 @@ const P04: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_00_mental_model} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'整理自 基本觀念/06 + 09 + 10 + 11'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={4} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -149,7 +244,11 @@ const P06: Page = () => (
 const P07: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_consistent_hashing_02_neighbor} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={7} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -166,7 +265,11 @@ const P08: Page = () => (
 10 台變 11 台時，<strong>90% 的資料要搬</strong>。這不只是寫資料慢，更是 cache 全部失效後 DB 被打爆。</Callout>
     </div>
     <Footer source={'基本觀念/06 Consistent Hashing.pdf · §1 Why'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={8} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -192,7 +295,11 @@ const P09: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_consistent_hashing_01_ring} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/06 Consistent Hashing.pdf · §2 Algorithm'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={9} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -205,7 +312,11 @@ const P10: Page = () => (
         <TradeoffCol tone='#E8634F' title={'節點 A 下線'} items={['原本屬於 A 的 key 順時針交給 B', '但 B 突然要扛兩倍負載', '沒有 vNode 時，分布越不均', '<em>這就是 vNode 解的下一個問題</em>']} />
       </div>
     <Footer source={'基本觀念/06 Consistent Hashing.pdf · §2 (b)(c) Add/Remove'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={10} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -222,7 +333,11 @@ const P11: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_consistent_hashing_03_vnode} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/06 Consistent Hashing.pdf · §3 Virtual Nodes'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={11} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -250,7 +365,11 @@ const P12: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>口訣</strong>：「節點會變動 + 想要穩定歸屬 + 希望最少搬家」→ 用 consistent hashing。</span></div>
     </div>
     <Footer source={'基本觀念/06 Consistent Hashing.pdf · §4 Applications'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={12} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -267,21 +386,33 @@ const P14: Page = () => (
 const P15: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_sharding_01_strategies} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={15} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
 const P16: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_sharding_02_hotshard} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={16} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
 const P17: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_sharding_03_shardkey} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={17} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -304,7 +435,11 @@ const P18: Page = () => (
 <strong>Partitioning</strong> = 同一台 DB 內邏輯切分；<strong>Sharding</strong> = 跨機器切分。多數工程師混用，重點是說清楚「資料在一台還是多台」。</Callout>
     </div>
     <Footer source={'基本觀念/10 Sharding.pdf · §1 Why Shard'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={18} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -330,7 +465,11 @@ const P19: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>選擇法則</strong>：以等值查詢為主用 Hash；範圍查詢多用 Range；資料分布不均才用 Directory（面試很少是正解）。</span></div>
     </div>
     <Footer source={'基本觀念/10 Sharding.pdf · §2 Strategies'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={19} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -346,7 +485,11 @@ const P20: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：以時間為分片鍵。今天的 shard 永遠是熱點，昨天的 shard 永遠閒著。</Callout>
     </div>
     <Footer source={'基本觀念/10 Sharding.pdf · §3 Shard Key'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={20} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -372,7 +515,11 @@ hash 函數對所有 ID 一視同仁——但有些 key 本來就比其他 key �
         </ul>
     </div>
     <Footer source={'基本觀念/10 Sharding.pdf · §4 Hot Spots'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={21} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -389,7 +536,11 @@ const P22: Page = () => (
 <strong>設計成單 shard transaction</strong>（最佳）→ <strong>Saga 模式</strong>（補償動作）→ <strong>接受最終一致性</strong>。教科書的 2PC 在生產系統幾乎沒人用。</Callout>
     </div>
     <Footer source={'基本觀念/10 Sharding.pdf · §5 Cross-Shard Ops'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={22} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -405,7 +556,11 @@ const P23: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>口訣</strong>：能不分就不分。垂直擴展 + 讀寫分離 + Cache 撐到 80%，再 Shard。<strong>面試建議從 64 shards 起步</strong>——留有成長空間又不過度設計。</span></div>
     </div>
     <Footer source={'基本觀念/10 Sharding.pdf · §6 Trade-offs + §7 Interview'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={23} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -422,7 +577,11 @@ const P25: Page = () => (
 const P26: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_03_replication_03_lag} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={26} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -443,7 +602,11 @@ const P27: Page = () => (
       <Callout tone='#E8634F'><strong>沒有 Replication = 單點故障</strong>。一台磁碟壞了 = 一批資料永遠失蹤。</Callout>
     </div>
     <Footer source={'基本觀念/11 Replication.pdf · §1 Why Replicate'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={27} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -479,7 +642,11 @@ const P28: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_03_replication_02_sync_async} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/11 Replication.pdf · §2 Sync vs Async'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={28} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -506,7 +673,11 @@ const P29: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_03_replication_01_topologies} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/11 Replication.pdf · §3 Topologies'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={29} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -541,7 +712,11 @@ const P30: Page = () => (
       <Callout tone='#D97757'><strong>Logical log</strong> 是 <strong>Change Data Capture（CDC）</strong> 的基礎——把 DB 變更 stream 到 Kafka / 搜尋引擎 / 數據倉儲。</Callout>
     </div>
     <Footer source={'基本觀念/11 Replication.pdf · §4 Replication Log'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={30} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -560,7 +735,11 @@ const P31: Page = () => (
 <strong>Lag 超過 30 秒觸發告警</strong>——超過這個值通常代表 follower 跟不上、可能要切流量或重建。</Callout>
     </div>
     <Footer source={'基本觀念/11 Replication.pdf · §5 Lag Issues'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={31} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -579,7 +758,11 @@ const P32: Page = () => (
       <Callout tone='#D97757'><strong>真正的強一致 Failover</strong> 需要 <strong>Raft / Paxos consensus 演算法</strong>——PostgreSQL 用 <strong>Patroni</strong>、k8s 用 <strong>etcd</strong> 實作這套機制，代價是延遲與複雜度上升。</Callout>
     </div>
     <Footer source={'基本觀念/11 Replication.pdf · §3 Handling Failures + §10 Deep Dive'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={32} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -596,7 +779,11 @@ const P33: Page = () => (
 <strong>Quorum 預設 n=3, w=2, r=2</strong>（容忍 1 個失效）；高可靠用 n=5, w=3, r=3。</Callout>
     </div>
     <Footer source={'基本觀念/11 Replication.pdf · §6 Quorum + §11 Cost'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={33} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -613,21 +800,33 @@ const P35: Page = () => (
 const P36: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_caching_02_patterns} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={36} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
 const P37: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_caching_03_stampede} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={37} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
 const P38: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_caching_04_hotkey} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={38} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -648,7 +847,11 @@ const P39: Page = () => (
 <strong>Cache 的詛咒</strong>：「There are only two hard things in CS: cache invalidation and naming things.」 — Phil Karlton</Callout>
     </div>
     <Footer source={'基本觀念/09 Caching.pdf · §1 Why Cache'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={39} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -672,7 +875,11 @@ const P40: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_04_caching_01_hierarchy} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/09 Caching.pdf · §2 Layers'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={40} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -698,7 +905,11 @@ const P41: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>90% 場景用 Cache-aside</strong>。寫密集且容忍丟資料用 Write-back（如 metrics pipeline）；金流類用 Write-through。</span></div>
     </div>
     <Footer source={'基本觀念/09 Caching.pdf · §3 Patterns'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={41} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -733,7 +944,11 @@ const P42: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試標準答案</strong>：「我用 Redis，LRU eviction，個人資料 TTL 10 分鐘，更新時主動 invalidate。」</span></div>
     </div>
     <Footer source={'基本觀念/09 Caching.pdf · §4 Eviction Policy'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={42} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -753,7 +968,11 @@ const P43: Page = () => (
 <strong>最有效解法</strong>：<strong>Request Coalescing / Single-flight</strong>——只讓一個請求去重建，其他等待結果 · Cache warming（過期前主動刷新）</Callout>
     </div>
     <Footer source={'基本觀念/09 Caching.pdf · §5 Failure Modes'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={43} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -772,7 +991,11 @@ const P44: Page = () => (
         </ul>
     </div>
     <Footer source={'基本觀念/09 Caching.pdf · §5 Hot Keys'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={44} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -788,7 +1011,11 @@ const P45: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>進入順序</strong>：先 measure 慢在哪，再加 cache。<strong>不要 premature caching</strong>。面試 5 步驟：確認瓶頸 → 決定快取什麼 → 選架構 → 設淘汰策略 → 說明缺點。</span></div>
     </div>
     <Footer source={'基本觀念/09 Caching.pdf · §6 Trade-offs + §7 Interview'} />
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={45} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -803,10 +1030,12 @@ const P47: Page = () => (
 
 
 const P48: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>設計：Twitter Timeline 讀取</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>CASE STUDY · 把分散式資料層串起來</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>設計：Twitter Timeline 讀取</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>CASE STUDY · 把分散式資料層串起來</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'Sharding'} text={'user_id hash sharding · 100 shards · scatter-gather 取 followee tweets'} />
         <StackRow tone='#A1813F' label={'Replication'} text={'每 shard 3 副本（1 leader + 2 follower）· async replication'} />
@@ -816,9 +1045,16 @@ const P48: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <Callout tone='#D97757'>每個決策都對應 Ch.3 的一個面向。
 <strong>Ch.4 開始挖基礎設施層</strong>——這些 shard、cache、replica 跑在什麼之上？</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_99_recap_01_twitter} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_99_recap_01_twitter} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'整合 Ch.3 全章 + Twitter Engineering 公開資料'} />
+    <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+    <PageNum n={48} total={51} />
+    <BrandBar />
   </div>
 );
 
@@ -830,7 +1066,11 @@ const P49: Page = () => (
         <TradeoffCol tone='#5B9770' title={'新的工具'} items={['Consistent Hashing + Virtual Nodes', '3 種 Sharding 策略 + 分片鍵 3 條件', 'Sync / Async / Semi-sync 取捨', 'Single / Multi / Leaderless 三種拓撲', '5 層 Cache 擺放邏輯', 'Penetration / Avalanche / Stampede 三招']} />
         <TradeoffCol tone='#E8634F' title={'還沒回答的問題'} items={['用哪個資料庫產品？　→ Ch.4 DB', 'API Gateway 怎麼選？　→ Ch.4 GW', 'K8s 跟 Serverless 怎麼選？　→ Ch.4', '圖片影片怎麼存？　→ Ch.4 Blob']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' />
+      <PageNum n={49} total={50} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -840,55 +1080,29 @@ const P50: Page = () => (
 
 
 export const meta: SlideMeta = { title: 'Ch.3 · Data Distribution' };
-export default [
-  P01,
-  P02,
-  P03,
-  P04,
-  P05,
-  P06,
-  P07,
-  P08,
-  P09,
-  P10,
-  P11,
-  P12,
-  P13,
-  P14,
-  P15,
-  P16,
-  P17,
-  P18,
-  P19,
-  P20,
-  P21,
-  P22,
-  P23,
-  P24,
-  P25,
-  P26,
-  P27,
-  P28,
-  P29,
-  P30,
-  P31,
-  P32,
-  P33,
-  P34,
-  P35,
-  P36,
-  P37,
-  P38,
-  P39,
-  P40,
-  P41,
-  P42,
-  P43,
-  P44,
-  P45,
-  P46,
-  P47,
-  P48,
-  P49,
-  P50,
-] satisfies Page[];
+
+// P02b · 本章新術語
+const P02b: Page = () => (
+  <><AnimStyle />
+    <div style={{ ...fill, padding: '40px 70px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ marginBottom: 10 }}><NoviceBadge /></div>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginTop: 4, animationDelay: '0.05s' }}>本章新術語 · 7 個詞</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 800, margin: '8px 0 24px', animationDelay: '0.1s' }}>分散資料的核心招式</h1>
+      <div className='osd-stagger' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <TermCard name='Sharding' en='分片' def='資料拆到多台 DB（一旦做了難回頭）。' />
+        <TermCard name='Replication' en='複製' def='主庫寫、副本讀，讀放大 + HA。' />
+        <TermCard name='Consistent Hash' en='一致性哈希' def='加減機器時搬動最少資料的分配演算法。' />
+        <TermCard name='Virtual Node' en='虛擬節點' def='每實體機掛多個虛擬節點，分配更均勻。' />
+        <TermCard name='Replica Lag' en='複製延遲' def='主庫寫完到副本看見的時間差（毫秒級）。' />
+        <TermCard name='Hot Key' en='熱鍵' def='少數 key 流量遠超其他（明星帳號、爆紅商品）。' />
+        <TermCard name='Cache Stampede' en='快取雪崩' def='熱 key 同時過期 → 全部請求打 DB → 雪崩。' />
+      </div>
+      <div className='osd-anim-fade-up' style={{ marginTop: 18, fontSize: 16, color: muted, fontStyle: 'italic', animationDelay: '0.6s' }}>📖 完整定義在 90-appendix 詞彙速查表</div>
+      <Breadcrumb part='Part 3' chapter='Ch.03 · 資料分散' section='本章新術語' />
+      <PageNum n={2} total={51} />
+      <BrandBar />
+    </div>
+  </>
+);
+
+export default [P01, P02b, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50] satisfies Page[];

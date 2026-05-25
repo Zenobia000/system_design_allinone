@@ -15,6 +15,9 @@ import img_04_delivery_03_outbox from './assets/04_delivery_03_outbox.png';
 import img_05_observability_01_three_pillars from './assets/05_observability_01_three_pillars.png';
 import img_05_observability_02_four_signals_slo from './assets/05_observability_02_four_signals_slo.png';
 import img_99_recap_01_incident_timeline from './assets/99_recap_01_incident_timeline.png';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#F5F1E8', text: '#2A2520', accent: '#D97757' },
@@ -52,6 +55,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -60,7 +64,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -93,7 +176,11 @@ const P01: Page = () => (
 const P02: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_00_hero} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={2} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -111,7 +198,11 @@ const P03: Page = () => (
       </div>
     </div>
     <Footer source={'常用技術/09 + 維運與可靠性/01 + 02 + 03 + 04'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={3} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -135,7 +226,11 @@ const P04: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_00_mental_model} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'整理自 常用技術/09 + 維運與可靠性/01-04'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={4} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -152,7 +247,11 @@ const P05: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>本章 5 個主題不是孤立的工具箱，而是<strong>互相依存的防線</strong>：每一個都建立在前一個的基礎上。</span></div>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §1 開篇'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={5} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -169,14 +268,22 @@ const P07: Page = () => (
 const P08: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_distributed_lock_01_scenarios} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={8} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
 const P09: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_distributed_lock_02_tradeoff} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={9} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -195,7 +302,11 @@ const P10: Page = () => (
         </ul>
     </div>
     <Footer source={'常用技術/09 Distributed Lock.pdf · §1 為什麼需要'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={10} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -214,7 +325,11 @@ const P11: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>共同特徵</strong>：多 writer 同時想改同一筆資料 / 同一資源 / 同一槽位 → 沒有協調就會出現 double-charge、double-booking。</span></div>
     </div>
     <Footer source={'常用技術/09 Distributed Lock.pdf · §1 使用場景'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={11} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -253,15 +368,20 @@ const P12: Page = () => (
       <Callout tone='#D97757'><strong>選型公式</strong>：先問<strong>你需要分散式鎖嗎</strong>？K8s 單副本和應用層幂等可以避掉很多場景，<strong>鎖是最後手段</strong>。</Callout>
     </div>
     <Footer source={'常用技術/09 Distributed Lock.pdf · §2 實作工具與策略'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={12} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
 const P13: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>Lock 出問題的三個經典場景</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>DISTRIBUTED LOCK · 三大陷阱</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>Lock 出問題的三個經典場景</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>DISTRIBUTED LOCK · 三大陷阱</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>① 客戶端 GC 暫停</strong>
 Java client 拿到鎖後 GC 30 秒，鎖過期被別人搶到，醒來繼續寫。<br />
 <strong>解法</strong>：fencing token（鎖帶遞增 ID，server 拒絕舊 token 寫入）</Callout>
@@ -271,10 +391,17 @@ Java client 拿到鎖後 GC 30 秒，鎖過期被別人搶到，醒來繼續寫�
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>③ 鎖伺服器 failover</strong>
 Master 拿到鎖後同步給 replica 之前掛掉，新 master 不知道這個鎖。<br />
 <strong>解法</strong>：Redlock 多數決，或用強一致的 etcd / ZooKeeper</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_distributed_lock_03_fencing} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_01_distributed_lock_03_fencing} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/09 Distributed Lock.pdf · §3 常見陷阱'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={13} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -290,7 +417,11 @@ const P14: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>這也是 <strong>Martin Kleppmann vs antirez 論戰</strong>的核心：Kleppmann 認為 Redlock 不該用於 correctness-critical 場景，只能用於 efficiency 場景（避免重複工作而非保證資料正確）。</span></div>
     </div>
     <Footer source={'常用技術/09 Distributed Lock.pdf · §3 + §5 時鐘偏差'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={14} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -306,7 +437,11 @@ const P15: Page = () => (
       <Callout tone='#E8634F'><strong>Linus 哲學</strong>：鎖是設計失敗的證據。<strong>先想能不能改資料結構消除鎖</strong>，再考慮鎖。</Callout>
     </div>
     <Footer source={'常用技術/09 Distributed Lock.pdf · §4 + §6 最後思考'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={15} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -323,14 +458,22 @@ const P17: Page = () => (
 const P18: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_contention_02_5_layers} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={18} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
 const P19: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_contention_03_isolation_matrix} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={19} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -350,7 +493,11 @@ const P20: Page = () => (
       <Callout tone='#E8634F'><strong>root cause</strong>：讀取和寫入<strong>不是原子的</strong>。在「讀取狀態」和「根據狀態做更新」之間有時間差，記憶體裡微秒、網路上毫秒——一切都可能改變。</Callout>
     </div>
     <Footer source={'維運與可靠性/01 Dealing with Contention.pdf · §1 問題'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={20} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -370,7 +517,11 @@ const P21: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>口訣</strong>：能在單 DB 解決就不要跨 DB；能用 OCC 就不要用 pessimistic；能用 atomicity 就不要用 lock。</span></div>
     </div>
     <Footer source={'維運與可靠性/01 Dealing with Contention.pdf · §2 解法架構'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={21} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -387,7 +538,11 @@ const P22: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_02_contention_01_pessimistic_vs_occ} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'維運與可靠性/01 Dealing with Contention.pdf · §2 + ABA 警告'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={22} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -416,7 +571,11 @@ const P23: Page = () => (
       <Callout tone='#D97757'><strong>搶票的 race condition</strong>：READ COMMITTED / REPEATABLE READ <strong>都防不住</strong>——Terry 和 Bohr 都讀到「剩 1」再各自更新。<strong>SERIALIZABLE</strong> 透過自動 abort 衝突 tx 來解決，但代價是<strong>衝突偵測 overhead 和 abort 後的重做</strong>。</Callout>
     </div>
     <Footer source={'維運與可靠性/01 Dealing with Contention.pdf · §2 Isolation Level'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={23} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -432,7 +591,11 @@ const P24: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>選擇</strong>：強一致用 2PC（罕用，不到不得已不上）；追求韌性用 Saga（電商、訂單常見）。<strong>先問：能不能把資料放同一 DB？</strong> 十次有九次可以，那就免了分散式協調。</span></div>
     </div>
     <Footer source={'維運與可靠性/01 Dealing with Contention.pdf · §3 多節點'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={24} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -476,7 +639,11 @@ const P25: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>決策樹</strong>：資料能放單 DB？高 contention 用 pessimistic lock，低 contention 用 OCC。資料必須跨 DB？能容忍最終一致用 Saga，必須強一致才用 2PC。</span></div>
     </div>
     <Footer source={'維運與可靠性/01 Dealing with Contention.pdf · §4 選擇正確的做法'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={25} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -496,7 +663,11 @@ const P26: Page = () => (
         </ul>
     </div>
     <Footer source={'維運與可靠性/01 Dealing with Contention.pdf · §3 + §5 面試情境'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={26} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -512,7 +683,11 @@ const P27: Page = () => (
       <Callout tone='#E8634F'><strong>面試紅線</strong>：被問「contention 怎麼處理」時，<strong>主動從單 DB 開始說起</strong>，不要直接跳到 distributed lock 或 2PC。加新的元件就是加新的故障點。</Callout>
     </div>
     <Footer source={'維運與可靠性/01 Dealing with Contention.pdf · §5 不要過度設計'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={27} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -529,14 +704,22 @@ const P29: Page = () => (
 const P30: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_03_overload_01_6_layers} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={30} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
 const P31: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_03_overload_02_token_vs_leaky} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={31} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -556,7 +739,11 @@ const P32: Page = () => (
 保護不是 nice-to-have，是上線清單必備。</Callout>
     </div>
     <Footer source={'維運與可靠性/02 Overload Protection.pdf · §1 核心問題'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={32} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -581,7 +768,11 @@ const P33: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>每一層都有它能擋的，也有它擋不住的。<strong>面試重點不是背 6 個名詞，而是說清為什麼需要多層保護</strong>。</span></div>
     </div>
     <Footer source={'維運與可靠性/02 Overload Protection.pdf · §1 + §10 工具組合'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={33} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -597,7 +788,11 @@ const P34: Page = () => (
       <Callout tone='#E8634F'><strong>Fixed Window 反模式</strong>：第 59 秒發 100 個 + 第 61 秒再發 100 個 → 視窗邊界 2 秒內<strong>實際通過 200 個</strong>。Sliding Window 解決邊界突發但占記憶體。</Callout>
     </div>
     <Footer source={'維運與可靠性/02 Overload Protection.pdf · §2 演算法'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={34} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -618,7 +813,11 @@ X-RateLimit-Reset: 1700000060`}</pre>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>延遲代價</strong>：每請求多 1 次 Redis 查詢（&lt; 1ms 可接受）。極低延遲場景用本地計數器 + 定期同步。</span></div>
     </div>
     <Footer source={'維運與可靠性/02 Overload Protection.pdf · §2 分散式 + 回應'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={35} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -636,7 +835,11 @@ Netflix 開源：根據延遲動態調整並發上限。延遲升高 → 自動�
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>搭配關係</strong>：Rate limit 擋突發流量（公平性），concurrency limit 保護內部資源（容量）——兩者通常一起用。</span></div>
     </div>
     <Footer source={'維運與可靠性/02 Overload Protection.pdf · §3 Concurrency'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={36} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -669,7 +872,11 @@ const P37: Page = () => (
 <strong>重試請求優先丟棄</strong>：帶 `X-Retry-Count: 2` 的請求，這次過載可能就是它造成的，先丟它保第一次嘗試的新請求。</Callout>
     </div>
     <Footer source={'維運與可靠性/02 Overload Protection.pdf · §6 + §7 Request Prioritization'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={37} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -689,7 +896,11 @@ const P38: Page = () => (
 <strong>根據故障影響的相關性劃分</strong>：把那些「如果它掛掉，你希望不影響哪些功能」隔離成獨立 bulkhead。從 3 到 5 個 bulkhead 開始，根據實際故障模式再調。</Callout>
     </div>
     <Footer source={'維運與可靠性/02 Overload Protection.pdf · §8 + §11 deep dive'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={38} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -708,7 +919,11 @@ const P39: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Backpressure vs Load Shedding</strong>：load shedding 是<strong>丟棄請求</strong>；backpressure 是<strong>讓上游放慢，不丟任何東西</strong>。Backpressure 更溫和，但需上游配合。</span></div>
     </div>
     <Footer source={'維運與可靠性/02 Overload Protection.pdf · §9 Backpressure'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={39} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -726,7 +941,11 @@ const P40: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：所有客戶端<strong>指數退避曲線相同</strong> → 第 2、4、8 秒同步重試，仍形成脈衝。<strong>抖動是必須的</strong>。</Callout>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §退避加抖動'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={40} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -769,7 +988,11 @@ const P43: Page = () => (
         </div>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §1'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={43} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -795,7 +1018,11 @@ const P44: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_04_delivery_01_6_lines} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §概念串接'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={44} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -815,7 +1042,11 @@ const P45: Page = () => (
       <Callout tone='#E8634F'><strong>沒設 timeout 的後果</strong>：依賴卡住 → 連線池塞滿 → 你的服務也停止回應 → <strong>級聯故障（cascading failure）</strong>。</Callout>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §超時'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={45} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -831,7 +1062,11 @@ const P46: Page = () => (
       <Callout tone='#D97757'><strong>最大重試次數</strong>：通常 <strong>3 到 5 次</strong>。超過就讓請求失敗，由上層降級邏輯接管。<strong>無限重試 + 所有 client 都重試 = 把已過載的系統推向更深淵</strong>。</Callout>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §重試'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={46} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -850,7 +1085,11 @@ Server 先查去重表：有就直接回前次結果，沒有才執行並存結�
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>訊息佇列必備</strong>：at-least-once delivery 是 Kafka/SQS 常見保證，consumer 必須冪等才能安全處理重複訊息。用 `message_id` 做唯一鍵。</span></div>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §冪等性 + Stripe API'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={47} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -873,15 +1112,20 @@ def retry_with_jitter(fn, max_retries=5, base_delay=1.0, max_delay=30.0):
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Decorrelated Jitter</strong> 變體：每次等待時間基於上次等待時間，隨機性更強，效果通常更好但實作稍複雜。</span></div>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §退避加抖動 (AWS)'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={48} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
 const P49: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>失敗率超閾值就熔斷，三狀態圖</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>RELIABLE DELIVERY · Circuit Breaker</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>失敗率超閾值就熔斷，三狀態圖</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>RELIABLE DELIVERY · Circuit Breaker</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <pre style={{ fontSize: 14, fontFamily: 'ui-monospace, monospace', background: '#2A2520', color: '#F5F1E8', padding: '16px 20px', borderRadius: 6, lineHeight: 1.5, overflow: 'hidden', margin: 0, whiteSpace: 'pre-wrap' }}>{`Closed（正常） → 失敗率超過閾值 → Open（熔斷）
                                     ↓ 等待一段時間（如 30s）
                                 Half-Open（半開）
@@ -892,10 +1136,17 @@ const P49: Page = () => (
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Open（熔斷）</strong> 直接走降級，下游服務得到喘息</Callout>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Half-Open（半開）</strong> 放一個探針請求進來測試是否恢復</Callout>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Half-Open 的關鍵</strong>：恢復後<strong>不要立刻全流量放開</strong>，要 traffic ramp-up 逐步放量，否則突然全流量再次擊垮剛恢復的服務。</span></div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_04_delivery_02_circuit_breaker} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_04_delivery_02_circuit_breaker} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §熔斷器三狀態'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={49} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -908,15 +1159,20 @@ const P50: Page = () => (
         <TradeoffCol tone='#E8634F' title={'Fallback（降級回應）'} items={['用一個**較簡陋但能用**的替代撐過去', 'DB 掛 → 回快取裡的舊資料（serve stale）', '推薦系統掛 → 回「熱門商品」靜態列表', '評分服務超時 → 顯示「暫時不可用」而不是整頁崩潰']} />
       </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §故障切換 + 降級回應'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={50} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
 const P51: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>事務性 Outbox + 毒訊息隔離</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>RELIABLE DELIVERY · Outbox / DLQ</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>事務性 Outbox + 毒訊息隔離</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>RELIABLE DELIVERY · Outbox / DLQ</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Transactional Outbox</strong>
 寫業務 + 寫 outbox 表在<strong>同一個 DB transaction</strong>裡完成。<br />
 背景進程從 outbox 撈訊息送到 broker（搭配 CDC 如 Debezium 直接讀 WAL）。<br />
@@ -925,10 +1181,17 @@ const P51: Page = () => (
 重試 3-5 次仍失敗的訊息送 DLQ，主流程不被毒訊息堵塞。<br />
 <strong>監控指標</strong>：DLQ 訊息數應為 0；&gt; 0 工程師介入。</Callout>
       <Callout tone='#E8634F'><strong>沒 DLQ 的災難</strong>：毒訊息卡住 partition → 整批訊息堵在後面 → 系統看起來活著但沒在動。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_04_delivery_03_outbox} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_04_delivery_03_outbox} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §3 + 整合 Outbox 慣例'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={51} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -942,7 +1205,11 @@ const P52: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>這一段話就涵蓋了 <strong>Timeout、Retry、Backoff with Jitter、冪等性、Circuit Breaker</strong>，完整而自然。<strong>比逐個列定義更有說服力</strong>。</span></div>
     </div>
     <Footer source={'維運與可靠性/03 Reliable Delivery.pdf · §面試裡的說法'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={52} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -959,14 +1226,22 @@ const P54: Page = () => (
 const P55: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_05_observability_01_three_pillars} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={55} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
 const P56: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_05_observability_02_four_signals_slo} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={56} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -983,7 +1258,11 @@ const P57: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>PDF 開場：週五晚某個服務 response time 從 200ms 跳到 8 秒。是 DB 慢？下游 API 掛？新部署的 bug？流量爆增？<strong>你不知道，你像在黑暗中摸索</strong>。</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §1 開場'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={57} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1009,7 +1288,11 @@ const P58: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>三支柱要互相串聯</strong>：log 帶 trace_id、metric 標 service name、trace 採異常請求 → 點 trace_id 跳到對應 logs。</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §2 三支柱'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={58} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1027,7 +1310,11 @@ const P59: Page = () => (
 "P99 延遲 = 450ms" 就是從 Histogram 算出，把所有延遲放桶裡，排第 99 百分位的那個值。</Callout>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §2 Metrics 類型'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={59} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1046,7 +1333,11 @@ const P60: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試一句話</strong>：「我會暴露 Prometheus metrics，監控四個黃金信號：延遲（P99）、流量（RPS）、錯誤率（5xx 比例）、飽和度（CPU / 記憶體使用率）。」</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §四個黃金信號'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={60} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1070,7 +1361,11 @@ const P61: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>判斷標準</strong>：用戶有沒有感受到問題？沒有就不該叫醒工程師。</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §對症狀警告'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={61} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1092,7 +1387,11 @@ const P62: Page = () => (
       <Callout tone='#D97757'><strong>三者搭配才是完整排查流程</strong>：Metrics 是觀察儀表板（先發現），Traces 縮範圍（哪個服務 / 操作），Logs 給細節（具體錯誤）。</Callout>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §三者如何互補'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={62} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1121,7 +1420,11 @@ Prometheus、Datadog 等都對 cardinality 有上限，超過就拒絕寫入或�
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>規則</strong>：label 的 unique 值估計超過幾千個就要警惕；超過幾萬個必爆。需要 per-user 分析？放 log 用 ES / Loki 查。</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §Metrics 設計（補強重點）'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={63} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1137,7 +1440,11 @@ const P64: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Log 取樣策略</strong>：對 INFO level 取樣 10-20%，<strong>ERROR / WARN 永遠 100% 保留</strong>；設 TTL（30-90 天）；只對關鍵欄位（service、user_id、trace_id、level）建索引，不全文索引（Loki 模式）。</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §採樣 + Log 量太大'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={64} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1155,7 +1462,11 @@ const P65: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>目前狀態：SLI &gt; SLO &gt; SLA</strong>，一切正常。</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §SLI SLO SLA'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={65} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1174,7 +1485,11 @@ const P66: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>反模式</strong>：SLO 設 100%。意味永遠不能做任何可能影響穩定性的改動，包括發新功能。<strong>通常從 99.9% 開始</strong>，根據業務敏感度調整。</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §Error Budget'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={66} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1190,7 +1505,11 @@ const P67: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>搭配</strong>：四金信號 ≈ RED + Saturation。對 service 用 RED，對 host / pod 用 USE，組合起來覆蓋全棧。</span></div>
     </div>
     <Footer source={'維運與可靠性/04 Observability.pdf · §補充（業界共識）'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={67} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1216,15 +1535,21 @@ const P70: Page = () => (
         <StackRow tone='#5B9770' label={'⑤ Observe'} text={'SLO P99 < 800ms · 四金信號全收 · trace 全採異常 + 1% 正常 · 錯誤率 0.1% PagerDuty'} />
       </div>
     <Footer source={'整合 Ch.5 全章 + Stripe / Shopify Engineering Blog'} />
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={70} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
 const P71: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>黑色星期五，10× 流量打進來</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>CASE STUDY · Incident 演練</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>黑色星期五，10× 流量打進來</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>CASE STUDY · Incident 演練</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'00:00'} text={'流量爆 → API GW token bucket 擋掉 30% 超量請求，回 <code>429</code> + Retry-After'} />
         <StackRow tone='#A1813F' label={'00:01'} text={'訂單服務 concurrency limit 觸發，多餘請求快速失敗（503）保住已進來的'} />
@@ -1234,8 +1559,15 @@ const P71: Page = () => (
       </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <Callout tone='#D97757'><strong>5 層全配齊</strong>才能在 10× 流量、雲服務部分故障、惡意攻擊下守住 SLA。沒有 observability，這 5 分鐘你會像盲人摸象。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_99_recap_01_incident_timeline} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_99_recap_01_incident_timeline} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
+    </div>
+    <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+    <PageNum n={71} total={75} />
+    <BrandBar />
   </div>
 );
 
@@ -1247,7 +1579,11 @@ const P72: Page = () => (
         <TradeoffCol tone='#5B9770' title={'新的工具'} items={['4 種分散式鎖 + fencing token + 三大陷阱', '5 種 contention 解法（Pessimistic / OCC / SERIALIZABLE / 2PC / Saga）', '6 層過載防護 + Token vs Leaky bucket', 'Reliable Delivery 6 防線 + Circuit Breaker 三狀態', '三支柱 + 四金信號 + USE / RED + Error Budget']} />
         <TradeoffCol tone='#E8634F' title={'還沒回答的問題'} items={['讀多怎麼撐？　→ Ch.6 Scaling Reads', '寫多怎麼撐？　→ Ch.6 Scaling Writes', '大檔案怎麼分發？　→ Ch.6 CDN / Large Blob']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={72} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1261,7 +1597,11 @@ const P73: Page = () => (
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Reliable Delivery</strong> Timeout → Retry → Backoff+Jitter → Idempotency → Circuit Breaker → Fallback，互相依存。</Callout>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Observability</strong> Metrics 是儀表板，Traces 縮範圍，Logs 給細節。對症狀警告，不對原因警告。</Callout>
     </div>
-  </div>
+  
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' />
+      <PageNum n={73} total={74} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1271,79 +1611,30 @@ const P74: Page = () => (
 
 
 export const meta: SlideMeta = { title: 'Ch.5 · Reliability & Ops' };
-export default [
-  P01,
-  P02,
-  P03,
-  P04,
-  P05,
-  P06,
-  P07,
-  P08,
-  P09,
-  P10,
-  P11,
-  P12,
-  P13,
-  P14,
-  P15,
-  P16,
-  P17,
-  P18,
-  P19,
-  P20,
-  P21,
-  P22,
-  P23,
-  P24,
-  P25,
-  P26,
-  P27,
-  P28,
-  P29,
-  P30,
-  P31,
-  P32,
-  P33,
-  P34,
-  P35,
-  P36,
-  P37,
-  P38,
-  P39,
-  P40,
-  P41,
-  P42,
-  P43,
-  P44,
-  P45,
-  P46,
-  P47,
-  P48,
-  P49,
-  P50,
-  P51,
-  P52,
-  P53,
-  P54,
-  P55,
-  P56,
-  P57,
-  P58,
-  P59,
-  P60,
-  P61,
-  P62,
-  P63,
-  P64,
-  P65,
-  P66,
-  P67,
-  P68,
-  P69,
-  P70,
-  P71,
-  P72,
-  P73,
-  P74,
-] satisfies Page[];
+
+// P02b · 本章新術語
+const P02b: Page = () => (
+  <><AnimStyle />
+    <div style={{ ...fill, padding: '40px 70px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ marginBottom: 10 }}><NoviceBadge /></div>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginTop: 4, animationDelay: '0.05s' }}>本章新術語 · 8 個詞</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 800, margin: '8px 0 24px', animationDelay: '0.1s' }}>不掛、不爆的保命招</h1>
+      <div className='osd-stagger' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <TermCard name='Lock' en='分散式鎖' def='多個服務搶同一資源，誰拿到鎖誰先做。' />
+        <TermCard name='Rate Limit' en='限流' def='每秒最多 X 個請求進來（Token Bucket / Leaky Bucket）。' />
+        <TermCard name='Circuit Breaker' en='斷路器' def='下游死了不要繼續打它，避免雪崩。' />
+        <TermCard name='Retry + Jitter' en='重試 + 隨機抖動' def='失敗自動重試，但加 jitter 避免風暴。' />
+        <TermCard name='Idempotency' en='冪等性' def='同操作做 1 次和 10 次結果一樣（重試安全）。' />
+        <TermCard name='Backpressure' en='反壓' def='下游慢時，上游主動放慢，避免 buffer 爆。' />
+        <TermCard name='SLO / SLA / SLI' en='服務目標/合約/指標' def='對外承諾 / 對內目標 / 實際量值，三層。' />
+        <TermCard name='MLT' en='Metrics + Logs + Traces' def='可觀測性三本柱，看現況/查細節/跨服務追。' />
+      </div>
+      <div className='osd-anim-fade-up' style={{ marginTop: 18, fontSize: 16, color: muted, fontStyle: 'italic', animationDelay: '0.6s' }}>📖 完整定義在 90-appendix 詞彙速查表</div>
+      <Breadcrumb part='Part 5' chapter='Ch.05 · 可靠性維運' section='本章新術語' />
+      <PageNum n={2} total={75} />
+      <BrandBar />
+    </div>
+  </>
+);
+
+export default [P01, P02b, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50, P51, P52, P53, P54, P55, P56, P57, P58, P59, P60, P61, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74] satisfies Page[];

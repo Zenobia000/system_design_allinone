@@ -18,6 +18,9 @@ import img_07_rag_01_four_components from './assets/07_rag_01_four_components.pn
 import img_07_rag_02_chunking from './assets/07_rag_02_chunking.png';
 import img_99_recap_01_ai_assistant from './assets/99_recap_01_ai_assistant.png';
 import img_99_recap_02_course_map from './assets/99_recap_02_course_map.png';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#F5F1E8', text: '#2A2520', accent: '#D97757' },
@@ -55,6 +58,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -63,7 +67,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -96,7 +179,11 @@ const P01: Page = () => (
 const P02: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_00_hero} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={2} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -116,7 +203,11 @@ const P03: Page = () => (
       </div>
     </div>
     <Footer source={'常用技術/07 + 設計模式/03 + 04 + 05 + 06 + 07 + 08'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={3} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -144,7 +235,11 @@ const P04: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_00_mental_model} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'整理自 常用技術/07 + 設計模式/03/04/05/06/07/08'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={4} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -161,15 +256,20 @@ const P06: Page = () => (
 const P07: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_queue_02_three_brokers} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={7} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P08: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>為何要在系統中間加 Queue？</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>QUEUE · WHY</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>為何要在系統中間加 Queue？</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>QUEUE · WHY</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <Callout tone='#D97757'><strong>Queue 解 4 件事</strong>：  
 <strong>① 解耦</strong>（生產 / 消費獨立部署） · <strong>② 削峰</strong>（流量高峰緩衝）  
@@ -180,10 +280,17 @@ const P08: Page = () => (
           <li>沒 Queue 的世界：上游同步呼叫 N 個下游 → 任一個壞 = 整鏈失敗</li>
         </ul>
       <Callout tone='#E8634F'><strong>警告</strong>：在同步工作負載中引入 queue 要特別小心。如果你有 &lt; 500ms 延遲要求，<strong>加上 queue 幾乎一定會破壞它</strong>。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_queue_01_basic_flow} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_01_queue_01_basic_flow} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/07 Queue.pdf · §基本概念'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={8} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -226,7 +333,11 @@ const P09: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>選擇法則</strong>：事件流 / 數據管線用 Kafka；複雜路由 / 工作隊列用 RabbitMQ；簡單異步任務用 SQS（已在 AWS）。Redis Stream 是輕量替代。</span></div>
     </div>
     <Footer source={'常用技術/07 Queue.pdf · §常見產品與服務'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={9} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -245,15 +356,20 @@ Queue 透過分區擴展。指定 partition key（例如 user_id）確保<strong
 SQS 的訊息被 pull 後隱藏 N 秒；worker 沒回 ack 就會被別人重試。<strong>10–30s 是合理起點</strong>。</Callout>
     </div>
     <Footer source={'常用技術/07 Queue.pdf · §面試重點 + 設計模式/03 §處理故障'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={10} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P11: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>反壓 — Queue 最常被忽略的問題</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>QUEUE · Backpressure</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>反壓 — Queue 最常被忽略的問題</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>QUEUE · Backpressure</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#E8634F'><strong>反模式</strong>：以為 queue 可以無限緩衝。  
 每秒處理 200 但收到 300 = <strong>永遠處理不完</strong>，queue 只是把問題藏起來。</Callout>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
@@ -261,10 +377,17 @@ const P11: Page = () => (
 ① <strong>設 queue 深度上限</strong>——滿了就拒絕新訊息回 503  
 ② <strong>基於 queue depth 自動擴 worker</strong>（不是 CPU usage——等到 CPU 高時 queue 早就堆積了）  
 ③ <strong>Fast / Slow Queue 分離</strong>——避免長 job 卡住短 job 的 head-of-line blocking</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_queue_03_backpressure} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_01_queue_03_backpressure} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/07 Queue.pdf · §反壓 + 設計模式/03 §管理 Backpressure'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={11} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -280,7 +403,11 @@ const P12: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：QPS 100 加 Kafka。<strong>Kafka 的運維成本 &gt; 你業務本身</strong>，這時 Postgres + LISTEN/NOTIFY 就夠。</Callout>
     </div>
     <Footer source={'常用技術/07 Queue.pdf · §適用場景'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={12} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -297,7 +424,11 @@ const P14: Page = () => (
 const P15: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_longtasks_02_orchestrators} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={15} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -315,15 +446,21 @@ const P16: Page = () => (
 <strong>結果</strong>：使用者超時看到 504 · server worker 卡死 · retry 重複執行。</Callout>
     </div>
     <Footer source={'設計模式/03 Manage Long Running Tasks.pdf · §問題在哪裡'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={16} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P17: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>4 個必備機制</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>LONG TASKS · HOW</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>4 個必備機制</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>LONG TASKS · HOW</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'① 異步觸發'} text={'API 立即回 task_id · 實際工作丟 queue 背景處理'} />
         <StackRow tone='#A1813F' label={'② Checkpointing'} text={'每 N 步存進度 · 失敗從最近 checkpoint 重啟'} />
@@ -334,9 +471,16 @@ const P17: Page = () => (
       <pre style={{ fontSize: 14, fontFamily: 'ui-monospace, monospace', background: '#2A2520', color: '#F5F1E8', padding: '16px 20px', borderRadius: 6, lineHeight: 1.5, overflow: 'hidden', margin: 0, whiteSpace: 'pre-wrap' }}>{`[Client] ─POST→ [API] ─enqueue→ [Queue] ─pop→ [Worker]
    │                                              │
    └──── poll task_id ─→ [State Store] ←─update───┘`}</pre>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_02_longtasks_01_four_mechanisms} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_02_longtasks_01_four_mechanisms} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'設計模式/03 Manage Long Running Tasks.pdf · §解法的架構'} />
+    <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+    <PageNum n={17} total={82} />
+    <BrandBar />
   </div>
 );
 
@@ -354,7 +498,11 @@ Worker 定期向 queue 回報「我還活著」。沒心跳 → queue 假設它�
 某個 job 永遠失敗，會把整個 worker pool 拖垮（每個 worker 試處理它都死）。<strong>失敗 3–5 次後丟 DLQ</strong>——隔離出來，健康的工作繼續。</Callout>
     </div>
     <Footer source={'設計模式/03 Manage Long Running Tasks.pdf · §防止重複工作 + §處理反覆失敗'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={18} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -394,7 +542,11 @@ const P19: Page = () => (
       <Callout tone='#D97757'><strong>Temporal 是現代 long-running 工作流的最強解</strong>——把工作流當程式碼寫，failure / retry / state 全部自動化。<strong>面試答 Step Functions 或 Temporal 都安全</strong>。</Callout>
     </div>
     <Footer source={'設計模式/03 Manage Long Running Tasks.pdf · §協調有依賴關係的 Job'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={19} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -417,7 +569,11 @@ const P20: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>策略</strong>：依預期執行時間路由；無法預測就先丟 fast，超時自動移 slow。<strong>autoscale metric 用 queue depth 而不是 CPU</strong>——CPU 飆高時 queue 已經堆積很久了。</span></div>
     </div>
     <Footer source={'設計模式/03 Manage Long Running Tasks.pdf · §處理混合工作負載'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={20} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -448,15 +604,20 @@ const P23: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>判斷門檻</strong>：&gt; 10MB 就應該想到這個模式；&lt; 10MB 走一般 API 就好。</span></div>
     </div>
     <Footer source={'設計模式/04 Handling Large Blobs.pdf · §問題在哪裡'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={23} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P24: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>簡單直傳（&lt; 100MB）</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>LARGE BLOBS · Presigned URL</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>簡單直傳（&lt; 100MB）</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>LARGE BLOBS · Presigned URL</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Presigned URL</strong>
 你的 server 用雲端憑證<strong>本地簽一個帶時限的 URL</strong>（通常 15 分鐘到 1 小時），客戶端拿著它直接 PUT 檔案到 S3。<strong>不需要呼叫 storage 的 API</strong>，純本地簽名計算。</Callout>
       <pre style={{ fontSize: 14, fontFamily: 'ui-monospace, monospace', background: '#2A2520', color: '#F5F1E8', padding: '16px 20px', borderRadius: 6, lineHeight: 1.5, overflow: 'hidden', margin: 0, whiteSpace: 'pre-wrap' }}>{`?X-Amz-Algorithm=AWS4-HMAC-SHA256
@@ -465,10 +626,17 @@ const P24: Page = () => (
 &X-Amz-Signature=...`}</pre>
       <Callout tone='#E8634F'><strong>永遠加上限制條件</strong>：  
 `content-length-range`（防止 5MB 端點被傳 500MB） · `content-type`（限定圖片）</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_03_blobs_01_presigned_url} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_03_blobs_01_presigned_url} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'設計模式/04 Handling Large Blobs.pdf · §簡單直傳上傳'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={24} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -490,7 +658,11 @@ const P25: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_03_blobs_02_multipart} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'設計模式/04 Handling Large Blobs.pdf · §斷點續傳'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={25} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -529,7 +701,11 @@ const P26: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試重點</strong>：知道有對應就行，<strong>不需背 SDK 函數名</strong>。</span></div>
     </div>
     <Footer source={'設計模式/04 Handling Large Blobs.pdf · §各雲端供應商的術語對照'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={26} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -546,7 +722,11 @@ const P27: Page = () => (
 ② 加一個 <strong>reconciliation worker</strong>——定期掃 status='pending' 的記錄跟 storage 比對</Callout>
     </div>
     <Footer source={'設計模式/04 Handling Large Blobs.pdf · §狀態同步的挑戰'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={27} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -563,7 +743,11 @@ const P28: Page = () => (
 <strong>Blob Storage 簽名</strong>由 storage 驗證 · <strong>CDN 簽名</strong>由 CDN edge node 公私鑰驗證——CDN 不需回 origin，全球延遲更穩。</Callout>
     </div>
     <Footer source={'設計模式/04 Handling Large Blobs.pdf · §怎麼防止濫用 + §怎麼確保下載夠快'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={28} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -575,7 +759,11 @@ const P29: Page = () => (
         <TradeoffCol tone='#E8634F' title={'不該直傳'} items={['< 10MB 小檔（額外 round-trip 不值得）', '需要同步驗證內容（CSV 匯入）', '合規要求逐行審查（HIPAA / 信用卡）', '需要即時回饋（人臉辨識、文件預覽）']} />
       </div>
     <Footer source={'設計模式/04 Handling Large Blobs.pdf · §什麼時候不適合用'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={29} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -592,7 +780,11 @@ const P31: Page = () => (
 const P32: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_realtime_01_four_protocols} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={32} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -611,7 +803,11 @@ const P33: Page = () => (
         </ul>
     </div>
     <Footer source={'設計模式/05 Real-time Updates.pdf · §問題在哪裡'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={33} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -630,7 +826,11 @@ const P34: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試常見錯誤</strong>：只想 Hop 1（WebSocket）忘記 Hop 2（怎麼從產生 event 的服務找到「持有那條連線的 server」）。</span></div>
     </div>
     <Footer source={'設計模式/05 Real-time Updates.pdf · §解法的架構'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={34} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -664,7 +864,11 @@ const P35: Page = () => (
       <Callout tone='#D97757'><strong>選擇法則</strong>：<strong>單向推就用 SSE</strong>（HTTP 原生 + 自動重連 + last-event-id）；雙向用 WebSocket；P2P 視訊用 WebRTC。</Callout>
     </div>
     <Footer source={'設計模式/05 Real-time Updates.pdf · §第一個 Hop'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={35} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -681,7 +885,11 @@ HTTP 層 · 終止連線後對 backend 開新連線 · <strong>每個 HTTP reque
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試常考</strong>：「WebSocket 用什麼 LB？」答 <strong>L4</strong>——L7 對 long polling 這類 HTTP 方案更好用。</span></div>
     </div>
     <Footer source={'設計模式/05 Real-time Updates.pdf · §負載平衡器'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={36} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -694,15 +902,21 @@ const P37: Page = () => (
         <TradeoffCol tone='#E8634F' title={'Pub/Sub（Redis / Kafka）'} items={['用戶連到任意端點伺服器 · 訂閱 topic', '更新發布到 topic · Pub/Sub 廣播給所有訂閱端點', '**端點無狀態 · 用 least-connection LB 即可**', '適合**訊息小、不需太多關聯狀態**']} />
       </div>
     <Footer source={'設計模式/05 Real-time Updates.pdf · §第二個 Hop'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={37} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P38: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>抽出專屬 WebSocket 服務</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>REAL-TIME · 1M 連線架構</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>抽出專屬 WebSocket 服務</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>REAL-TIME · 1M 連線架構</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <pre style={{ fontSize: 14, fontFamily: 'ui-monospace, monospace', background: '#2A2520', color: '#F5F1E8', padding: '16px 20px', borderRadius: 6, lineHeight: 1.5, overflow: 'hidden', margin: 0, whiteSpace: 'pre-wrap' }}>{`[User] ←→ [L4 LB] ←→ [WebSocket Service Pool] ←→ [Pub/Sub] ←→ [App Service]
                           (sticky · stateful)        (Redis/Kafka)   (stateless)`}</pre>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -711,9 +925,16 @@ const P38: Page = () => (
         <StackRow tone='#5B7570' label={'③ Graceful Drain'} text={'部署時逐步通知 client 重連 · 不能一次切光（驚群效應）'} />
         <StackRow tone='#5B9770' label={'④ 重連 + Last Event ID'} text={'SSE 標準支援；WebSocket 要自己實作補發'} />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_04_realtime_02_two_hop_fanout} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_04_realtime_02_two_hop_fanout} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'設計模式/05 Real-time Updates.pdf · §連線失敗和重新連線'} />
+    <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+    <PageNum n={38} total={82} />
+    <BrandBar />
   </div>
 );
 
@@ -730,7 +951,11 @@ const P39: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>業界趨勢</strong>：通知、股票、AI streaming 大多用 SSE；聊天、遊戲、協同用 WebSocket。<strong>過度採用 WebSocket 是常見錯誤</strong>。</span></div>
     </div>
     <Footer source={'設計模式/05 Real-time Updates.pdf · §選擇指南'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={39} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -745,7 +970,11 @@ Taylor Swift 發文 → 幾千萬粉絲要立刻收到。<strong>不寫進每個
 Google Docs 字元級協作的兩種衝突解決方法：<strong>OT</strong> 透過 transform 函數調整操作順序；<strong>CRDT</strong> 用無衝突資料結構。Figma / Notion 多走 CRDT。</Callout>
     </div>
     <Footer source={'設計模式/05 Real-time Updates.pdf · §常見的 Deep Dive 問題'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={40} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -772,7 +1001,11 @@ const P43: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>資料庫做<strong>精確比對</strong>（user_id=123）；搜尋做<strong>相關性排序</strong>（所有「跑步鞋」相關商品按關聯度排）。完全不同的資料結構和查詢引擎。</span></div>
     </div>
     <Footer source={'設計模式/06 Search System.pdf · §為什麼搜尋是一個獨立的設計問題'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={43} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -798,25 +1031,37 @@ Tokenize → Lowercase → Stop word removal → Stemming（running/runs/ran →
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_05_search_01_inverted_index} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'設計模式/06 Search System.pdf · §倒排索引'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={44} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P45: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>CDC 是預設答案，不是 Dual Write</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>SEARCH · Indexing Pipeline</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>CDC 是預設答案，不是 Dual Write</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>SEARCH · Indexing Pipeline</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#E8634F'><strong>反模式 — Dual Write</strong>：app 同時寫 PostgreSQL 和 ES。  
 <strong>問題</strong>：兩個寫入不是原子的——ES 失敗就資料不一致。</Callout>
       <pre style={{ fontSize: 14, fontFamily: 'ui-monospace, monospace', background: '#2A2520', color: '#F5F1E8', padding: '16px 20px', borderRadius: 6, lineHeight: 1.5, overflow: 'hidden', margin: 0, whiteSpace: 'pre-wrap' }}>{`PostgreSQL ──WAL──→ Debezium ──events──→ Kafka ──→ Indexer ──→ Elasticsearch
    (source)         (CDC)                (buffer)   (transform)   (search idx)`}</pre>
       <Callout tone='#D97757'><strong>CDC 優點</strong>：應用只寫主庫 · 搜尋同步完全解耦 · ES 暫時掛了 Kafka 緩衝不丟資料 · 索引時可做轉換（合併多表、計算欄位）  
 <strong>代價</strong>：幾秒到幾十秒延遲（大多數搜尋場景可接受）</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_05_search_02_cdc_alias} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_05_search_02_cdc_alias} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'設計模式/06 Search System.pdf · §Indexing Pipeline'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={45} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -833,7 +1078,11 @@ TF-IDF 改良版 · 加入文件長度標準化 · TF 飽和函數。<strong>「
 最終分數 = 相關性 × 0.6 + 銷量 × 0.2 + 評分 × 0.1 + 新品加成 × 0.1。<strong>純文字相關性不夠</strong>，真實搜尋總是業務指標的線性組合。</Callout>
     </div>
     <Footer source={'設計模式/06 Search System.pdf · §相關性排序'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={46} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -851,7 +1100,11 @@ query 與文件都轉成向量找最相近——<strong>不依賴關鍵字命中
 indexing 時把 "running" 拆成 r/ru/run/runn/runni/runnin/running，<strong>每個前綴都建索引</strong>——查詢直接用前綴精確匹配，<strong>100ms 內回應</strong>。</Callout>
     </div>
     <Footer source={'設計模式/06 Search System.pdf · §Autocomplete + RAG context'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={47} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -870,7 +1123,11 @@ const P48: Page = () => (
       <Callout tone='#D97757'><strong>Shard 估算</strong>：預估一年資料量 ÷ 25GB = primary shard 數。<strong>寧可多設一點</strong>——數量固定後只能 reindex。</Callout>
     </div>
     <Footer source={'設計模式/06 Search System.pdf · §搜尋系統的擴展'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={48} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -888,7 +1145,11 @@ const P49: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>ES 不該做主存儲</strong>——它是 secondary index，主資料還在 PostgreSQL/MySQL。掛了重建即可。</span></div>
     </div>
     <Footer source={'設計模式/06 Search System.pdf · §重建索引'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={49} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -914,7 +1175,11 @@ const P50: Page = () => (
       <Callout tone='#D97757'><strong>面試標準答案</strong>：「搜尋功能我會用 Elasticsearch 建獨立索引，資料透過 CDC + Kafka 從主資料庫非同步同步。」<strong>主動說「不會用 LIKE」就拿一半分</strong>。</Callout>
     </div>
     <Footer source={'設計模式/06 Search System.pdf · §分頁'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={50} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -931,7 +1196,11 @@ const P52: Page = () => (
 const P53: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_06_pipeline_01_lambda_kappa} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={53} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -964,7 +1233,11 @@ const P54: Page = () => (
 <strong>Data Pipeline 的職責</strong>：把資料從 OLTP <strong>複製 / 轉換</strong>到 OLAP。</Callout>
     </div>
     <Footer source={'設計模式/07 Data Pipeline.pdf · §什麼是 Data Pipeline'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={54} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -980,25 +1253,37 @@ const P55: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>第一個問題永遠是</strong>：「這個資料需要多快被看到？」</span></div>
     </div>
     <Footer source={'設計模式/07 Data Pipeline.pdf · §批次還是串流'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={55} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P56: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>Tumbling · Sliding · Session</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>PIPELINE · Stream 視窗</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>Tumbling · Sliding · Session</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>PIPELINE · Stream 視窗</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Tumbling Window（滾動）</strong>
 固定大小 · 不重疊。「過去 5 分鐘的訂單數」——每筆事件只屬於一個視窗。</Callout>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Sliding Window（滑動）</strong>
 固定大小 · 重疊。「最近 5 分鐘的訂單數，每 1 分鐘更新」——同一筆事件可能屬於多個視窗。</Callout>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Session Window（會話）</strong>
 按用戶活動分組 · 閒置超過 N 分鐘算 session 結束。<strong>大小可變</strong>——適合分析用戶行為流。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_06_pipeline_02_etl_windows} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_06_pipeline_02_etl_windows} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'設計模式/07 Data Pipeline Design.pdf · §Apache Flink'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={56} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1015,7 +1300,11 @@ const P57: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>取捨</strong>：watermark 延遲設長（10s）→ 結果準確但輸出慢；設短 → 快但可能漏遲到事件。</span></div>
     </div>
     <Footer source={'設計模式/07 Data Pipeline.pdf · §Event Time vs Processing Time'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={57} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1042,7 +1331,11 @@ const P58: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>現代趨勢</strong>：<strong>Kappa 為主</strong>——維護成本低。除非題目強調「TB 級歷史分析」才需 Lambda。</span></div>
     </div>
     <Footer source={'設計模式/07 Data Pipeline.pdf · §兩種架構哲學'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={58} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1057,7 +1350,11 @@ const P59: Page = () => (
       <Callout tone='#D97757'><strong>ELT + dbt + Snowflake/BigQuery</strong> 是 2020s 的事實標準——把昂貴的 transform 工作交給雲端 data warehouse 的 MPP 引擎。</Callout>
     </div>
     <Footer source={'設計模式/07 Data Pipeline.pdf · §ETL 與 ELT'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={59} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1074,7 +1371,11 @@ const P60: Page = () => (
 S3 上加格式層（<strong>Apache Iceberg / Delta Lake</strong>）→ 支援 ACID 事務、Schema 演化、time travel、高效分析查詢。<strong>Databricks / Snowflake 都在走這條路</strong>。</Callout>
     </div>
     <Footer source={'設計模式/07 Data Pipeline.pdf · §資料去哪裡'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={60} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1092,7 +1393,11 @@ const P61: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Checkpoint</strong> = 串流處理器把當前 offset + 中間聚合 state 寫到 S3。崩潰後從 checkpoint 恢復，不從頭重算。</span></div>
     </div>
     <Footer source={'設計模式/07 Data Pipeline.pdf · §容錯機制'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={61} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1111,7 +1416,11 @@ const P62: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Data Enrichment</strong>：高吞吐 stream 中，每筆事件都查 DB 找 user profile 會死。把 user profile 快取在 Redis / 本地記憶體並定期刷。</span></div>
     </div>
     <Footer source={'設計模式/07 Data Pipeline.pdf · §三個常見的管線模式'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={62} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1128,7 +1437,11 @@ const P64: Page = () => (
 const P65: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_07_rag_02_chunking} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={65} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1145,14 +1458,20 @@ const P66: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><strong>RAG = Retrieval-Augmented Generation</strong>：把外部知識<strong>先檢索</strong>，再把命中片段塞進 LLM prompt——<strong>用引用取代幻覺</strong>。</div>
     </div>
     <Footer source={'設計模式/08 RAG.pdf · §Foundation Model 的限制'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={66} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P67: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>RAG · HOW · 4 個元件</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>RAG · HOW · 4 個元件</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <pre style={{ fontSize: 14, fontFamily: 'ui-monospace, monospace', background: '#2A2520', color: '#F5F1E8', padding: '16px 20px', borderRadius: 6, lineHeight: 1.5, overflow: 'hidden', margin: 0, whiteSpace: 'pre-wrap' }}>{`[Documents] ─chunk→ [Embedding Model] ─vec→ [Vector DB]
                                                  │ similarity search
                                                  ▼
@@ -1169,9 +1488,16 @@ const P67: Page = () => (
         <StackRow tone='#5B7570' label={'③ Augmentation'} text={'把 retrieved context 包成 prompt 給 LLM'} />
         <StackRow tone='#5B9770' label={'④ Generation'} text={'LLM 基於 context 生成答案 + 引用'} />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_07_rag_01_four_components} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_07_rag_01_four_components} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'設計模式/08 RAG.pdf · §RAG 是怎麼運作的'} />
+    <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+    <PageNum n={67} total={82} />
+    <BrandBar />
   </div>
 );
 
@@ -1190,7 +1516,11 @@ const P68: Page = () => (
 先按章節切大塊 → 大塊太大再按段落切 → 段落太大按句切。LangChain `RecursiveCharacterTextSplitter` 是預設。</Callout>
     </div>
     <Footer source={'設計模式/08 RAG.pdf · §第一步：Ingestion'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={68} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1211,7 +1541,11 @@ Prompt 強制「<strong>只用 context 內容回答 + 引用來源 ID</strong>�
 <strong>Ground Truth Eval Set</strong>：一組 query + 預期答案。用 RAGAS / LLM-as-judge 衡量 retrieval（recall / precision）和 generation（faithfulness / answer relevance）。</Callout>
     </div>
     <Footer source={'設計模式/08 RAG.pdf · §RAG 怎麼運作 + §什麼是 RAG'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={69} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1223,7 +1557,11 @@ const P70: Page = () => (
         <TradeoffCol tone='#E8634F' title={'常見錯誤 ✗'} items={['Top-K 設太大塞爆 context window', 'Chunk 邊界切壞（半句話）', '沒做 reranking 直接餵 vector top-K', '沒監控 retrieval recall', 'Embedding model 跟內容語言不匹配']} />
       </div>
     <Footer source={'設計模式/08 RAG.pdf · §失去用戶信任 + §RAG 帶來的好處'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={70} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1238,7 +1576,11 @@ const P71: Page = () => (
       <Callout tone='#D97757'><strong>經驗法則</strong>：原型 + 中小規模用 <strong>pgvector</strong>；千萬向量以上 + 多租戶用 <strong>Pinecone / Qdrant</strong>。</Callout>
     </div>
     <Footer source={'設計模式/08 RAG.pdf · §第二步：Retrieval'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={71} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1261,7 +1603,11 @@ const P72: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>問題已經不是「要不要實作 RAG」，而是「<strong>如何針對你的 use case 設計它的架構</strong>」。</span></div>
     </div>
     <Footer source={'設計模式/08 RAG.pdf · §RAG 在 Agentic Workflow 中的角色'} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={72} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1278,15 +1624,21 @@ const P74: Page = () => (
 const P75: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_99_recap_02_course_map} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={75} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
 const P76: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>設計：客服 AI 助理</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>CASE STUDY · 把進階模式串起來</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>設計：客服 AI 助理</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>CASE STUDY · 把進階模式串起來</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'Real-time'} text={'前端 SSE 串流 LLM token 給用戶（聊天用 WebSocket）'} />
         <StackRow tone='#A1813F' label={'RAG'} text={'客戶問題 embed → pgvector → Top-K chunks → rerank → LLM prompt'} />
@@ -1297,9 +1649,16 @@ const P76: Page = () => (
         <StackRow tone='#5B9770' label={'Pipeline'} text={'Kafka → Snowflake · 每日 dbt transform 出分析報表'} />
       </div>
       <Callout tone='#D97757'><strong>每個元件都是 Ch.7 的一個 pattern</strong>——進階模式組合就是現代 AI 應用的縮影。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_99_recap_01_ai_assistant} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_99_recap_01_ai_assistant} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'整合 Ch.7 全章 + Anthropic / OpenAI 公開 best practice'} />
+    <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+    <PageNum n={76} total={82} />
+    <BrandBar />
   </div>
 );
 
@@ -1311,7 +1670,11 @@ const P77: Page = () => (
         <TradeoffCol tone='#5B9770' title={'新的工具'} items={['Kafka / RabbitMQ / SQS · partition · DLQ · backpressure', '長任務 4 機制 · idempotency · heartbeat · poison message', '大檔案 presigned URL · multipart · CDN · range request', 'Real-time 4 種推送 · 兩個 hop · Pub/Sub · CRDT', 'Search 倒排索引 · BM25 · CDC · alias reindex · hybrid', 'Lambda vs Kappa · ETL vs ELT · Lakehouse · watermark', 'RAG 4 元件 · chunking · rerank · agentic']} />
         <TradeoffCol tone='#E8634F' title={'核心心法'} items={['進階 pattern 不是越多越好', '每個都有「不該用」的情境', '複雜度跟著規模才有意義', '面試時主動指出 trade-off 拿分']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={77} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1329,7 +1692,11 @@ Ch.7 Advanced         Queue · Long · Blob · RT · Search · Pipe · RAG`}</pr
       <Callout tone='#D97757'><strong>從基本元件到分散式 · 從擴展到 AI——你走完了。</strong>  
 面試 / 工作時的「locker room」就是這 7 章。</Callout>
     </div>
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={78} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1347,7 +1714,11 @@ const P79: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>最重要的事</strong>：不要只看理論——<strong>自己挖一個系統的 bug、自己 scale 一次 production</strong>，比讀十本書都有用。</span></div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={79} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1365,7 +1736,11 @@ const P80: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>技術會過時，<strong>判斷力不會</strong>。Linus 說的：「Theory and practice sometimes clash. Theory loses. Every single time.」</span></div>
     </div>
-  </div>
+  
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' />
+      <PageNum n={80} total={81} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1375,86 +1750,30 @@ const P81: Page = () => (
 
 
 export const meta: SlideMeta = { title: 'Ch.7 · Advanced Patterns' };
-export default [
-  P01,
-  P02,
-  P03,
-  P04,
-  P05,
-  P06,
-  P07,
-  P08,
-  P09,
-  P10,
-  P11,
-  P12,
-  P13,
-  P14,
-  P15,
-  P16,
-  P17,
-  P18,
-  P19,
-  P20,
-  P21,
-  P22,
-  P23,
-  P24,
-  P25,
-  P26,
-  P27,
-  P28,
-  P29,
-  P30,
-  P31,
-  P32,
-  P33,
-  P34,
-  P35,
-  P36,
-  P37,
-  P38,
-  P39,
-  P40,
-  P41,
-  P42,
-  P43,
-  P44,
-  P45,
-  P46,
-  P47,
-  P48,
-  P49,
-  P50,
-  P51,
-  P52,
-  P53,
-  P54,
-  P55,
-  P56,
-  P57,
-  P58,
-  P59,
-  P60,
-  P61,
-  P62,
-  P63,
-  P64,
-  P65,
-  P66,
-  P67,
-  P68,
-  P69,
-  P70,
-  P71,
-  P72,
-  P73,
-  P74,
-  P75,
-  P76,
-  P77,
-  P78,
-  P79,
-  P80,
-  P81,
-] satisfies Page[];
+
+// P02b · 本章新術語
+const P02b: Page = () => (
+  <><AnimStyle />
+    <div style={{ ...fill, padding: '40px 70px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ marginBottom: 10 }}><NoviceBadge /></div>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginTop: 4, animationDelay: '0.05s' }}>本章新術語 · 8 個詞</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 800, margin: '8px 0 24px', animationDelay: '0.1s' }}>訊息 / 即時 / RAG 進階</h1>
+      <div className='osd-stagger' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <TermCard name='Queue' en='訊息佇列 (Kafka, SQS)' def='把要做的事寫進排隊清單，慢慢做（削峰、解耦）。' />
+        <TermCard name='Stream Processing' en='串流處理 (Flink, Spark)' def='對連續事件做即時運算（風控、IoT）。' />
+        <TermCard name='Long Task' en='長任務' def='處理超過幾秒的工作，丟背景跑，不阻塞 API。' />
+        <TermCard name='Pub/Sub' en='發布訂閱' def='發訊者只管發，所有訂閱者都會收到。' />
+        <TermCard name='WebSocket' en='全雙工長連線' def='瀏覽器 server 雙向即時推（聊天、直播）。' />
+        <TermCard name='Pipeline' en='資料管線' def='一連串資料處理階段（ETL：Extract→Transform→Load）。' />
+        <TermCard name='RAG' en='Retrieval-Augmented Generation' def='先查文件再給 LLM 寫答案（避免胡謅）。' />
+        <TermCard name='Vector DB' en='向量資料庫' def='存 embedding、按相似度查（pgvector / Pinecone）。' />
+      </div>
+      <div className='osd-anim-fade-up' style={{ marginTop: 18, fontSize: 16, color: muted, fontStyle: 'italic', animationDelay: '0.6s' }}>📖 完整定義在 90-appendix 詞彙速查表</div>
+      <Breadcrumb part='Part 7' chapter='Ch.07 · 進階模式' section='本章新術語' />
+      <PageNum n={2} total={82} />
+      <BrandBar />
+    </div>
+  </>
+);
+
+export default [P01, P02b, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50, P51, P52, P53, P54, P55, P56, P57, P58, P59, P60, P61, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81] satisfies Page[];

@@ -1,4 +1,7 @@
 import type { DesignSystem, Page, SlideMeta } from '@open-slide/core';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 
 export const design: DesignSystem = {
@@ -37,6 +40,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -45,7 +49,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -88,7 +171,11 @@ const P02: Page = () => (
       </div>
     </div>
     <Footer source={'整合 Ch.1–7 + 業界公開系統架構（Twitter / Uber / Slack / Netflix）'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={2} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -109,7 +196,11 @@ const P03: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試最常見的失敗</strong>：跳過 1、2 直接開始畫。沒搞清楚要做什麼之前，畫得再花俏都是錯的。</span></div>
     </div>
     <Footer source={'整合 Ch.1 + 03_mental_model'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={3} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -128,7 +219,11 @@ const P04: Page = () => (
         </ul>
     </div>
     <Footer source={'整合 Ch.1（Foundation）+ Ch.3（Cache）'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={4} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -143,7 +238,11 @@ const P05: Page = () => (
         <StackRow tone='#5B9770' label={'Cache'} text={'80/20 → 熱資料 ~ 3.2B × 500 bytes ≈ 1.6 TB（過大）→ 取 top 1% = 16 GB'} />
       </div>
     <Footer source={'Ch.2 Numbers · Ch.3 Cache 容量規劃'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={5} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -164,7 +263,11 @@ const P06: Page = () => (
       </div>
     </div>
     <Footer source={'Ch.4 GW · Ch.6 CDN · Ch.7 Pipeline'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={6} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -180,7 +283,11 @@ const P07: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>業界常用方案 ②</strong>：用 Snowflake 產生 64-bit ID，base62 後取 7 位 = 7^62 ≈ 3.5 兆組合。</span></div>
     </div>
     <Footer source={'Ch.3 Sharding（ID 設計）'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={7} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -198,7 +305,11 @@ const P08: Page = () => (
         </ul>
     </div>
     <Footer source={'整合 Ch.3（Fan-out）+ Ch.6（Read scaling）'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={8} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -220,7 +331,11 @@ const P09: Page = () => (
 KOL（千萬粉）用 <strong>Fan-out on Read</strong>（避免一次寫 1 億份）</Callout>
     </div>
     <Footer source={'Ch.6 Scaling Reads · Materialized View 模式'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={9} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -246,7 +361,11 @@ const P10: Page = () => (
       </div>
     </div>
     <Footer source={'Ch.3 Sharding · Ch.7 Queue'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={10} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -266,7 +385,11 @@ const P11: Page = () => (
       <Callout tone='#E8634F'><strong>核心難題</strong>：地理空間檢索 + 即時推送 + 寫入吞吐量極高（2.5M GPS update/s）。</Callout>
     </div>
     <Footer source={'整合 Ch.3（Geo Sharding）+ Ch.7（Real-time + Stream）'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={11} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -282,7 +405,11 @@ const P12: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Geo Sharding by H3 cell</strong>：每個格子的司機資料聚在同 shard，查詢「我這格 + 鄰格」只走幾個 shard。</span></div>
     </div>
     <Footer source={'Ch.3 Consistent Hashing 進階變體'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={12} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -312,7 +439,11 @@ const P13: Page = () => (
       </div>
     </div>
     <Footer source={'Ch.7 Stream Pipeline · Real-time'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={13} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -330,7 +461,11 @@ const P14: Page = () => (
         </ul>
     </div>
     <Footer source={'整合 Ch.3（Sharding）+ Ch.5（Reliable Delivery）+ Ch.7（Real-time + Search）'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={14} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -346,7 +481,11 @@ const P15: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>底層儲存</strong>：Cassandra（高寫吞吐 + time-series 模型）；channel_id 作 partition key，message_ts 作 clustering key。</span></div>
     </div>
     <Footer source={'Ch.3 Sharding · Ch.4 NoSQL 選型'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={15} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -371,7 +510,11 @@ const P16: Page = () => (
       </div>
     </div>
     <Footer source={'Ch.7 Real-time Scaling · Ch.5 Reliable Delivery'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={16} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -390,7 +533,11 @@ client 帶 `client_msg_id`（UUID）· server 用此 dedupe table<br />
 <strong>不丟訊息</strong>：所有 server-side push 都要寫 outbox + retry</Callout>
     </div>
     <Footer source={'Ch.5 Reliable Delivery 全套'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={17} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -408,7 +555,11 @@ const P18: Page = () => (
         </ul>
     </div>
     <Footer source={'整合 Ch.6（Read scaling）+ Ch.7（RAG + Real-time + Long Running）'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={18} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -441,7 +592,11 @@ const P19: Page = () => (
       </div>
     </div>
     <Footer source={'Ch.7 RAG 全套 + Ch.7 Real-time SSE'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={19} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -463,7 +618,11 @@ prompt 強制：「<strong>只用 context 回答</strong> + 引用 chunk_id**」
 複雜任務（退費）→ Temporal workflow · LLM 當 router 而非 executor</Callout>
     </div>
     <Footer source={'Ch.7 RAG · Ch.5 Reliability · Ch.7 Long Running'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={20} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -479,7 +638,11 @@ const P21: Page = () => (
         <StackRow tone='#5B9770' label={'⑤ 知道何時該停'} text={'不要把 7 章全 dump · 留時間讓面試官問問題'} />
       </div>
     <Footer source={'整合 Ch.5 Reliability + 03_mental_model 決策原則'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={21} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -511,7 +674,11 @@ const P22: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>這 5 個案例組合幾乎涵蓋面試與 senior 級別工作 80% 場景</strong>。其餘 20% 是它們的變形組合。</span></div>
     </div>
     <Footer source={'整合 Ch.1–7 全部'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={22} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -537,7 +704,11 @@ const P25: Page = () => (
         <StackRow tone='#5B9770' label={'⑥ Capacity 速算'} text={'規模假設 → 容量估算公式'} />
       </div>
     <Footer source={'提煉自 Ch.1–7 全部章節'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={25} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -563,7 +734,11 @@ const P26: Page = () => (
       <Callout tone='#D97757'><strong>面試決勝句</strong>：「在 X 約束下我選 Y，犧牲了 Z」——這就是 senior 級別答案。</Callout>
     </div>
     <Footer source={'Ch.2 + 03_mental_model'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={26} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -609,7 +784,11 @@ const P27: Page = () => (
           <div style={{ padding: '8px 12px', fontSize: 17, borderTop: '1px solid rgba(139,111,71,0.25)' }}>300,000,000×</div>
         </div>
     <Footer source={'Ch.2 / 基本觀念/12 Numbers to Know'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={27} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -627,7 +806,11 @@ const P28: Page = () => (
       <Callout tone='#D97757'><strong>單行口訣</strong>：<strong>RAM ≪ SSD ≪ 同 DC ≪ 跨 DC ≪ 跨洲</strong>——每階差 1 個數量級以上。</Callout>
     </div>
     <Footer source={'Ch.2 §4'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={28} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -649,7 +832,11 @@ const P29: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Linus 哲學</strong>：先 PostgreSQL · 撞牆再換 · 90% 系統永遠撞不到牆。</span></div>
     </div>
     <Footer source={'Ch.4 §1'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={29} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -687,7 +874,11 @@ const P30: Page = () => (
         </div>
     </div>
     <Footer source={'Ch.3 §3'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={30} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -708,7 +899,11 @@ const P31: Page = () => (
 要不要保證一次處理？要 → 用支援 dedupe 的（Kafka EOS / SQS FIFO）。</Callout>
     </div>
     <Footer source={'Ch.7 §1'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={31} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -740,7 +935,11 @@ const P32: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>經驗法則</strong>：能用 SSE 就不用 WebSocket（少 50% 維運麻煩）。</span></div>
     </div>
     <Footer source={'Ch.7 §3'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={32} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -772,7 +971,11 @@ const P33: Page = () => (
           <div style={{ padding: '8px 12px', fontSize: 17, borderTop: '1px solid rgba(139,111,71,0.25)' }}>Lambda 架構 / 即時 feature store + offline batch</div>
         </div>
     <Footer source={'Ch.6 + Ch.7 + Capstone'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={33} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -793,7 +996,11 @@ const P34: Page = () => (
       </div>
     </div>
     <Footer source={'整合 Ch.2–7 各章 alert / 反模式'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={34} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -816,7 +1023,11 @@ const P35: Page = () => (
 例：熱 timeline 1B 條 × 200 bytes × 1.5 = 300 GB</Callout>
     </div>
     <Footer source={'Capstone 90 §Estimation'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={35} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -860,7 +1071,11 @@ const P36: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>自查心態</strong>：90% 工程師工作在前 3 個等級——別過度套用 FAANG 的解法。</span></div>
     </div>
     <Footer source={'Capstone 90 §Estimation'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={36} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -876,7 +1091,11 @@ const P37: Page = () => (
       <Callout tone='#D97757'><strong>只有第 3-4 步驟在畫圖</strong>。前 2 步驟是「設定情境」，第 5 步驟是「展現深度」。</Callout>
     </div>
     <Footer source={'90 Capstone §Method'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={37} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -895,7 +1114,11 @@ const P38: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試官最怕</strong>：候選人講 best practice 但不能講 trade-off。<strong>講出 trade-off 就 senior 了</strong>。</span></div>
     </div>
     <Footer source={'整合 03_mental_model + 90 Capstone'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={38} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -906,7 +1129,11 @@ const P39: Page = () => (
         <TradeoffCol tone='#5B9770' title={'Decision Tools'} items={['4 維框架（C/A/L/Cost）', '11 行 Latency Numbers', '4 個選型決策樹（DB/Cache/Queue/Real-time）', '10 個場景 → 模式對照']} />
         <TradeoffCol tone='#E8634F' title={'Avoid Lists'} items={['8 個反模式（時間分片、雙花、過度上 K8s ...）', 'Capacity 4 個速算公式', '面試 5 步驟 SOP', '5 句答題金句']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={39} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -934,7 +1161,11 @@ const P42: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>讀法</strong>：先選 1 本書 + 1 個 blog 訂起來。<strong>廣度後深度</strong>——別嘗試一次吃完。</span></div>
     </div>
     <Footer source={'業界公認進階學習資源'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={42} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -972,7 +1203,11 @@ const P43: Page = () => (
       <Callout tone='#D97757'><strong>新手只選一本</strong>：<strong>DDIA</strong>（書 #1）。每章配本書 1 個章節讀，是最佳補充。</Callout>
     </div>
     <Footer source={'業界共識'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={43} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -984,7 +1219,11 @@ const P44: Page = () => (
         <TradeoffCol tone='#E8634F' title={'進入分散式深層'} items={['<strong>Distributed Systems</strong> - van Steen & Tanenbaum', '<strong>Database Reliability Engineering</strong> - Campbell', '<strong>Streaming Systems</strong> - Akidau', '<strong>Designing Distributed Systems</strong> - Brendan Burns']} />
       </div>
     <Footer source={'O\'Reilly · Manning · Addison-Wesley'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={44} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1027,7 +1266,11 @@ const P45: Page = () => (
           <div style={{ padding: '8px 12px', fontSize: 17, borderTop: '1px solid rgba(139,111,71,0.25)' }}>Lewis et al. · Meta</div>
         </div>
     <Footer source={'整合 ACM / Google / Meta / LinkedIn 公開論文'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={45} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1045,7 +1288,11 @@ const P46: Page = () => (
       <Callout tone='#D97757'><strong>論文不是教材是 reference</strong>——遇到問題回去查，比一次讀完有效 10 倍。</Callout>
     </div>
     <Footer source={'學術閱讀方法論'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={46} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1086,7 +1333,11 @@ const P47: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>訂閱方式</strong>：用 RSS reader（Feedly）統一收。<strong>不要靠社群媒體</strong>——演算法會漏。</span></div>
     </div>
     <Footer source={'業界公開資源'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={47} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1098,7 +1349,11 @@ const P48: Page = () => (
         <TradeoffCol tone='#E8634F' title={'資料庫導向'} items={['<strong>Martin Kleppmann</strong> - DDIA 作者博客', '<strong>Daniel Abadi</strong> - 資料庫研究', '<strong>Brendan Gregg</strong> - 效能工程', '<strong>Aphyr</strong>（Kyle Kingsbury）- Jepsen 一致性測試']} />
       </div>
     <Footer source={'個人技術博客圈'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={48} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1129,7 +1384,11 @@ const P49: Page = () => (
           <div style={{ padding: '8px 12px', fontSize: 17, borderTop: '1px solid rgba(139,111,71,0.25)' }}>論文 + blog 彙整</div>
         </div>
     <Footer source={'教學資源圈'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={49} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1148,7 +1407,11 @@ const P50: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>訂太多會讀不完</strong>。<strong>選 2 個就好</strong>——一個面寬、一個面深。</span></div>
     </div>
     <Footer source={'Substack / Medium 平台'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={50} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1183,7 +1446,11 @@ const P51: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>通勤路上聽</strong>：1 集約 60 分 · 1 週聽 1-2 集就夠。</span></div>
     </div>
     <Footer source={'Apple Podcasts / Spotify'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={51} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1198,7 +1465,11 @@ const P52: Page = () => (
       <Callout tone='#D97757'><strong>MIT 6.824 是分散式系統的金標準</strong>——免費課程 + 完整 Lab（用 Go 實作 Raft / MapReduce）。</Callout>
     </div>
     <Footer source={'YouTube · MIT OpenCourseWare'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={52} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1217,7 +1488,11 @@ const P53: Page = () => (
       <Callout tone='#D97757'><strong>真正讓你進步的不是讀完這份簡報，而是用學到的 framework 去拆解新問題</strong>。</Callout>
     </div>
     <Footer source={'學習方法論共識'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={53} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1236,7 +1511,11 @@ const P54: Page = () => (
 讀完這份不去寫，就只是談話。<strong>寫一個系統，再回來看這份</strong>——你會看到完全不同的東西。</Callout>
     </div>
     <Footer source={'課程設計者寄語'} />
-  </div>
+  
+      <Breadcrumb part='附錄' chapter='90 · 速查與資源' />
+      <PageNum n={54} total={55} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -1245,10 +1524,131 @@ const P55: Page = () => (
 );
 
 
-export const meta: SlideMeta = { title: 'Appendix · Cheatsheet' };
+// ===== 詞彙表 80 條（5 群組 × 3 頁） =====
+const GlossaryTable = ({ rows }: { rows: string[][] }) => (
+  <div className='osd-stagger' style={{ display: 'grid', gridTemplateColumns: '140px 1fr 2fr 80px', gap: 2, fontSize: 14, lineHeight: 1.45 }}>
+    {['英文', '中文', '一句白話', '在哪章'].map((h, i) => (
+      <div key={`h-${i}`} style={{ fontWeight: 700, color: accent, padding: '8px 10px' }}>{h}</div>
+    ))}
+    {rows.map((row, i) => row.map((cell, j) => (
+      <div key={`r-${i}-${j}`} style={{ padding: '7px 10px', borderTop: '1px solid rgba(139,111,71,0.22)', fontWeight: j === 0 ? 700 : 400, color: j === 0 ? accent : 'inherit' }}>{cell}</div>
+    )))}
+  </div>
+);
+
+const Gxa: Page = () => (
+  <><AnimStyle /><div style={{ ...fill, padding: '40px 60px', position: 'relative' }}>
+    <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>詞彙速查表 1/3</div>
+    <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 36, fontWeight: 800, margin: '8px 0 20px', animationDelay: '0.1s' }}>網路 · 資料庫 · 一致性</h1>
+    <GlossaryTable rows={[
+      ['HTTP/HTTPS', '超文字傳輸', '瀏覽器與 server 溝通格式，HTTPS 加密', 'Ch.01'],
+      ['REST', 'RESTful API', '用 HTTP 動詞操作資源的 API 風格', 'Ch.01'],
+      ['RPC', '遠端程序呼叫', '像呼叫本地函數一樣呼叫遠端服務', 'Ch.01'],
+      ['gRPC', 'Google RPC', '高效二進位 RPC，內部服務常用', 'Ch.01'],
+      ['GraphQL', '查詢式 API', '客戶端自選欄位（適合行動端、BFF）', 'Ch.01'],
+      ['WebSocket', '全雙工長連線', '雙向即時推（聊天、直播、即時通知）', 'Ch.07'],
+      ['TLS / SSL', '傳輸層加密', 'HTTPS 用的加密協定（TLS 1.3 最新）', 'Ch.01'],
+      ['CDN', '內容分發網路', '靜態檔放邊緣節點，用戶就近抓', 'Ch.01'],
+      ['Latency', '延遲', '請求發出到收到回應的時間（ms）', 'Ch.02'],
+      ['Throughput', '吞吐量', '單位時間能處理多少請求（QPS / TPS）', 'Ch.02'],
+      ['RTT', 'Round-Trip Time', '一來一回的網路時間', 'Ch.02'],
+      ['SQL / NoSQL', '關聯式/非關聯式', 'SQL 固定欄位；NoSQL 自由形態', 'Ch.02'],
+      ['ACID', '事務 4 性質', '原子/一致/隔離/永久（強事務保證）', 'Ch.02'],
+      ['BASE', '弱一致 3 性質', '基本可用/軟狀態/最終一致（NoSQL 常見）', 'Ch.02'],
+      ['Index', '索引', '資料表的目錄，查快但寫慢', 'Ch.02'],
+      ['B-Tree / LSM', '兩種索引結構', 'B-Tree 適讀（PG）；LSM 適寫（Cassandra）', 'Ch.02'],
+      ['CAP', '一致性/可用性/分區', '分散式三選二定理', 'Ch.02'],
+      ['PACELC', 'CAP 延伸', '分區沒發生時的「延遲 vs 一致性」', 'Ch.02'],
+      ['Strong / Eventual', '強/最終一致', '寫完馬上全同步 vs 最後才一致', 'Ch.02'],
+      ['Isolation Level', '隔離級別', 'Read Uncommitted → Serializable，4 階', 'Ch.02'],
+      ['Transaction', '事務 / 交易', '一組操作要嘛全成功要嘛全失敗', 'Ch.02'],
+      ['OLTP / OLAP', '交易型/分析型', 'OLTP 處理訂單；OLAP 跑報表', 'Ch.02'],
+    ]} />
+    <Breadcrumb part='附錄' chapter='90 · 速查與資源' section='詞彙表 1/3' />
+    <PageNum n={22} total={58} />
+    <BrandBar />
+  </div></>
+);
+
+const Gxb: Page = () => (
+  <><AnimStyle /><div style={{ ...fill, padding: '40px 60px', position: 'relative' }}>
+    <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>詞彙速查表 2/3</div>
+    <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 36, fontWeight: 800, margin: '8px 0 20px', animationDelay: '0.1s' }}>分散式 · 基建 · 可靠性</h1>
+    <GlossaryTable rows={[
+      ['Sharding', '資料分片', '資料拆到多台 DB（一旦做了難回頭）', 'Ch.03'],
+      ['Partitioning', '分區', '同庫切表（query 多 routing）', 'Ch.03'],
+      ['Replication', '複製', '主庫寫、副本讀（讀放大+HA）', 'Ch.03'],
+      ['Consistent Hash', '一致性哈希', '加減機器搬動最少資料', 'Ch.03'],
+      ['Virtual Node', '虛擬節點', '每實體機掛多個虛擬節點，分配更均勻', 'Ch.03'],
+      ['Replica Lag', '複製延遲', '主寫到副本看見的時間差（毫秒）', 'Ch.03'],
+      ['Hot Key', '熱鍵', '少數 key 流量遠超其他（爆紅商品）', 'Ch.03'],
+      ['Cache Stampede', '快取雪崩', '熱 key 同時過期 → 打爆 DB', 'Ch.03'],
+      ['Cache-aside', '旁路快取', 'miss 時才查 DB → 寫回 cache', 'Ch.06'],
+      ['Write-through', '寫穿快取', '同步寫 cache+DB（強一致）', 'Ch.06'],
+      ['Write-behind', '寫後快取', '寫 cache，非同步寫 DB（高吞吐）', 'Ch.06'],
+      ['Load Balancer', '負載均衡器', 'L4/L7，把流量分到多後端', 'Ch.04'],
+      ['Gateway', 'API 閘道', '統一入口（認證/限流/路由/log）', 'Ch.04'],
+      ['VPC / Subnet', '虛擬私有雲', '雲上你自己的內網，控制流量出入', 'Ch.04'],
+      ['Container / K8s', '容器/編排', 'Docker 打包 + Kubernetes 編排', 'Ch.04'],
+      ['Serverless / FaaS', '無伺服器', '只寫函數，平台幫你跑（Lambda）', 'Ch.04'],
+      ['Blob Storage', '物件儲存', '存大檔（圖/影片/log）的便宜服務', 'Ch.04'],
+      ['IaC', '基建即程式碼', 'Terraform：基建用 code 寫，可版控', 'Ch.04'],
+      ['Lock', '分散式鎖', '多服務搶資源，誰拿鎖誰先做', 'Ch.05'],
+      ['Rate Limit', '限流', '每秒最多 X 請求（Token Bucket）', 'Ch.05'],
+      ['Circuit Breaker', '斷路器', '下游死了不要繼續打它', 'Ch.05'],
+      ['Bulkhead', '隔離艙', '資源分隔，一壞不拖死全部', 'Ch.05'],
+      ['Retry + Jitter', '重試+抖動', '失敗自動重試，加 jitter 防風暴', 'Ch.05'],
+      ['Timeout', '超時', '超過 X 秒就放棄（防慢呼叫拖死）', 'Ch.05'],
+    ]} />
+    <Breadcrumb part='附錄' chapter='90 · 速查與資源' section='詞彙表 2/3' />
+    <PageNum n={23} total={58} />
+    <BrandBar />
+  </div></>
+);
+
+const Gxc: Page = () => (
+  <><AnimStyle /><div style={{ ...fill, padding: '40px 60px', position: 'relative' }}>
+    <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>詞彙速查表 3/3</div>
+    <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 36, fontWeight: 800, margin: '8px 0 20px', animationDelay: '0.1s' }}>觀測 · 進階模式 · AI</h1>
+    <GlossaryTable rows={[
+      ['SLA / SLO / SLI', '合約/目標/指標', '對外承諾/對內目標/實際量值，三層', 'Ch.05'],
+      ['Error Budget', '錯誤預算', '100% - SLO = 允許壞掉的時間', 'Ch.05'],
+      ['Observability', '可觀測性', 'Metrics + Logs + Traces 三本柱', 'Ch.05'],
+      ['Metrics', '指標', '聚合即時數字（Prometheus）', 'Ch.05'],
+      ['Logs', '日誌', '請求明細追溯（Loki / ELK）', 'Ch.05'],
+      ['Traces', '追蹤', '跨服務耗時瀑布（Jaeger）', 'Ch.05'],
+      ['Idempotency', '冪等性', '同操作 1 次和 10 次結果一樣', 'Ch.05'],
+      ['Backpressure', '反壓', '下游慢時上游主動放慢', 'Ch.05'],
+      ['MTBF / MTTR', '故障間隔/修復時間', '系統可靠性兩大指標', 'Ch.05'],
+      ['SPOF', '單點故障', '系統裡「壞了就全死」的元件', 'Ch.05'],
+      ['Queue', '訊息佇列', 'Kafka / SQS — 削峰、解耦、不掉資料', 'Ch.07'],
+      ['Pub/Sub', '發布訂閱', '發訊者只管發，訂閱者都收到', 'Ch.07'],
+      ['Stream Processing', '串流處理', 'Flink/Spark — 對連續事件即時運算', 'Ch.07'],
+      ['Long Task', '長任務', '超過幾秒的工作丟背景跑', 'Ch.07'],
+      ['CQRS', '命令查詢分離', '讀模型跟寫模型分開', 'Ch.06'],
+      ['Saga', '補償事務', '跨服務長事務，失敗觸發補償', 'Ch.07'],
+      ['Event Sourcing', '事件溯源', '存事件不存狀態（可重放）', 'Ch.07'],
+      ['Outbox', '訊息可靠投遞', '寫 DB 同時寫 outbox 表', 'Ch.07'],
+      ['Pipeline / ETL', '資料管線', 'Extract → Transform → Load', 'Ch.07'],
+      ['RAG', '檢索增強生成', '先查文件再給 LLM 寫答案', 'Ch.07'],
+      ['Embedding', '向量化', '把文字變數字向量給 AI 算相似度', 'Ch.07'],
+      ['Vector DB', '向量資料庫', 'pgvector / Pinecone 按相似度查', 'Ch.07'],
+      ['Chunk', '文件切塊', '長文件切小段才能 embed', 'Ch.07'],
+      ['Hybrid Search', '混合搜尋', '關鍵字 + 向量（提升 RAG 召回率）', 'Ch.07'],
+    ]} />
+    <Breadcrumb part='附錄' chapter='90 · 速查與資源' section='詞彙表 3/3' />
+    <PageNum n={24} total={58} />
+    <BrandBar />
+  </div></>
+);
+
+export const meta: SlideMeta = { title: 'Appendix · Cheatsheet + Glossary' };
 export default [
   P01,
   P02,
+  Gxa,
+  Gxb,
+  Gxc,
   P03,
   P04,
   P05,

@@ -13,6 +13,9 @@ import img_03_scalability_02_three_prereq from './assets/03_scalability_02_three
 import img_04_api_design_01_decision_tree from './assets/04_api_design_01_decision_tree.png';
 import img_04_api_design_02_idempotency from './assets/04_api_design_02_idempotency.png';
 import img_99_recap_01_twitter from './assets/99_recap_01_twitter.png';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#F5F1E8', text: '#2A2520', accent: '#D97757' },
@@ -50,6 +53,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -58,7 +62,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -91,7 +174,11 @@ const P01: Page = () => (
 const P02: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_00_hero} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={2} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -108,7 +195,11 @@ const P03: Page = () => (
       </div>
     </div>
     <Footer source={'基本觀念/01,02,04,05.pdf'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={3} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -130,7 +221,11 @@ const P04: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_00_mental_model} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'整理自 基本觀念/01 + 02'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={4} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -147,14 +242,22 @@ const P06: Page = () => (
 const P07: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_networking_02_rtt} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={7} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
 const P08: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_networking_04_cdn} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={8} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -176,7 +279,11 @@ const P09: Page = () => (
         </ul>
     </div>
     <Footer source={'基本觀念/01 Networking Essentials.pdf · §區域化和延遲'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={9} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -210,7 +317,11 @@ const P10: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_networking_01_stack} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/01 Networking Essentials.pdf · §傳輸層 + 應用層'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={10} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -227,7 +338,11 @@ const P11: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_networking_03_tls} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/01 Networking Essentials.pdf · §HTTP keep-alive'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={11} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -248,15 +363,21 @@ const P12: Page = () => (
       <Callout tone='#D97757'><strong>經驗法則</strong>：靜態用 CDN、動態用區域分片、跨區同步用 async replication。</Callout>
     </div>
     <Footer source={'基本觀念/01 Networking Essentials.pdf · §CDN + Regional Partitioning'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={12} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
 const P13: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>網路不可靠，必須假設它會壞</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>NETWORKING · 故障模式</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>網路不可靠，必須假設它會壞</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>NETWORKING · 故障模式</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'Timeout + Retry with Exponential Backoff'} text={'重試前等待，並加入 jitter 抖動避免 thundering herd'} />
         <StackRow tone='#A1813F' label={'Idempotency Key'} text={'重試不能重複扣款；寫操作必須冪等'} />
@@ -264,9 +385,16 @@ const P13: Page = () => (
       </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <Callout tone='#E8634F'><strong>面試金句</strong>：「retry with exponential backoff and jitter」、「circuit breaker on downstream calls」——資深訊號。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_networking_05_circuit} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_01_networking_05_circuit} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'基本觀念/01 Networking Essentials.pdf · §處理故障和失敗模式'} />
+    <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+    <PageNum n={13} total={39} />
+    <BrandBar />
   </div>
 );
 
@@ -284,14 +412,22 @@ const P15: Page = () => (
 const P16: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_client_server_01_vs_p2p} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={16} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
 const P17: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_client_server_02_matrix} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={17} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -313,7 +449,11 @@ const P18: Page = () => (
         </ul>
     </div>
     <Footer source={'基本觀念/02 Client-Server Architecture.pdf · §Client-Server vs P2P'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={18} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -336,7 +476,11 @@ const P19: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Stateless Server</strong> 是橫向擴展的前提。狀態應放外部儲存（Redis / DB），不放伺服器記憶體。</span></div>
     </div>
     <Footer source={'基本觀念/02 Client-Server Architecture.pdf · §Thin vs Thick Client'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={19} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -354,7 +498,11 @@ LB 被迫綁定使用者到特定機器。擴容、graceful drain、故障切換
       <Callout tone='#D97757'><strong>修法統一</strong>：把狀態推到外部（Redis / DB / JWT），伺服器永遠 stateless。</Callout>
     </div>
     <Footer source={'基本觀念/02 Client-Server Architecture.pdf · §安全提醒 + Server 職責'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={20} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -371,7 +519,11 @@ const P22: Page = () => (
 const P23: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_03_scalability_01_up_vs_out} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={23} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -394,15 +546,21 @@ const P24: Page = () => (
       <Callout tone='#E8634F'><strong>Vertical scaling</strong> 終究會撞牆。問題不是「會不會」，是「什麼時候」。</Callout>
     </div>
     <Footer source={'基本觀念/04 Scalability.pdf · §為什麼重要'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={24} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
 const P25: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>橫向擴展的三個前提</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>SCALABILITY · HOW</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>橫向擴展的三個前提</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>SCALABILITY · HOW</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'① Stateless'} text={'任一台機器都能處理任一請求'} />
         <StackRow tone='#A1813F' label={'② Shared Storage'} text={'狀態放外部（DB / Cache / Object Store）'} />
@@ -413,9 +571,16 @@ const P25: Page = () => (
   Client ─→ LB ── Server-B ───┼──→ Shared DB / Cache
               └─── Server-C ───┘`}</pre>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>三個前提缺一不可。沒有 stateless 就沒有自由路由；沒有 shared storage 就沒有一致性。</span></div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_03_scalability_02_three_prereq} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_03_scalability_02_three_prereq} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'基本觀念/04 Scalability.pdf · §Horizontal Scaling'} />
+    <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+    <PageNum n={25} total={39} />
+    <BrandBar />
   </div>
 );
 
@@ -433,7 +598,11 @@ const P26: Page = () => (
 <strong>現代硬體很強</strong>：先用 vertical scaling 解掉短期需求，別過早分散。</Callout>
     </div>
     <Footer source={'基本觀念/04 Scalability.pdf · §比較表 + 01 §負載平衡'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={26} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -451,7 +620,11 @@ const P27: Page = () => (
       <Callout tone='#E8634F'><strong>洞察</strong>：規模不是靠「更聰明的演算法」，是靠<strong>消除問題</strong>——分區後跨區互動變零。</Callout>
     </div>
     <Footer source={'整合 基本觀念/04 + 01 §Regional Partitioning'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={27} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -497,7 +670,11 @@ const P30: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>經驗法則</strong>：對外 REST/GraphQL，對內 gRPC，金流 RPC + 強審計。<strong>gRPC vs JSON over HTTP 吞吐量可達 10×</strong>。</span></div>
     </div>
     <Footer source={'基本觀念/05 API Design.pdf + 01 Networking · §gRPC'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={30} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -522,7 +699,11 @@ const P31: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_04_api_design_01_decision_tree} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/05 API Design.pdf · §決策樹'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={31} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -539,27 +720,36 @@ const P32: Page = () => (
 修：sparse fieldsets（`?fields=id,name`）或改用 GraphQL。</Callout>
     </div>
     <Footer source={'基本觀念/01 Networking · §REST + GraphQL 動機'} />
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={32} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
 const P33: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>那些「不講就會錯」的細節</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>API DESIGN · 隱性決策</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Idempotency · 冪等性</strong>
-GET / PUT / DELETE 天生冪等；<strong>POST 不是</strong>。寫操作必須帶 &lt;code&gt;Idempotency-Key&lt;/code&gt;，伺服器去重 24h。<br />
-<strong>典型 key</strong>：用戶 ID + 業務天 + nonce（避免一天內重複扣款）。</Callout>
-      <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Versioning · 版本管理</strong>
-URL 路徑（/v1/）· Header（Accept-Version）· Query。<br />
-<strong>推薦</strong>：URL 路徑，最直觀，便於 routing 與廢棄。</Callout>
-      <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Pagination · 分頁</strong>
-Offset/Limit（簡單但深翻慢）vs Cursor（快、不可跳頁）。<br />
-<strong>大量資料用 Cursor</strong>，避免 OFFSET 1000000 的全掃。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_04_api_design_02_idempotency} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 48, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 8px' }}>那些「不講就會錯」的細節</h1>
+    <h2 style={{ fontSize: 28, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>API DESIGN · 隱性決策</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 36, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Idempotency · 冪等性</strong>
+GET / PUT / DELETE 天生冪等；<strong>POST 不是</strong>。寫操作必須帶 <code>Idempotency-Key</code>，伺服器去重 24h。<br />
+<strong>典型 key</strong>：用戶 ID + 業務天 + nonce。</Callout>
+        <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Versioning · 版本管理</strong>
+URL（/v1/）· Header · Query。<strong>推薦 URL 路徑</strong>，便於 routing 與廢棄。</Callout>
+        <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Pagination · 分頁</strong>
+Offset/Limit 簡單但深翻慢；<strong>大量用 Cursor</strong>，避免 OFFSET 1M 全掃。</Callout>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_04_api_design_02_idempotency} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'基本觀念/01 Networking · §冪等性 + REST §Methods'} />
+    <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+    <PageNum n={33} total={38} />
+    <BrandBar />
   </div>
 );
 
@@ -575,22 +765,25 @@ const P35: Page = () => (
 
 
 const P36: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>設計：Twitter 「發推文」 API</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>CASE STUDY · 把四件事串起來</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <StackRow tone='#D97757' label={'Network'} text={'全球 CDN 邊緣 + HTTP/3 QUIC（行動弱網）'} />
-        <StackRow tone='#A1813F' label={'Client-Server'} text={'Stateless API server · Session 放 Redis'} />
-        <StackRow tone='#5B7570' label={'Scale'} text={'應用層 K8s 自動擴容 · DB 主寫從讀（Ch.3 詳述）'} />
-        <StackRow tone='#5B9770' label={'API'} text={'POST /v2/tweets · Idempotency-Key header · Cursor 分頁'} />
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>設計：Twitter 「發推文」 API</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 20px', color: muted }}>CASE STUDY · 把四件事串起來</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 36, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <StackRow tone='#D97757' label={'Network'} text={'全球 CDN + HTTP/3 QUIC（行動弱網）'} />
+        <StackRow tone='#A1813F' label={'Client-Server'} text={'Stateless API · Session 放 Redis'} />
+        <StackRow tone='#5B7570' label={'Scale'} text={'K8s 自動擴容 · DB 主寫從讀（Ch.3）'} />
+        <StackRow tone='#5B9770' label={'API'} text={'POST /v2/tweets · Idempotency-Key · Cursor 分頁'} />
+        <Callout tone='#D97757'>每個決策都對應 Foundation 一個面向。<strong>Ch.2 開始挖資料層</strong> —— timeline 怎麼存才能讓 100M 用戶讀得快？</Callout>
       </div>
-      <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
-      <Callout tone='#D97757'>每個決策都對應 Foundation 的一個面向。
-<strong>Ch.2 開始挖資料層</strong> —— Twitter 的 timeline 資料怎麼存才能讓 100M 用戶讀得快？</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_99_recap_01_twitter} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_99_recap_01_twitter} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'整合 Ch.1 全章 + Twitter Engineering Blog 公開資料'} />
+    <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+    <PageNum n={36} total={38} />
+    <BrandBar />
   </div>
 );
 
@@ -602,7 +795,11 @@ const P37: Page = () => (
         <TradeoffCol tone='#5B9770' title={'新的工具'} items={['4 層責任分離思考法', '橫向擴展三前提清單', 'API 風格選型矩陣', 'idempotency / versioning 設計檢核']} />
         <TradeoffCol tone='#E8634F' title={'還沒回答的問題'} items={['資料層的 trade-off？　→ Ch.2', '怎麼分散資料？　→ Ch.3', '選哪個資料庫？　→ Ch.4', '怎麼撐住流量？　→ Ch.5/6']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' />
+      <PageNum n={37} total={38} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -612,43 +809,28 @@ const P38: Page = () => (
 
 
 export const meta: SlideMeta = { title: 'Ch.1 · Foundation Layer' };
-export default [
-  P01,
-  P02,
-  P03,
-  P04,
-  P05,
-  P06,
-  P07,
-  P08,
-  P09,
-  P10,
-  P11,
-  P12,
-  P13,
-  P14,
-  P15,
-  P16,
-  P17,
-  P18,
-  P19,
-  P20,
-  P21,
-  P22,
-  P23,
-  P24,
-  P25,
-  P26,
-  P27,
-  P28,
-  P29,
-  P30,
-  P31,
-  P32,
-  P33,
-  P34,
-  P35,
-  P36,
-  P37,
-  P38,
-] satisfies Page[];
+
+// P02b · 本章新術語
+const P02b: Page = () => (
+  <><AnimStyle />
+    <div style={{ ...fill, padding: '40px 70px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ marginBottom: 10 }}><NoviceBadge /></div>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginTop: 4, animationDelay: '0.05s' }}>本章新術語 · 6 個詞</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 800, margin: '8px 0 24px', animationDelay: '0.1s' }}>網路與 API 的詞彙</h1>
+      <div className='osd-stagger' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <TermCard name='HTTP/HTTPS' en='超文字傳輸協定' def='瀏覽器和 server 溝通的格式，HTTPS 多了加密。' />
+        <TermCard name='REST API' en='表徵狀態轉移 API' def='用 HTTP 動詞操作資源的 API 風格（GET/POST 等）。' />
+        <TermCard name='RPC' en='Remote Procedure Call' def='像呼叫本地函數一樣呼叫遠端服務。' />
+        <TermCard name='P2P' en='Peer-to-Peer' def='節點之間直接通訊，不經中央伺服器（BitTorrent / 區塊鏈）。' />
+        <TermCard name='Scalability' en='可擴展性' def='系統能否撐住流量增長（垂直 vs 水平）。' />
+        <TermCard name='Throughput' en='吞吐量' def='系統單位時間能處理多少請求（QPS / TPS）。' />
+      </div>
+      <div className='osd-anim-fade-up' style={{ marginTop: 18, fontSize: 16, color: muted, fontStyle: 'italic', animationDelay: '0.6s' }}>📖 完整定義在 90-appendix 詞彙速查表</div>
+      <Breadcrumb part='Part 1' chapter='Ch.01 · 基礎觀念' section='本章新術語' />
+      <PageNum n={2} total={39} />
+      <BrandBar />
+    </div>
+  </>
+);
+
+export default [P01, P02b, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38] satisfies Page[];

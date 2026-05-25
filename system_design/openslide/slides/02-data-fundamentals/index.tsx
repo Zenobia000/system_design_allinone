@@ -13,6 +13,9 @@ import img_03_transactions_03_saga from './assets/03_transactions_03_saga.png';
 import img_04_numbers_01_latency_ladder from './assets/04_numbers_01_latency_ladder.png';
 import img_04_numbers_02_capacity from './assets/04_numbers_02_capacity.png';
 import img_99_recap_01_ecommerce_flow from './assets/99_recap_01_ecommerce_flow.png';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#F5F1E8', text: '#2A2520', accent: '#D97757' },
@@ -50,6 +53,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -58,7 +62,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -91,7 +174,11 @@ const P01: Page = () => (
 const P02: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_00_hero} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={2} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -108,7 +195,11 @@ const P03: Page = () => (
       </div>
     </div>
     <Footer source={'基本觀念/03 + 07 + 08 + 12'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={3} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -130,7 +221,11 @@ const P04: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_00_mental_model} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'整理自 基本觀念/03 + 07 + 08 + 12'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={4} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -142,21 +237,33 @@ const P05: Page = () => (
 const P06: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_cap_theorem_01_triangle} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={6} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
 const P07: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_cap_theorem_03_db_quadrant} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={7} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
 const P08: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_cap_theorem_04_atm_split} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={8} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -177,7 +284,11 @@ const P09: Page = () => (
         </ul>
     </div>
     <Footer source={'基本觀念/03 CAP Theorem.pdf · §1-2'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={9} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -193,7 +304,11 @@ const P10: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>CAP 不是抽象理論</strong>——同一個 ATM 系統選 CP 還是 AP，業務後果天差地遠。</span></div>
     </div>
     <Footer source={'基本觀念/03 CAP Theorem.pdf · §ATM Real-World Example'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={10} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -224,7 +339,11 @@ const P11: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_cap_theorem_02_pacelc} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/03 CAP Theorem.pdf · §3 PACELC'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={11} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -250,7 +369,11 @@ const P12: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>選型口訣</strong>：要全球低延遲讀寫選 AP；要強一致小規模 metadata 選 CP。</span></div>
     </div>
     <Footer source={'基本觀念/03 CAP Theorem.pdf · §4 + 公開技術文件'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={12} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -266,7 +389,11 @@ const P13: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：用 Cassandra（AP）存銀行帳戶餘額。最終一致 ≠ 永遠正確，雙花就是這樣發生的。</Callout>
     </div>
     <Footer source={'基本觀念/03 CAP Theorem.pdf · §4 Use Cases'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={13} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -285,7 +412,11 @@ const P14: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>關鍵特徵：<strong>任何不一致，即使是暫時的，都可能造成重大商業或技術問題</strong>。</span></div>
     </div>
     <Footer source={'基本觀念/03 CAP Theorem.pdf · §Interview Default'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={14} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -313,7 +444,11 @@ SSD 順序讀 ~ 3 GB/s，意即一次查詢 <strong>30+ 秒</strong>。</div>
 Index 把查詢成本壓到 <strong>O(log N)</strong>——10 億資料只要 30 次磁碟跳。</Callout>
     </div>
     <Footer source={'基本觀念/07 Database Indexing.pdf · §1 Why Index'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={17} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -340,7 +475,11 @@ const P18: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_02_indexing_01_btree_vs_lsm} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/07 Database Indexing.pdf · §2-3 Tree Structures'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={18} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -359,7 +498,11 @@ const P19: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>反例</strong>：&lt;code&gt;WHERE LOWER(email) = ...&lt;/code&gt; 會讓 index 失效——除非建函數索引。</span></div>
     </div>
     <Footer source={'基本觀念/07 Database Indexing.pdf · §Q3 自我測驗'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={19} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -377,7 +520,11 @@ const P20: Page = () => (
 <strong>最左前綴原則</strong>：where 條件能用上的是「從左數連續」的欄位。</Callout>
     </div>
     <Footer source={'基本觀念/07 Database Indexing.pdf · §4 Best Practices'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={20} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -399,7 +546,11 @@ ORDER BY created_at DESC;
 Composite 欄位數通常 ≤ 3，再多查詢規畫器選不出來。</Callout>
     </div>
     <Footer source={'基本觀念/07 Database Indexing.pdf · §4 Composite Index'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={21} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -418,7 +569,11 @@ const P22: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>PostgreSQL</strong> 用 &lt;code&gt;INCLUDE&lt;/code&gt;；<strong>MySQL InnoDB</strong> 主鍵自帶 covering（cluster index）；<strong>SQL Server</strong> 也有 INCLUDE 語法。</span></div>
     </div>
     <Footer source={'基本觀念/07 Database Indexing.pdf · §Best Practices'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={22} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -438,7 +593,11 @@ const P23: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_02_indexing_02_decision} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/07 Database Indexing.pdf · §5 Decision Framework'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={23} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -455,14 +614,22 @@ const P25: Page = () => (
 const P26: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_03_transactions_01_acid_icons} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={26} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
 const P27: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_03_transactions_02_isolation_matrix} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={27} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -480,7 +647,11 @@ Step 2: B.balance += 100`}</pre>
 <strong>「這幾步要嘛全做，要嘛全不做」</strong>——這就是 ACID 的 <strong>A（Atomicity）</strong>。</Callout>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §1 Why Tx'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={28} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -499,7 +670,11 @@ const P29: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>A、D 是底線</strong>，幾乎所有資料庫都做。<strong>I 才是真正分級的</strong>——這是 SQL 標準定義 4 種隔離級別的原因。</span></div>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §2 ACID'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={29} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -515,7 +690,11 @@ const P30: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試陷阱</strong>：把 ACID 的 C 和 CAP 的 C 講混的人，會被立刻打分。</span></div>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §Q6'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={30} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -551,7 +730,11 @@ const P31: Page = () => (
 <strong>PostgreSQL 預設</strong>：Read Committed（最常見、最快、最容易踩坑）。</Callout>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §3 Isolation Levels'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={31} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -575,7 +758,11 @@ T1: SELECT count(*) FROM accounts WHERE balance > 1000;
 <strong>防法</strong>：MySQL Gap Lock、PostgreSQL Serializable Snapshot Isolation（SSI）。</Callout>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §三種並發異常'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={32} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -595,7 +782,11 @@ T4 在 T2 commit 之後開始 → 看到 version 2 (500)`}</pre>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>PostgreSQL、MySQL InnoDB</strong> 都用 MVCC。舊版本由 vacuum / purge 機制清理——這就是 PostgreSQL 為何要定期 VACUUM。</span></div>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §資料庫如何實現隔離'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={33} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -613,7 +804,11 @@ const P34: Page = () => (
 <strong>典型場景</strong>：訂單、票券、優惠券——讀庫存後判斷再寫，中間必須 lock。</Callout>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §4 Concurrency'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={34} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -635,7 +830,11 @@ T2: 寫入 700，commit  ← 覆蓋了 T1，T1 的扣款消失了
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>最簡解</strong>：原子 UPDATE — &lt;code&gt;UPDATE SET qty = qty - 1 WHERE qty &gt; 0&lt;/code&gt;，一條 SQL 就搞定，不用提到 Serializable。</span></div>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §Lost Update'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={35} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -653,7 +852,11 @@ Application 必須處理重試邏輯——不要假設「commit 一定成功」�
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>預防</strong>：所有 tx 用一致的順序鎖定資源（例：永遠先鎖 &lt;code&gt;min(account_id)&lt;/code&gt;）。</span></div>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §悲觀鎖 + §主動說明死鎖風險'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={36} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -679,7 +882,11 @@ const P37: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>現代微服務首選 Saga + Outbox</strong>——避免分散式鎖、可獨立部署、失敗可重試。</span></div>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §5 Distributed Tx'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={37} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -701,7 +908,11 @@ const P38: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_03_transactions_03_saga} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'基本觀念/08 Database Transactions.pdf · §Saga Pattern'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={38} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -718,14 +929,22 @@ const P40: Page = () => (
 const P41: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_numbers_01_latency_ladder} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={41} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
 const P42: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_numbers_02_capacity} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={42} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -746,7 +965,11 @@ const P43: Page = () => (
         </ul>
     </div>
     <Footer source={'基本觀念/12 Numbers to Know.pdf · §1'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={43} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -805,7 +1028,11 @@ const P44: Page = () => (
           <div style={{ padding: '8px 12px', fontSize: 17, borderTop: '1px solid rgba(139,111,71,0.25)' }}>跨洲 RTT</div>
         </div>
     <Footer source={'基本觀念/12 Numbers to Know.pdf · Jeff Dean\'s table'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={44} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -841,7 +1068,11 @@ const P45: Page = () => (
       <Callout tone='#D97757'><strong>口訣</strong>：<strong>HDD 比 SSD 慢 60×</strong>、<strong>跨 region 比跨 AZ 慢 50-100×</strong>、<strong>從不要在 hot path 上跨 region</strong>。</Callout>
     </div>
     <Footer source={'基本觀念/12 Numbers to Know.pdf · §AWS / Google networking docs'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={45} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -867,7 +1098,11 @@ const P46: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>反直覺</strong>：很多人在 500GB-2TB 就急著談 sharding——一台調校良好的 PostgreSQL 撐到 50 TiB 才該考慮。</span></div>
     </div>
     <Footer source={'基本觀念/12 Numbers to Know.pdf · §Databases / Caching / MQ'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={46} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -885,7 +1120,11 @@ const P47: Page = () => (
       <Callout tone='#D97757'><strong>口訣</strong>：<strong>RAM 比 SSD 快 1000 倍 · SSD 比網路 RTT 快 3 倍 · 跨洲 RTT 比本機 RAM 慢 100 萬倍</strong>。</Callout>
     </div>
     <Footer source={'基本觀念/12 Numbers to Know.pdf · §2 Practical'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={47} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -898,7 +1137,11 @@ const P48: Page = () => (
         <TradeoffCol tone='#E8634F' title={'正確判斷'} items={['P99 100ms 預算<br>= 200 次本機 RAM = 100 次 SSD = 10 次 cross-AZ', 'Hot path 想加 RPC？<br>先計算現有預算花在哪', '記憶體 vs 磁碟 vs 網路<br>差 3 個數量級']} />
       </div>
     <Footer source={'基本觀念/12 Numbers to Know.pdf · §3 Decision Making'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={48} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -920,7 +1163,11 @@ const P49: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}>Sharding 解決的是<strong>寫入擴展</strong>問題（replica 幫不上）；但會大幅增加跨 shard 查詢、分散式交易、資料遷移的複雜度。</span></div>
     </div>
     <Footer source={'基本觀念/12 Numbers to Know.pdf · §面試中如何使用這些數字'} />
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={49} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -935,10 +1182,12 @@ const P51: Page = () => (
 
 
 const P52: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 56, fontWeight: 800, lineHeight: 1.15, margin: '12px 0 20px' }}>設計：電商「下訂單」交易流程</h1>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>CASE STUDY · 把資料層四件事串起來</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: '8px 0 6px' }}>設計：電商「下訂單」交易流程</h1>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>CASE STUDY · 把資料層四件事串起來</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'CAP'} text={'訂單庫選 CP（PostgreSQL HA）· 推薦庫選 AP（Cassandra）'} />
         <StackRow tone='#A1813F' label={'Index'} text={'orders(user_id, created_at) Composite · 庫存 unique(sku)'} />
@@ -948,9 +1197,16 @@ const P52: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><br /></div>
       <Callout tone='#D97757'>每個決策都對應 Ch.2 的一個面向。  
 <strong>Ch.3 開始挖分散式資料層</strong>——當單機 PostgreSQL 撐不住時要怎麼水平切？</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_99_recap_01_ecommerce_flow} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_99_recap_01_ecommerce_flow} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'整合 Ch.2 全章 + Shopify Engineering Blog 公開資料'} />
+    <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+    <PageNum n={52} total={55} />
+    <BrandBar />
   </div>
 );
 
@@ -962,7 +1218,11 @@ const P53: Page = () => (
         <TradeoffCol tone='#5B9770' title={'新的工具'} items={['CAP / PACELC 選邊清單', 'B+Tree vs LSM 決策樹', '4 個隔離級別 vs 3 個異常現象', 'MVCC + Lost Update 解法', 'Latency Numbers 11 行表', 'Saga / Outbox / 2PC 選型']} />
         <TradeoffCol tone='#E8634F' title={'還沒回答的問題'} items={['單機撐不住怎麼切？　→ Ch.3 Sharding', '讀寫分離怎麼做？　→ Ch.3 Replication', 'cache 該擺哪一層？　→ Ch.3 Caching', '請求怎麼路由到正確的 shard？　→ Ch.3 Consistent Hash']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' />
+      <PageNum n={53} total={54} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -972,59 +1232,30 @@ const P54: Page = () => (
 
 
 export const meta: SlideMeta = { title: 'Ch.2 · Data Fundamentals' };
-export default [
-  P01,
-  P02,
-  P03,
-  P04,
-  P05,
-  P06,
-  P07,
-  P08,
-  P09,
-  P10,
-  P11,
-  P12,
-  P13,
-  P14,
-  P15,
-  P16,
-  P17,
-  P18,
-  P19,
-  P20,
-  P21,
-  P22,
-  P23,
-  P24,
-  P25,
-  P26,
-  P27,
-  P28,
-  P29,
-  P30,
-  P31,
-  P32,
-  P33,
-  P34,
-  P35,
-  P36,
-  P37,
-  P38,
-  P39,
-  P40,
-  P41,
-  P42,
-  P43,
-  P44,
-  P45,
-  P46,
-  P47,
-  P48,
-  P49,
-  P50,
-  P51,
-  P52,
-  P53,
-  P54,
-] satisfies Page[];
+
+// P02b · 本章新術語
+const P02b: Page = () => (
+  <><AnimStyle />
+    <div style={{ ...fill, padding: '40px 70px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ marginBottom: 10 }}><NoviceBadge /></div>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginTop: 4, animationDelay: '0.05s' }}>本章新術語 · 8 個詞</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 800, margin: '8px 0 24px', animationDelay: '0.1s' }}>資料庫與一致性</h1>
+      <div className='osd-stagger' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <TermCard name='ACID' en='Atomic/Consistent/Isolated/Durable' def='事務 4 大性質：原子/一致/隔離/永久。' />
+        <TermCard name='CAP' en='一致性/可用性/分區' def='分散式三選二定理，網路會壞必須選一邊犧牲。' />
+        <TermCard name='B-Tree / LSM' en='兩種主流索引結構' def='B-Tree 適讀多（PG）；LSM 適寫多（Cassandra/RocksDB）。' />
+        <TermCard name='Isolation Level' en='隔離級別' def='Read Uncommitted → Serializable，從弱到強保證。' />
+        <TermCard name='RTT' en='Round-Trip Time' def='一來一回的網路延遲。決定系統最低反應時間。' />
+        <TermCard name='Throughput' en='吞吐量' def='QPS / TPS — 每秒幾個請求 / 交易。' />
+        <TermCard name='Index' en='索引' def='資料表的目錄。查得快但寫入要多花力氣維護。' />
+        <TermCard name='Transaction' en='事務 / 交易' def='一組操作要嘛全成功要嘛全失敗（轉帳一邊扣一邊加）。' />
+      </div>
+      <div className='osd-anim-fade-up' style={{ marginTop: 18, fontSize: 16, color: muted, fontStyle: 'italic', animationDelay: '0.6s' }}>📖 完整定義在 90-appendix 詞彙速查表</div>
+      <Breadcrumb part='Part 2' chapter='Ch.02 · 資料基礎' section='本章新術語' />
+      <PageNum n={2} total={55} />
+      <BrandBar />
+    </div>
+  </>
+);
+
+export default [P01, P02b, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50, P51, P52, P53, P54] satisfies Page[];

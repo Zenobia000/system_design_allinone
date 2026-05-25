@@ -15,6 +15,9 @@ import img_04_cdn_01_global_edge from './assets/04_cdn_01_global_edge.png';
 import img_04_cdn_02_push_vs_pull from './assets/04_cdn_02_push_vs_pull.png';
 import img_04_cdn_03_edge_compute from './assets/04_cdn_03_edge_compute.png';
 import img_99_recap_01_news_site from './assets/99_recap_01_news_site.png';
+import * as React from 'react';
+import logoDark from '../../assets/branding/logo-dark.png';
+import logoLight from '../../assets/branding/logo-light.png';
 
 export const design: DesignSystem = {
   palette: { bg: '#F5F1E8', text: '#2A2520', accent: '#D97757' },
@@ -52,6 +55,7 @@ const ChapterDivider = ({ eyebrow, title, subtitle }: { eyebrow: string; title: 
     <div style={{ fontSize: 28, color: 'var(--osd-accent)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{eyebrow}</div>
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 180, fontWeight: 800, lineHeight: 1.05, margin: '36px 0 0' }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontWeight: 400, fontStyle: 'italic', color: 'rgba(245, 241, 232, 0.6)', margin: '24px 0 0' }}>{subtitle}</h2> : null}
+    <BrandBar light />
   </div>
 );
 
@@ -60,7 +64,86 @@ const SectionEnd = ({ title, subtitle, next }: { title: string; subtitle?: strin
     <h1 style={{ fontFamily: 'var(--osd-font-display)', fontSize: 140, fontWeight: 800, margin: 0 }}>{title}</h1>
     {subtitle ? <h2 style={{ fontSize: 52, fontStyle: 'italic', fontWeight: 400, margin: '24px 0 0', color: 'rgba(245, 241, 232, 0.85)' }}>{subtitle}</h2> : null}
     {next ? <p style={{ fontSize: 36, marginTop: 64, color: '#F5F1E8', opacity: 0.9 }}>→ {next}</p> : null}
+    <BrandBar light />
   </div>
+);
+
+
+// ===== PAGE CHROME =====
+const animationCSS = `
+@keyframes osd-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes osd-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes osd-scale-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.osd-anim-fade-up { animation: osd-fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-anim-fade-in { animation: osd-fade-in 0.6s ease-out both; }
+.osd-anim-scale-in { animation: osd-scale-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > * { animation: osd-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.osd-stagger > *:nth-child(1) { animation-delay: 0.05s; } .osd-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+.osd-stagger > *:nth-child(3) { animation-delay: 0.15s; } .osd-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+.osd-stagger > *:nth-child(5) { animation-delay: 0.25s; } .osd-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+.osd-stagger > *:nth-child(7) { animation-delay: 0.35s; } .osd-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+`;
+const AnimStyle = () => <style>{animationCSS}</style>;
+
+const accent = '#D97757';
+const Breadcrumb = ({ part, chapter, section }: { part: string; chapter: string; section?: string }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, left: 80, fontSize: 13, color: muted, letterSpacing: '0.08em' }}>
+    {part} <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {chapter}{section ? <> <span style={{ opacity: 0.4, margin: '0 8px' }}>›</span> {section}</> : null}
+  </div>
+);
+const PageNum = ({ n, total }: { n: number; total: number }) => (
+  <div className='osd-anim-fade-in' style={{ position: 'absolute', top: 24, right: 80, fontSize: 13, color: muted, fontVariantNumeric: 'tabular-nums' }}>
+    {String(n).padStart(2, '0')} <span style={{ opacity: 0.4 }}>/</span> {String(total).padStart(2, '0')}
+  </div>
+);
+const BrandBar = ({ light = false }: { light?: boolean }) => {
+  const fg = light ? 'rgba(245, 241, 232, 0.85)' : '#2A2520';
+  const sub = light ? 'rgba(245, 241, 232, 0.5)' : muted;
+  const logoSrc = light ? logoLight : logoDark;
+  return (
+    <div className='osd-anim-fade-in' style={{ position: 'absolute', bottom: 18, left: 80, right: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', animationDelay: '0.5s' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <img src={logoSrc} alt='' style={{ height: 24, opacity: 0.9 }} />
+        <div style={{ fontSize: 12, lineHeight: 1.25 }}>
+          <div style={{ fontWeight: 700, color: fg, letterSpacing: '0.02em' }}>桑尼資料科學</div>
+          <div style={{ fontSize: 9, color: sub, letterSpacing: '0.20em' }}>SUNNY DATA SCIENCE</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 10, color: sub, letterSpacing: '0.08em' }}>© 2026 SunnyDS · 版權所有 翻譯必究 · CONFIDENTIAL</div>
+    </div>
+  );
+};
+const Mantra = ({ children }: { children: React.ReactNode }) => (
+  <div className='osd-anim-fade-up' style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '10px 18px', background: 'rgba(217, 119, 87, 0.10)', borderLeft: `4px solid ${accent}`, borderRadius: 6, fontSize: 17, color: accent, fontWeight: 600, animationDelay: '0.4s' }}>
+    <span style={{ fontSize: 15, opacity: 0.85 }}>💡 心法</span>
+    <span style={{ color: '#2A2520' }}>{children}</span>
+  </div>
+);
+const NoviceBadge = () => (
+  <span style={{ display: 'inline-block', padding: '5px 14px', borderRadius: 14, background: 'rgba(91, 151, 112, 0.15)', color: ok, fontSize: 15, fontWeight: 600 }}>🐤 新手友善 · 老手可跳 →</span>
+);
+const TermCard = ({ name, en, def }: { name: string; en: string; def: string }) => (
+  <div style={{ padding: '12px 16px', background: 'rgba(217, 119, 87, 0.08)', borderLeft: `4px solid ${accent}`, borderRadius: 6 }}>
+    <div style={{ fontSize: 19, fontWeight: 700, color: accent }}>{name} <span style={{ fontSize: 13, color: muted, fontWeight: 500 }}>· {en}</span></div>
+    <div style={{ fontSize: 15, lineHeight: 1.5, marginTop: 4 }}>{def}</div>
+  </div>
+);
+const ThreeTakeaways = ({ chapter, lines }: { chapter: string; lines: string[] }) => (
+  <><AnimStyle />
+    <div style={{ ...fill, background: accent, color: '#F5F1E8', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 120px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, opacity: 0.75, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600 }}>{chapter} · 三句帶走</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 88, fontWeight: 800, margin: '28px 0 56px', animationDelay: '0.1s' }}>記住這三句</h1>
+      <div className='osd-stagger'>
+        {lines.map((l, i) => (
+          <div key={i} style={{ fontSize: 42, fontWeight: 700, lineHeight: 1.4, marginBottom: 16, display: 'flex', alignItems: 'baseline' }}>
+            <span style={{ opacity: 0.5, marginRight: 24, fontSize: 32 }}>0{i + 1}</span>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <BrandBar light />
+    </div>
+  </>
 );
 
 const StackRow = ({ tone, label, text }: { tone: string; label: string; text: string }) => (
@@ -93,14 +176,20 @@ const P01: Page = () => (
 const P02: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_00_hero} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={2} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P03: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>OBJECTIVES · MENTAL MODEL · NUMBERS</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>OBJECTIVES · MENTAL MODEL · NUMBERS</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'① READ PATH'} text={'Replica · Cache · Materialized View → Ch.6.1'} />
         <StackRow tone='#A1813F' label={'② WRITE PATH'} text={'Shard · Batch · Queue · Aggregate → Ch.6.2'} />
@@ -125,9 +214,16 @@ const P03: Page = () => (
           <div style={{ padding: '8px 12px', fontSize: 17, borderTop: '1px solid rgba(139,111,71,0.25)' }}>replication lag</div>
         </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>讀寫不對稱</strong>：90% 系統讀:寫 = 100:1。先優化讀，撞牆再優化寫。</span></div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_00_mental_model} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_00_mental_model} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/08 + 10 · 設計模式/01 §2 · 02 §1'} />
+    <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+    <PageNum n={3} total={36} />
+    <BrandBar />
   </div>
 );
 
@@ -140,28 +236,42 @@ const P04: Page = () => (
 const P05: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_scaling_reads_02_cqrs} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={5} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P06: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_scaling_reads_03_lag} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={6} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P07: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_01_scaling_reads_04_antipatterns} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={7} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P08: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>SCALE READS · WHY + HOW（4 層命中階梯）</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>SCALE READS · WHY + HOW（4 層命中階梯）</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ fontSize: 22, lineHeight: 1.6 }}>100:1</div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><strong>Web 常態</strong>：每 1 寫背後 100 讀（Twitter timeline / E-commerce / News）。讀路徑撐住，整體系統就活著。</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -171,9 +281,16 @@ const P08: Page = () => (
         <StackRow tone='#5B9770' label={'L4 · DB Read Replicas'} text={'主寫從讀'} />
       </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>4 層命中率複合</strong>：99.9% 請求都打到 L3 以前。<strong>這就是 Twitter 撐 100K QPS 的原理</strong>。</span></div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_01_scaling_reads_01_ladder} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+    </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_01_scaling_reads_01_ladder} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'設計模式/01 Scaling Reads.pdf · §1 + §3 Layers'} />
+    <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+    <PageNum n={8} total={36} />
+    <BrandBar />
   </div>
 );
 
@@ -194,7 +311,11 @@ const P09: Page = () => (
 <strong>例</strong>：A/B 測試、個人化推薦、Auth 驗證 都在邊緣節點完成。</Callout>
     </div>
     <Footer source={'設計模式/01 Scaling Reads.pdf · §5 Advanced'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={9} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -212,7 +333,11 @@ TTL 到期那一秒 100K 請求同時 miss、同時打 DB = 自我 DDoS。<br />
 <strong>解</strong>：request coalescing（並發只發 1 個回源）+ key fanout（&lt;code&gt;feed:taylor:1/2/...&lt;/code&gt; 隨機讀）。</Callout>
     </div>
     <Footer source={'設計模式/01 Scaling Reads.pdf · §6-7 Deep Dive'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={10} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -228,7 +353,11 @@ const P11: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>口訣</strong>：讀路徑越多層越快，<strong>但 cache 越多層 debug 越難</strong>——層數要與 SRE 能力匹配。</span></div>
     </div>
     <Footer source={'設計模式/01 Scaling Reads.pdf · §8'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={11} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -240,14 +369,22 @@ const P12: Page = () => (
 const P13: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_scaling_writes_02_sharding_keys} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={13} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P14: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_02_scaling_writes_03_hotkey_split} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={14} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -270,7 +407,11 @@ const P15: Page = () => (
       <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_02_scaling_writes_01_strategies} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
     <Footer source={'設計模式/02 Scaling Writes.pdf · §1-2'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={15} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -287,24 +428,36 @@ const P16: Page = () => (
 &lt;code&gt;posts&lt;/code&gt; 大表 → &lt;code&gt;post_content&lt;/code&gt;（B-tree）+ &lt;code&gt;post_metrics&lt;/code&gt;（in-memory counter）+ &lt;code&gt;post_analytics&lt;/code&gt;（append-only time-series）。每張表針對自己 workload 優化。</Callout>
     </div>
     <Footer source={'設計模式/02 Scaling Writes.pdf · §2 Sharding & Vertical · §6 Hot Key'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={16} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P17: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>SCALE WRITES · Queue · Load Shedding · Batching</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>SCALE WRITES · Queue · Load Shedding · Batching</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Write Queue（短暫爆發）</strong>
 Kafka / SQS 緩衝峰值，DB 穩定消費。<strong>反模式</strong>：用 queue 蓋一個長期扛不住的 DB → queue 無限長。</Callout>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Load Shedding（不是所有寫都該活）</strong>
 Strava / Robotaxi 位置：丟一筆沒差，幾秒後就有新的。Analytics 先保 click 丟 impression。</Callout>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Batching 三層</strong>
 <strong>應用層</strong>（從 Kafka 讀一批寫一批，崩潰可重讀）／<strong>中介層</strong>（Like Batcher 60s 聚合 100 讚 = 1 寫）／<strong>DB 層 write-behind</strong>（Redis 100ms flush，<strong>金融絕對不能用</strong>——崩潰丟資料）。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_02_scaling_writes_04_write_behind} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_02_scaling_writes_04_write_behind} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'設計模式/02 Scaling Writes.pdf · §3 Queue · §4 Batching'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={17} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -322,7 +475,11 @@ const P18: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：QPS 1K 就上 Kafka + CQRS = 寫複雜度 &gt; 業務複雜度 = 過度工程。</Callout>
     </div>
     <Footer source={'設計模式/02 Scaling Writes.pdf · §5 + §7'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={18} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -334,14 +491,19 @@ const P19: Page = () => (
 const P20: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_03_distributed_cache_02_consistent_hash} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={20} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P21: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>DISTRIBUTED CACHE · WHY + Cluster 架構</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 100px', position: 'relative', overflow: 'hidden' }}>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>DISTRIBUTED CACHE · WHY + Cluster 架構</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Callout tone='#D97757'><strong>Local cache</strong>：100 台 server = 100 份冗餘 / <strong>Distributed</strong>：共享一份，省記憶體 + 一致性。<strong>心智轉變</strong>：問題從「eviction / stampede」變「節點分配 / rebalancing / partial failure」——cache 自己成了分散式系統。</Callout>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Sharding 必用 Consistent Hashing</strong>
 反模式 &lt;code&gt;hash(key) % N&lt;/code&gt;：5→6 台 → <strong>幾乎所有 key 重新映射</strong> = 瞬間 cold start。Consistent hashing 只解決平均，<strong>不解決偏斜</strong>。</Callout>
@@ -350,10 +512,17 @@ const P21: Page = () => (
 <strong>Sentinel</strong>：單 master + HA failover，沒分片，運維簡單但寫入受限。</Callout>
       <Callout tone='#8B6F47'><strong style={{ color: 'var(--osd-accent)', display: 'block', marginBottom: 6 }}>Hot Key 防禦</strong>
 直播間/明星占 20%+ 流量 = bottleneck。<strong>解</strong>：Key 多副本 · App-level local cache · Key fanout。</Callout>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_03_distributed_cache_01_topology} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_03_distributed_cache_01_topology} alt='' style={{ width: '100%', maxHeight: 560, objectFit: 'contain' }} />
+      </div>
     </div>
     <Footer source={'常用技術/08 Distributed Cache.pdf · §1-3'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={21} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -370,7 +539,11 @@ const P22: Page = () => (
 節點變慢但<strong>沒 crash</strong> → client timeout retry → 連鎖。<strong>解</strong>：timeout + circuit breaker。</Callout>
     </div>
     <Footer source={'常用技術/08 Distributed Cache.pdf · §3 Replication · §4 Failure Modes'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={22} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -385,7 +558,11 @@ const P23: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>面試完整答</strong>：sharded + consistent hashing + replica + TTL jitter + single-flight + hot key fallback + cluster failure 降級模式。</span></div>
     </div>
     <Footer source={'常用技術/08 Distributed Cache.pdf · §6-8'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={23} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -397,21 +574,33 @@ const P24: Page = () => (
 const P25: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_cdn_01_global_edge} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={25} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P26: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_cdn_02_push_vs_pull} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={26} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
 const P27: Page = () => (
   <div style={{ ...fill, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 60 }}>
     <img src={img_04_cdn_03_edge_compute} alt='' style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={27} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -429,7 +618,11 @@ const P28: Page = () => (
       </div>
     </div>
     <Footer source={'常用技術/10 CDN.pdf · §1-2'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={28} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -446,7 +639,11 @@ const P29: Page = () => (
 <strong>Stale-while-revalidate</strong>：過期 cache 先回，背景去 origin 拉新——origin 不被打爆。</Callout>
     </div>
     <Footer source={'常用技術/10 CDN.pdf · §3-5 Cache & Invalidation'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={29} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -472,7 +669,11 @@ const P30: Page = () => (
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>Smart routing</strong>：CDN 自己判斷哪條路徑最快——不只地理近，還看實時網路狀況。</span></div>
     </div>
     <Footer source={'常用技術/10 CDN.pdf · §6 Edge Compute'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={30} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -488,7 +689,11 @@ const P31: Page = () => (
       <Callout tone='#E8634F'><strong>反模式</strong>：個人化資料（私訊、帳號、推薦）丟 CDN——hit rate 為 0，純浪費。<br /><strong>CDN 只對「多用戶共享同份資料」有意義。</strong></Callout>
     </div>
     <Footer source={'常用技術/10 CDN.pdf · §8'} />
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={31} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -498,9 +703,11 @@ const P32: Page = () => (
 
 
 const P33: Page = () => (
-  <div style={{ ...fill, padding: '80px 140px', position: 'relative', overflow: 'hidden' }}>
-    <h2 style={{ fontSize: 36, fontWeight: 600, lineHeight: 1.3, margin: '0 0 24px', color: muted }}>CASE STUDY · 新聞網站（極致讀擴展）</h2>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+  <div style={{ ...fill, padding: '60px 80px', position: 'relative', overflow: 'hidden' }}>
+    <h2 style={{ fontSize: 26, fontWeight: 600, lineHeight: 1.3, margin: '0 0 18px', color: muted }}>CASE STUDY · 新聞網站（極致讀擴展）</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 32, alignItems: 'start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <StackRow tone='#D97757' label={'L1 · Browser'} text={'圖文 max-age=1 年（hash 檔名）· HTML stale-while-revalidate'} />
         <StackRow tone='#A1813F' label={'L2 · CDN'} text={'文章正文 + 圖片 + JS/CSS edge cache · purge by tag 上稿即刷'} />
@@ -508,8 +715,15 @@ const P33: Page = () => (
         <StackRow tone='#5B9770' label={'L4 · DB Read Replicas'} text={'一寫多讀 · 編輯後台才打 leader'} />
       </div>
       <div style={{ fontSize: 24, lineHeight: 1.6 }}><span style={{ color: muted, fontStyle: 'italic' }}><strong>99% 讀請求在 L2 命中</strong>——讀流量看似 1M QPS，DB 實際只承受 1k QPS。</span></div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}><img src={img_99_recap_01_news_site} alt='' style={{ maxHeight: 420, maxWidth: '100%', objectFit: 'contain' }} /></div>
     </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <img src={img_99_recap_01_news_site} alt='' style={{ width: '100%', maxHeight: 580, objectFit: 'contain' }} />
+      </div>
+    </div>
+    <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+    <PageNum n={33} total={36} />
+    <BrandBar />
   </div>
 );
 
@@ -521,7 +735,11 @@ const P34: Page = () => (
         <TradeoffCol tone='#5B9770' title={'新的工具'} items={['讀擴展 4 層階梯 + cache versioning + stampede 防禦', '寫擴展 4 模式（Shard/Batch/Queue/Aggregate）+ hot key split', 'Distributed cache：consistent hashing · replication · failure modes', 'CDN 4 層 + invalidation 三招 + edge compute']} />
         <TradeoffCol tone='#E8634F' title={'還沒回答的問題'} items={['異步任務怎麼設計？　→ Ch.7 Queue / Long Running', '即時推播怎麼做？　→ Ch.7 Real-time', '大檔案怎麼處理？　→ Ch.7 Large Blobs', '怎麼做全文搜尋？　→ Ch.7 Search', 'RAG 系統長怎樣？　→ Ch.7 RAG']} />
       </div>
-  </div>
+  
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' />
+      <PageNum n={34} total={35} />
+      <BrandBar />
+    </div>
 );
 
 
@@ -531,40 +749,28 @@ const P35: Page = () => (
 
 
 export const meta: SlideMeta = { title: 'Ch.6 · Scaling Patterns' };
-export default [
-  P01,
-  P02,
-  P03,
-  P04,
-  P05,
-  P06,
-  P07,
-  P08,
-  P09,
-  P10,
-  P11,
-  P12,
-  P13,
-  P14,
-  P15,
-  P16,
-  P17,
-  P18,
-  P19,
-  P20,
-  P21,
-  P22,
-  P23,
-  P24,
-  P25,
-  P26,
-  P27,
-  P28,
-  P29,
-  P30,
-  P31,
-  P32,
-  P33,
-  P34,
-  P35,
-] satisfies Page[];
+
+// P02b · 本章新術語
+const P02b: Page = () => (
+  <><AnimStyle />
+    <div style={{ ...fill, padding: '40px 70px', position: 'relative' }}>
+      <div className='osd-anim-fade-up' style={{ marginBottom: 10 }}><NoviceBadge /></div>
+      <div className='osd-anim-fade-up' style={{ fontSize: 22, color: accent, letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600, marginTop: 4, animationDelay: '0.05s' }}>本章新術語 · 6 個詞</div>
+      <h1 className='osd-anim-fade-up' style={{ fontFamily: 'var(--osd-font-display)', fontSize: 42, fontWeight: 800, margin: '8px 0 24px', animationDelay: '0.1s' }}>擴流量的招式</h1>
+      <div className='osd-stagger' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <TermCard name='Read Replica' en='讀副本' def='主庫寫、多個副本讀（讀寫比高的場景）。' />
+        <TermCard name='Cache-aside' en='旁路快取' def='miss 時才查 DB → 寫回 cache（預設模式）。' />
+        <TermCard name='Write-through / behind' en='寫穿 / 寫後' def='同步雙寫 cache+DB / 先寫 cache 後寫 DB。' />
+        <TermCard name='CDN Pull / Push' en='CDN 拉/推' def='邊緣節點需要時才拉 / 主動推到邊緣。' />
+        <TermCard name='CQRS' en='命令查詢分離' def='讀模型跟寫模型分開，各自優化。' />
+        <TermCard name='Distributed Cache' en='分散式快取' def='多台 Redis 組成 cluster，跨機共享熱資料。' />
+      </div>
+      <div className='osd-anim-fade-up' style={{ marginTop: 18, fontSize: 16, color: muted, fontStyle: 'italic', animationDelay: '0.6s' }}>📖 完整定義在 90-appendix 詞彙速查表</div>
+      <Breadcrumb part='Part 6' chapter='Ch.06 · 擴展模式' section='本章新術語' />
+      <PageNum n={2} total={36} />
+      <BrandBar />
+    </div>
+  </>
+);
+
+export default [P01, P02b, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35] satisfies Page[];
