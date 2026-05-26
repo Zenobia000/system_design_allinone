@@ -51,8 +51,11 @@ export function formatBriefMarkdown(answers: BriefAnswers, now: Date = new Date(
   const timestamp = now.toISOString().slice(0, 16).replace("T", " ");
   return `# 專案種子簡報（v1）
 
-> 本檔是後續 15 張卡的「上游輸入」。
-> 當任何 prompt 要求 \`[使用者訪談紀錄]\`、\`[業務脈絡]\`、\`[JTBD 卡]\` 時，把整份本文件貼上去。
+> **這是什麼**：5 題問卷產出的專案 baseline，承載「目標受眾 / 痛點 / 期望成果 / 約束 / 指標」5 段。
+>
+> **怎麼用**：後續 15 張卡的 trigger「上游文件」貼位區，若該卡的上游 deliverable 還沒做（例如還沒寫 JTBD 就要做 PRD），可從本檔對應段落取用代替，**但必須在 AI 自檢時誠實標 \`[L]\` confidence + \`（依據：brief §段名）\` + 列為 highest-value next input**。
+>
+> **不能做的事**：brief **不能取代**訪談逐字稿、JTBD 文件、PRD 等更具體的下游產出。當對應上游卡完成後，下游卡的 trigger 上游貼位應改用該卡的真實 markdown 輸出，而非繼續用 brief。
 
 ## 目標受眾
 
@@ -76,9 +79,7 @@ ${answers.successMetric.trim() || "（未填）"}
 
 ---
 
-產出時間：${timestamp}
-對應教學範例：SmartTrip FX（見 \`demo/種子簡報.md\`）
-產出工具：Launch Atlas · /start/
+產出時間：${timestamp} · Launch Atlas · /start/
 `;
 }
 
