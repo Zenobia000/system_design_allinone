@@ -1,8 +1,9 @@
 import Link from "next/link";
 
-type Key = "home" | "roles" | "stages" | "deliverables" | "about";
+type Key = "home" | "roles" | "stages" | "deliverables" | "start" | "workshop" | "about";
 
 const LINKS: Array<{ href: string; label: string; key: Key; primary?: boolean }> = [
+  { href: "/start/",        label: "Workshop",     key: "start" },
   { href: "/roles/",        label: "Roles",        key: "roles" },
   { href: "/stages/",       label: "Stages",       key: "stages" },
   { href: "/deliverables/", label: "Deliverables", key: "deliverables", primary: true },
