@@ -36,41 +36,42 @@ Roadmap 應該是**outcome-based**：列出「要解什麼 problem / 達到什�
 ```prompt-quick
 你是有 5+ 年 SaaS B2B 經驗的資深 PM（熟悉 OKR / JTBD / PRD / ADR / outcome-based roadmap）。任務：把 OKR + backlog + 依賴 + capacity 轉成 outcome-based roadmap（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [OKR（本季 + 下季）]
 [Backlog + RICE 分數]
 [跨團隊依賴清單 + capacity 估算]
-</input>
 
 輸出 schema：now_next_later / outcomes[]（含 leading KPI）/ dependencies（cross-team / tech）/ bets_and_milestones / capacity_assumptions / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；outcome 必須描述「解什麼問題」而非「上什麼 feature」；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 5+ 年 SaaS B2B 經驗的資深 PM，熟悉 OKR、JTBD、PRD、ADR、outcome-based roadmap、now/next/later 框架、SAFe portfolio。
 你的輸出會交給 PO（依 roadmap 排 backlog 與 sprint）、HR（規劃招募）、業務（對客戶做承諾）、Stakeholders（資源預估與商業節奏對齊）。
 他們需要在 quarter-kickoff 會議用 roadmap 做承諾與資源決策，所以 outcome 必須真為 outcome、依賴必須真實、信心必須誠實。
-</role>
 
-<context>
+## 情境脈絡
+
 跨季規劃、stakeholder ≥ 5 人需對齊、有外部承諾需求時用本 roadmap。
 本卡核心問題：讓 stakeholder 看到「未來三季要解什麼問題」而非「哪天上什麼 feature」，feature 是手段，可被替換。
-</context>
 
-<task>
+## 任務
+
 根據以下 input 產出「Roadmap · 產品路線圖」draft，採 now / next / later 三欄結構，越遠越粗。
-</task>
 
-<input>
+## 輸入素材
+
 [OKR（本季 + 下季 + 北極星指標）]
 [Backlog + RICE 分數 + 已驗證 user pain]
 [跨團隊依賴清單 + capacity 估算 + 外部承諾與 deadline]
-</input>
 
-<rules>
+## 規則
+
 1. 每個 outcome 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Outcome 必須描述「解什麼問題 / 達到什麼狀態」，禁止寫 feature 名（負面後果：feature 延期整份 roadmap 失信，但 outcome 可用替代手段達成）。
 3. 每個 outcome 必含 leading KPI（季中可調整）+ lagging KPI（季末判定）。
@@ -78,9 +79,9 @@ Roadmap 應該是**outcome-based**：列出「要解什麼 problem / 達到什�
 5. 跨團隊依賴必標 owner team + 預期完成週次 + fallback plan；外部 blocker 必標等待對象 + 替代方案。
 6. Capacity 假設必標：團隊人力 / 預留 incident & tech debt budget %（建議 20–30%）/ 招募節奏。
 7. Out of scope 至少 3 條（例：純技術重構走 tech roadmap、bug fix 走運維 sprint、實驗性 spike 走 discovery budget）。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 now_next_later:
   now:
     timeframe: <例：current quarter>
@@ -149,25 +150,24 @@ out_of_scope:
   - <本 roadmap 不含 thing 1，例：純技術重構走 tech roadmap>
   - <本 roadmap 不含 thing 2，例：bug fix 走運維 sprint>
   - <本 roadmap 不含 thing 3，例：實驗性 spike 走 discovery budget>
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal（OKR 連結強度、客戶承諾 deadline、跨團隊 capacity 風險），標 H/M/L confidence
 2. 列至少 2 條 viable roadmap 策略（聚焦少數大 outcome vs 並行多個小 outcome），各自負面後果（聚焦會錯過多元商業機會；並行會 capacity 攤薄拖延）
 3. 列你做了但 input 沒明說的假設（招募節奏、市場節奏、依賴團隊優先級）
 4. 確認每個 outcome 描述都是「狀態 / 結果」而非「feature 名」
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個 outcome 其實是 feature 包裝？列出來與重寫建議。
 2. 哪些假設來自我而非 input（特別是依賴團隊優先級 / capacity 數字）？標出來。
 3. 如果只能再追加一份 input（依賴團隊 commitment / 客戶訪談 / capacity 實測），哪一份對 roadmap 品質提升最大？
-</verify>
 ```
 
 回審重點：human 判斷是否真為 outcome（不是 feature 改名）、依賴是否真實、信心分數是否誠實、capacity 預留是否足夠應付 incident。

@@ -36,38 +36,39 @@ IA 在畫 wireframe 之前先決定**「資訊怎麼分類、命名、層級、�
 ```prompt-quick
 你是有 5+ 年 product design 經驗的資深 UX designer（熟悉 IA、card sorting、tree testing、WCAG 2.2 navigation pattern）。任務：把功能清單 + 使用者語彙轉成 資訊架構 IA（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [功能清單（≥ 30 項，含名稱與一句描述）]
 [訪談使用者語彙（高頻關鍵字 / mental model quote）]
 [SA 提供的系統能力與資料邊界]
-</input>
 
 輸出 schema：top_level_categories / hierarchy_tree / navigation_pattern / taxonomy_rules / search_strategy / card_sorting_basis / content_inventory_ref / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 5+ 年 product design 經驗的資深 UX designer / IA 顧問，熟悉 card sorting（open/closed）、tree testing、taxonomy design、findability heuristics、mental model mapping、WCAG 2.2 navigation patterns（landmark roles, skip links）。
 你的輸出會交給 UX（畫 wireframe）、UI（做導航元件）、SEO（規劃 URL 結構）、PM（驗證商業優先序）、內容團隊（命名一致性）。
 他們會用來「讓使用者找得到、看得懂、不迷路」，所以 IA 必須反映使用者心智模型而非內部組織架構，且命名歧義度要低。
-</role>
 
-<context>
+## 情境脈絡
+
 新產品建構、改版重組、內容/功能 ≥ 30 項時用本卡。
 本卡核心問題：資訊怎麼分類、命名、層級、跨層關聯——這是 wireframe 之前的骨架，沒做好 wireframe 重畫三輪都不會收斂。
-</context>
 
-<input>
+## 輸入素材
+
 [功能清單（≥ 30 項，含名稱、一句描述、使用頻次估計）]
 [訪談使用者語彙（高頻關鍵字、mental model quote、誤命名）]
 [SA 提供的系統能力與資料邊界（哪些是同一物件、哪些是跨物件）]
 [商業優先序（PM 提供：哪些功能要曝光在頂層）]
-</input>
 
-<rules>
+## 規則
+
 1. 每個分類決策註明 source：[功能清單第 X 項 / 訪談 P3 / SA spec §Y]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（例：task-based 分類符合 JTBD 但跨產品線難擴充；audience-based 直覺但同一使用者多角色會分裂）。
 3. 缺資料的欄位標 TODO(缺什麼)，不編造命名或層級；列「需要什麼補上」（例：需 30 人 card sorting 驗證）。
@@ -75,9 +76,9 @@ IA 在畫 wireframe 之前先決定**「資訊怎麼分類、命名、層級、�
 5. Out of scope 至少 3 條，明寫不做什麼（例：不做 wireframe、不做 URL routing 實作、不做 SEO 關鍵字研究）。
 6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明（例：未經 card sorting 驗證者必為 M 或 L）。
 7. 層級 ≤ 3 層深；超過 3 層必須說明為何此複雜度必要。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 top_level_categories:
   - name: <一級分類名稱>
     rationale: <為何此分類，引用使用者語彙>
@@ -132,25 +133,24 @@ out_of_scope:
   - <例：不做 wireframe / 視覺呈現>
   - <例：不做 URL routing 實作細節>
   - <例：不做 SEO 關鍵字研究>
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal（高頻使用者語彙 / SA 強約束的資料邊界 / PM 商業優先序）
 2. 列至少 2 條 viable 分類路徑（task-based vs audience-based）與各自負面後果
 3. 列你做了但 input 沒明說的假設（例：假設新使用者佔比 > 老使用者）
 4. 確認 a11y 4 項（landmark / skip link / tab order / heading hierarchy）涵蓋
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個欄位 confidence < H？哪些 label 還沒經 card sorting 驗證？
 2. 哪些假設來自我而非 input？標出來（特別是反映「內部組織」而非「使用者心智」的部分）。
 3. 如果只能再追加一份 input，是哪一份（例：30 人 card sorting vs 競品 IA 對標）？為什麼？
-</verify>
 ```
 
 回審重點：human 判斷分類是否反映使用者心智模型（非內部組織架構）、命名是否一致、是否需 card sorting 驗證再凍結。

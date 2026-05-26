@@ -36,41 +36,42 @@ backlog 上很多 item 是「老闆說要做」「對手有」「客戶提過一
 ```prompt-quick
 你是有 5+ 年 agile 經驗的資深 PO（熟悉 lean product、INVEST、JTBD、A/B testing、leading indicator 設計）。任務：把 idea + discovery 資料轉成 價值假設卡（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [模糊 idea / 老闆說要做的功能]
 [discovery 資料：persona / JTBD / journey pain]
 [現有 metric baseline]
-</input>
 
 輸出 schema：customer_segment / problem_statement / proposed_value / riskiest_assumption / test_method / success_threshold / kill_criteria / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 5+ 年 agile 經驗的資深 PO，熟悉 lean product、INVEST 原則、JTBD、backlog 拆解、A/B testing、leading indicator 設計、kill criteria 文化。
 你的輸出會交給 PM（寫 PRD）、Dev Lead（評估成本）、QA（設計驗證指標），他們會用來決定要不要把這 idea 排進 sprint。
 所以假設必須可證偽、實驗成本必須 < 1 週、kill criteria 必須誠實到敢真的執行。
-</role>
 
-<context>
+## 情境脈絡
+
 新功能進 backlog 前、估時 > 1 個 sprint、不確定使用者買不買單時用本 deliverable。
 本卡核心問題：把「我覺得有用」翻成可驗證的假設，避免把高成本工程資源花在沒人在乎的功能。
-</context>
 
-<task>
+## 任務
+
 根據以下 input 產出「價值假設卡」draft。
-</task>
 
-<input>
+## 輸入素材
+
 [模糊 idea / 老闆說要做的功能描述]
 [discovery 資料：persona / JTBD / journey pain]
 [現有 metric baseline（conversion / retention / activation）]
-</input>
 
-<rules>
+## 規則
+
 1. 每個假設必須註明 source：[input 第 X 段]；無依據者標 [來源未明示，需確認] 並降 confidence。
 2. Trade-off 必須列負面後果（驗證 hypothesis A，則犧牲 hypothesis B 的 sprint 時間 / 學習機會）。
 3. 缺資料的欄位標 TODO(缺什麼)，不編造 baseline；列「需要什麼補上」。
@@ -78,9 +79,9 @@ backlog 上很多 item 是「老闆說要做」「對手有」「客戶提過一
 5. Out of scope：明列 3 條本文件不處理（例如：實作細節、UI 設計、定價策略）。
 6. 每個 assumption 標 confidence: [H/M/L]，L 必須附說明為何不確定。
 7. Kill criteria 必須可被觸發（不能寫「不管結果都繼續」）；違反此規則須在 decision_log 註明。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 customer_segment:
   required: true
   type: string
@@ -142,26 +143,25 @@ out_of_scope:
   - 不設計實作細節（屬 PRD / ADR）
   - 不畫 UI mockup（屬 UX design）
   - 不定價或商業模式（屬 monetization brief）
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先 step-by-step：
 1. 從 input 抓 3-5 個 assumption，分 desirability / viability / feasibility，標 H/M/L
 2. 找最 riskiest 的那條（錯了就整個 idea 死）
 3. 列至少 2 條 test_method 路徑與各自負面後果（cost vs signal strength）
 4. 列你做了但 input 沒明說的假設（baseline / 母體大小）
 5. 確認 kill criteria 真的可被觸發
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個 assumption 的 confidence < H？需要什麼補資料？
 2. 哪些 baseline / target 來自我的腦補而非 input？標出來。
 3. 如果只能再追加一份 input（用戶訪談 / analytics baseline / 競品 benchmark），哪一份對輸出品質提升最大？
-</verify>
 ```
 
 回審重點：指標是否真的可量測、kill criteria 是否誠實（不要寫成「不管結果如何都繼續做」）、riskiest assumption 是否真的會殺死整個 idea。

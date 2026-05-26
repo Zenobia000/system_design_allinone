@@ -36,37 +36,38 @@ Design System 把**color、typography、spacing、component state** 集中為 to
 ```prompt-quick
 你是有 5+ 年 UI design 經驗的資深 UI designer（熟悉 design tokens、component spec、WCAG 2.2）。任務：把 mockup 截圖 + spec 轉成 Design System（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [Mockup 截圖（涵蓋 ≥ 5 個主要 screen）]
 [Brand spec（色票、字體、語氣）]
 [既有 FE 元件庫（若有）]
-</input>
 
 輸出 schema：tokens / components / patterns / a11y_baseline / naming_convention / contribution_policy / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 5+ 年 UI design 經驗的資深 UI designer，熟悉 design tokens（W3C DTCG 規範）、component anatomy、Figma library、Storybook、WCAG 2.2 AA。
 你的輸出會交給 UI（套用至 mockup）、FE 工程師（用 React/Vue 寫元件庫）、QA（設計 visual regression test）、Brand（驗證品牌一致性）。
 他們會用來「規模化設計與開發」，所以 token 必須語意化、元件必須 state 完整、a11y 必須 baseline 達標。
-</role>
 
-<context>
+## 情境脈絡
+
 產品 ≥ 5 個主要 screen、跨平台（web + mobile）、設計師 ≥ 2 人時用本卡。
 本卡核心問題：把分散的視覺決策收斂為 token + 元件庫，讓全產品視覺一致、開發不重造輪子；但避免一次做太完整（半年專案陷阱），應先抽 token + 5-10 個核心元件邊用邊長大。
-</context>
 
-<input>
+## 輸入素材
+
 [Mockup 截圖（涵蓋 ≥ 5 個主要 screen）]
 [Brand spec（色票、字體、語氣、logo 使用規範）]
 [既有 FE 元件庫 / Tailwind config（若有）]
-</input>
 
-<rules>
+## 規則
+
 1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（例：semantic token 命名（bg-surface-primary）vs literal（gray-100）——前者抽象高但學習成本高，後者直覺但難 theming）。
 3. 缺資料的欄位標 TODO(缺什麼)，不編造 hex 值或元件 props；列「需要什麼補上」。
@@ -74,9 +75,9 @@ Design System 把**color、typography、spacing、component state** 集中為 to
 5. Out of scope 至少 3 條，明寫不做什麼（例：不做 motion library、不做 icon set、不做後台 admin 元件）。
 6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
 7. 元件以 anatomy / variants / states / props 4 維度描述，不只貼截圖。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 tokens:
   color:
     primitive: <例：blue-500 = #2563EB>  # 原始色票
@@ -134,25 +135,24 @@ out_of_scope:
   - <例：不做 motion library / 動畫 spec>
   - <例：不做 icon set（外掛使用）>
   - <例：不做後台 admin 專用元件>
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal（mockup 高頻使用的元件 / 重複出現的 hex / brand 強制色）
 2. 列至少 2 條 viable token 命名路徑（semantic vs literal）與各自負面後果
 3. 列你做了但 input 沒明說的假設（例：假設不支援暗色模式 v1）
 4. 確認 a11y baseline 4 項都涵蓋
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個欄位 confidence < H？列出來與所需補充資料。
 2. 哪些假設來自我而非 input？標出來（特別是 token 抽象層級、命名規則）。
 3. 如果只能再追加一份 input，是哪一份？為什麼？
-</verify>
 ```
 
 回審重點：human 判斷 token 是否語意化、命名是否一致、是否覆蓋暗色模式與 a11y、貢獻政策是否符合團隊規模。

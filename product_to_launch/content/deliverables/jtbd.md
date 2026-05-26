@@ -36,41 +36,42 @@ JTBD 強迫團隊回到「使用者僱用這個產品是為了完成什麼任務
 ```prompt-quick
 你是有 5+ 年 SaaS B2B 經驗的資深 PM（熟悉 JTBD / OKR / PRD / Christensen Switch Interview）。任務：把 persona + 訪談摘要轉成 JTBD · 任務驅動（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [persona 卡]
 [訪談逐字稿摘要]
 [客服工單關鍵字頻次]
-</input>
 
 輸出 schema：functional_job / emotional_job / social_job / job_triggers / current_solution / success_criteria / struggling_moments / opportunity_size / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 5+ 年 SaaS B2B 經驗的資深 PM，熟悉 JTBD（Christensen / Ulwick）、OKR、PRD、Switch Interview、forces of progress 模型。
 你的輸出會交給 PM（寫 PRD）、UX（設計 flow）、QA（寫 acceptance），他們會用來決定「使用者僱用這個產品是為了完成什麼任務」。
 所以 JTBD 必須聚焦動機、情境、預期結果，不能寫成解決方案。
-</role>
 
-<context>
+## 情境脈絡
+
 團隊在爭論「要做哪個功能」而非「使用者要解什麼問題」時用本 deliverable。
 本卡核心問題：把功能慾望翻成使用者真正想完成的任務，避免功能堆疊但 KPI 不動。
-</context>
 
-<task>
+## 任務
+
 根據以下 input 產出「JTBD · 任務驅動」draft，至少 5 個 JTBD statement。
-</task>
 
-<input>
+## 輸入素材
+
 [persona 卡（含 demographics + behavior + pain）]
 [訪談逐字稿摘要 8-20 份]
 [客服工單關鍵字頻次表]
-</input>
 
-<rules>
+## 規則
+
 1. 每個 JTBD 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（聚焦 functional job 會犧牲 emotional / social job 的 X 群使用者）。
 3. 缺資料的欄位標 TODO(缺什麼)，不編造動機；列「需要什麼補上」。
@@ -78,9 +79,9 @@ JTBD 強迫團隊回到「使用者僱用這個產品是為了完成什麼任務
 5. Out of scope：明列 3 條本文件不處理（例如：功能優先序、實作方式、KPI 公式）。
 6. 每個 JTBD 的 motivation 與 expected outcome 標 confidence: [H/M/L]，L 必須附說明為何不確定。
 7. 必須區分 functional / emotional / social job 三層；只有 functional 不算完整。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 jtbd_statements:
   - id: JTBD-001
     statement: "When <situation>, I want to <motivation>, so I can <expected outcome>"
@@ -130,25 +131,24 @@ out_of_scope:
   - 不排功能優先序（屬 PO backlog）
   - 不寫實作方式（屬 PRD / ADR）
   - 不定義 KPI 公式（屬 North Star）
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先 step-by-step：
 1. 從 input 抓 5-8 個高頻 situation/motivation 訊號，分別標 H/M/L
 2. 區分 functional / emotional / social 三層，找互斥組合
 3. 列至少 2 條 JTBD 切法（by job step vs by switching trigger）與負面後果
 4. 列你做了但 input 沒明說的假設
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個 JTBD 的 confidence < H？列出來與所需補充資料。
 2. 哪些 motivation 來自我的推測而非訪談原句？標出來。
 3. 如果只能再追加一份 input（switch interview / 競品流失訪談 / 觀察日誌），哪一份對輸出品質提升最大？
-</verify>
 ```
 
 回審重點：JTBD 是否寫成解法（錯）、是否真有 evidence 支撐、互斥組合是否誠實標出。

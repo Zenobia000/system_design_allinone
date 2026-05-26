@@ -27,18 +27,18 @@ const FENCE_RE = /```([\w-]*)\s*\n([\s\S]*?)```/gm;
 const CHECKS = [
   {
     id: "role_specific",
-    label: "role 含具體年資/領域（不只「資深 X」）",
+    label: "## 角色 含具體年資/領域（不只「資深 X」）",
     test: (p) => /\d+\s*\+?\s*年|years|熟悉.{0,15}(OKR|JTBD|PRD|ADR|SLO|OpenAPI|WCAG|STRIDE|SOC|GDPR|HIPAA|PCI|ISO)/i.test(p),
   },
   {
-    id: "xml_input",
-    label: "input 用 XML tag 包住",
-    test: (p) => /<input>[\s\S]*<\/input>/i.test(p) || /<context>[\s\S]*<\/context>/i.test(p),
+    id: "input_section",
+    label: "input 用 `## 輸入素材` 分段",
+    test: (p) => /^##\s*輸入素材\s*$/m.test(p) || /^##\s*情境脈絡\s*$/m.test(p),
   },
   {
     id: "schema_machine",
     label: "輸出是機械可消費格式（YAML/JSON/table）",
-    test: (p) => /yaml|json|schema|<output_schema>/i.test(p) || /^\s*\w[\w_]*:\s*$/m.test(p),
+    test: (p) => /yaml|json|schema|^##\s*輸出格式/im.test(p) || /^\s*\w[\w_]*:\s*$/m.test(p),
   },
   {
     id: "field_types",
@@ -67,13 +67,13 @@ const CHECKS = [
   },
   {
     id: "thinking",
-    label: "<thinking> 強制推理",
-    test: (p) => /<thinking>|step[_\s-]by[_\s-]step|先在.{0,10}推理/i.test(p),
+    label: "`## 思考步驟` 強制推理",
+    test: (p) => /^##\s*思考步驟\s*$/m.test(p) || /step[_\s-]by[_\s-]step|先在.{0,10}推理/i.test(p),
   },
   {
     id: "verify",
-    label: "<verify> 自審段",
-    test: (p) => /<verify>|自審|self[_\s-]?verify|confidence 最低/i.test(p),
+    label: "`## 自審` 段",
+    test: (p) => /^##\s*自審\s*$/m.test(p) || /自審|self[_\s-]?verify|confidence 最低/i.test(p),
   },
 ];
 
@@ -90,48 +90,49 @@ function quickScaffold(fm) {
   const inputs = guessInputs(fm);
   return `你是 ${role}。任務：把 ${inputs.short} 轉成 ${fm.title}（YAML 格式）。
 
-<input>
+## 輸入素材
+
 ${inputs.list.map((i) => `[${i}]`).join("\n")}
-</input>
 
 輸出 schema：<列 5-8 個機械可消費欄位，每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]>
 
 規則：缺資料寫 TODO(缺什麼)，不編造；trade-off 必列負面後果；out of scope ≥ 3 條。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。`;
+結尾以 \`## 自審\` 段：列 confidence 最低的欄位與所需補充資料。`;
 }
 
 function fullScaffold(fm) {
   const role = guessRole(fm);
   const inputs = guessInputs(fm);
   const downstream = guessDownstream(fm);
-  return `<role>
+  return `## 角色
+
 你是 ${role}。
 你的輸出會交給 ${downstream}，他們會用來 <填：下游具體動作>。
-</role>
 
-<context>
+## 情境脈絡
+
 ${fm.when_to_use ?? "<填：本卡的觸發情境 / 業務上下文>"}
 本卡核心問題：${fm.hook}
-</context>
 
-<task>
+## 任務
+
 根據以下 input 產出「${fm.title}」draft。
-</task>
 
-<input>
+## 輸入素材
+
 ${inputs.list.map((i) => `[${i}]`).join("\n")}
-</input>
 
-<rules>
+## 規則
+
 1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果，不能只寫好處。
 3. 缺資料的欄位標 TODO(缺什麼)，不編造。
 4. <填：本卡相關 compliance / NFR>：必須涵蓋。
 5. Out of scope：明列 3 條本文件不處理。
 6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 # 依本 deliverable 設計 5-10 個機械可消費欄位（YAML）
 # 範例：
 # field_name:
@@ -156,25 +157,24 @@ out_of_scope:
   - <thing 1 this deliverable does NOT cover>
   - <thing 2>
   - <thing 3>
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal，分別標 H/M/L confidence
 2. 列至少 2 個 viable trade-off 路徑與各自的負面後果
 3. 列你做了但 input 沒明說的假設
 4. 確認 compliance/NFR 涵蓋
-</thinking>
 
-<output>
-（依 output_schema YAML 填寫）
-</output>
+## 輸出
 
-<verify>
+（依「## 輸出格式（YAML）」填寫）
+
+## 自審
+
 1. 哪個欄位 confidence < H？為什麼？需要什麼補資料？
 2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input，是哪一份？為什麼？
-</verify>`;
+3. 如果只能再追加一份 input，是哪一份？為什麼？`;
 }
 
 // ─── heuristics from frontmatter ────────────────────────────────

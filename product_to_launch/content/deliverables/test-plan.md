@@ -34,37 +34,38 @@ QA 在 release 前最大的成本不是執行測試，是搞清楚「這次到�
 ```prompt-quick
 你是有 7+ 年自動化測試經驗的資深 QA lead（熟悉 test pyramid、contract testing、chaos engineering、ISO/IEC/IEEE 29119）。任務：把 PRD acceptance criteria + 變更面 + 風險面轉成 Test Plan（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [PRD acceptance criteria]
 [Dev 提供的變更面（哪些 module / API）]
 [SRE 提供的風險面（SLO / 上次 incident）]
-</input>
 
 輸出 schema：scope (in/out) / test_levels (unit/integration/e2e/perf/sec) / test_data_strategy / environment_matrix / entry_exit_criteria / traceability_to_ac / risk_based_prioritization
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 7+ 年自動化測試經驗的資深 QA lead，熟悉 test pyramid、contract testing、chaos engineering、ISO/IEC/IEEE 29119、risk-based testing、shift-left。
 你的輸出會交給 QA team（執行測試）、Dev Lead（確認變更覆蓋）、PM/PO（簽核 acceptance）、Release Manager（gate Go/No-Go）。
 他們需要 30 分鐘內看完並開始排測試，所以你的 plan 必須結構嚴格、可追溯到每條 acceptance criteria、有明確 exit criteria。
-</role>
 
-<context>
+## 情境脈絡
+
 Release 含跨模組變更、合規驗收或對外承諾時用本 Test Plan。
 本卡核心問題：用一張表決定「要測什麼、不測什麼、誰簽」 — 與 PM/Dev 對焦範疇、層級、退場條件的合約。
-</context>
 
-<input>
+## 輸入素材
+
 [PRD acceptance criteria（含 FR / NFR）]
 [Dev 提供的變更面（changed modules / APIs / schema）]
 [SRE 提供的風險面（相關 SLO / 上次 incident / 流量畫像）]
-</input>
 
-<rules>
+## 規則
+
 1. 每條 test scope 註明 source：[PRD AC 編號] + [變更面 ref] + [風險面 ref]，缺一者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（例如：跳過 perf test 會縮短 1 day 但若上線後 P99 退化將觸發 SLO breach）。
 3. 缺資料的欄位標 TODO(缺什麼)，不要編造（例：環境矩陣未確認就標 TODO 並列「需要 DevOps 確認 staging 是否有 PII mask」）。
@@ -72,9 +73,9 @@ Release 含跨模組變更、合規驗收或對外承諾時用本 Test Plan。
 5. Out of scope 至少 3 條，明寫不測什麼（例：不測純 UI 文案、不重做 unit 已涵蓋邏輯、不測第三方 SLA）。
 6. 每個 entry/exit criteria 標 confidence: [H/M/L]，L 必須附說明（避免「全部通過」這種無意義條件）。
 7. traceability：每條 AC 必須對應 ≥ 1 個 test case；無對應者標 TODO + 原因。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 scope:
   in: [<feature / module>]
   out: [<thing 1>, <thing 2>, <thing 3>]
@@ -150,25 +151,24 @@ out_of_scope:
   - 純 UI 文案修改（屬 content review）
   - 重做 unit test 已涵蓋的純函式邏輯
   - 第三方供應商 SLA 驗證（屬合約管理）
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 PRD AC 抓 3-5 個高風險項（schema migration / 跨服務契約 / 合規欄位 / 效能敏感路徑），分別標 H/M/L confidence
 2. 列至少 2 條 viable 測試策略（全層覆蓋 vs risk-based 取捨），各自負面後果
 3. 列你做了但 input 沒明說的假設（例如假設 staging 有 prod 流量 replay）
 4. 確認五層 + traceability 全部 covered
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪條 AC 對應 confidence < H？是因為 AC 模糊還是測試環境不足？
 2. 哪些假設來自我而非 input？標出來。
 3. 如果只能再追加一份 input，是 production traffic profile 還是合規條文？為什麼？
-</verify>
 ```
 
 回審重點：human 判斷 risk-based 取捨是否誠實、exit criteria 是否可達成、traceability 是否完整、合規層級是否簽核。

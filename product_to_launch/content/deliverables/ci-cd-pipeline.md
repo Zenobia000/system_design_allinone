@@ -34,37 +34,38 @@ source: "deep-research-report.md §Implementation, DORA, NIST SSDF"
 ```prompt-quick
 你是有 7+ 年生產系統經驗的資深 staff platform engineer（熟悉效能調校、observability、breaking change、SOC 2 / NIST SSDF / SLSA）。任務：把 pipeline yaml + 安全要求 + DORA 目標 轉成 CI/CD Pipeline Audit（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [現有 CI/CD yaml（GitHub Actions / GitLab / Jenkins）]
 [安全與合規要求（SAST/SCA/secret scan/SBOM）]
 [DORA 目標（部署頻率 / lead time / MTTR / change failure rate）]
-</input>
 
 輸出 schema：stages（lint/test/build/sec_scan/deploy/smoke）/ gates_per_stage / parallelism / cache_strategy / secret_management / sbom_and_provenance / redundancy_to_remove / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 7+ 年生產系統經驗的資深 staff platform engineer，熟悉效能調校、observability、breaking change policy、SOC 2 / NIST SSDF / SLSA L3、artifact provenance、supply-chain security、DORA metrics。
 你的輸出會交給 DevOps（改 yaml）、Security（驗 gate）、Dev Lead（評估影響）、SRE（接 release gate）。
 他們需要可機械消費的 audit 結果，所以你的輸出必須含具體 yaml diff 建議、SLI 影響估算、redundancy 識別。
-</role>
 
-<context>
+## 情境脈絡
+
 團隊 ≥ 2 人或變更頻率高於每週一次時必要。
 本卡核心問題：讓「可發布」從人工判斷變成 pipeline 證據；build/test/scan/artifact/deploy 串成可重現流程並留證據鏈。
-</context>
 
-<input>
+## 輸入素材
+
 [現有 CI/CD yaml（含 stage 定義、env、cache、artifact）]
 [安全與合規要求（SAST/SCA/secret scan/SBOM/簽章）]
 [DORA 目標（部署頻率 / lead time / MTTR / change failure rate 現況與目標）]
-</input>
 
-<rules>
+## 規則
+
 1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（例如：加 SBOM 生成會讓 pipeline 多 X 分鐘，影響 lead time）。
 3. 缺資料的欄位標 TODO(缺什麼)，不要編造；列「需要什麼補上」。
@@ -72,9 +73,9 @@ source: "deep-research-report.md §Implementation, DORA, NIST SSDF"
 5. Out of scope：明列 3 條本文件不處理（例如：runtime security、image registry 治理、cluster RBAC）。
 6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明為何不確定。
 7. Redundancy 識別必須附「移除後對 DORA metric 的預估影響」。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 stages:
   - name: <lint | test | build | sec_scan | deploy | smoke>
     purpose: <one-line>
@@ -130,25 +131,24 @@ out_of_scope:
   - Runtime security（cluster RBAC、admission control）
   - Image registry 治理與 retention policy
   - <第 3 條本文件不處理>
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal（最慢的 stage、最弱的 gate、最缺的 supply-chain 環節）
 2. 列至少 2 條 viable 改造路徑（漸進式 vs 重寫），各自負面後果
 3. 列你做了但 input 沒明說的假設（例如：runner 算力預算、團隊接受度）
 4. 確認 NIST SSDF / SLSA 必備項都涵蓋
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個欄位 confidence < H？列出來與所需補充資料。
 2. 哪些假設來自我而非 input？標出來。
 3. 如果只能再追加一份 input，是哪一份？為什麼？
-</verify>
 ```
 
 回審重點：human 判斷 trade-off、安全 gate 阻塞嚴格度、cache invalidation 策略、secret rotation 節奏。

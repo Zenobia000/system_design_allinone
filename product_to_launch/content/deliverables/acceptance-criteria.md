@@ -36,41 +36,42 @@ Acceptance Criteria 是**story 進 sprint 前就寫好的客觀驗收條件**，
 ```prompt-quick
 你是有 7+ 年自動化測試經驗的資深 QA lead（熟悉 test pyramid、contract testing、chaos engineering）。任務：把 user story + PRD section + NFR 轉成 acceptance criteria（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [User story]
 [PRD section（含 NFR）]
 [既有 test data / mock 清單]
-</input>
 
 輸出 schema：criteria[] (Given/When/Then) / happy_path / edge_cases（≥3）/ error_handling / performance_thresholds / security_constraints / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；edge case 必須真實可觸發；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 7+ 年自動化測試經驗的資深 QA lead，熟悉 test pyramid、contract testing、chaos engineering、WCAG 2.2 a11y、OWASP top 10。
 你的輸出會交給 Dev（自測 + TDD）、QA（寫 e2e / contract test）、PO（sprint review 驗收）、Audit（合規留痕）。
 他們需要直接把你的 Given/When/Then 轉成自動化測試碼，所以條件必須機械可驗證、無主觀字眼。
-</role>
 
-<context>
+## 情境脈絡
+
 每個 user story 進 sprint 前必備；每個 epic gate review 前必檢。
 本卡核心問題：讓「做完了」這句話有客觀證據，誰看都一樣，不靠主觀感受。
-</context>
 
-<task>
+## 任務
+
 根據以下 input 產出「Acceptance Criteria · 驗收條件」draft，含 happy path + edge case + NFR + security 限制。
-</task>
 
-<input>
+## 輸入素材
+
 [User story（含 persona / action / benefit）]
 [PRD section（含 functional reqs / NFR / 合規要求）]
 [既有 test data / mock / 第三方 sandbox 清單]
-</input>
 
-<rules>
+## 規則
+
 1. 每條 criterion 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. 必須 Given/When/Then 三段，無主觀字眼（禁止「順、好用、合理」）；若用主觀字眼負面後果是 QA 無法寫測試、永遠扯皮。
 3. Edge cases 至少 3 條，必須涵蓋：空值 / 超大值 / 並發 / 權限不足 / 網路斷線 / 第三方逾時 至少 3 類。
@@ -78,9 +79,9 @@ Acceptance Criteria 是**story 進 sprint 前就寫好的客觀驗收條件**，
 5. NFR 必須涵蓋 performance threshold（p95 latency / throughput）+ a11y（WCAG 2.2 level）+ security（input 驗證 / authZ / data classification）+ audit（log retention）。
 6. 標 confidence: [H/M/L]；L 必須附「需要什麼資料補上」。
 7. Out of scope 至少 3 條（例：跨 story 整合測試走 e2e suite、效能壓測走 perf budget、安全滲透測試走 security review）。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 criteria:
   - id: AC-001
     type: enum[happy_path, edge_case, error_path, nfr_perf, nfr_a11y, nfr_security, nfr_audit]
@@ -135,25 +136,24 @@ out_of_scope:
   - <本卡不含 thing 1，例：跨 story 整合測試>
   - <本卡不含 thing 2，例：效能壓測完整 plan>
   - <本卡不含 thing 3，例：安全滲透測試>
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal（user story 的 benefit 對應的可量測訊號 / NFR 數字 / 合規條款），標 H/M/L confidence
 2. 列至少 2 條 viable AC 切法（按 user flow 切 vs 按 system response 切），各自負面後果（按 flow 切會漏掉 NFR；按 system 切會 demo 不順）
 3. 列你做了但 input 沒明說的假設（既有 mock 可用、第三方 sandbox 穩定、log infra 已備）
 4. 確認每條 AC 都能被自動化測試碼直接消費
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪條 AC 含主觀字眼或無法機械驗證？列出來與改寫建議。
 2. 哪些假設來自我而非 input（特別是 mock / 第三方 sandbox）？標出來。
 3. 如果只能再追加一份 input（NFR 數字 / 合規條款全文 / 既有 mock 清單），哪一份對 AC 品質提升最大？
-</verify>
 ```
 
 回審重點：edge case 是否真實存在（不是湊數）、acceptance 是否可被自動化測試、NFR 與 security 是否完整、audit log 欄位是否符合合規要求。
