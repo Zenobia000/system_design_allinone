@@ -31,7 +31,7 @@ JTBD 強迫團隊回到「使用者僱用這個產品是為了完成什麼任務
 
 ## AI 怎麼加速
 
-把 persona + 訪談 + 工單關鍵字整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 trade-off**。本卡輸出**真實 JTBD markdown 文件**（含表格、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
+把 persona + 訪談 + 該領域的 frequency 證據（B2B SaaS = 客服工單頻次；消費端 = 問卷/日記研究；電商 = 購物車流失原因）整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 trade-off**。本卡輸出**真實 JTBD markdown 文件**（含表格、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
 ## 文件範本
 
@@ -323,7 +323,7 @@ upstream:
 
 ## 上游文件（貼這裡）
 ⏬
-（貼 persona.md / 訪談逐字稿摘要 / 客服工單關鍵字頻次表全文）
+（貼 persona.md / 訪談逐字稿摘要 / 該領域的 frequency 證據全文 — B2B SaaS：客服工單；消費端：問卷或日記研究；電商：購物車流失原因）
 ⏫
 ```
 
