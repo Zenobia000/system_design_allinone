@@ -43,8 +43,8 @@ export default function WorkshopPage() {
               <h2 style={{ marginTop: 48 }}>怎麼跟這份路徑學</h2>
               <ol>
                 <li>從第 1 張開始，依順序走 — 每張卡都依賴前面的輸出</li>
-                <li>點「前往卡片」→ 打開站上完整教學頁，複製 prompt-full</li>
-                <li>把 prompt 貼到 Claude，並在 input 區用上方<strong>「我的種子簡報」</strong>取代 `[XXX]` 佔位符</li>
+                <li>點「前往卡片」→ 打開站上教學頁，於「文件範本」段選「<strong>輕量範本</strong>」或「<strong>完整範本</strong>」tab 並複製</li>
+                <li>於「怎麼觸發」段複製薄 trigger，把貼位區換成你上方<strong>「我的種子簡報」</strong>＋上游卡產出，整段送 Claude</li>
                 <li>送出後，點「看完整工作範例」對照你的產出</li>
                 <li>勾起 checkbox 標完成，往下一張走</li>
               </ol>

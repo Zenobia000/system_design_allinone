@@ -31,128 +31,387 @@ Design System 把**color、typography、spacing、component state** 集中為 to
 
 ## AI 怎麼加速
 
-從現有 mockup 萃取 token、元件清單與一致性 audit，人工只審命名語意與貢獻政策。
+把 mockup + brand spec + 既有元件庫整份丟給 agent，讓 agent 讀範本內 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審命名語意與貢獻政策**。本卡輸出**真實 design-system markdown 文件**（含 token 表、component anatomy 表、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 5+ 年 UI design 經驗的資深 UI designer（熟悉 design tokens、component spec、WCAG 2.2）。任務：把 mockup 截圖 + spec 轉成 Design System（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份 design-system 契約的兩種版本：**輕量範本** 給 5-10 個核心元件、單平台、單一設計師起步的情境，**完整範本** 給跨平台（web + mobile）、設計師 ≥ 2 人、有 Brand 簽核流程的場景。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[Mockup 截圖（涵蓋 ≥ 5 個主要 screen）]
-[Brand spec（色票、字體、語氣）]
-[既有 FE 元件庫（若有）]
+```template-light
+---
+doc_type: "design-system"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["mockups", "brand-spec"]
+  optional: ["existing-component-library"]
+---
 
-輸出 schema：tokens / components / patterns / a11y_baseline / naming_convention / contribution_policy / decision_log / out_of_scope（3 條）
+# Design System: <product-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <UI name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 6, 10, 12），全部必填——刻意沿用完整版章節編號讓兩版可對照。Tokens 至少 4 類（color / spacing / typography / radius）；元件至少 5 個核心；states 至少 5 種；每結論行內加 `（依據：mockup §XXX / brand §YYY）`；每量化欄位加 `[H]/[M]/[L]` badge；缺資料寫 `_TODO: 需要 XXX_` 不編造 hex 值或 props；a11y 對比 ≥ 4.5:1 必填。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行：token 範圍、核心元件數、命名風格選擇、最強 evidence 來源 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：本 design-system 收斂哪些視覺決策>
+
+---
+
+## 2. Design Tokens
+
+<!-- ai-rule: 4 類必填（color / spacing / typography / radius）；shadow / motion 可選。Color 必須分 primitive 與 semantic 兩層 -->
+
+### Color
+
+| Layer | Token | Value | Confidence |
+|---|---|---|---|
+| Primitive | `blue-500` | `#2563EB` | **[H]** |
+| Primitive | `gray-100` | `#F5F5F5` | **[H]** |
+| Semantic | `bg-action-primary` | → `blue-500` | **[H]** |
+| Semantic | `bg-surface` | → `gray-100` | **[M]** |
+
+### Spacing
+
+- **Base:** 8-point grid
+- **Scale:** `space-1`(4) / `space-2`(8) / `space-3`(12) / `space-4`(16) / `space-6`(24) / `space-8`(32)
+
+### Typography
+
+| Token | Family | Size | Line-height | Weight |
+|---|---|---|---|---|
+| `text-body` | Inter | 16 | 24 | 400 |
+| `text-h2` | Inter | 24 | 32 | 600 |
+
+### Radius
+
+- `radius-sm`: 4px / `radius-md`: 8px / `radius-lg`: 16px
+
+---
+
+## 3. Core Components（5-10 個）
+
+<!-- ai-rule: 每元件 4 維度描述（anatomy / variants / states / props）；states 至少 5 種 -->
+
+### Button
+
+- **Anatomy:** container · label · icon_left · icon_right
+- **Variants:** primary · secondary · ghost · destructive
+- **States:** default · hover · focus · active · disabled · loading
+- **Props:** `size` / `variant` / `disabled` / `loading` / `icon`
+- **A11y:** `role="button"` + keyboard `Enter` / `Space`
+- **Confidence:** **[H]** — **Source:** mockup §3
+
+### Input · Card · Modal · ...
+
+---
+
+## 6. A11y Baseline
+
+<!-- ai-rule: 4 項必填（對比 / focus / 不只用色 / 暗色模式）；不適用須寫 rationale -->
+
+| Dimension | Target | Rationale | Confidence |
+|---|---|---|---|
+| **Contrast (text)** | ≥ 4.5:1 | WCAG 2.2 AA | **[H]** |
+| **Focus visible** | required | 鍵盤 a11y | **[H]** |
+| **Color not sole indicator** | 用 icon / 文案輔助 | <為何> | **[H]** |
+| **Dark mode** | not in v1 | <延後 V2> | **[M]** |
+
+---
+
+## 10. Decision Log（key 2-3 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Token 命名風格 | semantic / literal / hybrid | hybrid | semantic (學習成本高)、literal (難 theming) | **[H]** |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions：**
+  - <例：假設不支援暗色模式 V1>
+- **Highest-value next input:** <例：Brand spec 終版 / FE 元件庫對齊>
+
+### TODO（缺資料）
+
+- _TODO: 需要 Brand 確認 logo 使用規範_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 6, 10, 12）
+> - [ ] Tokens 至少 4 類（color / spacing / typography / radius）
+> - [ ] Color 表分 primitive + semantic 兩層
+> - [ ] 元件 ≥ 5 個，每個 4 維度（anatomy / variants / states / props）
+> - [ ] States ≥ 5 種（含 disabled / loading）
+> - [ ] A11y 對比 ≥ 4.5:1 已標 H
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（design-system 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "design-system"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["mockups", "brand-spec", "existing-component-library"]
+  optional: ["tailwind-config", "storybook-link"]
+---
 
-你是有 5+ 年 UI design 經驗的資深 UI designer，熟悉 design tokens（W3C DTCG 規範）、component anatomy、Figma library、Storybook、WCAG 2.2 AA。
-你的輸出會交給 UI（套用至 mockup）、FE 工程師（用 React/Vue 寫元件庫）、QA（設計 visual regression test）、Brand（驗證品牌一致性）。
-他們會用來「規模化設計與開發」，所以 token 必須語意化、元件必須 state 完整、a11y 必須 baseline 達標。
+# Design System: <product-name>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <UI name> · **Last updated:** YYYY-MM-DD · **Reviewers:** UX / FE / Brand / QA
 
-產品 ≥ 5 個主要 screen、跨平台（web + mobile）、設計師 ≥ 2 人時用本卡。
-本卡核心問題：把分散的視覺決策收斂為 token + 元件庫，讓全產品視覺一致、開發不重造輪子；但避免一次做太完整（半年專案陷阱），應先抽 token + 5-10 個核心元件邊用邊長大。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。對標 W3C DTCG token 規範 + Material / Polaris / Atlassian DS。Tokens 至少 6 類（color / spacing / typography / radius / shadow / motion）；元件至少 8 個核心；states ≥ 6 種；行內 `（依據：mockup §XXX / brand §YYY）`；量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造 hex / props；a11y baseline 4 項全填；禁 YAML/JSON schema 輸出。
 
-## 輸入素材
+---
 
-[Mockup 截圖（涵蓋 ≥ 5 個主要 screen）]
-[Brand spec（色票、字體、語氣、logo 使用規範）]
-[既有 FE 元件庫 / Tailwind config（若有）]
+## 1. Executive Summary
+<!-- owner: UI · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行：token 範圍、核心元件數、命名風格、預期使用者（FE / Designer / Brand） -->
 
-1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例：semantic token 命名（bg-surface-primary）vs literal（gray-100）——前者抽象高但學習成本高，後者直覺但難 theming）。
-3. 缺資料的欄位標 TODO(缺什麼)，不編造 hex 值或元件 props；列「需要什麼補上」。
-4. a11y baseline（WCAG 2.2 AA）：色彩對比 ≥ 4.5:1 / 3:1、focus state 可見、不只用色彩傳達狀態、支援暗色模式——任一未達需說明為何不適用。
-5. Out of scope 至少 3 條，明寫不做什麼（例：不做 motion library、不做 icon set、不做後台 admin 元件）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. 元件以 anatomy / variants / states / props 4 維度描述，不只貼截圖。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：本 design-system 收斂哪些視覺決策、給誰用>
 
-tokens:
-  color:
-    primitive: <例：blue-500 = #2563EB>  # 原始色票
-    semantic: <例：bg-action-primary = blue-500>  # 語意層
-    source: <input ref>
-    confidence: H | M | L
-  spacing: <8-point grid 或自訂尺度>
-  typography: <font family / scale / line-height / weight>
-  radius: <sm / md / lg 對應 px>
-  shadow: <elevation 1-5 對應 box-shadow>
-  motion: <duration + easing token（若有）>
+---
 
-components:
-  - name: <例：Button>
-    anatomy: [container, label, icon_left, icon_right]
-    variants: [primary, secondary, ghost, destructive]
-    states: [default, hover, focus, active, disabled, loading]  # 至少 5 種
-    props: [size, variant, disabled, loading, icon]
-    a11y: <ARIA role + keyboard support>
-    source: <input ref>
-    confidence: H | M | L
+## 2. Design Tokens
+<!-- owner: UI · required: always -->
 
-patterns:
-  - name: <例：Form / Table / Modal>
-    composition: <用哪些 components 組成>
-    usage_rule: <何時用、何時不用>
+<!-- ai-rule: 6 類全填。Color 必須分 primitive + semantic 兩層；token 命名遵守第 7 段 naming convention -->
 
-a11y_baseline:
-  wcag_level: AA
-  contrast_min: 4.5  # 文字
-  focus_visible: required
-  dark_mode: supported | not_in_v1
-  source: <input ref>
+### Color
 
-naming_convention:
-  rule: <semantic | literal | hybrid>
-  prefix: <例：ds- / tw-（決定 BEM/utility 風格）>
-  rationale: <為何選此風格>
+| Layer | Token | Value | WCAG contrast (vs bg) | Confidence | Source |
+|---|---|---|---|---|---|
+| Primitive | `blue-500` | `#2563EB` | — | **[H]** | brand §2 |
+| Primitive | `gray-100` | `#F5F5F5` | — | **[H]** | brand §2 |
+| Semantic | `bg-action-primary` | → `blue-500` | 4.6:1 vs white | **[H]** | mockup §3 |
+| Semantic | `text-on-primary` | `#FFFFFF` | 4.6:1 vs `blue-500` | **[H]** | mockup §3 |
 
-contribution_policy:
-  who_can_add: <UI lead 簽核 / 任何設計師>
-  versioning: <semver | calver>
-  deprecation: <如何標記與移除>
+### Spacing
 
-decision_log:
-  - decision: <例：token 命名用 semantic 還是 literal>
-    options_considered: [semantic, literal, hybrid]
-    chosen: hybrid
-    rejected_reason:
-      semantic: <為何不>
-      literal: <為何不>
-    confidence: H | M | L
+- **Base:** 8-point grid — **Rationale:** <對應 Material / iOS HIG>
+- **Scale:** `space-1`(4) / `space-2`(8) / `space-3`(12) / `space-4`(16) / `space-6`(24) / `space-8`(32) / `space-12`(48)
 
-out_of_scope:
-  - <例：不做 motion library / 動畫 spec>
-  - <例：不做 icon set（外掛使用）>
-  - <例：不做後台 admin 專用元件>
+### Typography
 
-## 思考步驟
+| Token | Family | Size | Line-height | Weight | Use |
+|---|---|---|---|---|---|
+| `text-body` | Inter | 16 | 24 | 400 | 內文 |
+| `text-h2` | Inter | 24 | 32 | 600 | 區段標題 |
+| `text-display` | Inter | 48 | 56 | 700 | hero |
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（mockup 高頻使用的元件 / 重複出現的 hex / brand 強制色）
-2. 列至少 2 條 viable token 命名路徑（semantic vs literal）與各自負面後果
-3. 列你做了但 input 沒明說的假設（例：假設不支援暗色模式 v1）
-4. 確認 a11y baseline 4 項都涵蓋
+### Radius / Shadow / Motion
 
-## 輸出
+- **Radius:** `radius-sm`(4) / `radius-md`(8) / `radius-lg`(16)
+- **Shadow / elevation:** `elev-1` ... `elev-5`（每階對應 `box-shadow` 規格）
+- **Motion:** `duration-fast`(150ms) / `duration-base`(250ms) + easing token
 
-（依 output_schema YAML 填寫）
+---
 
-## 自審
+## 3. Core Components
+<!-- owner: UI + FE · required: always -->
 
-1. 哪個欄位 confidence < H？列出來與所需補充資料。
-2. 哪些假設來自我而非 input？標出來（特別是 token 抽象層級、命名規則）。
-3. 如果只能再追加一份 input，是哪一份？為什麼？
+<!-- ai-rule: 至少 8 個核心元件；每元件 4 維度（anatomy / variants / states / props） + a11y；states ≥ 6 種 -->
+
+### Button
+
+- **Anatomy:** container · label · icon_left · icon_right
+- **Variants:** primary · secondary · ghost · destructive
+- **States:** default · hover · focus · active · disabled · loading
+- **Props:** `size` (sm/md/lg) / `variant` / `disabled` / `loading` / `icon`
+- **A11y:** `role="button"` + keyboard `Enter` / `Space` + `aria-disabled`
+- **Confidence:** **[H]** — **Source:** mockup §3
+
+### Input
+
+- **Anatomy:** wrapper · label · input · helper-text · error-text · icon
+- **Variants:** text · email · password · search · number
+- **States:** default · focus · filled · disabled · error · readonly
+- **Props:** `type` / `value` / `disabled` / `error` / `helperText`
+- **A11y:** `aria-describedby` 指向 helper / error / `aria-invalid`
+- **Confidence:** **[H]** — **Source:** mockup §5
+
+### Card · Modal · Toast · Tabs · Select · Tooltip · ...
+
+---
+
+## 4. Patterns
+<!-- owner: UI + UX · required: full-only -->
+
+<!-- ai-rule: 列 3-5 個 composition pattern；含 usage rule 與 anti-pattern -->
+
+| Pattern | Composition | When to use | When NOT to use |
+|---|---|---|---|
+| Form | Input + Button + Helper | 採集使用者輸入 | 多步驟 wizard（用另一 pattern） |
+| Modal | Card + Backdrop + Close | 需中斷使用者注意力 | 非關鍵警示（用 Toast） |
+| Empty state | Card + Illustration + CTA | 列表 / 表格無資料 | 載入中（用 Skeleton） |
+
+---
+
+## 5. Layout & Grid
+<!-- owner: UI + FE · required: full-only · skippable: 單欄產品可寫「無 grid，直接 stack」 -->
+
+- **Breakpoints:** mobile_360 / tablet_768 / desktop_1280 / wide_1440
+- **Container max:** 1280px
+- **Columns:** 4 / 8 / 12 (mobile / tablet / desktop)
+- **Gutter:** `space-4`(16) / `space-6`(24)
+
+---
+
+## 6. A11y Baseline
+<!-- owner: UI + UX · required: always -->
+
+<!-- ai-rule: 4 項全填（對比 / focus / 不只用色 / 暗色模式）；任一不適用須寫 rationale -->
+
+| Dimension | Target | Rationale | Confidence |
+|---|---|---|---|
+| **Contrast (text)** | ≥ 4.5:1 | WCAG 2.2 AA | **[H]** |
+| **Contrast (UI)** | ≥ 3:1 | WCAG 2.2 AA | **[H]** |
+| **Focus visible** | required (outline ≥ 2px) | 鍵盤 a11y | **[H]** |
+| **Color not sole indicator** | 用 icon / 文案 / 形狀輔助 | <為何> | **[H]** |
+| **Dark mode** | supported / not in v1 | <理由 + 何時加> | **[M]** |
+
+---
+
+## 7. Naming Convention
+<!-- owner: UI + FE · required: full-only -->
+
+<!-- ai-rule: 風格 + prefix + rationale + 範例對照 -->
+
+- **Style:** semantic / literal / hybrid — **Chosen:** hybrid
+- **Prefix:** `ds-` for tokens / `Ds` for components
+- **Rationale:** semantic 可 theming、literal 易上手，hybrid 兩層皆暴露
+
+### 範例對照
+
+| Semantic | Literal | Use |
+|---|---|---|
+| `bg-action-primary` | `blue-500` | 主 CTA 背景 |
+| `text-on-surface` | `gray-900` | 內文 |
+
+---
+
+## 8. Contribution Policy
+<!-- owner: UI lead · required: full-only -->
+
+<!-- ai-rule: who_can_add + versioning + deprecation 三件齊 -->
+
+- **Who can add:** UI lead 簽核 / 任何設計師可提 PR
+- **Versioning:** semver（MAJOR.MINOR.PATCH）
+- **Deprecation:** 標記 `@deprecated` + 提供 migration guide + 保留 ≥ 2 個 minor 版本
+- **Review cycle:** 雙週一次
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+> **R1:** <例：semantic token 學習成本高，FE 套用慢> — **Mitigation:** Storybook + IDE 自動補全 — **Owner:** <name>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：暗色模式 V1 還是 V2？>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: UI · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Token 命名風格 | semantic / literal / hybrid | hybrid | semantic (學習成本高)、literal (難 theming) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: UI · required: full-only -->
+
+本 design-system 文件 **不處理**：
+
+- ❌ **不做 motion library / 動畫 spec** — 屬獨立 motion 卡（V2）
+- ❌ **不做 icon set 創作** — 外掛使用第三方
+- ❌ **不做後台 admin 專用元件** — 屬獨立 admin DS
+- ❌ **不做 i18n 字串資產** — 屬內容團隊
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions：**
+  - <假設 1：例「8-point grid 取代既有 5-point grid」>
+  - <假設 2>
+- **Highest-value next input:** <Brand 簽核 / FE 既有元件庫對齊 / a11y audit>
+
+### TODO（缺資料）
+
+- _TODO: 需要 Brand 確認 logo 使用規範_
+- _TODO: 補暗色模式 token 對應_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] Tokens 6 類全填（color / spacing / typography / radius / shadow / motion）
+> - [ ] Color 分 primitive + semantic 兩層，含 WCAG contrast 標註
+> - [ ] 元件 ≥ 8 個，每個 4 維度 + a11y
+> - [ ] States ≥ 6 種
+> - [ ] A11y baseline 4 項全填，每項 confidence 標 H/M/L
+> - [ ] Naming convention 含 semantic / literal 對照表
+> - [ ] Contribution policy 含 versioning + deprecation
+> - [ ] Decision Log 每條 ≥ 2 個 rejected + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（design-system 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 token 是否語意化、命名是否一致、是否覆蓋暗色模式與 a11y、貢獻政策是否符合團隊規模。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 design-system markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 mockup 截圖描述 / brand spec / 既有 FE 元件庫 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 一開始就追求 6 類 token + 30 元件（半年專案陷阱，先抽 5-10 個核心元件）、Color 沒分 primitive / semantic 兩層（後續難 theming）、元件 states 只列 default / hover（漏 disabled / loading / error）、a11y 砍 contrast 沒寫 rationale、Decision Log 只列 chosen 不列 rejected（= 黑箱）、編造未驗證的 hex 值。AI 若漏這些，自檢清單會抓到並回頭補。

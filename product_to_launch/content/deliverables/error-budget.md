@@ -29,127 +29,334 @@ Error Budget 是 SLO 的反面：允許的不可用度。它把「Dev 想 ship�
 
 ## AI 怎麼加速
 
-把 SLI 時序 + SLO 定義 + release log 餵給 Claude 算 budget 燃燒，PO 與 SRE 一起決 freeze / relax 政策。
+把 SLI 時序 + SLO 定義 + release log 整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 freeze 政策與例外條款**。本卡輸出**真實 Error Budget markdown 報告**（含 burn-rate 警報表、剩餘 budget 公式、freeze policy、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 7+ 年 SRE 經驗的資深 SRE（熟悉 SLO/SLI/error budget、Google SRE Workbook、burn-rate alerting）。任務：把 SLI 時序 + SLO + release log 轉成 error budget 報告（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本：**輕量範本**給單 SLO / 小團隊 / 早期 production，**完整範本**給多 SLO / 跨團隊 release gate / 合規 audit 場景。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[SLI 時序資料（過去 ≥ 28 天）]
-[SLO 定義（target、window）]
-[Release log / 變更紀錄]
+```template-light
+---
+doc_type: "error-budget"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["slo", "sli-timeseries"]
+  optional: ["release-log"]
+---
 
-輸出 schema：current_burn_rate / remaining_budget / burn_rate_alerts / policy / root_cause_attribution / exhaustion_plan / decision_log / out_of_scope（3 條）
+# Error Budget: <slo-id>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造；budget 計算必須附公式與假設。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <SRE name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 4, 6, 8），全部必填——刻意沿用完整版章節編號讓兩版可對照。每結論行內加 `（依據：SLI §XXX / release §YYY）`；每量化欄位帶 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；budget 必須附公式 `(1 - target) × window` 且以時間單位呈現（不准只給 %）；burn rate 必須給 fast (1h) + slow (6h) 兩組警報。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行，主管 30 秒讀完。內容：本 SLO 目前 burn rate、剩餘 budget、是否觸發 freeze、top burn event -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：剩 X min / Y% budget，目前燃燒速率 Z×，建議 freeze / continue>
+
+---
+
+## 2. SLO & Budget Formula
+
+<!-- ai-rule: 必含 target / window / total budget 三件；公式行內顯示 -->
+
+| Field | Value |
+|---|---|
+| **SLO ID** | <SLO-001> |
+| **SLI** | <e.g. checkout p95 latency < 1.5s> |
+| **Target** | <e.g. 99.9%> |
+| **Window** | <e.g. 28d rolling> |
+| **Total budget** | `(1 - 0.999) × 28d = 40.3 min` |
+
+---
+
+## 3. Current Burn Rate
+
+<!-- ai-rule: 必填 1h + 6h 兩組；公式 = consumed / expected -->
+
+| Window | Burn rate | Interpretation | Confidence |
+|---|---|---|---|
+| **1h fast** | 14.4× | 用 1h 燒掉應燒 14.4h 的 budget | **[H]** |
+| **6h slow** | 2× | 用 6h 燒掉應燒 12h 的 budget | **[H]** |
+| **Formula** | `consumed_in_window / expected_consumption_in_window` | — | — |
+
+---
+
+## 4. Remaining Budget
+
+<!-- ai-rule: 必同時給 % 與時間單位；公式行內顯示 -->
+
+| Field | Value | Confidence |
+|---|---|---|
+| **Remaining %** | 35% | **[H]** |
+| **Time equivalent** | 14.1 min of 40.3 min / 28d | **[H]** |
+| **Formula** | `(1 - target) × window − consumed` | — |
+| **Projected exhaustion** | YYYY-MM-DD or `_TODO_` | **[M]** |
+
+---
+
+## 6. Burn-Rate Alerts & Freeze Policy
+
+<!-- ai-rule: fast + slow 兩組警報必填；freeze + relax 條件對稱（防止單向卡死） -->
+
+### Burn-rate alerts
+
+| Alert | Threshold | Window | Page |
+|---|---|---|---|
+| **Fast** | ≥ 14.4× | 1h | SEV2 |
+| **Slow** | ≥ 6× | 6h | SEV3 |
+
+### Freeze policy
+
+| Condition | Action |
+|---|---|
+| Remaining < 10% **OR** fast burn sustained 30 min | Freeze high-risk changes |
+| Remaining > 70% **AND** no SEV-1 in 14d | Relax (back to normal release cadence) |
+| Emergency security fix | Allow with VP approval |
+
+---
+
+## 8. Decision Log（key 2-3 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Freeze threshold | 5% / 10% / 20% | 10% | 5% (too late, no buffer)、20% (blocks too many releases) | **[H]** |
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 4, 6, 8）
+> - [ ] Budget 同時給 % 與時間單位（不准只給 %）
+> - [ ] 公式 `(1 - target) × window` 行內顯示
+> - [ ] Burn rate 必填 fast (1h) + slow (6h) 兩組
+> - [ ] Freeze + Relax 條件對稱（防單向卡死）
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "error-budget"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["slo", "sli-timeseries", "release-log", "incident-reports"]
+  optional: ["dependency-slo"]
+---
 
-你是有 7+ 年 SRE 經驗的資深 SRE，熟悉 SLO/SLI/error budget、Google SRE Workbook 第 4-6 章 burn-rate alerting、blameless 文化。
-你的輸出會交給 PO（接受 freeze 規則）、Dev Lead（排重點修復）、Release Manager（gate release）、Engineering Manager（裁定政策例外）。
-他們需要可計算、可審查、可決策的 budget 報告，所以每個數字必須附公式與時間窗口。
+# Error Budget: <slo-id>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <SRE name> · **Last updated:** YYYY-MM-DD · **Reviewers:** PO / Dev Lead / Release Manager / Engineering Manager
 
-有 SLO 且穩定性與交付速度產生衝突時用本卡。
-本卡核心問題：把「Dev 想 ship、SRE 想 freeze」變成簡單規則—budget 沒用完就 ship，用完就 freeze 高風險變更。
+> [!IMPORTANT]
+> **AI 填寫規則：** 10 段 H2 章節全部必填（任一缺失即不合格）。對標 Google SRE Workbook ch.4-6 burn-rate alerting + blameless 文化。每結論行內 `（依據：SLI §XXX / release §YYY / incident §ZZZ）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；SLI 數據不足 28 天寫 `_TODO_` 不外推；budget 必須附公式 `(1 - target) × window` 且以時間單位呈現；burn rate 必須給 fast (1h) + slow (6h) 兩組警報；禁 YAML / JSON schema 輸出。
 
-## 輸入素材
+---
 
-[SLI 時序資料（過去 ≥ 28 天，含時間戳）]
-[SLO 定義（target、window）]
-[Release log / 變更紀錄]
-[近期 incident report（影響 budget 的事件）]
+## 1. Executive Summary
+<!-- owner: SRE · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行，主管 30 秒讀完。內容：本 SLO 目前 burn rate、剩餘 budget、是否觸發 freeze、top burn event、預估耗盡日期 -->
 
-1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例如：freeze release 會延遲 X 個 feature、relax 政策會增加 Y% 抱怨風險）。
-3. 缺資料寫 TODO(缺什麼)，不要編造；SLI 數據不足 28 天寫 TODO，不要外推。
-4. SLO compliance：每個 budget 數字必須附公式 `budget = (1 - target) × window`；burn rate 必須給 fast (1h) + slow (6h) 兩種警報；NFR 含通報延遲、政策觸發延遲。
-5. Out of scope：明列 3 條（例如：SLO 數值本身的合理性、incident root cause、freeze 期間替代工作安排）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. Budget 必須以時間單位呈現（例如 40.3 min / 28d），不能只給百分比。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：剩 X min / Y% budget，目前燃燒速率 Z×，建議 freeze / continue>
 
-current_burn_rate:
-  rate_1h: <e.g. 14.4× = 用 1 小時燒掉應該燒 14.4 小時的 budget>
-  rate_6h: <e.g. 2× = 用 6 小時燒掉應該燒 12 小時的 budget>
-  formula: <budget_consumed_in_window / expected_consumption_in_window>
-  source: <input ref>
-  confidence: H | M | L
+---
 
-remaining_budget:
-  percent: <e.g. 35% remaining>
-  time_equivalent: <e.g. 14.1 min of 40.3 min/28d>
-  formula: <(1 - target) × window − consumed>
-  source: <input ref>
+## 2. SLO & Budget Formula
+<!-- owner: SRE · required: always -->
 
-burn_rate_alerts:
-  fast:
-    threshold: <e.g. 14.4× over 1h>
-    page: <SEV level>
-  slow:
-    threshold: <e.g. 6× over 6h>
-    page: <SEV level>
+<!-- ai-rule: 必含 target / window / total budget 三件；公式行內顯示 -->
 
-policy:
-  freeze_condition: <e.g. remaining < 10% OR fast burn rate sustained 30 min>
-  relax_condition: <e.g. remaining > 70% AND no SEV-1 in 14d>
-  exceptions:
-    - exception: <emergency security fix>
-      approver: <role>
+| Field | Value | Source |
+|---|---|---|
+| **SLO ID** | <SLO-001> | — |
+| **SLI** | <e.g. checkout p95 latency < 1.5s> | SLO card |
+| **Target** | <e.g. 99.9%> | SLO card |
+| **Window** | <e.g. 28d rolling> | SLO card |
+| **Total budget** | `(1 - 0.999) × 28d = 40.3 min` | derived |
 
-root_cause_attribution:
-  - period: <e.g. last 7d>
-    top_burn_event: <incident ref or change ref>
-    contribution_percent: <e.g. 60% of budget consumed>
-    source: <input ref>
-    confidence: H | M | L
+---
 
-exhaustion_plan:
-  projected_exhaustion_date: <ISO or TODO>
-  if_exhausted:
-    - action: freeze high-risk changes
-    - action: prioritise reliability backlog
-    - action: trigger postmortem of top burn event
+## 3. Current Burn Rate
+<!-- owner: SRE · required: always -->
 
-decision_log:
-  - decision: <e.g. freeze threshold 10% vs 20%>
-    options_considered: [5%, 10%, 20%]
-    chosen: 10%
-    rejected_reason:
-      "5%": <too late, no buffer>
-      "20%": <too aggressive, blocks too many releases>
-    confidence: H | M | L
+<!-- ai-rule: 1h + 6h 兩組；公式 = consumed / expected；含 source -->
 
-out_of_scope:
-  - SLO 數值本身的合理性（屬 SLO card）
-  - incident root cause（屬 postmortem）
-  - freeze 期間替代工作安排（屬 PM）
+| Window | Burn rate | Interpretation | Source | Confidence |
+|---|---|---|---|---|
+| **1h fast** | 14.4× | 用 1h 燒掉應燒 14.4h 的 budget | SLI §3 | **[H]** |
+| **6h slow** | 2× | 用 6h 燒掉應燒 12h 的 budget | SLI §3 | **[H]** |
+| **Formula** | `consumed_in_window / expected_consumption_in_window` | — | — | — |
 
-## 思考步驟
+---
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（最大 burn 事件、近期 burn rate 趨勢、與 release 的關聯）各標 H/M/L confidence
-2. 列至少 2 條政策路徑（嚴格 freeze vs 彈性 freeze）與各自的負面後果
-3. 列你做了但 input 沒明說的假設（如未來 traffic 模式、未來 release cadence）
-4. 確認所有 budget 數字都有公式可追溯
+## 4. Remaining Budget
+<!-- owner: SRE · required: always -->
 
-## 輸出
+<!-- ai-rule: 必同時給 % 與時間單位；公式行內顯示；projected_exhaustion 無法估算寫 _TODO_ -->
 
-（依 output_schema YAML 填寫）
+| Field | Value | Confidence |
+|---|---|---|
+| **Remaining %** | 35% | **[H]** |
+| **Time equivalent** | 14.1 min of 40.3 min / 28d | **[H]** |
+| **Formula** | `(1 - target) × window − consumed` | — |
+| **Projected exhaustion** | YYYY-MM-DD | **[M]** |
 
-## 自審
+---
 
-1. 哪個欄位 confidence < H？列出來與所需補充資料。
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input（例如完整 release diff、依賴 SLO burn），是哪一份？為什麼？
+## 5. Root-Cause Attribution（last 7-28d）
+<!-- owner: SRE · required: full-only -->
+
+<!-- ai-rule: 列 top 3 burn events；每條附 contribution % + source；無 incident report 寫 _TODO_ -->
+
+| Period | Top burn event | Contribution % | Source | Confidence |
+|---|---|---|---|---|
+| Last 7d | <incident INC-2025-042 / release rel-321> | 60% | incident-report §1 | **[H]** |
+| Last 28d | <chronic DB lock contention> | 25% | metric §5 | **[M]** |
+| Last 28d | <unknown> | 15% | `_TODO: 補 attribution_` | **[L]** |
+
+---
+
+## 6. Burn-Rate Alerts & Freeze Policy
+<!-- owner: SRE + Release Manager · required: always -->
+
+<!-- ai-rule: fast + slow 兩組警報必填；freeze + relax 條件對稱；例外條款必須有 approver -->
+
+### Burn-rate alerts
+
+| Alert | Threshold | Window | Page severity | Runbook |
+|---|---|---|---|---|
+| **Fast** | ≥ 14.4× | 1h | SEV2 | <runbook-link> |
+| **Slow** | ≥ 6× | 6h | SEV3 | <runbook-link> |
+
+### Freeze policy
+
+| Condition | Action | Approver |
+|---|---|---|
+| Remaining < 10% **OR** fast burn sustained 30 min | Freeze high-risk changes | SRE on-call |
+| Remaining > 70% **AND** no SEV-1 in 14d | Relax (normal cadence) | Release Manager |
+| Emergency security fix | Allow with override | VP Engineering |
+| Customer-facing rollback | Always allowed | SRE on-call |
+
+---
+
+## 7. Exhaustion Plan
+<!-- owner: SRE + PO · required: full-only -->
+
+<!-- ai-rule: 三條 action 必填；projected_exhaustion_date 無法估算寫 _TODO_ -->
+
+| Field | Value |
+|---|---|
+| **Projected exhaustion date** | YYYY-MM-DD or `_TODO_` |
+| **Action 1** | Freeze high-risk changes |
+| **Action 2** | Prioritise reliability backlog (re-rank top 3 items) |
+| **Action 3** | Trigger postmortem of top burn event |
+| **Action 4** | Notify PO + Dev Lead + Release Manager |
+
+---
+
+## 8. Decision Log
+<!-- owner: SRE + PO · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Freeze threshold | 5% / 10% / 20% | 10% | 5% (too late, no buffer)、20% (blocks too many releases) | **[H]** |
+| YYYY-MM-DD | Fast burn alert window | 30m / 1h / 2h | 1h | 30m (太多 false page)、2h (反應太慢) | **[H]** |
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner -->
+
+> **R1:** <freeze 期間累積 feature backlog 反彈 ship> — **Mitigation:** Freeze 政策含 reliability backlog 排序 — **Owner:** PO
+>
+> **R2:** <例外條款濫用導致政策失效> — **Mitigation:** 例外需 VP approval + 月度 audit — **Owner:** Engineering Manager
+
+### Open Questions
+
+- [ ] **Q1:** <依賴 SLO 的 burn 是否要納入本 budget？>
+- [ ] **Q2:** <multi-window multi-burn-rate alert 是否需要再加 24h 慢警報？>
+
+---
+
+## 10. Out of Scope & Confidence & TODO
+<!-- owner: All · required: always -->
+
+本 Error Budget 報告 **不處理**：
+
+- ❌ **不處理 SLO 數值本身的合理性** — 屬 SLO 卡
+- ❌ **不處理 incident root cause** — 屬 postmortem 卡
+- ❌ **不處理 freeze 期間替代工作安排** — 屬 PM / PO
+
+### Confidence & Sources
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1：未來 traffic 模式不變>
+  - <假設 2：release cadence 不變>
+- **Highest-value next input:** <下一份最該補的輸入：完整 release diff / dependency SLO burn / 訪談 PO 接受 freeze 規則>
+
+### TODO（缺資料）
+
+- _TODO: 需要 ≥ 28 天 SLI 時序校準 burn rate_
+- _TODO: 補 last 28d 15% unknown burn 的 root cause attribution_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 10 段 H2 章節齊全（編號 1-10）
+> - [ ] Budget 同時給 % 與時間單位（不准只給 %）
+> - [ ] 公式 `(1 - target) × window` 行內顯示
+> - [ ] Burn rate 必填 fast (1h) + slow (6h) 兩組 + 對應 runbook
+> - [ ] Root-cause attribution top 3 events，contribution 加總接近 100%
+> - [ ] Freeze + Relax 條件對稱；例外條款有 approver
+> - [ ] Exhaustion plan ≥ 3 條 action
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無 YAML / JSON schema 輸出
 ```
 
-回審重點：human 判斷 freeze 政策是否能執行、PO 是否簽核、例外條款是否封閉、預估耗盡是否需提早介入。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 Error Budget markdown 報告。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 SLO 定義 / SLI 時序資料（≥ 28 天）/ Release log / 近期 incident report 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** budget 只給 % 不給時間單位（無法直觀理解嚴重性）、burn rate 沒有 fast + slow 兩組（單一警報要嘛太敏感要嘛太慢）、freeze 沒對應 relax 條件（變成永久 freeze）、例外條款無 approver（被濫用）、policy 未經 PO 簽核（freeze 真的觸發時 ship 派會反彈）。AI 若漏這些，自檢清單會抓到並回頭補。

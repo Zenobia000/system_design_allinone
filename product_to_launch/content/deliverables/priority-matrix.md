@@ -31,120 +31,327 @@ stakeholder 每個人都說「我這個最重要」。沒有共同框架，PO �
 
 ## AI 怎麼加速
 
-把 backlog + 商業價值權重 + capacity 丟給 AI 算 RICE / Value-Effort 草稿，人工只審 confidence 灌水與 opportunity cost。
+把 backlog + 商業價值權重 + capacity 整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 confidence 灌水與 opportunity cost**。本卡輸出**真實優先級矩陣 markdown 文件**（含 RICE 計分表、ranked backlog、parking lot、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 5+ 年 agile 經驗的資深 PO（熟悉 backlog 拆解、user story、INVEST 原則、RICE / Value-Effort 框架）。任務：把 backlog + 商業價值權重 + capacity 轉成優先級矩陣（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本：**輕量範本**給 backlog < 30 item / 單一 squad 快速排序用，**完整範本**給 backlog ≥ 30 item / 跨 squad 競爭資源 / stakeholder 意見分歧場景用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[Backlog item 清單]
-[商業價值權重（OKR / 北極星）]
-[團隊 capacity（person-month）]
+```template-light
+---
+doc_type: "priority-matrix"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["backlog", "okr"]
+  optional: ["team-capacity"]
+---
 
-輸出 schema：scoring_model / items[] (reach/impact/confidence/effort/score) / ranked_backlog / parking_lot / scoring_assumptions / decision_log / out_of_scope（3 條）
+# Priority Matrix · <quarter / sprint-batch>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；confidence < 50% 的 item 必須建議 spike；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <PO name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 5 段（編號 1, 2, 6, 10, 12），全部必填——刻意沿用完整版章節編號讓兩版可對照。RICE 是**相對排序工具**不是 ROI 預測；Impact 用標準刻度（0.25 / 0.5 / 1 / 2 / 3）禁自創；**Confidence 預設不可 100%**（沒訪談或數據支撐最高 70%）；分數差 < 20% 視為同級。每結論 `（依據：OKR §X / 訪談 §Y）`；缺資料寫 `_TODO: 需要 XXX_` 不編造。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行：本批 backlog item 數、可吃到第 N 名（capacity cutoff）、最弱 confidence 的高排序項、最大 opportunity cost -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：本批前 3 名與最該砍的 1 名>
+
+---
+
+## 2. Scored Items (RICE)
+
+<!-- ai-rule: Impact 必用 0.25 / 0.5 / 1 / 2 / 3 標準刻度；Confidence 0-100%；Effort 用 person-month（跨團隊 × 1.3 含協調成本）-->
+
+| ID | Title | Reach (per Q) | Impact | Confidence | Effort (PM) | RICE | Source | Needs spike |
+|---|---|---|---|---|---|---|---|---|
+| IT-001 | <item-name> | 5000 | 2 | 70% | 1.5 | **4667** | OKR §KR-1 + 訪談 §3 | no |
+| IT-002 | ... | 2000 | 3 | 50% | 2 | **1500** | OKR §KR-2 | **yes** (confidence < 50%) |
+| IT-003 | ... | ... | ... | ... | ... | ... | ... | ... |
+
+---
+
+## 6. Ranked Backlog & Capacity Cutoff
+
+<!-- ai-rule: 列前 N 名 + 標 capacity cutoff line；分數差 < 20% 的標為「同級」需 stakeholder 投票 -->
+
+- **Top N by RICE:**
+  1. IT-001 — **4667**
+  2. IT-003 — **3200**
+  3. IT-002 — **1500** ⚠️ tied with IT-005 (差 < 20%)
+  4. IT-005 — **1380**
+  --- **capacity cutoff @ rank 4** ---
+  5. IT-007 — 980 (parking)
+
+- **Parking lot:**
+
+| ID | Reason | Revisit when |
+|---|---|---|
+| IT-002 | confidence < 50%, needs spike | 1-week spike 完成後 |
+| IT-007 | out of capacity | 下季或砍掉 top 內某項 |
+
+---
+
+## 10. Decision Log（key 1-2 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected option + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why |
+|---|---|---|---|---|
+| YYYY-MM-DD | <例：IT-001 排第 1 還是 IT-003> | by RICE / by stakeholder voice / by OKR alignment | by RICE | by-voice (政治排序非真實價值)、by-OKR-only (忽略 effort) |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **最低 confidence 項：** <列出所有 [L] 與 confidence < 50% 的 item>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1，例：使用者基數 5000 來自上季 MAU 推估>
+- **Highest-value next input:** <使用者訪談 / capacity 實測 / 競品分析 三選一>
+
+### TODO（缺資料）
+
+- _TODO: IT-002 需 1-week spike 校準 reach_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 5 段 H2 章節齊全（編號 1, 2, 6, 10, 12，刻意不連號）
+> - [ ] Impact 全部用標準刻度（0.25 / 0.5 / 1 / 2 / 3），無自創數字
+> - [ ] 沒有 item confidence = 100%（最高 70% 除非有訪談或 A/B 數據）
+> - [ ] 跨團隊 item 的 effort 已 × 1.3 含協調成本
+> - [ ] Capacity cutoff line 已標出
+> - [ ] 分數差 < 20% 的 item 標為「同級」並建議 stakeholder 投票
+> - [ ] Parking lot 標明 revisit trigger
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（matrix 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "priority-matrix"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["backlog", "okr", "team-capacity"]
+  optional: ["customer-commitments", "competitive-scan", "user-research"]
+---
 
-你是有 5+ 年 agile 經驗的資深 PO，熟悉 backlog 拆解、user story、INVEST 原則、RICE / Value-Effort / MoSCoW / WSJF 框架。
-你的輸出會交給 PO（最終排 backlog）、Dev Lead（在 sprint planning 確認 scope）、Stakeholders（理解為何 A 在 B 之前）。
-他們需要在 sprint planning 30 分鐘內用你的 ranked list 決定 scope，所以分數必須誠實、source 必須可追溯。
+# Priority Matrix · <quarter / sprint-batch>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <PO name> · **Last updated:** YYYY-MM-DD · **Reviewers:** PM / Dev Lead / Stakeholders
 
-Backlog ≥ 30 item、sprint planning 爭執不下、stakeholder 各自堅持「我這個最重要」時用本矩陣。
-本卡核心問題：把「都很重要」打回現實，讓所有人在同一張表上比較相對價值。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。RICE 是**相對排序工具**不是 ROI 預測，分數差 < 20% 視為同級需 stakeholder 投票。Impact 必須用 RICE 標準刻度（0.25 / 0.5 / 1 / 2 / 3）**禁自創**；Confidence 0-100% 但**預設不可 100%**（沒訪談或數據支撐最高 70%，高估的負面後果是誤把 spike 當定案做）；Effort 用 person-month，跨團隊 × 1.3 含協調成本。每結論 `（依據：OKR §X / 訪談 §Y / capacity §Z）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；禁 YAML/JSON schema 輸出。
 
-## 任務
+---
 
-根據以下 input 產出「優先級矩陣」draft，採 RICE 為主、Value-Effort 為輔。
+## 1. Executive Summary
+<!-- owner: PO · required: always -->
 
-## 輸入素材
+<!-- ai-fill: 3-5 行：本批 item 數、可吃到第 N 名、最大 confidence gap、最該打 spike 的 item -->
 
-[Backlog item 清單（含 hook / 商業價值描述 / 使用者）]
-[商業價值權重來源（OKR、北極星指標、客戶承諾）]
-[團隊 capacity（person-month / 可用人力）]
+<3-5 行說明>
 
-## 規則
+> **TL;DR:** <一句話：本批前 3 名 + capacity cutoff + 最大決策爭議點>
 
-1. 每個分數註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Confidence 不可預設 100%，沒有訪談或數據支撐的最高 70%；高估的負面後果：誤把 spike 當定案做。
-3. Impact 必須用 RICE 標準刻度（0.25 / 0.5 / 1 / 2 / 3），禁止自創數字。
-4. Effort 用 person-month；若需要跨團隊協作，effort 必須含協調成本（× 1.3）。
-5. 每個 item 標 confidence: [H/M/L]；L 必須附「需要什麼 spike / 訪談來提升」。
-6. Out of scope 至少 3 條（例：純技術重構走 tech-debt budget、合規硬性截止項另列、未拆夠細的 epic 退回 refinement）。
-7. RICE 是相對排序工具，不是 ROI 預測；分數差距 < 20% 視為「同級」，需 stakeholder 投票打破。
+---
 
-## 輸出格式（YAML）
+## 2. Scoring Model
+<!-- owner: PO · required: always -->
 
-scoring_model:
-  primary: enum[RICE, Value-Effort, WSJF]
-  rationale: <為何選此模型>
-  source: <input ref>
+- **Primary model:** RICE
+- **Secondary model (tie-breaker):** Value-Effort 2x2 / WSJF / MoSCoW
+- **Rationale:** <為何選 RICE：對齊 OKR 量化、能 surface effort 隱性成本；Value-Effort 用於分數同級時>
+- **Confidence calibration rule:**
+  - [H] 70-100% = 訪談 ≥ 5 份或 A/B 數據
+  - [M] 40-70% = 內部 stakeholder + analogy
+  - [L] < 40% = 純推測，必須 spike
 
-items:
-  - id: ITEM-001
-    title: <item name>
-    reach: <每季影響使用者數 + 來源系統>
-    impact: enum[0.25, 0.5, 1, 2, 3]
-    confidence: <0–100%>
-    effort: <person-month>
-    rice_score: <R × I × C / E>
-    source: <input ref>
-    confidence_grade: H | M | L
-    needs_spike: bool
+---
 
-ranked_backlog:
-  top_10: [<ITEM-id list, 由高到低>]
-  tied_items: [<分數差 < 20% 的 item 群>]
-  capacity_cutoff: <本季 capacity 能吃到哪一名>
+## 3. Scored Items
+<!-- owner: PO + Dev Lead · required: always -->
 
-parking_lot:
-  - id: <ITEM-id>
-    reason: enum[confidence_too_low_needs_spike, blocked_by_dependency, out_of_capacity]
-    revisit_when: <條件>
+<!-- ai-rule: 每個 item 含 RICE 五欄 + source + confidence grade + needs_spike 標記 -->
 
-scoring_assumptions:
-  - assumption: <做了但 input 沒明說>
-    impact_if_wrong: <若假設錯誤的負面後果>
-    confidence: H | M | L
+| ID | Title | Reach (per Q) | Reach source | Impact | Confidence | Effort (PM) | RICE | Source | Grade | Needs spike |
+|---|---|---|---|---|---|---|---|---|---|---|
+| IT-001 | <item-name> | 5000 | Amplitude MAU | 2 | 70% | 1.5 | **4667** | OKR §KR-1 + 訪談 §3 | **[H]** | no |
+| IT-002 | ... | 2000 | 推估 | 3 | 50% | 2 | **1500** | OKR §KR-2 | **[M]** | **yes** |
+| IT-003 | ... | ... | ... | ... | ... | × 1.3 (跨團隊) | ... | ... | ... | ... |
 
-decision_log:
-  - decision: <例：為何 ITEM-A 排在 ITEM-B 之前>
-    options_considered: [<A>, <B>, <C>]
-    chosen: <A>
-    rejected_reason:
-      B: <為何不選>
-      C: <為何不選>
-    confidence: H | M | L
+---
 
-out_of_scope:
-  - <本矩陣不處理 thing 1，例：純技術重構>
-  - <本矩陣不處理 thing 2，例：合規硬性截止項>
-  - <本矩陣不處理 thing 3，例：未拆夠細的 epic>
+## 4. Value-Effort 2x2 (Tie-Breaker)
+<!-- owner: PO · required: full-only · skippable: 若所有 RICE 分數差 > 20% 可省略 -->
 
-## 思考步驟
+<!-- ai-rule: 只放 RICE 同級或分數差 < 20% 的 item 進此象限 -->
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（OKR 對應、客戶承諾、競品壓力），分別標 H/M/L confidence
-2. 列至少 2 條 viable 排序策略（最大化短期價值 vs 平衡長期能力），各自負面後果（例：短期最大化會累積技術債；長期平衡會錯過市場窗口）
-3. 列你做了但 input 沒明說的假設（例：使用者基數、市場成長率、團隊熟悉度）
-4. 確認 confidence 沒有系統性高估（>70% 必須有數據支撐）
+|  | Low Effort | High Effort |
+|---|---|---|
+| **High Value** | quick wins: IT-002, IT-005 | big bets: IT-001 |
+| **Low Value** | fill-ins: IT-007 | money pits: IT-009 (sunset) |
 
-## 輸出
+---
 
-（依 output_schema YAML 填寫）
+## 5. Scoring Assumptions
+<!-- owner: PO · required: always -->
 
-## 自審
+<!-- ai-rule: 列出所有做了但 input 沒明說的假設 + 若假設錯誤的負面後果 -->
 
-1. 哪個 item 的 confidence > 70% 但沒有訪談或數據支撐？列出來與所需 spike。
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input（使用者訪談 / capacity 數字 / 競品分析），哪一份對排序影響最大？
+| Assumption | Used for | Impact if wrong | Confidence |
+|---|---|---|---|
+| <例：MAU 5000 來自上季 + 線性外推> | IT-001 reach | 過高估 RICE 20-30% | **[M]** |
+| <例：跨團隊協調 × 1.3 倍> | IT-003 effort | 低估會 sprint 超時 | **[M]** |
+
+---
+
+## 6. Ranked Backlog & Capacity Cutoff
+<!-- owner: PO · required: always -->
+
+<!-- ai-rule: 列 top N + 標 capacity cutoff line + tied items 群組（分數差 < 20%）-->
+
+### Top by RICE
+
+1. IT-001 — **4667** · **[H]**
+2. IT-003 — **3200** · **[H]**
+3. IT-002 — **1500** · **[M]** ⚠️ tied with IT-005 (差 < 20%)
+4. IT-005 — **1380** · **[M]**
+5. IT-008 — **1100** · **[L]** (needs spike)
+--- **capacity cutoff @ rank 4 (本季 6 PM, 可吃 4 項)** ---
+6. IT-007 — 980 (parking)
+7. IT-009 — 720 (sunset 候選)
+
+### Tied items（需 stakeholder 投票打破）
+
+- **Tier 1 tie:** IT-002 vs IT-005 (差 < 20%) — 由 stakeholder 投票或拆 spike 判定
+
+---
+
+## 7. Parking Lot & Sunset
+<!-- owner: PO · required: full-only -->
+
+| ID | Reason | Revisit when | Owner of trigger |
+|---|---|---|---|
+| IT-007 | out of capacity | 下季或砍 top 內某項 | PO |
+| IT-002 | confidence < 50%, needs spike | 1-week spike 完成後 | PO + Dev Lead |
+| IT-009 | low value × high effort | sunset 候選，下季 retro 確認砍 | PM |
+
+---
+
+## 8. Opportunity Cost Analysis
+<!-- owner: PM + PO · required: full-only -->
+
+<!-- ai-rule: 列出「做了 top N 會錯過什麼」+ 「砍掉的低分項裡有沒有時間敏感 / 客戶承諾」 -->
+
+- **若按本 ranked list 執行，我們錯過：**
+  - <例：IT-009 是某 enterprise 客戶承諾項，砍掉可能影響續約>
+  - <例：IT-007 是 GA 條件之一，延期會推遲 launch>
+- **建議 hedge：** <例：IT-009 排到下季 week 1 + 通知 enterprise 客戶 timeline>
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+> **R1:** <例：IT-002 confidence 50% 但已答應客戶> — **Mitigation:** 1-week spike 校準 + 與客戶溝通 timeline — **Owner:** PM + PO
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：IT-001 reach 5000 是 MAU 還是 active feature user？data team 待確認>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: PO · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | <例：用 RICE 還是 Value-Effort 主導> | RICE / VE / WSJF / hybrid | RICE | VE (粗顆粒，30+ item 排不開)、WSJF (團隊不熟悉)、hybrid (decision overhead 高) | **[H]** |
+| YYYY-MM-DD | <例：IT-002 是否進 top 4> | yes / parking / sunset | parking | yes (confidence < 50%)、sunset (與 KR-2 強相關) | **[M]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: PO + PM · required: full-only -->
+
+本矩陣 **不處理**：
+
+- ❌ **純技術重構** — 走 tech-debt budget（已預留 20-30% capacity）
+- ❌ **合規硬性截止項** — 另列為「must do regardless of RICE」
+- ❌ **未拆夠細的 epic** — 退回 backlog refinement
+- ❌ **Bug fix / 運維** — sprint baseline 工作
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 與 confidence < 50% 的 item>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1，例：團隊本季 capacity 6 PM 與上季持平>
+  - <假設 2，例：跨團隊協調 × 1.3 倍>
+- **Highest-value next input:** <使用者訪談 / capacity 實測 / 競品分析 / data team profiling>
+
+### TODO（缺資料）
+
+- _TODO: IT-002 需 1-week spike 校準 reach_
+- _TODO: 需 data team 確認 IT-001 reach 定義（MAU vs feature-active user）_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] Impact 全部用 RICE 標準刻度（0.25 / 0.5 / 1 / 2 / 3），無自創
+> - [ ] 沒有 item confidence = 100%（最高 70% 除非訪談或 A/B 數據支撐）
+> - [ ] 跨團隊 item effort 已 × 1.3 含協調成本
+> - [ ] Capacity cutoff line 已標出
+> - [ ] 分數差 < 20% 的 item 標為 tied 並建議 stakeholder 投票
+> - [ ] Scoring Assumptions 段已列出所有 fabricated 推估
+> - [ ] Parking lot 標明 revisit trigger + owner
+> - [ ] Opportunity cost 段已揭示「砍掉的低分項裡有沒有時間敏感」
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（matrix 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 confidence 是否誠實（容易高估）、ranked list 是否反映真實 opportunity cost、parking_lot 沒有偷渡關鍵項。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出優先級矩陣 markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 backlog item 清單 / OKR / team capacity / 客戶承諾清單 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 把 RICE 分數當 ROI 預測（它是相對排序）、Confidence 系統性灌水（全部 > 70% = 假象精準）、Impact 自創數字（脫離 RICE 標準刻度無法跨團隊對齊）、跨團隊 effort 沒 × 1.3、parking lot 偷渡時間敏感項。AI 若漏這些，自檢清單會抓到並回頭補。

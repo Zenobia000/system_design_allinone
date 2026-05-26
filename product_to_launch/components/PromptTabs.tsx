@@ -19,8 +19,8 @@ interface Props {
 type Kind = "quick" | "full";
 
 const TABS: { kind: Kind; label: string; sub: string }[] = [
-  { kind: "quick", label: "Quick", sub: "12 行 · 快速試用" },
-  { kind: "full", label: "Full", sub: "~50 行 · 正式產出" },
+  { kind: "quick", label: "輕量範本", sub: "個人 / MVP · 7 段" },
+  { kind: "full", label: "完整範本", sub: "企業 / Production · 12 段" },
 ];
 
 export default function PromptTabs({ slug, quick, full }: Props) {
@@ -88,8 +88,8 @@ export default function PromptTabs({ slug, quick, full }: Props) {
             const selected = active === tab.kind;
             const meta =
               tab.kind === "quick"
-                ? `${quickLines} 行 · 快速試用`
-                : `${fullLines} 行 · 正式產出`;
+                ? `${quickLines} 行 · 個人 / MVP`
+                : `${fullLines} 行 · 企業 / Production`;
             return (
               <button
                 key={tab.kind}

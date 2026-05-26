@@ -31,129 +31,342 @@ ADR 把每個重要架構決策寫成**短文件**：context / options / decisio
 
 ## AI 怎麼加速
 
-把技術討論紀錄丟給 AI 產 ADR 草稿，人工只審 trade-off 是否誠實。
+把技術討論紀錄 + 相關 NFR / 約束 + 上游 PRD / C4 / API spec 整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 trade-off**。本卡輸出**真實 ADR markdown 文件**（每張卡片 = 一個原子決策，編號 ADR-NNN），含表格、inline `[H/M/L]` confidence badge，**不出 YAML schema**。
 
-```prompt-quick
-你是有 10+ 年分散式系統經驗的資深 software architect（熟悉 ADR / C4 / DDD / CAP / event-driven）。任務：把技術討論紀錄轉成 ADR（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給 solo / spike / 可逆決策用，**完整範本** 給跨服務 / 不可逆 / 合規場景用。ADR 是**原子文件** — 一個決策一張 ADR，超過一個決策應拆多份。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[技術討論紀錄]
-[相關 NFR / 約束]
-[已存在的 PRD / C4 / API spec 連結]
+```template-light
+---
+doc_type: "adr"
+variant: "light"
+status: "proposed"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["technical-discussion-notes"]
+  optional: ["prd", "c4-diagram", "nfr"]
+---
 
-輸出 schema：context / decision_drivers / options_considered（≥3，含 pros/cons/cost）/ chosen_and_scope / consequences（positive/negative/follow-up）/ status（proposed/accepted/superseded）/ links / decision_log / out_of_scope（3 條）
+# ADR-NNN: <短描述決策題目>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造選項。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Proposed · **Owner:** <Architect name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 6, 10, 12），全部必填——刻意沿用完整版的章節編號讓兩版可對照。每結論行內加 `（依據：discussion §XXX）`；每量化欄位加 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造選項；ADR 是**單一決策原子文件**，若 input 含多個決策必須拆多份輸出。
+
+---
+
+## 1. Context
+
+<!-- ai-fill: 3-5 行說明當前問題、約束、為何現在需要決策 -->
+
+<3-5 行說明當前面對的問題與約束>
+
+> **TL;DR:** <一句話：為何需要這個決策>
+
+---
+
+## 2. Decision Drivers
+
+<!-- ai-rule: 至少列 3 個 driver，每個帶權重原因。輕量版可省略 5 象限要求 -->
+
+| Driver | Weight | Why this matters |
+|---|---|---|
+| <e.g. Time-to-market> | High | <為何此優先> |
+| <e.g. Operability> | Medium | ... |
+
+---
+
+## 3. Options Considered
+
+<!-- ai-rule: ≥ 2 個選項（含「保持現狀」或「不做」），每個都要 pros/cons 至少各 1 -->
+
+### Option A: <name>
+
+- **Pros:** <好處 1>、<好處 2>
+- **Cons:** <代價 1>、<代價 2>
+- **Cost:** <一次性 + 經常性>
+
+### Option B: <name>
+
+...
+
+---
+
+## 6. Decision & Consequences
+
+### Chosen: **Option A** · **[H]**
+
+- **Scope:** <適用範圍 / 不適用範圍>
+- **Positive consequences:** <好處>
+- **Negative consequences（必填）:** <代價，例：選 Kafka 需新增 KRaft 維運負擔>
+- **Follow-up:** <後續需處理事項>
+
+---
+
+## 10. Decision Log
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected option + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | <本 ADR 主題> | A / B | A | B (成本 > 收益) | **[H]** |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1>
+- **Highest-value next input:** <下一份最該補的資料：benchmark / spike / interview>
+
+### TODO（缺資料）
+
+- _TODO: 需要 spike 驗證 Option A 在 X scale 下的可用性_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 6, 10, 12，刻意不連號）
+> - [ ] Options ≥ 2 個，每個含 pros + cons
+> - [ ] Decision 段含 negative consequences（必填）
+> - [ ] 每個 chosen 帶 inline `[H/M/L]` badge
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 單一決策原子文件（input 含多決策應拆多份）
+> - [ ] 無 YAML / JSON schema 輸出（ADR 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "adr"
+variant: "full"
+status: "proposed"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["technical-discussion-notes", "nfr"]
+  optional: ["prd", "c4-diagram", "api-spec"]
+---
 
-你是有 10+ 年分散式系統經驗的資深 software architect，熟悉 ADR、C4、DDD、CAP、event-driven、microservices trade-off。
-你的輸出會交給 Dev Lead（評估可實作）、SRE（評估可營運）、全工程團隊（決策可追溯）、新人 onboarding。
-他們需要在 15 分鐘內看懂「為何不選 B/C」，所以 ADR 必須結構嚴格、trade-off 誠實、棄因可審計。
+# ADR-NNN: <短描述決策題目>
 
-## 情境脈絡
+**Status:** Proposed · **Owner:** <Architect name> · **Last updated:** YYYY-MM-DD · **Reviewers:** Dev Lead / SRE
 
-跨服務影響、不可逆決策（DB / framework / protocol）、有 ≥ 2 個合理選項時用本 ADR。
-本卡核心問題：把「為什麼這樣選」寫下來，半年後不用考古；給後人可審計的決策脈絡而非結論。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。ADR 是**單一決策原子文件**，input 含多個決策必須拆多份輸出。每結論行內 `（依據：discussion §XXX / NFR §YYY / ADR-NNN）`；每量化欄位 `[H/M/L]` badge；缺資料寫 `_TODO: 需要 XXX_` 不編造選項；Decision Drivers 必須涵蓋 reliability / time-to-market / cost / security / operability 五象限；Options Considered ≥ 3 個（含「不做」或「保持現狀」）；禁 YAML/JSON schema 輸出。
 
-## 輸入素材
+---
 
-[技術討論紀錄（含參與者、爭點、未解問題）]
-[相關 NFR / 約束（latency / availability / cost ceiling / compliance）]
-[已存在的 PRD / C4 / API spec 連結]
+## 1. Context
+<!-- owner: Architect · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行說明當前問題、約束、為何現在需要決策 -->
 
-1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例如：選 Kafka 則犧牲 ops 簡潔，需新增 ZK/KRaft 維運負擔）。
-3. 缺資料的欄位標 TODO(缺什麼)，不要編造未討論的選項。
-4. Decision drivers 必須涵蓋 reliability / time-to-market / cost / security / operability 五象限，任一象限沒提到要說明為何不適用。
-5. Out of scope 至少 3 條，明寫本 ADR 不涵蓋的決策（避免越權）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明為何不確定。
-7. Options considered 至少 3 個（含「不做」或「現狀」），每個都要寫 pros / cons / cost / 風險。
+<3-5 行說明：當前問題、相關 NFR/約束、為何現在需要決策>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：為何需要這個決策>
 
-context:
-  problem: <當前問題一句話>
-  constraints: [<constraint 1>, <constraint 2>]
-  related_nfr: [<NFR ref>]
-  source: <input ref>
-  confidence: H | M | L
+---
 
-decision_drivers:
-  reliability: <weight + 為何>
-  time_to_market: <weight + 為何>
-  cost: <weight + 為何>
-  security: <weight + 為何>
-  operability: <weight + 為何>
+## 2. Decision Drivers
+<!-- owner: Architect · required: always -->
 
-options_considered:
-  - name: <Option A>
-    pros: [<pro 1>, <pro 2>]
-    cons: [<con 1>, <con 2>]
-    cost: <一次性 + 經常性>
-    risk: <最大風險>
-  - name: <Option B>
-    ...
-  - name: <Option C>
-    ...
+<!-- ai-rule: 五象限全填（reliability / time-to-market / cost / security / operability）。任一不適用須在 Why 寫明為何不適用，不能直接砍 -->
 
-chosen_and_scope:
-  chosen: <Option A>
-  scope: <適用範圍 / 不適用範圍>
-  source: <input ref>
-  confidence: H | M | L
+| Driver | Weight | Why this matters | Confidence |
+|---|---|---|---|
+| **Reliability** | <H/M/L> | <為何此優先> | **[H]** |
+| **Time-to-market** | <H/M/L> | ... | **[H]** |
+| **Cost** | <H/M/L> | ... | **[M]** |
+| **Security** | <H/M/L> | ... | **[H]** |
+| **Operability** | <H/M/L> | ... | **[M]** |
 
-consequences:
-  positive: [<好處 1>, <好處 2>]
-  negative: [<代價 1>, <代價 2>]  # 必填
-  follow_up: [<後續需處理事項>]
+---
 
-status:
-  current: <proposed | accepted | superseded>
-  superseded_by: <ADR ref | null>
+## 3. Options Considered
+<!-- owner: Architect + Dev Lead · required: always -->
 
-links:
-  prd: <ref>
-  c4: <ref>
-  api_spec: <ref>
+<!-- ai-rule: ≥ 3 個選項（含「保持現狀」或「不做」），每個必含 pros / cons / cost / 最大風險 -->
 
-decision_log:
-  - decision: <what was decided>
-    options_considered: [A, B, C]
-    chosen: A
-    rejected_reason:
-      B: <why not>
-      C: <why not>
-    confidence: H | M | L
+### Option A: <name>
 
-out_of_scope:
-  - <本 ADR 不涵蓋的 1>
-  - <本 ADR 不涵蓋的 2>
-  - <本 ADR 不涵蓋的 3>
+- **Pros:** <好處 1>、<好處 2>
+- **Cons:** <代價 1>、<代價 2>
+- **Cost:** <一次性 + 經常性>
+- **Biggest risk:** <最大風險>
+- **Source:** <input ref>
 
-## 思考步驟
+### Option B: <name>
 
-產出前先：
-1. 從討論紀錄抓 3-5 個關鍵 signal（爭點、未解問題、隱含假設）並標 H/M/L confidence
-2. 列至少 2 條 viable trade-off 路徑與各自的 negative consequence
-3. 列你做了但 input 沒明說的假設
-4. 確認 5 象限 decision driver 都涵蓋
+...
 
-## 輸出
+### Option C: <name (或「保持現狀」)>
 
-（依 output_schema YAML 填寫）
+...
 
-## 自審
+---
 
-1. 哪個欄位 confidence < H？列出來與所需補充資料。
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input，是哪一份？為什麼？
+## 4. Trade-off Analysis
+<!-- owner: Architect · required: full-only -->
+
+<!-- ai-rule: 把 Options 對映到 Decision Drivers，明示哪個 driver 偏向哪個 option -->
+
+| Driver | Option A | Option B | Option C |
+|---|---|---|---|
+| Reliability | ✅ Strong | ⚠️ Weak | ⚠️ Unknown |
+| Time-to-market | ⚠️ Slow | ✅ Fast | ✅ Fast |
+| Cost | ⚠️ High one-off | ✅ Low | ✅ Low |
+| Security | ✅ Strong | ⚠️ Moderate | ⚠️ Weak |
+| Operability | ⚠️ New runtime | ✅ Familiar | ✅ Familiar |
+
+---
+
+## 5. Constraints & Assumptions
+<!-- owner: Architect · required: full-only -->
+
+<!-- ai-rule: 列出限制條件（latency / cost ceiling / compliance）與你推導但 input 沒明說的假設 -->
+
+### Constraints
+
+- <e.g. p95 < 200ms（依據 NFR-3）>
+- <e.g. cost ceiling $5k/month>
+
+### Assumptions（input 未明說，但推導所需）
+
+- <e.g. 假設目標 traffic < 1k rps>
+- <e.g. 假設 vendor lock-in 可接受 24 個月>
+
+---
+
+## 6. Decision & Consequences
+<!-- owner: Architect · required: always -->
+
+### Chosen: **Option A** · **[H]**
+
+- **Scope:** <適用範圍 / 不適用範圍>
+- **Positive consequences:** <好處>
+- **Negative consequences（必填）:** <代價，例：選 Kafka 需新增 KRaft 維運負擔>
+- **Follow-up actions:**
+  - [ ] <後續需處理事項 1>
+  - [ ] <後續需處理事項 2>
+
+---
+
+## 7. Status & Lifecycle
+<!-- owner: Architect · required: full-only -->
+
+- **Current:** Proposed / Accepted / Superseded / Deprecated
+- **Supersedes:** <ADR-XXX | none>
+- **Superseded by:** <ADR-YYY | null>
+- **Review trigger:** <e.g. 12 個月後 or scale 10x 時重審>
+
+---
+
+## 8. Links & Cross-references
+<!-- owner: Architect · required: full-only -->
+
+| Type | Reference |
+|---|---|
+| Related PRD | <link> |
+| Related C4 | <link> |
+| Related API spec | <link> |
+| Related NFR | <link> |
+| Related ADRs | ADR-XXX, ADR-YYY |
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner 三件齊 -->
+
+> **R1:** <失效模式> — **Mitigation:** <如何降低> — **Owner:** <誰負責>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <尚未解的問題，需誰回答>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: Architect · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason，否則不算 audit-ready -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | <本 ADR 主題> | A / B / C | A | B (成本 > 收益)、C (operability 不足) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: Architect · required: full-only -->
+
+本 ADR **不處理**：
+
+- ❌ **不畫架構圖** — 屬 c4-diagram 卡
+- ❌ **不出 API 契約** — 屬 api-spec 卡
+- ❌ **不寫資料 schema** — 屬 data-model 卡
+- ❌ **不寫 capacity plan** — 屬 capacity 卡
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1>
+  - <假設 2>
+- **Highest-value next input:** <下一份最該補的：benchmark / spike / vendor RFP 回應>
+
+### TODO（缺資料）
+
+- _TODO: 需要 2 週 spike 驗證 Option A 在 1k rps 下的尾延遲_
+- _TODO: 需要 vendor 提供 SLA 條款書面確認_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] 單一決策原子文件（input 含多決策應拆多份）
+> - [ ] Decision Drivers 五象限全填（reliability / time-to-market / cost / security / operability）
+> - [ ] Options Considered ≥ 3 個（含「不做」或「保持現狀」）
+> - [ ] 每個 Option 含 pros / cons / cost / biggest risk
+> - [ ] Decision 段含 negative consequences（必填）
+> - [ ] Trade-off Analysis 把 Options 對映五個 driver
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無 YAML / JSON schema 輸出（ADR 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 trade-off 是否誠實（negative consequence 是否列出）、選項是否真實比較過、棄因是否站得住腳。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 ADR markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。若 input 含多個獨立決策，請拆成多份 ADR-NNN 分別輸出。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼技術討論紀錄 / NFR / PRD / 既有 C4 / API spec 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 一份 ADR 塞多個決策（拆原子！）、Options 只列「我們選的那個」（要列被拒選項 + 拒因）、Decision 段沒寫 negative consequence（= 不誠實 trade-off）、Status 字段不維護（Superseded 不標 = 後人考古地獄）、Decision Drivers 砍掉 security / operability 沒寫 Rationale。AI 若漏這些，自檢清單會抓到並回頭補。

@@ -29,141 +29,325 @@ Review 卡住通常不是程式碼難，是脈絡缺。PR Template 強制作者�
 
 ## AI 怎麼加速
 
-讓 Claude 讀 diff + commit message 產出 PR description 初稿，作者只需補風險與驗證證據。
+把 diff + commit message + 關聯 issue 整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解產出 PR description 初稿，**人工只審 risk blast radius 與 rollback 真實可執行性**。本卡輸出**真實 PR description markdown 文件**（含 changes 表、reviewer checkbox、rollback plan），**不出 YAML schema**。
 
-```prompt-quick
-你是有 7+ 年生產系統經驗的資深 staff engineer（熟悉效能調校、observability、breaking change policy）。任務：把 diff + commit message + 關聯 issue 轉成 PR description（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給小型 PR / 內部工具 / trivial fix 用，**完整範本** 給跨團隊 / 敏感模組 / 含 schema migration 場景用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[git diff 全文]
-[commit message 序列]
-[關聯 issue / ticket 描述]
+```template-light
+---
+doc_type: "pr-template"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["git-diff", "commit-messages"]
+  optional: ["linked-issue"]
+---
 
-輸出 schema：summary / why / changes / test_plan / risk / rollback / breaking_change_flag / screenshots_for_ui / reviewer_checklist / security_review_trigger
+# PR: <one-liner-title>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft · **Author:** <name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 5, 9, 12），全部必填——刻意沿用完整版的章節編號讓兩版可對照。每結論行內加 `（依據：diff path:line / commit §X / issue §Y）`；每量化欄位 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；**「沒有效能影響」若無 benchmark 必須標 [L]**；security / observability / breaking-change 三項必須涵蓋。
+
+---
+
+## 1. Summary
+
+<!-- ai-fill: 一句話 + type tag。type: feat / fix / refactor / perf / docs / chore / breaking -->
+
+**One-liner:** <50 字內描述>
+**Type:** `feat` / `fix` / `refactor` / `perf` / `docs` / `chore` / `breaking`
+
+---
+
+## 2. Why
+
+<!-- ai-rule: 必含 problem + link_to_issue。缺 issue link 標 _TODO_ -->
+
+- **Problem:** <要解決什麼>
+- **Link to issue:** <URL or _TODO: 缺 issue_>
+- **Source:** commit §XX / issue §YY
+
+---
+
+## 3. Changes
+
+<!-- ai-rule: 每個 high-risk 檔案必列；low-risk 可彙總 -->
+
+| File | Summary | Risk |
+|---|---|---|
+| `<path>` | <做了什麼> | low / mid / high |
+
+---
+
+## 5. Test Plan & Risk
+
+<!-- ai-rule: test_plan 必含 evidence 或 _TODO_；risk 必含 blast radius + detection signals -->
+
+### Test plan
+
+- **Unit:** <test names>
+- **Integration:** <scenarios>
+- **Manual:** <steps>
+- **Evidence:** <screenshot / log / _TODO: 缺證據_>
+
+### Risk
+
+- **Blast radius:** <哪些 user / endpoint / dataset>
+- **Detection signals:** <metric / log query>
+- **Known unknowns:** <unknown 1>, <unknown 2>
+- **Confidence:** **[H/M/L]**
+
+---
+
+## 9. Reviewer Checklist
+
+<!-- ai-rule: 6-7 項 checkbox，作者預先勾選自評，reviewer 二次驗證 -->
+
+- [ ] **Correctness** — 邏輯與 spec 一致
+- [ ] **Error handling** — 例外捕捉、訊息有上下文
+- [ ] **Tests added** — 新邏輯有測試
+- [ ] **Observability** — log / metric / trace
+- [ ] **Security** — auth / input validation / secret
+- [ ] **Backward compatibility** — 無 breaking
+- [ ] **Rollback strategy** — revert / feature flag / data migration down
+
+---
+
+## 12. Confidence & TODO
+
+- **整份 PR 最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions:** <推測但 input 未明說>
+- **Highest-value next input:** <e.g. perf benchmark>
+
+### TODO（缺資料）
+
+- _TODO: 需要 perf benchmark 校準 risk_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 5, 9, 12，刻意不連號）
+> - [ ] One-liner ≤ 50 字 + type tag
+> - [ ] Why 含 problem + link_to_issue（缺則 _TODO_）
+> - [ ] Risk 含 blast radius + detection signals + confidence badge
+> - [ ] Reviewer Checklist 6-7 項齊
+> - [ ] 「沒有效能影響」若無 benchmark 標 [L]
+> - [ ] 無 YAML / JSON schema 輸出（PR description 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "pr-template"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["git-diff", "commit-messages", "linked-issue"]
+  optional: ["perf-benchmark", "design-doc"]
+---
 
-你是有 7+ 年生產系統經驗的資深 staff engineer，熟悉效能調校、observability、breaking change policy，平時也擔任 reviewer。
-你的輸出會交給 reviewer（決定 approve / request changes）、release manager（寫 release notes）、incident retro（追溯變更）。
-他們需要 5 分鐘內判斷「該不該合、出事怎麼回滾」，所以你的 PR description 必須結構嚴格、風險誠實、可機械抽取。
+# PR: <one-liner-title>
 
-## 情境脈絡
+**Status:** Draft · **Author:** <name> · **Last updated:** YYYY-MM-DD · **Reviewers:** Dev / Security / SRE / QA
 
-團隊 PR 數量上升、review 來回成本高時用本 PR Template。
-本卡核心問題：讓作者在按下 Create PR 之前先回答 reviewer 會問的問題 — 為什麼改、改了什麼、怎麼驗證、有什麼風險、怎麼回滾。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。對標 GitHub / GitLab Handbook / Google Engineering Practices。每結論行內 `（依據：diff path:line / commit §X / issue §Y / benchmark §Z）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；**「沒有效能影響」若無 benchmark 必須標 [L]**；security / observability / breaking-change 三項必須涵蓋；risk 必含 blast radius + detection + rollback；禁 YAML/JSON schema 輸出。
 
-## 輸入素材
+---
 
-[git diff 全文（含檔案路徑與行數）]
-[commit message 序列]
-[關聯 issue / ticket 描述（PRD、bug ticket）]
+## 1. Summary
+<!-- owner: PR Author · required: always -->
 
-## 規則
+<!-- ai-fill: 一句話 ≤ 50 字 + type tag -->
 
-1. 每個結論註明 source：[input 第 X 段 diff/commit/issue] 或 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例如：選擇 in-place migration 會犧牲 zero-downtime 但減少回滾複雜度）。
-3. 缺資料的欄位標 TODO(缺什麼)，不要編造；列「需要什麼補上」（例：缺 perf benchmark 就標 TODO，不要說「沒有效能影響」）。
-4. Security / observability / breaking-change 三項必須涵蓋；任一象限沒提到要說明為何不適用。
-5. Out of scope 至少 3 條，明寫本 PR 不處理什麼（避免 scope creep）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明（例：「沒有效能影響」若無 benchmark 應標 L）。
-7. Risk 段必須具體：blast radius（哪些 user / endpoint / dataset）、檢測訊號、回滾步驟。
+**One-liner:** <50 字內描述>
+**Type:** `feat` / `fix` / `refactor` / `perf` / `docs` / `chore` / `breaking`
 
-## 輸出格式（YAML）
+---
 
-summary:
-  one_liner: <50 字內>
-  type: feat | fix | refactor | perf | docs | chore | breaking
-  source: <input ref>
+## 2. Why
+<!-- owner: PR Author · required: always -->
 
-why:
-  problem: <要解決什麼>
-  link_to_issue: <URL or TODO(缺 issue)>
-  source: <input ref>
-  confidence: H | M | L
+<!-- ai-rule: 必含 problem + link_to_issue + business impact -->
 
-changes:
-  - file: <path>
-    summary: <做了什麼>
-    risk_level: low | mid | high
-    source: [diff 第 X 段]
+- **Problem:** <要解決什麼>
+- **Link to issue:** <URL or _TODO: 缺 issue_>
+- **Business impact:** <為何現在做、不做的後果>
+- **Source:** commit §XX / issue §YY
 
-test_plan:
-  unit: [<test name>]
-  integration: [<scenario>]
-  manual: [<step>]
-  evidence: <screenshot / log / TODO(缺證據)>
+---
 
-risk:
-  blast_radius: <哪些 user / endpoint / dataset>
-  detection_signals: [<metric / log query>]
-  known_unknowns: [<unknown 1>, <unknown 2>, <unknown 3>]
-  confidence: H | M | L
+## 3. Changes
+<!-- owner: PR Author · required: always -->
 
-rollback:
-  strategy: revert | feature_flag_off | data_migration_down
-  steps: [<step 1>, <step 2>]
-  data_safety: <是否會 lose data>
+<!-- ai-rule: high-risk 檔案逐個列；low-risk 可彙總。每條附 risk_level + source -->
 
-breaking_change_flag:
-  is_breaking: true | false
-  affected_consumers: [<service / client>]
-  migration_guide: <link or TODO>
+| File | Summary | Risk | Source |
+|---|---|---|---|
+| `<path>` | <做了什麼> | low / mid / high | diff §XX |
 
-screenshots_for_ui:
-  required: <true if UI changed>
-  before: <link or N/A>
-  after: <link or N/A>
+---
 
-reviewer_checklist:
-  - [ ] correctness
-  - [ ] error_handling
-  - [ ] tests_added
-  - [ ] observability (log / metric / trace)
-  - [ ] security (auth / input validation / secret)
-  - [ ] backward_compatibility
+## 4. Test Plan
+<!-- owner: PR Author + QA · required: always -->
 
-security_review_trigger:
-  triggered: true | false
-  reason: <auth / crypto / PII / new dependency / network exposure 之一>
-  source: <input ref>
+<!-- ai-rule: unit / integration / manual 三類至少各 1，evidence 必填或 _TODO_ -->
 
-decision_log:
-  - decision: <e.g. 選 in-place migration 而非 dual-write>
-    options_considered: [in-place, dual-write, blue-green]
-    chosen: in-place
-    rejected_reason:
-      dual-write: <why not>
-      blue-green: <why not>
-    confidence: H | M | L
+| Layer | Tests | Evidence |
+|---|---|---|
+| **Unit** | <test names> | CI pass log |
+| **Integration** | <scenarios> | run output |
+| **Manual** | <steps> | screenshot / video |
+| **Perf** | benchmark | <link or _TODO_> |
 
-out_of_scope:
-  - 本 PR 不處理 <相關但留後做的 item 1>
-  - 不處理 <item 2>
-  - 不處理 <item 3>
+---
 
-## 思考步驟
+## 5. Risk
+<!-- owner: PR Author + SRE · required: always -->
 
-產出前先：
-1. 從 diff 抓 3-5 個高風險變更點（schema 改動 / auth 路徑 / 共用 util），分別標 H/M/L confidence
-2. 列至少 2 條 viable rollback 策略，各自負面後果
-3. 列你做了但 input 沒明說的假設（例如假設有 feature flag）
-4. 確認 security / observability / breaking-change 三項都被檢視
+<!-- ai-rule: 必含 blast radius + detection + known unknowns + confidence -->
 
-## 輸出
+- **Blast radius:** <哪些 user / endpoint / dataset / region>
+- **Detection signals:** <metric / log query / trace pattern>
+- **Known unknowns（至少 3 條）:**
+  - <unknown 1>
+  - <unknown 2>
+  - <unknown 3>
+- **Confidence:** **[H/M/L]**
 
-（依 output_schema YAML 填寫）
+---
 
-## 自審
+## 6. Rollback
+<!-- owner: PR Author + SRE · required: full-only -->
 
-1. 哪個欄位 confidence < H？特別是 risk 與 perf 宣稱有沒有 benchmark 支撐？
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input，是 perf benchmark 還是 PRD？為什麼？
+<!-- ai-rule: strategy + steps + data_safety 三件齊；data_safety 若 lose data 必標明 -->
+
+- **Strategy:** `revert` / `feature_flag_off` / `data_migration_down`
+- **Steps:**
+  1. <step 1>
+  2. <step 2>
+- **Data safety:** <是否會 lose data；不可逆操作標明>
+- **Estimated rollback time:** <e.g. < 5min>
+
+---
+
+## 7. Breaking Change
+<!-- owner: PR Author · required: full-only -->
+
+<!-- ai-rule: is_breaking + affected_consumers + migration_guide 三件齊 -->
+
+- **Is breaking:** true / false
+- **Affected consumers:** <service / client list>
+- **Migration guide:** <link or _TODO_>
+- **Deprecation timeline:** <e.g. 2 sprints>
+
+---
+
+## 8. Security Review Trigger
+<!-- owner: PR Author + Security · required: full-only -->
+
+<!-- ai-rule: 若 triggered = true，reason 必填且 cc Security -->
+
+- **Triggered:** true / false
+- **Reason:** auth change / crypto / PII / new dependency / network exposure
+- **Action:** <e.g. cc @security-team>
+
+---
+
+## 9. Reviewer Checklist
+<!-- owner: All Reviewers · required: always -->
+
+<!-- ai-rule: 7-8 項 checkbox。Author 預先勾選自評，reviewer 二次驗證 -->
+
+- [ ] **Correctness** — 邏輯與 spec 一致
+- [ ] **Error handling** — 例外捕捉、訊息有上下文、無吞錯
+- [ ] **Tests added** — 新邏輯有 unit、改動有 integration
+- [ ] **Observability** — log / metric / trace 三類齊、含 trace id
+- [ ] **Security** — auth / input validation / secret / 新依賴 CVE
+- [ ] **Backward compatibility** — API 無 breaking、DB 可 rollback
+- [ ] **Rollback strategy** — strategy 真實可執行
+- [ ] **Screenshots for UI** — 前端變更必附 before/after
+
+---
+
+## 10. Decision Log
+<!-- owner: PR Author · required: full-only -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Migration 策略 | in-place / dual-write / blue-green | in-place | dual-write (複雜度高)、blue-green (停機需求不符) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: PR Author · required: full-only -->
+
+本 PR **不處理**：
+
+- ❌ **不處理 <相關但留後做的 item 1>** — 屬 <哪個 issue / 下個 sprint>
+- ❌ **不處理 <item 2>**
+- ❌ **不處理 <item 3>**
+
+---
+
+## 12. Confidence & TODO
+<!-- owner: PR Author · required: always -->
+
+- **整份 PR 最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1>
+  - <假設 2>
+- **Highest-value next input:** <e.g. perf benchmark / production load profile>
+
+### TODO（缺資料）
+
+- _TODO: 需要 perf benchmark 校準 risk confidence_
+- _TODO: 補 migration guide link_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] One-liner ≤ 50 字 + type tag
+> - [ ] Why 含 problem + issue + business impact
+> - [ ] Risk 含 blast radius + detection + ≥ 3 個 known unknowns + confidence
+> - [ ] Rollback strategy + steps + data_safety 三件齊
+> - [ ] Breaking change 三件齊（即使 is_breaking=false 也要寫）
+> - [ ] Security review trigger 明確（即使 false 也要寫）
+> - [ ] Reviewer Checklist 7-8 項齊
+> - [ ] 「沒有效能影響」若無 benchmark 標 [L]
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（PR description 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 risk blast radius 是否誠實、rollback 是否真的可執行、breaking change 是否漏判。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 PR description markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 git diff 全文 / commit message 序列 / 關聯 issue / perf benchmark）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 模板太長無人填（精簡為 light 版）、「沒有效能影響」沒 benchmark 卻標 [H]（虛報 confidence）、Risk blast radius 寫得太籠統（reviewer 無法驗）、rollback strategy 寫了但實際不可執行（無 feature flag 卻寫 flag_off）、breaking change 漏判（影響下游卻沒 cc）、Decision Log 只列 chosen（變黑箱）、缺 screenshots 卻是前端變更。AI 若漏這些，自檢清單會抓到並回頭補。

@@ -31,126 +31,322 @@ IA 在畫 wireframe 之前先決定**「資訊怎麼分類、命名、層級、�
 
 ## AI 怎麼加速
 
-把功能清單 + 使用者語彙丟給 AI 產候選分類與 card sorting 提案，人工只審心智模型對齊。
+把功能清單 + 使用者語彙整份丟給 agent，讓 agent 讀範本內 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審心智模型對齊**。本卡輸出**真實 IA markdown 文件**（含 hierarchy mermaid tree、分類表、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 5+ 年 product design 經驗的資深 UX designer（熟悉 IA、card sorting、tree testing、WCAG 2.2 navigation pattern）。任務：把功能清單 + 使用者語彙轉成 資訊架構 IA（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份 IA 契約的兩種版本：**輕量範本** 給 < 30 項功能、小範圍改版 / MVP 用，**完整範本** 給 ≥ 30 項功能、跨平台導航、需 card sorting 驗證的情境用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[功能清單（≥ 30 項，含名稱與一句描述）]
-[訪談使用者語彙（高頻關鍵字 / mental model quote）]
-[SA 提供的系統能力與資料邊界]
+````template-light
+---
+doc_type: "information-architecture"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["feature-list", "user-research"]
+  optional: ["competitive-scan"]
+---
 
-輸出 schema：top_level_categories / hierarchy_tree / navigation_pattern / taxonomy_rules / search_strategy / card_sorting_basis / content_inventory_ref / decision_log / out_of_scope（3 條）
+# Information Architecture: <product-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <UX name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 6, 10, 12），全部必填——刻意沿用完整版章節編號讓兩版可對照。每分類行內加 `（依據：功能清單 §XXX / 訪談 P3 / SA spec §YY）`；每量化欄位加 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；層級 ≤ 3 層深；命名不能反映內部組織。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行：N 個 top-level 分類、分類邏輯（task / audience / topic）、最強 evidence 來源 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：使用者進到此產品最常找什麼>
+
+---
+
+## 2. Top-level Categories
+
+<!-- ai-rule: 3-7 個頂層分類；每條附 rationale + items_under 估計 + source -->
+
+| # | Category | Rationale | Items under | Confidence |
+|---|---|---|---|---|
+| C1 | <分類名> | <引用使用者語彙> | <約 X 項> | **[H]** |
+| C2 | ... | ... | ... | **[M]** |
+
+---
+
+## 3. Hierarchy Tree
+
+<!-- ai-rule: 用 mermaid `flowchart TD` 畫層級樹；≤ 3 層深；節點命名與第 2 段一致 -->
+
+```mermaid
+flowchart TD
+    Root[<product-name>] --> C1[Category 1]
+    Root --> C2[Category 2]
+    C1 --> C1a[Sub-item A]
+    C1 --> C1b[Sub-item B]
+    C2 --> C2a[Sub-item C]
 ```
 
-```prompt-full
-## 角色
+---
 
-你是有 5+ 年 product design 經驗的資深 UX designer / IA 顧問，熟悉 card sorting（open/closed）、tree testing、taxonomy design、findability heuristics、mental model mapping、WCAG 2.2 navigation patterns（landmark roles, skip links）。
-你的輸出會交給 UX（畫 wireframe）、UI（做導航元件）、SEO（規劃 URL 結構）、PM（驗證商業優先序）、內容團隊（命名一致性）。
-他們會用來「讓使用者找得到、看得懂、不迷路」，所以 IA 必須反映使用者心智模型而非內部組織架構，且命名歧義度要低。
+## 6. Taxonomy Rules
 
-## 情境脈絡
+<!-- ai-rule: 命名風格 + label 字數上限 + ambiguity 自評 -->
 
-新產品建構、改版重組、內容/功能 ≥ 30 項時用本卡。
-本卡核心問題：資訊怎麼分類、命名、層級、跨層關聯——這是 wireframe 之前的骨架，沒做好 wireframe 重畫三輪都不會收斂。
+- **Naming style:** noun-first / verb-first / hybrid — **Rationale:** <為何>
+- **Label max chars:** <如 18>
+- **Ambiguity check:** <每個 label 評歧義度 H/M/L>
 
-## 輸入素材
+---
 
-[功能清單（≥ 30 項，含名稱、一句描述、使用頻次估計）]
-[訪談使用者語彙（高頻關鍵字、mental model quote、誤命名）]
-[SA 提供的系統能力與資料邊界（哪些是同一物件、哪些是跨物件）]
-[商業優先序（PM 提供：哪些功能要曝光在頂層）]
+## 10. Decision Log（key 2-3 條）
 
-## 規則
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
 
-1. 每個分類決策註明 source：[功能清單第 X 項 / 訪談 P3 / SA spec §Y]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例：task-based 分類符合 JTBD 但跨產品線難擴充；audience-based 直覺但同一使用者多角色會分裂）。
-3. 缺資料的欄位標 TODO(缺什麼)，不編造命名或層級；列「需要什麼補上」（例：需 30 人 card sorting 驗證）。
-4. a11y（WCAG 2.2）：導航必須支援 landmark roles、skip-to-content、keyboard tab order、合邏輯的 heading hierarchy（h1→h2→h3）——任一未達需說明為何不適用。
-5. Out of scope 至少 3 條，明寫不做什麼（例：不做 wireframe、不做 URL routing 實作、不做 SEO 關鍵字研究）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明（例：未經 card sorting 驗證者必為 M 或 L）。
-7. 層級 ≤ 3 層深；超過 3 層必須說明為何此複雜度必要。
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | 分類用哪種維度 | task / audience / topic | task | audience (多角色分裂)、topic (跨類別重複) | **[H]** |
 
-## 輸出格式（YAML）
+---
 
-top_level_categories:
-  - name: <一級分類名稱>
-    rationale: <為何此分類，引用使用者語彙>
-    items_under: <底下大約多少項>
-    source: <input ref>
-    confidence: H | M | L
+## 12. Confidence & Sources & TODO
 
-hierarchy_tree:
-  - L1: <名稱>
-    L2:
-      - name: <名稱>
-        L3: [<item>, <item>]
-    source: <input ref>
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions：**
+  - <假設 1：例「新使用者佔比 > 老使用者」>
+- **Highest-value next input:** <例：30 人 card sorting>
 
-navigation_pattern:
-  primary: enum[top_nav, side_nav, tab_bar, hub_spoke]
-  secondary: <breadcrumb / sub-nav>
-  rationale: <為何此 pattern>
-  a11y: <landmark roles + skip link + keyboard support>
+### TODO（缺資料）
 
-taxonomy_rules:
-  naming_style: enum[noun_first, verb_first, hybrid]
-  label_max_chars: <如 18>
-  ambiguity_check: <每個 label 評歧義度 H/M/L>
-  source: <input ref>
+- _TODO: 需要 30 人 card sorting 驗證 C2 / C3 邊界_
 
-search_strategy:
-  scope: <全站 / 分類內>
-  synonyms_required: <使用者語彙 vs 內部術語對應>
-  filters: [<facet 1>, <facet 2>]
+---
 
-card_sorting_basis:
-  method: enum[open, closed, hybrid]
-  participants_target: <如 30 人 / segment>
-  questions: [<關鍵題目 1>, <關鍵題目 2>]
-  expected_disagreement: <可預期的爭議分類>
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 6, 10, 12）
+> - [ ] Hierarchy tree 用 mermaid，≤ 3 層深
+> - [ ] 每個分類帶 inline `[H/M/L]` badge + `（依據：...）`
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 命名未直接反映內部組織架構
+> - [ ] 無 YAML / JSON schema 輸出（IA 是給人讀的 markdown）
+````
 
-content_inventory_ref:
-  total_items: <number>
-  source_doc: <連結或 TODO(需內容團隊提供)>
+````template-full
+---
+doc_type: "information-architecture"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["feature-list", "user-research", "sa-data-boundary"]
+  optional: ["competitive-scan", "business-priority"]
+---
 
-decision_log:
-  - decision: <例：分類用 task-based 還是 audience-based>
-    options_considered: [task_based, audience_based, topic_based]
-    chosen: task_based
-    rejected_reason:
-      audience_based: <為何不>
-      topic_based: <為何不>
-    confidence: H | M | L
+# Information Architecture: <product-name>
 
-out_of_scope:
-  - <例：不做 wireframe / 視覺呈現>
-  - <例：不做 URL routing 實作細節>
-  - <例：不做 SEO 關鍵字研究>
+**Status:** Draft v0.X · **Owner:** <UX name> · **Last updated:** YYYY-MM-DD · **Reviewers:** SA / PM / 內容團隊
 
-## 思考步驟
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。每分類決策行內 `（依據：功能清單 §XXX / 訪談 P3 / SA spec §YY）`；每量化欄位 `[H/M/L]` badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；層級 ≤ 3 層深；命名不能反映內部組織架構；未經 card sorting 驗證者必標 M 或 L；禁 YAML/JSON schema 輸出。
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（高頻使用者語彙 / SA 強約束的資料邊界 / PM 商業優先序）
-2. 列至少 2 條 viable 分類路徑（task-based vs audience-based）與各自負面後果
-3. 列你做了但 input 沒明說的假設（例：假設新使用者佔比 > 老使用者）
-4. 確認 a11y 4 項（landmark / skip link / tab order / heading hierarchy）涵蓋
+---
 
-## 輸出
+## 1. Executive Summary
+<!-- owner: UX · required: always -->
 
-（依 output_schema YAML 填寫）
+<!-- ai-fill: 3-5 行：N 個頂層分類、分類邏輯、最強 evidence -->
 
-## 自審
+<3-5 行說明>
 
-1. 哪個欄位 confidence < H？哪些 label 還沒經 card sorting 驗證？
-2. 哪些假設來自我而非 input？標出來（特別是反映「內部組織」而非「使用者心智」的部分）。
-3. 如果只能再追加一份 input，是哪一份（例：30 人 card sorting vs 競品 IA 對標）？為什麼？
+> **TL;DR:** <一句話：使用者進到此產品最常找什麼>
+
+---
+
+## 2. Top-level Categories
+<!-- owner: UX + PM · required: always -->
+
+<!-- ai-rule: 3-7 個頂層分類；引用使用者語彙作為 rationale，不能用內部部門名 -->
+
+| # | Category | Rationale | Items under | Confidence | Source |
+|---|---|---|---|---|---|
+| C1 | <分類名> | <引用使用者語彙> | <約 X 項> | **[H]** | 訪談 P3 §5 |
+| C2 | ... | ... | ... | **[M]** | 功能清單 §A |
+
+---
+
+## 3. Hierarchy Tree
+<!-- owner: UX · required: always -->
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 用 mermaid `flowchart TD` 畫層級樹；≤ 3 層深（超過 3 層必須在下方寫 rationale 為何此複雜度必要）。節點命名須與第 2 段一致。
+
+```mermaid
+flowchart TD
+    Root[<product-name>] --> C1[Category 1]
+    Root --> C2[Category 2]
+    Root --> C3[Category 3]
+    C1 --> C1a[Sub-item A]
+    C1 --> C1b[Sub-item B]
+    C2 --> C2a[Sub-item C]
+    C3 --> C3a[Sub-item D]
 ```
 
-回審重點：human 判斷分類是否反映使用者心智模型（非內部組織架構）、命名是否一致、是否需 card sorting 驗證再凍結。
+---
+
+## 4. Navigation Pattern
+<!-- owner: UX + UI · required: full-only -->
+
+<!-- ai-rule: primary + secondary 兩層 nav 都要描述；含 a11y landmark roles + skip link -->
+
+- **Primary:** top-nav / side-nav / tab-bar / hub-spoke — **Rationale:** <為何此 pattern>
+- **Secondary:** breadcrumb / sub-nav / contextual menu
+- **A11y:** landmark roles（`<nav>` / `<main>` / `<aside>`）+ skip-to-content link + keyboard tab order
+
+---
+
+## 5. Cross-link Relationships
+<!-- owner: UX + SA · required: full-only · skippable: 若無明顯跨層關聯則寫「無」 -->
+
+<!-- ai-rule: 列出跨分類的 referencing 路徑（如「設定」可從多處進入），避免資訊孤島 -->
+
+| From | To | Trigger | Rationale |
+|---|---|---|---|
+| C1 / Sub-item A | C3 / Sub-item D | 使用者完成 A 後常找 D | 訪談 P2 §7 高頻路徑 |
+
+---
+
+## 6. Taxonomy Rules
+<!-- owner: UX + 內容團隊 · required: always -->
+
+<!-- ai-rule: 命名風格 + label 字數上限 + 每個 label 自評 ambiguity -->
+
+- **Naming style:** noun-first / verb-first / hybrid — **Rationale:** <為何>
+- **Label max chars:** <如 18>
+- **Internal vs user vocab mapping:** <列出內部術語 → 使用者語彙>
+
+| Label | Ambiguity | Notes |
+|---|---|---|
+| <label> | **[L]** | 已通過內容團隊審 |
+| <label> | **[M]** | 受測者 2/5 誤解，需 card sorting |
+
+---
+
+## 7. Search Strategy
+<!-- owner: UX + SA · required: full-only -->
+
+<!-- ai-rule: scope + 同義詞對應 + filter facets -->
+
+- **Scope:** 全站 / 分類內
+- **Synonyms required:** <使用者語彙 vs 內部術語對應，至少列 3 組>
+- **Filters / facets:** <facet 1>, <facet 2>
+
+---
+
+## 8. Card Sorting / Tree Testing Plan
+<!-- owner: UX · required: full-only -->
+
+<!-- ai-rule: 含 method + 目標人數 + 關鍵題目 + 可預期爭議分類 -->
+
+- **Method:** open / closed / hybrid
+- **Participants target:** <如 30 人 / segment 描述>
+- **Key questions:**
+  - <題目 1>
+  - <題目 2>
+- **Expected disagreement zones:** <可預期會引爭議的分類邊界>
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+> **R1:** <例：C2 / C3 邊界未經驗證可能造成 findability 問題> — **Mitigation:** 30 人 card sorting — **Owner:** <name>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：「設定」放頂層還是各分類內？>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: UX · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | 分類用哪種維度 | task / audience / topic | task | audience (多角色分裂)、topic (跨類別重複) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: UX · required: full-only -->
+
+本 IA 文件 **不處理**：
+
+- ❌ **不畫 wireframe / 視覺呈現** — 屬 wireframe 卡
+- ❌ **不寫 URL routing 實作細節** — 屬 dev / api-spec
+- ❌ **不做 SEO 關鍵字研究** — 屬 marketing
+- ❌ **不定義導航元件視覺** — 屬 design-system / hi-fi mockup
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions：**
+  - <假設 1：例「新使用者佔比 > 老使用者」>
+  - <假設 2>
+- **Highest-value next input:** <30 人 card sorting / 競品 IA 對標 / tree testing>
+
+### TODO（缺資料）
+
+- _TODO: 需要 30 人 card sorting 驗證 C2 / C3 邊界_
+- _TODO: 補內容團隊 label 終審_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] Hierarchy tree 用 mermaid，≤ 3 層深（超過須寫 rationale）
+> - [ ] 每個分類帶 inline `[H/M/L]` badge + 行內 `（依據：...）`
+> - [ ] Navigation Pattern 含 a11y landmark + skip link + tab order
+> - [ ] Taxonomy 表每個 label 自評 ambiguity
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] 命名未直接反映內部組織架構（不出現部門名稱）
+> - [ ] 無 YAML / JSON schema 輸出（IA 是給人讀的 markdown）
+````
+
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 IA markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 功能清單 / 使用者訪談語彙 / SA 資料邊界 spec 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 把 IA 寫成 sitemap 沒寫分類 why、命名直接拿內部部門名（「客服系統」而非「協助」）、層級超過 3 層卻沒寫 rationale、未經 card sorting 就標 H confidence、Decision Log 只列 chosen 不列 rejected（= 黑箱）。AI 若漏這些，自檢清單會抓到並回頭補。

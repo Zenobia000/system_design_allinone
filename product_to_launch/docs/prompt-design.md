@@ -313,11 +313,11 @@ out_of_scope:
 
 ## 6. 怎麼用本規範
 
-1. **手動 rewrite**：對每張卡，用 `scripts/evolve-prompt.mjs <slug>` 印 scaffold（已輸出 markdown header 版），填空。
-2. **lint 既有 prompt**：`scripts/evolve-prompt.mjs <slug> --check`，看分數與缺什麼。
-3. **批次掃描**：`scripts/evolve-prompt.mjs --check-all`，列出所有 < 8 分的卡（待 rewrite 清單）。
-4. **fence 名稱不變**：仍用 ```` ```prompt-quick ```` 與 ```` ```prompt-full ```` 包 prompt，build-skills.mjs 與 UI rendering 都依賴這兩個 fence label。
-5. **一次性 migration**：`scripts/migrate-prompts.mjs` 把 v1 XML 卡批次轉成 v2 markdown header 卡（已於 v2 release 跑過，全 54 張轉好）。
+> **v3 update（2026-05）：** 本規範描述 v1→v2（XML→markdown header prompt）的設計。v2→v3 已進一步把 prompt 改為**文件範本**（`template-light` / `template-full` + 薄 trigger）—— 範本本身就是 spec，prompt 退為一行 trigger。舊的 evolve / migrate dev 腳本已連同 v2 一併退役。
+
+1. **新卡 rewrite**：手動參考 `content/deliverables/prd.md` 與 `jtbd.md` 兩張 reference 卡的 template-light + template-full 結構。
+2. **fence 名稱**：用 ```` ```template-light ```` 與 ```` ```template-full ```` 包**文件範本**（不是 prompt 包裝器）。舊 `prompt-quick` / `prompt-full` 仍在 lib/content.ts 與 build-skills.mjs 保留為 legacy fallback。範本內含 mermaid / ts / bash 子 fence 時，外層用 4-tick `````` 包裹。
+3. **一次性 migration**：v2→v3 已把 54 張卡從「YAML schema 輸出 prompt」全面轉成「markdown 文件範本 + 薄 trigger」。本規範第 5 章「prompt vs template」的概念劃分已被更新版本取代。
 
 ---
 
@@ -352,4 +352,4 @@ out_of_scope:
 
 ### 仍允許 v1 寫法的場合
 
-無。`scripts/evolve-prompt.mjs` 的 lint 規則只認 markdown header；新卡或 rewrite 都應採 v2。Schema YAML body 內的型別佔位符（如 `<string>`、`<input ref>`、`<scenario>`）不受 v1/v2 規範影響，繼續使用 angle bracket 表示「這裡填什麼」。
+無。v3 後新卡或 rewrite 都應採文件範本（template-light / template-full）。Schema YAML body 內的型別佔位符（如 `<string>`、`<input ref>`、`<scenario>`）不受 v1/v2 規範影響——但 v3 範本不再使用 YAML schema，這些 angle bracket 佔位符也已退役。

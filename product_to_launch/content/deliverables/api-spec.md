@@ -31,149 +31,360 @@ API Spec（OpenAPI 3.1）的核心價值是**讓契約先穩定**，雙方可以
 
 ## AI 怎麼加速
 
-把 SRS + user story 丟給 AI 產 OpenAPI 3.1 草稿，人工審 error 分類與 breaking change policy。
+把 SRS + user story + 既有 API 風格指南 / error taxonomy 整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 error 分類與 breaking change policy**。本卡輸出**真實 API spec markdown 文件**（OpenAPI 3.1 風格，含 endpoint 表格、schema 清單、error taxonomy、governance），**不出 YAML schema**（OpenAPI YAML 由 spec generator 另出）。
 
-```prompt-quick
-你是有 10+ 年分散式系統經驗的資深 software architect（熟悉 OpenAPI 3.1 / REST / idempotency / rate limit / SOC 2 audit）。任務：把 SRS + user story 轉成 OpenAPI 契約（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給單一團隊全棧 / 內部整合用，**完整範本** 給跨團隊 / 對外公開 API / 合規場景用。範本對標 OpenAPI 3.1 結構但以 markdown 表達讓人讀；機械可消費的 OpenAPI YAML 由 spec generator 從本文件衍生。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[SRS / 功能規格]
-[User story / 使用情境]
-[既有 API 風格指南 / error taxonomy]
+```template-light
+---
+doc_type: "api-spec"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["srs", "user-story"]
+  optional: ["api-style-guide", "error-taxonomy"]
+---
 
-輸出 schema：endpoints[]（path/method/operationId）/ request_schemas（含 validation：pattern/min/max） / response_schemas（per status 含 4xx/5xx） / auth_scopes / idempotency_keys / rate_limits / x_governance（owner/consumers/freeze/change_policy） / error_taxonomy / decision_log / out_of_scope（3 條）
+# API Spec: <api-name> v0.X
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造欄位。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft · **Owner:** <Architect/BE Lead> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 5, 10, 12），全部必填——刻意沿用完整版的章節編號讓兩版可對照。每結論行內加 `（依據：srs §XXX）`；每欄位帶 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造欄位或 error code；endpoint 涵蓋 happy path 即可，但 error response 至少含 400/401/500 三類。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行說明 API 用途、主要 consumer、freeze 狀態 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：本 API 服務什麼業務動作>
+
+---
+
+## 2. Endpoints（核心 CRUD）
+
+<!-- ai-rule: 輕量版列 3-5 個核心 endpoint。Idempotency 在 POST/PATCH 必標 -->
+
+| Method | Path | Operation | Auth | Idempotency | Confidence |
+|---|---|---|---|---|---|
+| POST | `/v1/<resource>` | createX | `<resource>:write` | required | **[H]** |
+| GET | `/v1/<resource>/{id}` | getX | `<resource>:read` | n/a | **[H]** |
+| PATCH | `/v1/<resource>/{id}` | updateX | `<resource>:write` | optional | **[M]** |
+
+---
+
+## 3. Request / Response Schemas
+
+<!-- ai-rule: 每個 endpoint 至少列出 required fields + 型別 + 主要 validation -->
+
+### `POST /v1/<resource>` · Request
+
+| Field | Type | Required | Validation |
+|---|---|---|---|
+| `customer_id` | string (uuid) | ✅ | pattern `^[0-9a-f-]{36}$` |
+| `items` | array | ✅ | minItems 1, maxItems 100 |
+
+### `POST /v1/<resource>` · Responses
+
+| Status | Schema | Notes |
+|---|---|---|
+| `201` | `XCreated` | success |
+| `400` | `ValidationError` | error codes: `INVALID_CUSTOMER`, `ITEMS_EMPTY` |
+| `401` | `AuthError` | missing / invalid token |
+| `409` | `IdempotencyConflict` | duplicate Idempotency-Key |
+| `500` | `InternalError` | unhandled |
+
+---
+
+## 5. Error Taxonomy（核心）
+
+<!-- ai-rule: 至少列出本 spec 涉及的 5-8 個 error code -->
+
+| Code | HTTP | Retryable | User message key |
+|---|---|---|---|
+| `INVALID_CUSTOMER` | 400 | ❌ | `error.customer.invalid` |
+| `ITEMS_EMPTY` | 400 | ❌ | `error.items.empty` |
+| `AUTH_TOKEN_EXPIRED` | 401 | ❌ | `error.auth.expired` |
+
+---
+
+## 10. Decision Log
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected option + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | 分頁策略 | cursor / offset | cursor | offset (大資料集 deep page 效能差) | **[H]** |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1：例：假設 JWT bearer auth>
+- **Highest-value next input:** <下一份最該補的資料>
+
+### TODO（缺資料）
+
+- _TODO: 需要 BE 確認 ratelimit 預設值_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 5, 10, 12，刻意不連號）
+> - [ ] 每個 POST/PATCH endpoint 標 idempotency
+> - [ ] Error response 至少含 400/401/500 三類
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 直接傾倒（用表格表達 spec 結構）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "api-spec"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["srs", "user-story", "api-style-guide"]
+  optional: ["error-taxonomy", "existing-auth-model", "competitive-api-scan"]
+---
 
-你是有 10+ 年分散式系統經驗的資深 software architect / BE lead，熟悉 OpenAPI 3.1、REST、idempotency、rate limit、JWT/OAuth2、SOC 2 audit、breaking change policy。
-你的輸出會交給 FE（消費契約、寫 mock）、BE（生產契約、寫 handler）、QA（contract test）、SDK generator（自動生成 client）。
-他們需要 spec 在 freeze 那一刻就機械可消費 — 欄位型別 / error code / idempotency / governance 缺一不可。
+# API Spec: <api-name> v0.X
 
-## 情境脈絡
+**Status:** Draft · **Owner:** <Architect/BE Lead> · **Last updated:** YYYY-MM-DD · **Reviewers:** FE Lead / QA / Security
 
-FE/BE 跨團隊、microservice 整合、對外 public API 時用本 API spec。
-本卡核心問題：在開工前 freeze 契約，讓 FE/BE/QA 從 mock server 開始平行寫 code 與 test。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。對標 OpenAPI 3.1 結構。每結論行內 `（依據：srs §XXX / user-story §YYY）`；每欄位 `[H/M/L]` badge；缺資料寫 `_TODO: 需要 XXX_` 不編造欄位或 error code；必填涵蓋：endpoint + schema + auth + error（含 4xx/5xx）+ idempotency + rate limit + governance；Breaking change policy 寫死（版本策略 / deprecation 通知期 / consumer 通知機制）；禁傾倒原始 YAML schema（用 markdown 表格 + 程式碼片段表達）。
 
-## 輸入素材
+---
 
-[SRS / 功能規格（含 endpoint 對應的業務動作）]
-[User story / 使用情境（含主要 / 例外流程）]
-[既有 API 風格指南 / error taxonomy / auth 模型]
+## 1. Executive Summary
+<!-- owner: Architect/BE Lead · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行說明 API 用途、主要 consumer、freeze 狀態與 SLA -->
 
-1. 每個 endpoint / schema 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例：選 sync 回應則犧牲峰值容量；選 async webhook 則增加 FE 整合複雜度）。
-3. 缺資料的欄位標 TODO(缺什麼)，不要編造欄位或 error code。
-4. 必填涵蓋：endpoint + schema + auth + error（含 4xx/5xx）+ idempotency + rate limit + governance；任一象限沒列要說明為何不適用。
-5. Out of scope 至少 3 條（例：內部 RPC、admin console、batch ETL 不在本契約）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. Breaking change policy 必須寫死（版本策略 / deprecation 通知期 / consumer 通知機制）。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：本 API 服務什麼業務動作>
 
-endpoints:
-  - path: /v1/orders
-    method: POST
-    operationId: createOrder
-    summary: <一句話>
-    auth_scope: [orders:write]
-    idempotency_key: required | optional | n/a
-    rate_limit: <e.g. 100 req/min per token>
-    source: <input ref>
-    confidence: H | M | L
+---
 
-request_schemas:
-  CreateOrderRequest:
-    type: object
-    required: [customer_id, items]
-    properties:
-      customer_id: { type: string, format: uuid, pattern: '^[0-9a-f-]{36}$' }
-      items: { type: array, minItems: 1, maxItems: 100 }
+## 2. Endpoints
+<!-- owner: BE Lead · required: always -->
 
-response_schemas:
-  '201':
-    schema: OrderCreated
-  '400':
-    schema: ValidationError
-    error_codes: [INVALID_CUSTOMER, ITEMS_EMPTY]
-  '401':
-    schema: AuthError
-  '409':
-    schema: IdempotencyConflict
-  '429':
-    schema: RateLimited
-  '500':
-    schema: InternalError
+<!-- ai-rule: 列出所有 endpoint。Idempotency / rate-limit 每行必標。auth_scope 必填 -->
 
-auth_scopes:
-  - name: orders:write
-    description: <用途>
-    granted_to: [<client type>]
+| Method | Path | Operation | Auth scope | Idempotency | Rate limit | Confidence |
+|---|---|---|---|---|---|---|
+| POST | `/v1/<resource>` | createX | `<resource>:write` | required | 100/min | **[H]** |
+| GET | `/v1/<resource>` | listX | `<resource>:read` | n/a | 1000/min | **[H]** |
+| GET | `/v1/<resource>/{id}` | getX | `<resource>:read` | n/a | 1000/min | **[H]** |
+| PATCH | `/v1/<resource>/{id}` | updateX | `<resource>:write` | optional | 100/min | **[M]** |
+| DELETE | `/v1/<resource>/{id}` | deleteX | `<resource>:write` | optional | 50/min | **[M]** |
 
-idempotency_keys:
-  - endpoint: POST /v1/orders
-    header: Idempotency-Key
-    ttl: 24h
-    behavior: <重複請求回原結果 vs 409>
+---
 
-rate_limits:
-  default: 100 req/min per token
-  burst: 200
-  exceed_behavior: 429 + Retry-After
+## 3. Request Schemas
+<!-- owner: BE Lead · required: always -->
 
-x_governance:
-  owner: <team>
-  consumers: [<FE app>, <partner SDK>]
-  freeze_date: <YYYY-MM-DD>
-  change_policy:
-    breaking: <需 2 週 deprecation + new version>
-    non_breaking: <可直接上>
-    review_required_by: [Architect, FE Lead]
+<!-- ai-rule: 每個 endpoint 至少列 required + optional fields + 型別 + validation pattern/min/max -->
 
-error_taxonomy:
-  - code: INVALID_CUSTOMER
-    http_status: 400
-    retryable: false
-    user_message_key: error.customer.invalid
+### `POST /v1/<resource>` · `CreateXRequest`
 
-decision_log:
-  - decision: <e.g. cursor 分頁 vs offset 分頁>
-    options_considered: [A, B, C]
-    chosen: A
-    rejected_reason:
-      B: <why not>
-      C: <why not>
-    confidence: H | M | L
+| Field | Type | Required | Validation | Notes |
+|---|---|---|---|---|
+| `customer_id` | string (uuid) | ✅ | pattern `^[0-9a-f-]{36}$` | 對應 Customer.id |
+| `items` | array | ✅ | minItems 1, maxItems 100 | 元素見 `LineItem` |
+| `idempotency_key` | header | ✅ | uuid v4 | header name: `Idempotency-Key` |
 
-out_of_scope:
-  - 內部 RPC / gRPC 不走本 OpenAPI 契約
-  - Admin console API 另開 spec
-  - Batch ETL / file-based 整合不在本卡
+### `PATCH /v1/<resource>/{id}` · `UpdateXRequest`
 
-## 思考步驟
+...
 
-產出前先：
-1. 從 SRS 抓 3-5 個核心業務動作（CRUD + 領域事件），標 H/M/L confidence
-2. 列至少 2 條 viable API style 路徑（REST resource vs RPC action），各自負面後果
-3. 列你做了但 input 沒明說的假設（例：假設 JWT、假設 cursor 分頁）
-4. 確認 endpoint / schema / auth / error / idempotency / rate limit / governance 七象限都涵蓋
+---
 
-## 輸出
+## 4. Response Schemas
+<!-- owner: BE Lead · required: always -->
 
-（依 output_schema YAML 填寫）
+<!-- ai-rule: 每個 endpoint 列出 success + ≥ 3 個 error status（含 4xx + 5xx），含 error_codes -->
 
-## 自審
+### `POST /v1/<resource>` · Responses
 
-1. 哪個 endpoint / error code confidence < H？列出來與所需補充資料。
-2. 哪些 schema 假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input，是哪一份？為什麼？
+| Status | Schema | Error codes | Notes |
+|---|---|---|---|
+| `201` | `XCreated` | — | success |
+| `400` | `ValidationError` | `INVALID_CUSTOMER`, `ITEMS_EMPTY` | client validation |
+| `401` | `AuthError` | `AUTH_TOKEN_EXPIRED`, `AUTH_TOKEN_INVALID` | auth failure |
+| `403` | `ForbiddenError` | `SCOPE_MISSING` | scope insufficient |
+| `409` | `IdempotencyConflict` | `IDEMPOTENCY_KEY_REUSED` | duplicate key |
+| `429` | `RateLimited` | — | with `Retry-After` header |
+| `500` | `InternalError` | — | logged with trace-id |
+
+---
+
+## 5. Error Taxonomy
+<!-- owner: Architect · required: always -->
+
+<!-- ai-rule: 全 spec 的 error code 統一表，含 retryable + user_message_key + class -->
+
+| Code | HTTP | Class | Retryable | User message key |
+|---|---|---|---|---|
+| `INVALID_CUSTOMER` | 400 | validation | ❌ | `error.customer.invalid` |
+| `ITEMS_EMPTY` | 400 | validation | ❌ | `error.items.empty` |
+| `AUTH_TOKEN_EXPIRED` | 401 | auth | ❌ (refresh first) | `error.auth.expired` |
+| `SCOPE_MISSING` | 403 | auth | ❌ | `error.auth.scope` |
+| `IDEMPOTENCY_KEY_REUSED` | 409 | client | ❌ | `error.idempotency.conflict` |
+| `RATE_LIMITED` | 429 | client | ✅ (with backoff) | `error.ratelimit` |
+
+---
+
+## 6. Auth & Scopes
+<!-- owner: Architect + Security · required: always -->
+
+<!-- ai-rule: 標清楚 auth 模型（JWT/OAuth2/API key）+ 每個 scope 的用途與授予對象 -->
+
+**Auth model:** JWT Bearer (OAuth2 client_credentials flow)
+
+| Scope | Description | Granted to |
+|---|---|---|
+| `<resource>:read` | 讀取 resource | FE app, partner SDK |
+| `<resource>:write` | 建立/修改 resource | FE app |
+
+---
+
+## 7. Idempotency & Rate Limit
+<!-- owner: BE Lead · required: always -->
+
+### Idempotency
+
+| Endpoint | Header | TTL | On duplicate |
+|---|---|---|---|
+| `POST /v1/<resource>` | `Idempotency-Key` (uuid v4) | 24h | 回原 response（不回 409） |
+| `PATCH /v1/<resource>/{id}` | `Idempotency-Key` (uuid v4) | 24h | 回原 response |
+
+### Rate Limit
+
+- **Default:** 100 req/min per token
+- **Burst:** 200
+- **Exceed behavior:** `429` with `Retry-After: <seconds>` header
+
+---
+
+## 8. Governance & Change Policy
+<!-- owner: Architect · required: always -->
+
+<!-- ai-rule: Breaking change policy 必須寫死（版本策略 + deprecation 通知期 + consumer 通知機制） -->
+
+| Field | Value |
+|---|---|
+| **Owner team** | <team-name> |
+| **Consumers** | <FE app>, <partner SDK>, <internal service X> |
+| **Freeze date** | YYYY-MM-DD |
+| **Versioning** | URL path version (`/v1`, `/v2`) |
+| **Breaking change** | ≥ 2 週 deprecation 通知 + new major version + 6 個月平行運行 |
+| **Non-breaking change** | 直接上，CHANGELOG 紀錄 |
+| **Review required by** | Architect, FE Lead, Security |
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner 三件齊 -->
+
+> **R1:** <失效模式：例：FE 不帶 Idempotency-Key 導致重複建單> — **Mitigation:** SDK 預設帶、BE 對 POST 強制 required — **Owner:** <FE Lead>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：分頁 cursor 是否需 server-side opaque token？>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: Architect · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | 分頁策略 | cursor / offset / page-token | cursor | offset (deep page 慢)、page-token (over-engineering) | **[H]** |
+| YYYY-MM-DD | 錯誤格式 | RFC7807 / 自訂 envelope | RFC7807 | 自訂 (consumer 已熟悉 RFC7807) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: Architect · required: full-only -->
+
+本 API spec **不處理**：
+
+- ❌ **內部 RPC / gRPC** 不走本 OpenAPI 契約 — 另開內部 RPC spec
+- ❌ **Admin console API** 另開 admin spec
+- ❌ **Batch ETL / file-based 整合** 走另張資料整合 spec
+- ❌ **Webhook 出站** 走另張 webhook 卡（含 retry policy）
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1：例：假設 cursor 分頁（input 沒明說）>
+  - <假設 2：例：假設 JWT bearer（input 沒明說 auth model）>
+- **Highest-value next input:** <下一份最該補的：FE 整合需求、Security threat model、競品 API 風格>
+
+### TODO（缺資料）
+
+- _TODO: 需要 FE 確認 cursor 格式（opaque vs base64-encoded JSON）_
+- _TODO: 需要 Security 確認 token TTL 與 refresh 流程_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] 每個 endpoint 標 auth_scope + idempotency + rate_limit
+> - [ ] Error response 至少含 400/401/403/429/500 五類
+> - [ ] Error Taxonomy 表統一，所有 endpoint 引用同一份
+> - [ ] Idempotency 在 POST/PATCH 必標（TTL + on-duplicate 行為）
+> - [ ] Governance 段 breaking change policy 寫死（版本策略 + 通知期）
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無原始 YAML / JSON schema 傾倒（用 markdown 表格 + 程式碼片段表達）
 ```
 
-回審重點：error code 涵蓋 4xx/5xx 完整、idempotency 在 POST/PATCH 標清楚、breaking change policy 與 consumer 對齊。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 API spec markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 srs.md / user-story.md / 既有 API 風格指南 / error taxonomy 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 只列 happy path 沒列 4xx/5xx（FE 整合會炸）、Idempotency 在 POST/PATCH 沒標（重複建單）、Breaking change policy 沒寫（consumer 通知不到位）、Error code 散落各 endpoint 沒統一 taxonomy、傾倒原始 OpenAPI YAML（人讀不來）。AI 若漏這些，自檢清單會抓到並回頭補。

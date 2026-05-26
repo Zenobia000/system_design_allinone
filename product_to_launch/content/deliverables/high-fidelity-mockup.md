@@ -31,122 +31,330 @@ source: "deep-research-report.md §產品與需求相關角色"
 
 ## AI 怎麼加速
 
-從 wireframe + design system 反推所有 state 與 a11y 標註，人工只審視覺品味與品牌一致性。
+把 wireframe + design system + micro-copy 整份丟給 agent，讓 agent 讀範本內 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審視覺品味與品牌一致性**。本卡輸出**真實 high-fidelity mockup spec markdown**（含 screen × state 矩陣、a11y 標註表、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 5+ 年 UI design 經驗的資深 UI designer（熟悉 design tokens、component spec、WCAG 2.2）。任務：把 wireframe + design system 轉成 高保真稿（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份 hi-fi 契約的兩種版本：**輕量範本** 給單平台、screen ≤ 5、改版迭代用，**完整範本** 給跨平台 handoff、screen ≥ 5、QA 需 visual regression baseline 的情境。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[Wireframe（screen + flow 已凍）]
-[Design system（token + component library）]
-[互動規範 / micro-copy 文案]
+```template-light
+---
+doc_type: "high-fidelity-mockup"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["wireframe", "design-system"]
+  optional: ["micro-copy"]
+---
 
-輸出 schema：screens / components_used / interaction_states / micro_copy / a11y_annotations / responsive_behavior / decision_log / out_of_scope（3 條）
+# High-fidelity Mockup Spec: <product-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <UI name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 6, 10, 12），全部必填——刻意沿用完整版章節編號讓兩版可對照。每 screen 必含 ≥ 5 種 state（default / loading / empty / error / disabled）；只使用 design-system 既有 token，缺的標 `_TODO: 需 DS 補 token-XXX_`；行內 `（依據：wireframe §XXX / DS token §YYY）`；每量化欄位 `[H/M/L]` badge；a11y 對比 ≥ 4.5:1 + touch target ≥ 44×44 必填。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行：涵蓋 N 個 screen、選用 token 數、a11y 達標等級 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：本 hi-fi 交付物涵蓋的範圍與下游使用方式>
+
+---
+
+## 2. Screens × States
+
+<!-- ai-rule: 每個 screen 至少 5 種 state；不齊全的 state 寫 `_TODO_` 不能略 -->
+
+### S1: <screen 名稱>
+
+- **Breakpoint:** mobile_360 / desktop_1280
+- **States covered:** default · loading · empty · error · disabled
+- **Components used (from DS):** Button (primary) · Input (text) · Card
+- **Confidence:** **[H]** — **Source:** wireframe §1
+
+### S2: ...
+
+---
+
+## 3. Interaction States
+
+<!-- ai-rule: 每互動元素列 hover / focus / active / disabled 四態；focus 必須對應 WCAG 2.4.7 -->
+
+| Element | Hover | Focus | Active | Disabled |
+|---|---|---|---|---|
+| Primary CTA | `bg-action-primary-hover` | `outline-focus` (2px) | `bg-action-primary-active` | `bg-disabled` + `aria-disabled` |
+| Input | `border-strong` | `outline-focus` (2px) | n/a | `bg-disabled` + cursor-not-allowed |
+
+---
+
+## 6. A11y Annotations
+
+<!-- ai-rule: 4 項必填（對比 / focus / touch target / ARIA） -->
+
+| Dimension | Target | Actual | Confidence |
+|---|---|---|---|
+| **Contrast (text)** | ≥ 4.5:1 | <實測值> | **[H]** |
+| **Touch target** | ≥ 44×44 px | <實測 px> | **[H]** |
+| **Focus visible** | outline ≥ 2px | <token> | **[H]** |
+| **ARIA labels** | 所有 icon-only button 必填 | <list> | **[H]** |
+
+---
+
+## 10. Decision Log（key 2-3 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Error state 呈現方式 | inline / toast / modal | inline | toast (易錯過)、modal (干擾過大) | **[H]** |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions：**
+  - <例：假設深色模式不在 V1>
+- **Highest-value next input:** <例：文案 owner 終版 / a11y audit>
+
+### TODO（缺資料）
+
+- _TODO: 需 DS 補 `bg-warning-subtle` token_
+- _TODO: 需內容團隊提供 empty state 文案_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 6, 10, 12）
+> - [ ] 每個 screen ≥ 5 種 state（含 disabled / loading）
+> - [ ] 只使用 DS 既有 token，缺者標 `_TODO_`
+> - [ ] Interaction states 4 態齊（hover / focus / active / disabled）
+> - [ ] A11y 4 項全填（對比 / touch target / focus / ARIA）
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（hi-fi spec 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "high-fidelity-mockup"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["wireframe", "design-system", "micro-copy", "brand-spec"]
+  optional: ["motion-spec", "i18n-strings"]
+---
 
-你是有 5+ 年 UI design 經驗的資深 UI designer，熟悉 design tokens、component spec、Figma auto-layout、WCAG 2.2 AA。
-你的輸出會交給 FE / Mobile 工程師（像素級實作）、QA（寫 visual regression test）、UX（最後 usability check）。
-他們會用來「不靠猜」直接 build production code，所以每個 state / token / a11y 標註都必須機械可消費。
+# High-fidelity Mockup Spec: <product-name>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <UI name> · **Last updated:** YYYY-MM-DD · **Reviewers:** FE / Mobile / QA / UX / Brand
 
-Wireframe + flow 已凍結、進入 dev handoff 前才用本卡。
-本卡核心問題：讓工程師能像素級實作、不靠猜——所有 state（default/loading/empty/error/disabled/success/partial）齊全、token 對齊、a11y 達 WCAG 2.2 AA。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。每 screen ≥ 6 種 state（default / loading / empty / error / disabled / success / partial）；**禁止重新發明 token**——只使用 design-system 既有 token，缺者標 `_TODO: 需 DS 補 token-XXX_`；行內 `（依據：wireframe §XXX / DS token §YYY / brand §ZZ）`；量化欄位 `[H/M/L]` badge；a11y baseline 4 項全填（對比 / focus / touch target / ARIA）；禁 YAML/JSON schema 輸出。
 
-## 輸入素材
+---
 
-[Wireframe（screen + flow 已凍）]
-[Design system（color/typography/spacing/radius/shadow token + component library）]
-[互動規範 / micro-copy 文案 / 品牌語氣]
+## 1. Executive Summary
+<!-- owner: UI · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行：涵蓋 N screen × M state 矩陣、選用 token 數、a11y 等級、下游 handoff 對象 -->
 
-1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例如：若 CTA 用 primary token，會犧牲 secondary 動作的 visual hierarchy）。
-3. 缺資料的欄位標 TODO(缺什麼)，不編造 token 值或文案；列「需要什麼補上」。
-4. a11y（WCAG 2.2 AA）：對比 ≥ 4.5:1（文字）/ 3:1（UI 元件）、focus ring 可見、touch target ≥ 44×44、ARIA 標註齊全——任一未達需說明為何不適用。
-5. Out of scope 至少 3 條，明寫不做什麼（例：不做 motion spec、不做 i18n 字串、不做後台管理介面）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. 不重新發明 token；只使用 design system 既有 token，缺的標 TODO 請 design system 補。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：本 hi-fi spec 涵蓋的範圍與目標完整度>
 
-screens:
-  - name: <screen 名稱>
-    breakpoint: enum[mobile_360 | tablet_768 | desktop_1280]
-    states: [default, loading, empty, error, disabled, success, partial]  # 至少 5 種
-    source: <input ref>
-    confidence: H | M | L
+---
 
-components_used:
-  - ref: <design system component id>
-    variant: <variant 名稱>
-    props_override: <若有客製>
-    source: <input ref>
+## 2. Screens × States Matrix
+<!-- owner: UI · required: always -->
 
-interaction_states:
-  - element: <CTA / input / link>
-    hover: <token + 行為>
-    focus: <focus ring spec + WCAG 2.4.7>
-    active: <token>
-    disabled: <條件 + 視覺 + a11y aria-disabled>
+<!-- ai-rule: 每 screen ≥ 6 種 state；不齊全的 state 標 `_TODO_`，不能略；breakpoint 至少 mobile + desktop -->
 
-micro_copy:
-  - context: <button / error / empty>
-    text: <文案>
-    source: <input ref or TODO(需文案 owner)>
+### S1: <screen 名稱>
 
-a11y_annotations:
-  contrast_ratios: <每個文字/UI 元件實測值>
-  focus_order: <tab 順序>
-  aria_labels: <screen reader 文字>
-  touch_target_min: <px>
-  wcag_level: AA
-  source: <input ref>
+- **Breakpoint:** mobile_360 / tablet_768 / desktop_1280
+- **States covered:** default · loading · empty · error · disabled · success · partial
+- **Confidence:** **[H]** — **Source:** wireframe §1
 
-responsive_behavior:
-  mobile_360: <layout 描述>
-  tablet_768: <layout 描述>
-  desktop_1280: <layout 描述>
+### S2 · S3 · ...
 
-decision_log:
-  - decision: <例：error state 用 inline 還是 toast>
-    options_considered: [inline, toast, modal]
-    chosen: inline
-    rejected_reason:
-      toast: <為何不>
-      modal: <為何不>
-    confidence: H | M | L
+---
 
-out_of_scope:
-  - <例：不做 motion / 動畫 timing spec>
-  - <例：不做 i18n 字串長度測試>
-  - <例：不做後台管理介面>
+## 3. Components Used
+<!-- owner: UI + FE · required: always -->
 
-## 思考步驟
+<!-- ai-rule: 列出每 screen 用到的 DS component + variant + 任何 props override（override 須附 rationale） -->
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（wireframe 主要 flow / design system 已有的 token / 品牌語氣關鍵字）
-2. 列至少 2 條 viable 視覺路徑（例：CTA 用 filled vs outlined）與各自負面後果
-3. 列你做了但 input 沒明說的假設（例：假設深色模式不在 v1）
-4. 確認 a11y 4 項（對比 / focus / touch target / ARIA）都涵蓋
+| Screen | DS component | Variant | Props override | Rationale |
+|---|---|---|---|---|
+| S1 | Button | primary | size=lg | hero CTA 需更大 touch target |
+| S1 | Input | text | — | — |
+| S2 | Card | elevated | radius=lg | 與 brand spec 對齊 |
 
-## 輸出
+---
 
-（依 output_schema YAML 填寫）
+## 4. Interaction States
+<!-- owner: UI · required: full-only -->
 
-## 自審
+<!-- ai-rule: 每互動元素 4 態（hover / focus / active / disabled）；focus 必符合 WCAG 2.4.7 -->
 
-1. 哪個欄位 confidence < H？列出來與所需補充資料。
-2. 哪些假設來自我而非 input？標出來（特別是 token 客製、文案、a11y 等價判斷）。
-3. 如果只能再追加一份 input，是哪一份？為什麼？
+| Element | Hover | Focus | Active | Disabled |
+|---|---|---|---|---|
+| Primary CTA | `bg-action-primary-hover` | `outline-focus` (2px) | `bg-action-primary-active` | `bg-disabled` + `aria-disabled` |
+| Secondary CTA | `bg-action-secondary-hover` | `outline-focus` (2px) | `bg-action-secondary-active` | `bg-disabled` |
+| Input | `border-strong` | `outline-focus` (2px) | n/a | `bg-disabled` + cursor-not-allowed |
+| Link | `text-link-hover` + underline | `outline-focus` | `text-link-active` | n/a |
+
+---
+
+## 5. Micro-copy
+<!-- owner: UI + 內容團隊 · required: full-only -->
+
+<!-- ai-rule: 每 context 一行；缺文案 owner 必標 `_TODO_`；不自行創文案 -->
+
+| Context | Text | Source |
+|---|---|---|
+| Primary CTA | <文案> | brand §micro-copy §3 |
+| Error state | <文案> | _TODO: 需內容團隊_ |
+| Empty state | <文案> | _TODO: 需內容團隊_ |
+
+---
+
+## 6. A11y Annotations
+<!-- owner: UI + UX · required: always -->
+
+<!-- ai-rule: 4 項全填；不適用須寫 rationale -->
+
+| Dimension | Target | Actual | Confidence |
+|---|---|---|---|
+| **Contrast (text)** | ≥ 4.5:1 | <實測值> | **[H]** |
+| **Contrast (UI)** | ≥ 3:1 | <實測值> | **[H]** |
+| **Touch target** | ≥ 44×44 px | <實測 px> | **[H]** |
+| **Focus visible** | outline ≥ 2px + 對比 ≥ 3:1 | <token> | **[H]** |
+| **ARIA labels** | icon-only / dynamic content | <list> | **[H]** |
+| **Focus order** | 邏輯一致（tab 順序） | <描述> | **[H]** |
+
+---
+
+## 7. Responsive Behavior
+<!-- owner: UI + FE · required: full-only -->
+
+<!-- ai-rule: 3 breakpoint 全填；不適用須寫 rationale -->
+
+| Breakpoint | Layout | Behavior |
+|---|---|---|
+| mobile_360 | stack / 1-col | nav 收合為 hamburger |
+| tablet_768 | 2-col + sidebar | nav 展開為 top tab |
+| desktop_1280 | 3-col grid | sidebar 持續展開 |
+
+---
+
+## 8. Assets & Handoff Notes
+<!-- owner: UI + FE · required: full-only -->
+
+- **Figma file:** <link>
+- **Export specs:** SVG (icons) · PNG @1x/@2x/@3x (raster) · WebP (photo)
+- **Inspect tooling:** Figma Dev Mode / Zeplin
+- **Naming convention for layers:** `[screen]_[component]_[state]`
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+> **R1:** <例：partial state UX 邏輯未驗證，可能 FE 實作後才發現不可行> — **Mitigation:** 先做 prototype 驗證 — **Owner:** <name>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：暗色模式是否 V1 涵蓋？>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: UI · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Error state 呈現 | inline / toast / modal | inline | toast (易錯過)、modal (干擾過大) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: UI · required: full-only -->
+
+本 hi-fi spec **不處理**：
+
+- ❌ **不做 motion / 動畫 timing spec** — 屬獨立 motion 卡
+- ❌ **不做 i18n 字串長度測試** — 屬 i18n / QA
+- ❌ **不做後台管理介面** — 屬獨立 admin DS
+- ❌ **不重新定義 design-system token** — 屬 design-system 卡
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions：**
+  - <假設 1：例「partial state 邏輯沿用 S1 規則」>
+  - <假設 2>
+- **Highest-value next input:** <文案 owner 終版 / a11y audit / motion spec>
+
+### TODO（缺資料）
+
+- _TODO: 需 DS 補 `bg-warning-subtle` token_
+- _TODO: 需內容團隊提供 empty state 文案_
+- _TODO: 補 partial state 互動規格_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] 每個 screen ≥ 6 種 state（含 partial / success）
+> - [ ] 只使用 DS 既有 token，缺者標 `_TODO_`（**沒重新發明 token**）
+> - [ ] Components used 表每筆 props override 附 rationale
+> - [ ] Interaction states 4 態齊（hover / focus / active / disabled）
+> - [ ] Micro-copy 缺文案 owner 已標 `_TODO_`
+> - [ ] A11y 4+ 項全填（對比 × 2 / touch / focus / ARIA / focus order）
+> - [ ] Responsive 3 breakpoint 齊
+> - [ ] Decision Log 每條 ≥ 2 個 rejected + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（hi-fi spec 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷視覺品味、品牌一致性、state 是否真完整、a11y 是否到位、與 design system 是否一致。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 hi-fi mockup spec markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 wireframe / design-system token & component / micro-copy / brand spec 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 只畫 happy path（漏 loading / empty / error / disabled / partial）、重新發明 token 而不用 DS 既有（造成下游 FE 無所適從）、自行創文案而非標 TODO 等內容團隊、a11y 砍 touch target / contrast 沒寫 rationale、Decision Log 只列 chosen 不列 rejected（= 黑箱）。AI 若漏這些，自檢清單會抓到並回頭補。

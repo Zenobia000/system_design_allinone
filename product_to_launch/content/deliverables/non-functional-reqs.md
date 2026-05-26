@@ -29,131 +29,324 @@ source: "software_architect/ppt/05-ilities, ISO/IEC/IEEE 29148"
 
 ## AI 怎麼加速
 
-把 PRD 形容詞丟給 AI 轉成 SLI/SLO/threshold 候選，人類砍不可達或無意義的。
+把 PRD（含模糊承諾如「要很快」「要很穩」）+ business impact / SLA 對外承諾 + 既有平台基線整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 trade-off 與閾值合理性**。本卡輸出**真實 NFR markdown 文件**（含 SLI/SLO 表格、合規對應表、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 10+ 年分散式系統經驗的資深 software architect（熟悉 SLO / WCAG 2.2 / SOC 2 / GDPR / ISO 27001 / observability）。任務：把 PRD 形容詞轉成 NFR 矩陣（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給 MVP / 內部工具 / 無合規負擔場景用，**完整範本** 給 SLA 對外承諾 / 跨系統依賴 / 合規稽核場景用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[PRD（含模糊承諾如「要很快」「要很穩」）]
-[Business impact / SLA 對外承諾]
-[既有 NFR / 平台基線]
+```template-light
+---
+doc_type: "non-functional-reqs"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["prd"]
+  optional: ["platform-baseline", "competitive-baseline"]
+---
 
-輸出 schema：latency_targets（p50/p95/p99） / availability_slo / scalability（rps/concurrent users） / security_classification / compliance_obligations（GDPR/SOC2/PCI/HIPAA/ISO 27001） / a11y（WCAG 2.2 AA） / observability_requirements / decision_log / out_of_scope（3 條）
+# Non-Functional Requirements: <system-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不抄業界數字。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft · **Owner:** <Architect/SA> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 5 段（編號 1, 2, 4, 10, 12），全部必填——刻意沿用完整版的章節編號讓兩版可對照。每條 NFR 行內加 `（依據：prd §XXX）`；每量化欄位帶 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` **不抄業界數字**（例：別寫「99.99% 因為大家都這樣寫」）；每條 NFR 必含可量測 SLI + 目標 SLO + 量測方法（缺一不可）。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行說明範圍、SLA 對外承諾與否、目前最不確定的閾值 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：哪幾個維度是 hard target、哪幾個是 best-effort>
+
+---
+
+## 2. Core NFR Matrix
+
+<!-- ai-rule: 至少 4 象限（latency / availability / security / a11y）。每條含 SLI + SLO + 量測方法 -->
+
+| Dimension | SLI | SLO target | Measurement | Confidence |
+|---|---|---|---|---|
+| **Latency** | API p95 | < Xms | <e.g. RUM + synthetic> | **[H]** |
+| **Availability** | uptime | 99.X% rolling 28-day | <SLI 定義> | **[M]** |
+| **Security** | data class | PII encrypted at-rest | <稽核方式> | **[H]** |
+| **A11y** | WCAG 2.2 AA | <scope> | <e.g. axe-core CI> | **[H]** |
+
+---
+
+## 4. Compliance（核心）
+
+<!-- ai-rule: 列出本系統涉及的合規條目，N/A 必須說明為何不適用 -->
+
+| Regime | Applicable | Notes |
+|---|---|---|
+| GDPR | ✅ / ❌ | <若 ✅：列關鍵條款 + 對應控制> |
+| SOC 2 | ✅ / ❌ | <若 ❌：不對外提供 SaaS> |
+| PCI DSS | ✅ / ❌ | <若 ❌：不處理卡號> |
+
+---
+
+## 10. Decision Log
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected option + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Availability SLO | 99.9% / 99.95% / 99.99% | 99.9% | 99.95% (cost +50%)、99.99% (需 multi-region) | **[H]** |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1：例：假設無 HIPAA 負擔>
+- **Highest-value next input:** <下一份最該補的：實際 traffic profile / 競品 baseline>
+
+### TODO（缺資料）
+
+- _TODO: 需要實際 traffic profile 校準 latency p99 threshold_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 5 段 H2 章節齊全（編號 1, 2, 4, 10, 12，刻意不連號）
+> - [ ] Core NFR Matrix 至少 4 象限（latency / availability / security / a11y）
+> - [ ] 每條 NFR 含 SLI + SLO + Measurement
+> - [ ] 沒有任何 threshold 抄業界數字（每筆都有 source 或 _TODO_）
+> - [ ] Compliance 不適用項有說明為何不適用
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（NFR 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "non-functional-reqs"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["prd", "business-impact", "sla-commitments"]
+  optional: ["platform-baseline", "competitive-baseline", "existing-nfr"]
+---
 
-你是有 10+ 年分散式系統經驗的資深 software architect / SRE，熟悉 SLO / SLI / error budget、WCAG 2.2、SOC 2、GDPR、HIPAA、PCI DSS、ISO 27001、observability、ISO/IEC/IEEE 29148。
-你的輸出會交給 Dev（實作目標）、QA（寫驗收測試）、SRE（設 alert 與 SLO dashboard）、Compliance（合規稽核）。
-他們需要每條 NFR 都可量測、可測試、可監控；模糊形容詞會被退件。
+# Non-Functional Requirements: <system-name>
 
-## 情境脈絡
+**Status:** Draft · **Owner:** <Architect/SA> · **Last updated:** YYYY-MM-DD · **Reviewers:** SRE / Security / Compliance / QA
 
-功能規格已寫，但延遲、容量、可用性、安全還只是形容詞時用本 NFR。
-本卡核心問題：把「要很快、要很穩」改寫成可驗收的數字，是 ADR 與 Capacity Plan 的輸入。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。每條 NFR 行內 `（依據：prd §XXX / sla §YYY）`；每量化欄位 `[H/M/L]` badge；缺資料寫 `_TODO: 需要 XXX_` **不抄業界數字**；每條 NFR 必含可量測 SLI + 目標 SLO + 量測方法 + 測試方式（缺一不可）；合規必須涵蓋 GDPR / SOC 2 / PCI / HIPAA / ISO 27001 / WCAG 2.2 AA（任一不適用要說明原因）；禁 YAML/JSON schema 輸出。
 
-## 輸入素材
+---
 
-[PRD（含模糊承諾、business impact、user journey）]
-[Business impact / SLA 對外承諾 / penalty clause]
-[既有 NFR / 平台基線 / 競品 baseline]
+## 1. Executive Summary
+<!-- owner: Architect · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行說明範圍、對外 SLA 承諾、目前最不確定的閾值 -->
 
-1. 每條 NFR 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例：p95 < 100ms 則犧牲 cost — 需 over-provision 或 CDN edge）。
-3. 缺資料的欄位標 TODO(缺什麼)，不要抄業界數字（例：別寫「99.99% 因為大家都這樣寫」）。
-4. 合規 / a11y / security 必須涵蓋：GDPR / SOC 2 / PCI / HIPAA / ISO 27001 / WCAG 2.2 AA（任一不適用要說明原因）。
-5. Out of scope 至少 3 條（例：第三方依賴 SLA、災難復原 RPO/RTO、客戶端 a11y 不在本卡）。
-6. 每條 NFR 標 confidence: [H/M/L]，L 必須附說明。
-7. 每條 NFR 必含可量測 SLI + 目標 SLO + 量測方法 + 測試方式（缺一不可）。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：系統的硬目標 + 最大不確定性>
 
-latency_targets:
-  api_p50: <ms + 為何此值>
-  api_p95: <ms + 為何此值>
-  api_p99: <ms + 為何此值>
-  page_load_p75: <ms (Core Web Vitals LCP)>
-  measurement: <e.g. real user monitoring + synthetic>
-  source: <input ref>
-  confidence: H | M | L
+---
 
-availability_slo:
-  target: <e.g. 99.9% rolling 28-day>
-  error_budget: <derived>
-  scope: <which endpoints / journeys>
-  measurement: <SLI definition>
-  source: <input ref>
+## 2. Latency Targets
+<!-- owner: Architect + SRE · required: always -->
 
-scalability:
-  baseline_rps: <number>
-  peak_rps: <number + 來源>
-  concurrent_users: <number>
-  scale_strategy: <horizontal | vertical | both>
-  trade_off: <負面後果>
+<!-- ai-rule: API p50/p95/p99 + page-load p75（Core Web Vitals）；每條含為何此值 + 量測方法 -->
 
-security_classification:
-  data_classes: [PII, PCI, internal, public]
-  threat_baseline: <ref threat-model>
-  encryption: <at-rest + in-transit>
-  confidence: H | M | L
+| Metric | Target | Rationale | Measurement | Confidence |
+|---|---|---|---|---|
+| API p50 | < Xms | <對應 user-perceived snappy> | RUM | **[H]** |
+| API p95 | < Yms | <對應 JTBD success criteria> | RUM | **[H]** |
+| API p99 | < Zms | <尾延遲容忍> | RUM | **[M]** |
+| Page load (LCP) p75 | < 2.5s | Core Web Vitals "good" | RUM + Lighthouse CI | **[H]** |
 
-compliance_obligations:
-  gdpr: <條款 + 對應控制 | N/A + 原因>
-  soc2: <trust criteria + 對應控制 | N/A + 原因>
-  pci: <requirement + 對應控制 | N/A + 原因>
-  hipaa: <safeguard + 對應控制 | N/A + 原因>
-  iso_27001: <annex A control + 對應控制 | N/A + 原因>
+---
 
-a11y:
-  level: WCAG 2.2 AA
-  scope: <web / mobile / both>
-  testing: <e.g. axe-core CI + manual screen reader pass>
+## 3. Availability & Error Budget
+<!-- owner: SRE · required: always -->
 
-observability_requirements:
-  metrics: [<SLI 1>, <SLI 2>]
-  logs: <retention + classification>
-  traces: <sampling rate + retention>
-  alerting: <SLO-based burn rate>
+<!-- ai-rule: SLO target + error budget derivation + scope（哪些 endpoint / journey 算入）-->
 
-decision_log:
-  - decision: <e.g. 為何選 99.9% 而非 99.99%>
-    options_considered: [A, B, C]
-    chosen: A
-    rejected_reason:
-      B: <why not, 含 cost / complexity>
-      C: <why not>
-    confidence: H | M | L
+| Field | Value |
+|---|---|
+| **Target** | 99.9% rolling 28-day |
+| **Error budget** | 0.1% × 28d × 24h = 40 min / 28d |
+| **Scope** | 主 user journey: signup / login / core-action（admin / batch 不計入） |
+| **SLI definition** | `successful_requests / total_requests` where success = HTTP 2xx/3xx OR 4xx with `client_error` class |
+| **Confidence** | **[M]** _TODO: 需 SRE 確認 4xx 分類_ |
 
-out_of_scope:
-  - 第三方依賴 SLA（由 vendor management 處理）
-  - 災難復原 RPO/RTO 由 DR plan 卡處理
-  - 客戶端 a11y（瀏覽器/作業系統層）不在本卡
+---
 
-## 思考步驟
+## 4. Compliance Obligations
+<!-- owner: Compliance + Architect · required: always -->
 
-產出前先：
-1. 從 PRD 抓 3-5 句模糊承諾，逐一改寫為可量測 SLI 候選並標 H/M/L confidence
-2. 列至少 2 條 viable SLO 路徑（aggressive vs conservative），各自負面後果（cost / dev effort）
-3. 列你做了但 input 沒明說的假設（例：假設目標市場無 HIPAA、假設僅 web）
-4. 確認 latency / availability / scalability / security / compliance / a11y / observability 七象限都涵蓋
+<!-- ai-rule: 五大合規象限全填（GDPR / SOC 2 / PCI / HIPAA / ISO 27001）。N/A 必須說明原因 -->
 
-## 輸出
+| Regime | Applicable | Key clauses / criteria | Mapped controls |
+|---|---|---|---|
+| GDPR | ✅ | Art. 17 right-to-erasure, Art. 32 security | data-model.md §7 |
+| SOC 2 | ✅ | CC6 (Logical access), CC7 (System operations) | observability + IAM |
+| PCI DSS | ✅ (SAQ-A) | Req 3 (data protection) | 不自儲卡號 + tokenization |
+| HIPAA | ❌ N/A | 不處理 PHI | — |
+| ISO 27001 | ✅ | Annex A.8 (Asset mgmt), A.12 (Ops security) | inventory + change mgmt |
 
-（依 output_schema YAML 填寫）
+---
 
-## 自審
+## 5. Scalability
+<!-- owner: Architect + SRE · required: full-only -->
 
-1. 哪條 NFR confidence < H？列出來與所需補充資料。
-2. 哪些 threshold 是抄業界而非來自 input？標出來。
-3. 如果只能再追加一份 input（例：實際 traffic profile），是哪一份？為什麼？
+<!-- ai-rule: baseline + peak + 來源；scale strategy + trade-off 必填 -->
+
+| Field | Value | Source |
+|---|---|---|
+| **Baseline rps** | <N> | 既有平台 30d 平均 |
+| **Peak rps** | <M> | 既有平台 99p + 行銷活動倍數 |
+| **Concurrent users** | <K> | <ref> |
+| **Scale strategy** | horizontal (stateless API) | ADR-008 |
+| **Trade-off** | horizontal scale 需 session externalization；犧牲記憶體區域性 | — |
+| **Confidence** | **[M]** | _TODO: 需要實際行銷活動 traffic 樣本_ |
+
+---
+
+## 6. Security Classification
+<!-- owner: Security + Architect · required: full-only -->
+
+| Field | Value |
+|---|---|
+| **Data classes** | PII (email/phone), PCI (token), internal (audit log), public (catalog) |
+| **Threat baseline** | threat-model.md ref |
+| **Encryption at-rest** | AES-256 column-level (PII), AES-256 full-disk (DB) |
+| **Encryption in-transit** | TLS 1.3 minimum, mTLS for service-to-service |
+| **Key management** | KMS with quarterly rotation |
+| **Confidence** | **[H]** |
+
+---
+
+## 7. Accessibility (a11y)
+<!-- owner: UX + Architect · required: full-only -->
+
+| Field | Value |
+|---|---|
+| **Level** | WCAG 2.2 AA |
+| **Scope** | Web (responsive); mobile native 走 platform a11y API |
+| **Testing** | axe-core in CI + manual screen reader pass (NVDA + VoiceOver) per release |
+| **Known exemptions** | <e.g. 第三方 widget X 不可達 AA，已通知 vendor> |
+
+---
+
+## 8. Observability Requirements
+<!-- owner: SRE · required: full-only -->
+
+<!-- ai-rule: metrics (SLI) + logs (retention/class) + traces (sampling) + alerting (burn rate) -->
+
+| Pillar | Requirement |
+|---|---|
+| **Metrics** | SLI: latency p50/p95/p99, success rate, RPS; exposed via OpenMetrics |
+| **Logs** | structured JSON, retention 30d hot + 90d cold, PII redacted at source |
+| **Traces** | OpenTelemetry, sampling 10% baseline + 100% error |
+| **Alerting** | SLO-based multi-window burn rate (2%/1h + 5%/6h) |
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner 三件齊 -->
+
+> **R1:** <e.g. p95 < 100ms 需 CDN edge，cost +30%> — **Mitigation:** 從 p95 < 200ms 起 baseline，行銷活動再評估升級 — **Owner:** <Architect>
+>
+> **R2:** <e.g. 99.95% SLO 需 multi-AZ，operability 負擔大> — **Mitigation:** 維持 99.9% 直到實際 traffic 證明需求 — **Owner:** <SRE>
+
+### Open Questions
+
+- [ ] **Q1:** <例：是否需 multi-region failover？>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: Architect · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Availability SLO | 99.9% / 99.95% / 99.99% | 99.9% | 99.95% (cost +50%)、99.99% (需 multi-region) | **[H]** |
+| YYYY-MM-DD | Latency baseline | aggressive (100ms) / moderate (200ms) | 200ms | 100ms (over-provision 浪費，現有 traffic 不需) | **[M]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: Architect · required: full-only -->
+
+本 NFR **不處理**：
+
+- ❌ **第三方依賴 SLA**（由 vendor management 處理）
+- ❌ **災難復原 RPO/RTO**（屬 dr-plan 卡）
+- ❌ **客戶端 a11y**（瀏覽器/作業系統層）— 屬 client-platform 邊界
+- ❌ **個別功能的 capacity plan** — 屬 capacity-plan 卡
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1：例：假設目標市場無 HIPAA>
+  - <假設 2：例：假設僅 web，無 native app>
+- **Highest-value next input:** <下一份最該補的：實際 traffic profile / SLA 條款書面 / 競品 benchmark>
+
+### TODO（缺資料）
+
+- _TODO: 需要實際 traffic profile 校準 p99 threshold（目前估算）_
+- _TODO: 需要 Compliance 確認 PCI scope（SAQ-A vs SAQ-D）_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] Latency 含 p50 / p95 / p99 + page load LCP
+> - [ ] Availability 含 SLO target + error budget + scope + SLI definition
+> - [ ] Compliance 五象限全填（GDPR / SOC 2 / PCI / HIPAA / ISO 27001）+ N/A 有原因
+> - [ ] A11y 含 level + scope + testing 三件
+> - [ ] Observability 四 pillar 齊（metrics / logs / traces / alerting）
+> - [ ] 每條 NFR 含 SLI + SLO + Measurement + Source
+> - [ ] 沒有任何 threshold 抄業界數字（每筆都有 source 或 _TODO_）
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無 YAML / JSON schema 輸出（NFR 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 trade-off 與閾值、threshold 不能抄業界、NFR 必須對應監控與測試。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 NFR markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。**禁抄業界數字** — 缺資料時寫 `_TODO_` 而非套用通用值。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 prd.md / business-impact / sla-commitments / 既有平台 baseline 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 抄業界數字當 NFR（「99.99% 因為大家都這樣寫」= 黑箱）、Latency 只列 p50 沒列 p99（尾延遲無 budget）、Availability SLO 沒定義 SLI（無法量測）、Compliance 砍 GDPR / SOC 2 沒寫 N/A rationale、Observability 段忽略 alerting（事故時沒人知道）。AI 若漏這些，自檢清單會抓到並回頭補。

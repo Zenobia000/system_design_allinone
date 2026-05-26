@@ -29,126 +29,353 @@ source: "software_architect/ppt/05-ilities §Maintainability"
 
 ## AI 怎麼加速
 
-讓 Claude 從近 50 個 PR review 評論抽 pattern，再對應到 lint rule 或 review checklist。
+把 PR comment 樣本 + 既有 lint 設定 + 語言基線整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己抽 pattern，**人工只審 trade-off 與 enforcement 落點**。本卡輸出**真實 Coding Standard markdown 文件**（含 rule 表、good/bad 對照、enforcement 分層），**不出 YAML schema**。
 
-```prompt-quick
-你是有 7+ 年生產系統經驗的資深 staff engineer（熟悉效能調校、observability、breaking change policy）。任務：把 PR comment 樣本 + 既有 lint 設定 + 語言/框架基線轉成 Coding Standard（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給新專案 / 早期團隊 / 單語言場景用，**完整範本** 給跨服務統一基線 / 合規 / 多框架場景用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[PR comment 樣本 ≥ 30 條]
-[現有 linter / formatter 設定]
-[語言版本 + 主要框架]
+````template-light
+---
+doc_type: "coding-standard"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["pr-comment-samples", "linter-config"]
+  optional: ["existing-style-guide"]
+---
 
-輸出 schema：language_scope / rules[] (rule/rationale/example_good/example_bad/severity) / linter_config_ref / exceptions_policy / enforcement (CI/pre-commit/review) / versioning
+# Coding Standard: <language-and-framework>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <Dev Lead name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 5, 10, 12），全部必填——刻意沿用完整版的章節編號讓兩版可對照。每條規則行內加 `（依據：PR comment §X / lint rule id）`；每條規則帶 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；輕量版規則上限 **15 條**（超過代表沒取捨）；無法被 linter 偵測且嚴重度 < high 的不入規範。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行，新人 30 秒讀完。內容：本 standard 涵蓋什麼語言+框架、共 N 條規則、最常違反的 top 3 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：這份 standard 解決什麼具體的 review 口水戰>
+
+---
+
+## 2. Language Scope
+
+<!-- ai-rule: 必含語言版本 + 主要框架。版本太舊（>2 年）要在 confidence 標 L 並列升級風險 -->
+
+| Item | Value | Confidence |
+|---|---|---|
+| Language | <e.g. TypeScript 5.4> | **[H]** |
+| Frameworks | <e.g. React 18, Next.js 14> | **[H]** |
+| Linter | <e.g. ESLint 9 + typescript-eslint> | **[H]** |
+| Formatter | <e.g. Prettier 3> | **[H]** |
+
+---
+
+## 3. Rules（top 10-15）
+
+<!-- ai-rule: 每條規則必含 good/bad 對照 + linter rule id（或 TODO 找對應）+ enforcement 層級。Severity 三級：error / warning / info -->
+
+### CS-001 · Severity **error** · Enforcement **lint** · **[H]**
+
+- **Rule:** <一句話描述>
+- **Rationale:** <為何重要 + 從哪個 PR comment 歸納>
+- **Linter rule id:** `@typescript-eslint/no-explicit-any`
+- **Source:** PR comment §XX (出現 8 次)
+
+**Good:**
+```ts
+function fetch<T>(url: string): Promise<T> { ... }
 ```
 
-```prompt-full
-## 角色
-
-你是有 7+ 年生產系統經驗的資深 staff engineer，熟悉效能調校、observability、breaking change policy、ESLint/Ruff/golangci-lint/Checkstyle 等 linter 生態。
-你的輸出會交給 Dev Lead（落地 CI lint job）、reviewer（決定 must-block vs nit）、新人（onboarding 必讀）。
-他們需要每條規則都能被工具自動擋或在 review 一眼看出來，所以你的 standard 必須機械可消費、嚴重度分級清楚。
-
-## 情境脈絡
-
-團隊 ≥ 3 人或新語言/新框架導入時用本 Coding Standard。
-本卡核心問題：哪些靠工具自動擋、哪些靠 review、哪些只是建議 — 把 review 時的口水戰提前壓縮成 linter 設定。
-
-## 輸入素材
-
-[PR comment 樣本 ≥ 30 條（含被指出問題與作者修正）]
-[現有 linter / formatter 設定（.eslintrc / pyproject.toml / .golangci.yml 等）]
-[語言版本 + 主要框架 + 既有風格指南（如 Google Style Guide）]
-
-## 規則
-
-1. 每條規則註明 source：[input 第 X 段 PR comment] 或 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例如：嚴格禁用 any 型別會增加新人 ramp-up 時間 X%）。
-3. 缺資料的欄位標 TODO(缺什麼)，不要編造；列「需要什麼補上」。
-4. 每條規則必須涵蓋 maintainability / security / observability 三象限至少一個，並標 enforcement 層級（lint / pre-commit / review / 文件建議）。
-5. Out of scope 至少 3 條，明寫不處理什麼（例如：不處理跨語言通則、不處理 IDE 設定、不處理 git workflow）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明為何不確定。
-7. 不超過 30 條規則 — 超過代表沒有取捨；無法被 linter 偵測且嚴重度 < high 的不入規範。
-
-## 輸出格式（YAML）
-
-language_scope:
-  language: <string>
-  version: <string>
-  frameworks: [<framework>]
-  source: <input ref>
-  confidence: H | M | L
-
-rules:
-  - id: CS-001
-    rule: <一句話描述>
-    rationale: <為何重要 + 從哪個 PR comment 歸納>
-    example_good: |
-      <code>
-    example_bad: |
-      <code>
-    severity: error | warning | info
-    enforcement: lint | pre-commit | review | doc-only
-    linter_rule_id: <e.g. @typescript-eslint/no-explicit-any 或 TODO(找對應規則)>
-    source: <input ref>
-    confidence: H | M | L
-
-linter_config_ref:
-  file: <.eslintrc.json / pyproject.toml / ...>
-  ci_job: <CI 名稱>
-  fail_on: error
-  source: <input ref>
-
-exceptions_policy:
-  how_to_request: <e.g. inline disable + PR comment + Dev Lead approve>
-  expiry: <例：每季 review 一次>
-  audit_log: <where>
-
-enforcement:
-  ci: <job 名稱 + fail policy>
-  pre_commit: <hook 列表>
-  review: <checklist 連結>
-
-versioning:
-  current_version: <semver>
-  change_policy: <如何提案修改 / 投票機制>
-  deprecation_window: <例：兩個 sprint>
-
-decision_log:
-  - decision: <如：選 Prettier 而非 dprint>
-    options_considered: [Prettier, dprint, Biome]
-    chosen: Prettier
-    rejected_reason:
-      dprint: <why not>
-      Biome: <why not>
-    confidence: H | M | L
-
-out_of_scope:
-  - 跨語言通則（每語言獨立 standard）
-  - IDE / editor 個人設定
-  - Git commit message 規範（屬另一份文件）
-
-## 思考步驟
-
-產出前先：
-1. 從 PR comment 抓 5 個高頻 pattern（次數 + 嚴重度），分別標 H/M/L confidence
-2. 列至少 2 條 viable 嚴格度路徑（strict 全擋 vs progressive 漸進啟用），各自負面後果
-3. 列你做了但 input 沒明說的假設（例如假設團隊已用某 linter）
-4. 確認每條規則都有 enforcement 落點，不是純文件建議
-
-## 輸出
-
-（依 output_schema YAML 填寫）
-
-## 自審
-
-1. 哪條規則 confidence < H？需要再蒐集哪類 PR comment？
-2. 哪些規則來自我的常識而非 input 樣本？標出來。
-3. 如果只能再追加一份 input，是 production incident postmortem 還是更多 PR comment？為什麼？
+**Bad:**
+```ts
+function fetch(url: any): any { ... }
 ```
 
-回審重點：human 判斷 trade-off、嚴重度閾值、enforcement 落點、是否真的能被 linter 自動擋。
+### CS-002 · Severity **warning** · Enforcement **pre-commit** · **[M]**
+
+...
+
+---
+
+## 5. Enforcement Matrix
+
+<!-- ai-rule: 每條規則都要有 enforcement 落點 — lint / pre-commit / review / doc-only 之一，無落點視為純廢話 -->
+
+| Layer | Tool | Fail policy | Notes |
+|---|---|---|---|
+| **CI lint** | <ESLint job name> | fail on error | block merge |
+| **Pre-commit** | husky / lefthook | fail on error | local-only |
+| **Review** | code-review-checklist | reviewer 判斷 | nit 可拒絕 |
+| **Doc-only** | this file | reviewer 引用 | 無自動擋 |
+
+---
+
+## 10. Decision Log（key 2-3 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Formatter 選擇 | Prettier / Biome | Prettier | Biome 工具鏈太新、IDE 整合不足 | **[H]** |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份 standard 最低 confidence 規則：** <列出所有 [L] 與 [M] 規則>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1>
+- **Highest-value next input:** <下一份最該補的 PR comment 主題 / production incident 史>
+
+### TODO（缺資料）
+
+- _TODO: 需要 CS-007 對應 linter rule id_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 5, 10, 12，刻意不連號）
+> - [ ] 規則數量 ≤ 15（超過代表沒取捨）
+> - [ ] 每條規則帶 inline `[H/M/L]` badge + good/bad 對照 + linter rule id
+> - [ ] 每條規則有 enforcement 層級（不是純文件建議）
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（standard 是給人讀的 markdown）
+````
+
+````template-full
+---
+doc_type: "coding-standard"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["pr-comment-samples", "linter-config", "language-version"]
+  optional: ["existing-style-guide", "incident-postmortem"]
+---
+
+# Coding Standard: <language-and-framework>
+
+**Status:** Draft v0.X · **Owner:** <Dev Lead name> · **Last updated:** YYYY-MM-DD · **Reviewers:** Dev / Security / Architect
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。對標 Google / Airbnb / Microsoft Style Guide。每條規則行內 `（依據：PR comment §X / lint rule id / incident §Y）`；每規則 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；規則上限 **30 條**（超過代表沒取捨）；無法被 linter 偵測且嚴重度 < high 的不入規範；每條規則必須涵蓋 maintainability / security / observability 至少一象限；禁 YAML/JSON schema 輸出。
+
+---
+
+## 1. Executive Summary
+<!-- owner: Dev Lead · required: always -->
+
+<!-- ai-fill: 3-5 行，新人 30 秒讀完。內容：涵蓋的語言+框架、規則數、最高頻違規 top 3、enforcement 層級分佈 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：解決什麼具體 review 口水戰>
+
+---
+
+## 2. Language Scope
+<!-- owner: Dev Lead · required: always -->
+
+| Item | Value | Confidence |
+|---|---|---|
+| Language | <e.g. TypeScript 5.4> | **[H]** |
+| Frameworks | <e.g. React 18, Next.js 14> | **[H]** |
+| Linter | <e.g. ESLint 9 + typescript-eslint> | **[H]** |
+| Formatter | <e.g. Prettier 3> | **[H]** |
+| Test framework | <e.g. Vitest> | **[H]** |
+
+---
+
+## 3. Rules（max 30）
+<!-- owner: Dev Lead + Security · required: always -->
+
+<!-- ai-rule: 每條必含 good/bad 對照 + linter rule id + enforcement + dimension (maintainability/security/observability)。Severity: error / warning / info -->
+
+### CS-001 · Severity **error** · Enforcement **lint** · Dimension **security** · **[H]**
+
+- **Rule:** <一句話描述>
+- **Rationale:** <為何重要 + 從哪個 PR comment / incident 歸納>
+- **Linter rule id:** `@typescript-eslint/no-explicit-any`
+- **Source:** PR comment §XX (8 次) + incident §YY
+
+**Good:**
+```ts
+function fetch<T>(url: string): Promise<T> { ... }
+```
+
+**Bad:**
+```ts
+function fetch(url: any): any { ... }
+```
+
+### CS-002 · Severity **warning** · Enforcement **pre-commit** · Dimension **maintainability** · **[M]**
+
+...
+
+---
+
+## 4. Linter Config Reference
+<!-- owner: Dev Lead · required: full-only -->
+
+<!-- ai-rule: 必列實際檔名 + CI job + fail_on policy。檔名缺失要 TODO -->
+
+| Item | Value |
+|---|---|
+| Config file | `.eslintrc.json` / `pyproject.toml` / `.golangci.yml` |
+| CI job | <job name> |
+| Fail on | error |
+| Pre-commit hook | husky / lefthook |
+
+---
+
+## 5. Enforcement Matrix
+<!-- owner: Dev Lead + DevOps · required: always -->
+
+<!-- ai-rule: 4 層 enforcement 全列。每條規則都要 mapping 到一層 -->
+
+| Layer | Tool | Fail policy | Rules mapped |
+|---|---|---|---|
+| **CI lint** | <ESLint job> | fail on error → block merge | CS-001, CS-003, ... |
+| **Pre-commit** | husky | fail on error → block local commit | CS-002, CS-005, ... |
+| **Review** | code-review-checklist | reviewer 判斷 | CS-010, CS-015, ... |
+| **Doc-only** | this file | reviewer 引用 | CS-020 |
+
+---
+
+## 6. Exceptions Policy
+<!-- owner: Dev Lead · required: full-only -->
+
+<!-- ai-rule: 必含 how_to_request + expiry + audit_log。沒 expiry 的 exception 會變永久債 -->
+
+- **How to request:** <e.g. inline `eslint-disable-next-line` + PR comment 註明原因 + Dev Lead approve>
+- **Expiry:** <e.g. 每季 review 一次，逾期自動清掉>
+- **Audit log:** <where to track — 例：CODEOWNERS 文件 / 內部 wiki>
+- **Allowed reasons:** <e.g. third-party lib 限制 / 性能熱點 / 過渡期>
+
+---
+
+## 7. Versioning
+<!-- owner: Dev Lead · required: full-only -->
+
+| Item | Value |
+|---|---|
+| Current version | v<semver> |
+| Change policy | <如何提案 — 例：PR + 2 個 Dev Lead approve + RFC> |
+| Deprecation window | <e.g. 2 sprints> |
+| Migration path | <如何遷移舊代碼> |
+
+---
+
+## 8. Onboarding Path
+<!-- owner: Dev Lead · required: full-only -->
+
+<!-- ai-rule: 新人讀完此 standard 應能在多少時間內提交合規 PR — 必須給數字 -->
+
+| Phase | Target | Resource |
+|---|---|---|
+| Day 1 | 讀完本 standard + 跑通 lint | this doc + lint setup guide |
+| Week 1 | 第一個合規 PR | mentorship + code-review-checklist |
+| Month 1 | 能 review 同儕 PR | review pair + Dev Lead shadow |
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner 三件齊 -->
+
+> **R1:** <例：嚴格禁用 any 會延長新人 ramp-up 30%> — **Mitigation:** <配 pair programming + 漸進啟用> — **Owner:** <name>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：CS-007 對應的 linter rule 尚未找到，是否改為 review-layer？>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: Dev Lead · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Formatter 選擇 | Prettier / Biome / dprint | Prettier | Biome (工具鏈太新)、dprint (社群小、IDE 整合不足) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: Dev Lead · required: full-only -->
+
+本 standard **不處理**：
+
+- ❌ **不處理跨語言通則** — 每語言獨立 standard（multi-repo 場景）
+- ❌ **不處理 IDE / editor 個人設定** — 屬個人偏好
+- ❌ **不處理 git workflow / commit message** — 屬另一份文件
+- ❌ **不處理 architecture / design pattern** — 屬 ADR 卡
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份 standard 最低 confidence 規則：** <列出所有 [L] 與 [M] 規則>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1>
+  - <假設 2>
+- **Highest-value next input:** <e.g. production incident postmortem / 更多 PR comment 樣本 / 競品 standard>
+
+### TODO（缺資料）
+
+- _TODO: 需要 CS-007 對應 linter rule id_
+- _TODO: 補 React server component 相關規則_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] 規則數量 ≤ 30（超過代表沒取捨）
+> - [ ] 每條規則帶 inline `[H/M/L]` badge + good/bad 對照 + linter rule id + enforcement + dimension
+> - [ ] Enforcement Matrix 4 層全列，每條規則都有對應落點
+> - [ ] Exceptions Policy 含 how_to_request + expiry + audit_log 三件
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無 YAML / JSON schema 輸出（standard 是給人讀的 markdown）
+````
+
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 Coding Standard markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 PR comment 樣本 ≥ 30 條 / .eslintrc / pyproject.toml / 語言版本 / 既有 style guide）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 200 條規則無工具支撐（變死規條）、只規定縮排卻不規定錯誤處理（漏 security/observability 象限）、規則無 enforcement 落點（變純文件建議無人遵守）、規則沒對應 linter rule id 也無 TODO（無法自動化）、Decision Log 只列 chosen 不列 rejected（無法追溯為何不選別的）、exception 沒 expiry（變永久債）。AI 若漏這些，自檢清單會抓到並回頭補。

@@ -29,139 +29,349 @@ Postmortem 的目的是讓系統變強，不是讓人變慘。Blameless 不是�
 
 ## AI 怎麼加速
 
-把 incident report + chat log 餵給 Claude 抽 5 Whys 與改善候選，IC 與 owner 只審根因歸類與行動項可執行性。
+把 incident report + chat log + 監控資料整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解抽 5 Whys 與改善候選，**人工只審根因歸類與行動項可執行性**。本卡輸出**真實 postmortem markdown 文件**（對標 Google SRE blameless postmortem），含表格、5-Whys 鏈、inline `[H/M/L]` confidence badge，**不出 YAML schema**。
 
-```prompt-quick
-你是有 7+ 年 SRE 經驗的資深 SRE（熟悉 SLO/SLI/error budget、incident response、Google SRE blameless postmortem）。任務：把 incident report + chat log + 監控資料轉成 postmortem draft（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本：**輕量範本**給 SEV-3 / near-miss / 小團隊用，**完整範本**給 SEV-1/2 / 跨團隊 / 需上報高層場景。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[Incident report]
-[Chat log（事故當下）]
-[Metric / dashboard 截圖摘要]
+```template-light
+---
+doc_type: "postmortem"
+variant: "light"
+status: "draft"
+owner: "<IC-or-service-owner>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["incident-report"]
+  optional: ["chat-log", "metric-snapshot"]
+---
 
-輸出 schema：incident_ref / root_cause / contributing_factors / what_went_well / what_went_wrong / action_items / blameless_summary / prevention_categories / systemic_changes / decision_log / out_of_scope（3 條）
+# Postmortem: <INC-NNN · short-title>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <service owner> · **IC:** <name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 5, 10, 12），全部必填——刻意沿用完整版的章節編號讓兩版可對照。每結論行內加 `（依據：incident-report §XXX / chat-log §YYY）`；每量化欄位 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；**Blameless：不寫人名作為根因**，個人錯誤一律歸因為「系統未保護該操作」；action item 必須有 owner + due + 驗收條件。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行 blameless 摘要，給高層 30 秒讀完。不含人名，只談「哪個系統缺口導致什麼影響、改了什麼」 -->
+
+<3-5 行 blameless 說明>
+
+> **TL;DR:** <一句話：根因類別 + 影響範圍 + 最重要的改善>
+
+| Field | Value |
+|---|---|
+| **Incident ref** | INC-NNN |
+| **Severity** | SEV-1 / SEV-2 / SEV-3 |
+| **Duration** | <e.g. 2024-XX-XX 14:32 ~ 15:48 UTC, 76 min> |
+| **Impact** | <受影響使用者 / 業務功能> |
+| **Error budget burn** | <% of 28d budget> |
+
+---
+
+## 2. Root Cause（5 Whys）
+
+<!-- ai-rule: 5 層 why 必須往「系統 / 流程 / 訓練」收斂，不能停在「人沒做 X」 -->
+
+| Layer | Question | Answer | Confidence |
+|---|---|---|---|
+| Why 1 | What did users observe? | <observed symptom> | **[H]** |
+| Why 2 | Why did the symptom appear? | <cause of symptom> | **[H]** |
+| Why 3 | Why did that cause exist? | <cause of cause> | **[M]** |
+| Why 4 | Why was the system vulnerable? | <systemic gap> | **[M]** |
+| Why 5 | Why did the org allow that gap? | <process / training / design 缺口> | **[L]** |
+
+> **Primary cause category:** code / config / capacity / dependency / process / training / monitoring — <choose 1>
+
+---
+
+## 3. What Went Well / Wrong
+
+<!-- ai-rule: 各列至少 2 條，附 source；不寫「某人做得好/不好」，寫流程或工具的訊號 -->
+
+### What went well
+
+- ✅ <signal 1> — incident-report §XX
+- ✅ <signal 2> — chat-log §YY
+
+### What went wrong
+
+- ❌ <signal 1> — incident-report §XX
+- ❌ <signal 2> — chat-log §YY
+
+---
+
+## 5. Action Items（≤ 3 條）
+
+<!-- ai-rule: 每條必含 owner + due + severity + 驗收條件 + category；無 owner 寫 `_TODO: 待 EM 指派_` 不留空 -->
+
+| ID | Action | Owner | Due | Severity | Category | Success criteria | Confidence |
+|---|---|---|---|---|---|---|---|
+| AI-001 | <e.g. 加 rollback gate 到 deploy pipeline> | <team> | YYYY-MM-DD | P0 | prevention | <how we know it's done> | **[H]** |
+| AI-002 | ... | ... | ... | P1 | detection | ... | **[M]** |
+
+---
+
+## 10. Decision Log（key 1-2 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | 根因歸類 | capacity / config / dependency | capacity | config (改動點不在本次發布)、dependency (上游無異常) | **[H]** |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1>
+- **Highest-value next input:** <下一份最該補的：deploy log / DB slow-query log / chat-log 全文>
+
+### TODO（缺資料）
+
+- _TODO: 需要 deploy log 校準 Why 3 的時序歸因_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 5, 10, 12，刻意不連號）
+> - [ ] 5 Whys 收斂到系統 / 流程 / 訓練（不停在「人沒做 X」）
+> - [ ] **全文 0 個人名作為根因**（blameless）
+> - [ ] What went well / wrong 各 ≥ 2 條，附 source
+> - [ ] Action items ≤ 3 條，每條有 owner + due + severity + 驗收
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（postmortem 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "postmortem"
+variant: "full"
+status: "draft"
+owner: "<IC-or-service-owner>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["incident-report", "chat-log", "metric-snapshot"]
+  optional: ["runbook-execution-log", "deploy-log"]
+---
 
-你是有 7+ 年 SRE 經驗的資深 SRE，熟悉 SLO/SLI/error budget、incident response、Google SRE blameless postmortem 文化、5 Whys / Fishbone 根因分析。
-你的輸出會交給 服務 owner（補實作細節）、Architect（評估設計缺口）、Engineering Manager（排 action item 優先級）、Training Lead（補訓練）。
-他們需要可執行的改善項，不是檢討個人，所以你必須 blameless 且每個 action 有 owner、due、severity。
+# Postmortem: <INC-NNN · short-title>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <service owner> · **IC:** <name> · **Last updated:** YYYY-MM-DD · **Reviewers:** Architect / EM / Training Lead
 
-SEV-1/2 後 5 工作日內、或重複 SEV-3 出現時用本卡。
-本卡核心問題：把「誰的錯」改寫成「系統的哪個缺口」，每次留下 ≤ 5 個可執行 action item。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。對標 Google SRE blameless postmortem 文化、5 Whys / Fishbone 根因分析。每結論行內 `（依據：incident-report §XXX / chat-log §YYY）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；**Blameless：寫流程 / 工具 / 訓練 / 設計缺口，不寫人名作為根因**，個人錯誤一律歸因為「系統未保護該操作」；action item 必須有 owner + due + severity + 驗收；prevention 必須覆蓋 detection / response / recovery / prevention 四類；禁 YAML/JSON schema 輸出。
 
-## 輸入素材
+---
 
-[Incident report（含 timeline、impact、comms log）]
-[Chat log（事故當下，含決策時刻）]
-[Metric / dashboard 截圖摘要]
-[Runbook 執行紀錄（如有偏離）]
+## 1. Executive Summary
+<!-- owner: IC + Service owner · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行 blameless 摘要，給高層 30 秒讀完。不含人名 -->
 
-1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例如：選「加更多告警」會增加 alert fatigue X%）。
-3. 缺資料寫 TODO(缺什麼)，不要編造；列「需要什麼補上」。
-4. SLO compliance：列出本事故對 error budget 的消耗 %；NFR 含告警延遲、MTTR、MTTA。
-5. Out of scope：明列 3 條本文件不處理（例如：個人績效檢討、商業影響細算、合約罰款計算）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. Blameless：寫流程/工具/訓練/設計缺口，不寫人名作為根因；個人錯誤一律歸因於「系統未保護該操作」。
+<3-5 行 blameless 說明：哪個系統缺口、什麼影響、最重要的改善>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：根因類別 + 影響 + 最重要的改善>
 
-incident_ref:
-  required: true
-  type: string
-  source: <input ref>
+| Field | Value |
+|---|---|
+| **Incident ref** | INC-NNN |
+| **Severity** | SEV-1 / SEV-2 / SEV-3 |
+| **Duration** | <ISO timestamps + 總分鐘> |
+| **Impact** | <受影響使用者 / 業務 / 收入> |
+| **Error budget burn** | <% of 28d budget> |
+| **MTTA / MTTR** | <e.g. 8 min / 76 min> |
 
-root_cause:
-  required: true
-  type: object
-  five_whys:
-    - why_1: <observed symptom>
-    - why_2: <cause of symptom>
-    - why_3: <cause of cause>
-    - why_4: <systemic>
-    - why_5: <organisational/process>
-  primary_cause_category: enum[code, config, capacity, dependency, process, training, monitoring]
-  source: <input ref>
-  confidence: H | M | L
+---
 
-contributing_factors:
-  - factor: <string>
-    category: enum[detection, response, recovery, prevention]
-    source: <input ref>
-    confidence: H | M | L
+## 2. Root Cause（5 Whys）
+<!-- owner: IC · required: always -->
 
-what_went_well:
-  - <signal + source>  # 至少 2 條
-what_went_wrong:
-  - <signal + source>  # 至少 2 條
+<!-- ai-rule: 5 層 why 必須收斂到系統 / 流程 / 訓練 / 設計缺口；不能停在「人沒做 X」；每層附 evidence -->
 
-action_items:
-  - id: AI-001
-    statement: <action>
-    owner: <name/team or TODO>
-    due: <ISO date or TODO>
-    severity: enum[P0, P1, P2]
-    category: enum[detection, response, recovery, prevention]
-    success_criteria: <how we'll know it's done>
-    source: <input ref>
-    confidence: H | M | L
+| Layer | Question | Answer | Evidence | Confidence |
+|---|---|---|---|---|
+| Why 1 | What did users observe? | <observed symptom> | ticket §XX | **[H]** |
+| Why 2 | Why did the symptom appear? | <cause of symptom> | metric §YY | **[H]** |
+| Why 3 | Why did that cause exist? | <cause of cause> | deploy-log §ZZ | **[M]** |
+| Why 4 | Why was the system vulnerable? | <systemic gap> | chat-log §AA | **[M]** |
+| Why 5 | Why did the org allow that gap? | <process / training / design 缺口> | EM interview | **[L]** |
 
-blameless_summary:
-  required: true
-  type: string  # ≤ 200 字，給高層讀，不含人名
+> **Primary cause category:** code / config / capacity / dependency / process / training / monitoring — <choose 1>
 
-prevention_categories:
-  detection: [<改善 1>, <改善 2>]
-  response: [<改善 1>]
-  recovery: [<改善 1>]
+---
 
-systemic_changes:
-  - change: <e.g. 新增 rollback gate>
-    cost: <effort estimate>
-    risk_if_skipped: <負面後果>
+## 3. Contributing Factors
+<!-- owner: IC + Architect · required: always -->
 
-decision_log:
-  - decision: <e.g. 根因歸類為 capacity vs config>
-    options_considered: [capacity, config, dependency]
-    chosen: capacity
-    rejected_reason:
-      config: <why not>
-      dependency: <why not>
-    confidence: H | M | L
+<!-- ai-rule: 每條標 category（detection / response / recovery / prevention）+ source + confidence -->
 
-out_of_scope:
-  - 個人績效檢討（屬 manager 1:1）
-  - 商業影響精算（屬財務）
-  - 合約罰款計算（屬法務）
+| Factor | Category | Source | Confidence |
+|---|---|---|---|
+| <例：alert 延遲 12 min 才觸發> | detection | metric §X | **[H]** |
+| <例：rollback 路徑未自動化> | recovery | runbook §Y | **[M]** |
 
-## 思考步驟
+---
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（first alert 延遲、ack 延遲、mitigation 選錯、rollback 缺）各標 H/M/L confidence
-2. 列至少 2 條根因路徑（technical vs process）與各自的負面後果
-3. 列你做了但 input 沒明說的假設（如 ack 延遲歸因於 alert fatigue 還是 paging 設定）
-4. 確認 prevention 4 類（detection/response/recovery/prevention）都涵蓋
+## 4. Timeline
+<!-- owner: IC · required: full-only -->
 
-## 輸出
+<!-- ai-rule: 用 markdown table 寫，含時刻 + 事件 + 來源；至少含 detection / mitigation / recovery 三個關鍵點 -->
 
-（依 output_schema YAML 填寫）
+| Time (UTC) | Event | Source |
+|---|---|---|
+| 14:32 | First user report | ticket-1234 |
+| 14:40 | Alert fired | pagerduty §X |
+| 14:48 | On-call ack | chat §Y |
+| 15:10 | Mitigation R1 applied | chat §Z |
+| 15:48 | Service restored | metric §W |
 
-## 自審
+---
 
-1. 哪個欄位 confidence < H？列出來與所需補充資料。
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input（例如 deploy log、DB slow query log），是哪一份？為什麼？
+## 5. What Went Well / Wrong
+<!-- owner: All · required: always -->
+
+<!-- ai-rule: 各列 ≥ 3 條，附 source；談流程 / 工具的訊號，不談個人 -->
+
+### What went well
+
+- ✅ <signal 1> — incident-report §X
+- ✅ <signal 2> — chat-log §Y
+- ✅ <signal 3> — runbook §Z
+
+### What went wrong
+
+- ❌ <signal 1> — incident-report §X
+- ❌ <signal 2> — chat-log §Y
+- ❌ <signal 3> — metric §Z
+
+---
+
+## 6. Prevention Categories（4 類覆蓋）
+<!-- owner: IC + Architect · required: always -->
+
+<!-- ai-rule: detection / response / recovery / prevention 四類都要有 ≥ 1 條改善；缺一類須在 Rationale 寫明 -->
+
+| Category | Improvement | Linked AI |
+|---|---|---|
+| **Detection** | <e.g. 加 SLI burn alert> | AI-001 |
+| **Response** | <e.g. on-call paging 改路由> | AI-002 |
+| **Recovery** | <e.g. rollback 自動化> | AI-003 |
+| **Prevention** | <e.g. deploy gate 加 staging soak 30 min> | AI-004 |
+
+---
+
+## 7. Systemic Changes
+<!-- owner: Architect · required: full-only -->
+
+<!-- ai-rule: 列出需要的系統 / 流程級改動，含成本與略過風險 -->
+
+| Change | Effort | Risk if skipped |
+|---|---|---|
+| <e.g. 新增 deploy rollback gate> | <2 weeks · 1 SRE> | <下次同類事故 MTTR 預估 +30 min> |
+
+---
+
+## 8. Blameless Summary
+<!-- owner: IC · required: always -->
+
+<!-- ai-rule: ≤ 200 字，給高層讀，不含人名，敘事而非條列 -->
+
+<段落，不含人名，描述：什麼系統缺口 + 影響 + 改了什麼 + 預期下次效果>
+
+---
+
+## 9. Action Items（≤ 5 條）
+<!-- owner: EM · required: always -->
+
+<!-- ai-rule: 每條必含 owner + due + severity + category + 驗收條件；無 owner 寫 `_TODO: 待 EM 指派_`，不留空 -->
+
+| ID | Action | Owner | Due | Severity | Category | Success criteria | Confidence |
+|---|---|---|---|---|---|---|---|
+| AI-001 | <e.g. 加 SLI burn alert> | <team> | YYYY-MM-DD | P0 | detection | <how we know> | **[H]** |
+| AI-002 | ... | ... | ... | P1 | response | ... | **[M]** |
+| AI-003 | ... | ... | ... | P1 | recovery | ... | **[M]** |
+| AI-004 | ... | ... | ... | P2 | prevention | ... | **[M]** |
+
+---
+
+## 10. Decision Log
+<!-- owner: IC · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | 根因主類別 | capacity / config / dependency | capacity | config (改動點不在本次發布)、dependency (上游無異常) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: IC · required: full-only -->
+
+本 Postmortem **不處理**：
+
+- ❌ **個人績效檢討** — 屬 manager 1:1
+- ❌ **商業影響精算** — 屬財務
+- ❌ **合約罰款計算** — 屬法務
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1：ack 延遲歸因於 alert fatigue 而非 paging 設定>
+  - <假設 2：rollback 失敗歸因於權限缺口>
+- **Highest-value next input:** <下一份最該補的：deploy log / DB slow-query log / 完整 chat-log>
+
+### TODO（缺資料）
+
+- _TODO: 需要 deploy log 校準 Why 3 時序歸因_
+- _TODO: 補 AI-003 owner（待 EM 指派）_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] 5 Whys 收斂到系統 / 流程 / 訓練 / 設計（不停在「人沒做 X」）
+> - [ ] **全文 0 個人名作為根因**（blameless）— 個人錯誤歸因為「系統未保護該操作」
+> - [ ] Timeline 含 detection / mitigation / recovery 三關鍵時間點
+> - [ ] What went well / wrong 各 ≥ 3 條，附 source
+> - [ ] Prevention 4 類（detection / response / recovery / prevention）都有 ≥ 1 條
+> - [ ] Action items ≤ 5 條，每條有 owner + due + severity + category + 驗收
+> - [ ] Blameless Summary ≤ 200 字、不含人名、敘事體
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（postmortem 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷根因歸類是否誠實、action item 是否真的有 owner 接、是否真的 blameless、改善是否壓在系統面而非個人。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 postmortem markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 incident report / chat log 全文 / metric dashboard 截圖摘要 / runbook 執行紀錄全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 把根因寫成人名（= blameful，違反 Google SRE 文化）、5 Whys 停在 Why 2（沒往系統面收斂）、action item 無 owner 或無 due（= 永遠不會做）、Prevention 4 類沒全覆蓋（偏 detection 不修 recovery）、Decision Log 只列 chosen 不列 rejected。AI 若漏這些，自檢清單會抓到並回頭補。

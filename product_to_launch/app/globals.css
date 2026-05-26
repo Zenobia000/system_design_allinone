@@ -592,6 +592,48 @@ body {
 }
 .detail-body article strong { color: var(--ink-on-cream); font-weight: 500; }
 
+/* — GFM alert callouts (overrides base blockquote when class="alert alert-*") — */
+.detail-body article blockquote.alert {
+  font-style: normal;
+  color: var(--ink-on-cream);
+  padding: 16px 22px 18px;
+}
+.detail-body article blockquote.alert p { margin-bottom: 8px; }
+.detail-body article blockquote.alert p:last-child { margin-bottom: 0; }
+.detail-body article blockquote.alert .alert-label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.detail-body article blockquote.alert-note {
+  border-left-color: var(--blue-deep);
+  background: rgba(109, 213, 237, 0.07);
+}
+.detail-body article blockquote.alert-note .alert-label { color: var(--blue-deep); }
+.detail-body article blockquote.alert-tip {
+  border-left-color: #2d7a4e;
+  background: rgba(45, 122, 78, 0.07);
+}
+.detail-body article blockquote.alert-tip .alert-label { color: #2d7a4e; }
+.detail-body article blockquote.alert-important {
+  border-left-color: var(--accent);
+  background: rgba(255, 106, 26, 0.08);
+}
+.detail-body article blockquote.alert-important .alert-label { color: var(--accent); }
+.detail-body article blockquote.alert-warning {
+  border-left-color: var(--accent-dark);
+  background: rgba(139, 111, 71, 0.10);
+}
+.detail-body article blockquote.alert-warning .alert-label { color: var(--accent-dark); }
+.detail-body article blockquote.alert-caution {
+  border-left-color: var(--red);
+  background: rgba(229, 77, 77, 0.07);
+}
+.detail-body article blockquote.alert-caution .alert-label { color: var(--red); }
+
 /* — stamp-style status badges (replaces ✅/❌/⚠️ emoji) — */
 .detail-body article li.li-mark {
   list-style: none;

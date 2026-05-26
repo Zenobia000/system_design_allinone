@@ -31,135 +31,371 @@ Prototype 用 Figma/Framer 串起 wireframe，讓**真實使用者能點、能�
 
 ## AI 怎麼加速
 
-從 wireframe + user flow 產互動腳本、測試題目與 edge state，人工只審任務真實性與引導風險。
+把 wireframe + user flow + 受測者 segment 整份丟給 agent，讓 agent 讀範本內 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審任務真實性與引導風險**。本卡輸出**真實 prototype plan markdown**（含 flow 步驟、互動 spec、測試題目表、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 5+ 年 product design 經驗的資深 UX designer（熟悉 user research、interaction patterns、prototype tooling、WCAG 2.2）。任務：把 wireframe + user flow 轉成 互動 Prototype（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份 prototype 契約的兩種版本：**輕量範本** 給單一 flow、3 個受測任務以內的 quick check，**完整範本** 給高風險互動（金流 / 註冊）+ 5 受測者 think-aloud + a11y audit 場景。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[Wireframe（screen + flow）]
-[User flow（含分支與例外）]
-[受測目標與使用者 segment]
+````template-light
+---
+doc_type: "prototype"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["wireframe", "user-flow"]
+  optional: ["recruit-criteria"]
+---
 
-輸出 schema：flow_steps / interaction_specs / edge_state_screens / narration_script / test_questions / prototype_fidelity / known_limitations / decision_log / out_of_scope（3 條）
+# Prototype Plan: <product-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <UX name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 6, 10, 12），全部必填——刻意沿用完整版章節編號讓兩版可對照。Fidelity 必為 low / mid（不浪費資源做 high）；測試任務必為 task-based（給目標、不告訴怎麼做）；嚴禁引導性語句（「這裡是不是很簡單？」= 直接 reject）；每結論行內 `（依據：wireframe §XXX / flow §YY）`；量化欄位 `[H/M/L]` badge；缺資料寫 `_TODO_` 不編造受測者 quote。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行：受測 flow、fidelity 等級、預計受測人數、最大未驗證假設 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：本 prototype 要在 build 前驗證什麼互動>
+
+---
+
+## 2. Flow Steps
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 用 mermaid `flowchart LR` 畫 prototype 涵蓋的主流程；節點 5-9 個；包含 ≥ 1 個 edge state 分支。
+
+```mermaid
+flowchart LR
+    Start[Entry] --> S1[Screen 1]
+    S1 -->|tap CTA| S2[Screen 2]
+    S2 -->|success| S3[Success]
+    S2 -->|error| S1
 ```
 
-```prompt-full
-## 角色
+### Step table
 
-你是有 5+ 年 product design 經驗的資深 UX designer / researcher，熟悉 Figma / Framer prototype、interaction heuristics、think-aloud protocol、task-based testing、WCAG 2.2 keyboard/screen reader audit。
-你的輸出會交給 UX（跑 usability test）、UI（接續做 high-fidelity）、Dev（估開發成本與技術限制）、PM（驗證需求）。
-他們會用來「在寫程式前用最低成本驗證互動」，所以 prototype 必須夠真實到能測試（覆蓋邊界 state、可點可滑），但不浪費資源做最終視覺。
+| Step | Screen | User goal | Expected action | Next | Confidence |
+|---|---|---|---|---|---|
+| 1 | S1 | <一句目標> | tap primary CTA | S2 | **[H]** |
+| 2 | S2 | <一句目標> | 填表單 + submit | S3 | **[H]** |
 
-## 情境脈絡
+---
 
-高風險互動（金流、註冊、首次體驗）、新手勢/動畫、stakeholder 對 flow 有歧見時用本卡。
-本卡核心問題：PRD 上看起來合理的流程，使用者實際操作會不會迷失？哪些邊界 state 必須在 prototype 涵蓋才能測出真實問題？
+## 3. Edge State Coverage
 
-## 輸入素材
+<!-- ai-rule: 至少涵蓋 3 種 edge state（loading / empty / error 必有 1）；每條含 trigger + recovery path -->
 
-[Wireframe（screen + flow，已凍）]
-[User flow（含分支、錯誤、回退）]
-[受測目標與使用者 segment（招募條件）]
-[技術限制（例：mobile gesture 支援度）]
+| State | Screen | Trigger | Recovery path |
+|---|---|---|---|
+| loading | S2 | submit 後等待 < 2s | 顯示 spinner + 禁用 CTA |
+| error | S2 | API 失敗 / 表單錯誤 | inline error + retry |
+| empty | S3 | 無歷史資料 | empty illustration + CTA |
 
-## 規則
+---
 
-1. 每個任務 / 互動註明 source：[wireframe screen ID / flow 第 X 步 / 訪談 P3]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例：prototype 做到 high-fidelity 真實但受測者會被視覺分心、做太粗糙又測不出 micro-interaction 問題）。
-3. 缺資料的欄位標 TODO(缺什麼)，不編造受測者 quote 或 metric；列「需要什麼補上」。
-4. a11y（WCAG 2.2）：prototype 必須可用鍵盤完成主要任務、focus 視覺可見、不只用色傳達狀態——任一未達需於 known_limitations 說明為何此 prototype 暫不涵蓋。
-5. Out of scope 至少 3 條，明寫不做什麼（例：不做後端 API 串接、不做最終視覺、不做 motion timing 微調）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. 測試任務必須 task-based（給目標，不告訴怎麼做）；嚴禁引導性語句（「這裡是不是很簡單？」）。
+## 6. Test Questions（task-based）
 
-## 輸出格式（YAML）
+<!-- ai-rule: 每題 task-based 情境（不告訴怎麼做）+ success criteria + ≥ 3 個 observation checkpoint；嚴禁引導語 -->
 
-flow_steps:
-  - step: 1
-    screen: <screen ID>
-    user_goal: <該步驟使用者想達成什麼>
-    expected_action: <點 / 滑 / 鍵入>
-    next_screen: <下一個 screen ID>
-    source: <input ref>
-    confidence: H | M | L
+### T1: <情境名稱>
 
-interaction_specs:
-  - element: <CTA / input / gesture>
-    gesture: enum[tap, swipe, long_press, drag, keyboard]
-    transition: <fade / slide / instant>
-    timing_ms: <duration>
-    feedback: <視覺 / 觸覺 / 音效>
+- **Scenario:** 「<例：你剛收到訂單，請取消上個月的訂閱。>」
+- **Success criteria:** time ≤ 60s · clicks ≤ 4 · errors ≤ 1
+- **Observation checkpoints:**
+  - <可能卡住的點 1>
+  - <可能卡住的點 2>
+  - <可能卡住的點 3>
+- **Leading-language check:** ✅ 已自審無引導語
+- **Source:** wireframe §S2
 
-edge_state_screens:
-  - state: enum[loading, empty, error, partial, offline, success]
-    screen: <對應 screen ID>
-    trigger: <何條件進此 state>
-    recovery_path: <如何離開>
-    source: <input ref>
+### T2: ...
 
-narration_script:
-  intro: <給受測者的開場（中立、不引導）>
-  consent: <錄影 / 資料使用授權話術>
-  closing: <收尾感謝 + follow-up>
+---
 
-test_questions:
-  - task_id: T1
-    scenario: <情境，task-based，例：「你想取消上個月的訂閱，請完成它」>
-    success_criteria:
-      time_max: <秒>
-      clicks_max: <次>
-      errors_max: <次>
-    observation_checkpoints: [<≥ 5 個可能卡住的點>]
-    follow_up_open: [<為什麼這樣選 / 預期看到什麼>]
-    leading_check: <自審：此題是否引導？>
-    source: <input ref>
+## 10. Decision Log（key 2-3 條）
 
-prototype_fidelity:
-  level: enum[low, mid, high]
-  rationale: <為何此 fidelity——夠真實但不過度>
-  tool: <Figma / Framer / ProtoPie>
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
 
-known_limitations:
-  - <例：iOS 手勢無法在 web prototype 還原>
-  - <例：鍵盤 a11y 在 Figma prototype 不可測>
-  - <例：真實 API latency 未模擬>
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Fidelity 等級 | low / mid / high | mid | low (測不出 micro)、high (受測者視覺分心) | **[H]** |
 
-decision_log:
-  - decision: <例：fidelity 用 mid 還是 high>
-    options_considered: [low, mid, high]
-    chosen: mid
-    rejected_reason:
-      low: <為何不>
-      high: <為何不>
-    confidence: H | M | L
+---
 
-out_of_scope:
-  - <例：不做後端 API 串接 / 真實資料>
-  - <例：不做最終視覺 / 品牌色>
-  - <例：不做 motion timing 微調>
+## 12. Confidence & Sources & TODO
 
-## 思考步驟
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions：**
+  - <例：假設受測者裝置為 mobile + 有網路>
+- **Highest-value next input:** <例：技術 spike 結果 / 競品 prototype 對標>
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（user flow 高風險節點 / 預期使用者卡點 / 技術限制）
-2. 列至少 2 條 viable fidelity 路徑（mid vs high）與各自負面後果
-3. 列你做了但 input 沒明說的假設（例：假設受測者裝置為 mobile、有網路）
-4. 確認 a11y 限制是否誠實列入 known_limitations
+### Known limitations
 
-## 輸出
+- <例：iOS 手勢無法在 web prototype 還原>
+- <例：鍵盤 a11y 在 Figma prototype 不可測>
 
-（依 output_schema YAML 填寫）
+### TODO（缺資料）
 
-## 自審
+- _TODO: 需招募 5 位目標 segment 受測者_
 
-1. 哪個任務 confidence < H？是否有引導性語句？
-2. 哪些假設來自我而非 input？標出來（特別是「受測者會理解情境」這類假設）。
-3. 如果只能再追加一份 input，是哪一份（例：技術 spike 結果 vs 競品 prototype）？為什麼？
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 6, 10, 12）
+> - [ ] Flow steps 含 mermaid + table 兩種呈現
+> - [ ] Edge state ≥ 3 種，每條有 trigger + recovery path
+> - [ ] Test questions 全為 task-based（**沒引導語**）
+> - [ ] 每題 ≥ 3 個 observation checkpoint
+> - [ ] Fidelity 為 low / mid（**沒寫 high**）
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（prototype plan 是給人讀的 markdown）
+````
+
+````template-full
+---
+doc_type: "prototype"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["wireframe", "user-flow", "recruit-criteria"]
+  optional: ["tech-spike", "competitive-prototype-analysis"]
+---
+
+# Prototype Plan: <product-name>
+
+**Status:** Draft v0.X · **Owner:** <UX name> · **Last updated:** YYYY-MM-DD · **Reviewers:** UI / Dev / PM
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。Fidelity 必為 low / mid / high 三選一，且須在 Decision Log 寫 rationale；測試任務必為 task-based（給目標、不告訴怎麼做）；**嚴禁引導性語句**（「這裡是不是很簡單？」= 直接 reject）；每結論行內 `（依據：wireframe §XXX / flow §YY / 訪談 P3）`；量化欄位 `[H/M/L]` badge；缺資料 `_TODO_` 不編造受測者 quote；a11y 限制必須誠實列入 known_limitations；禁 YAML/JSON schema 輸出。
+
+---
+
+## 1. Executive Summary
+<!-- owner: UX · required: always -->
+
+<!-- ai-fill: 3-5 行：受測 flow、fidelity 等級、預計受測人數、最大未驗證假設、下游使用方式 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：本 prototype 要在 build 前驗證什麼互動>
+
+---
+
+## 2. Flow Steps
+<!-- owner: UX · required: always -->
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 用 mermaid `flowchart LR` 畫 prototype 涵蓋的主流程；節點 5-9 個；至少 2 個分支（含 1 個 error / edge state）。
+
+```mermaid
+flowchart LR
+    Start[Entry] --> S1[Screen 1]
+    S1 -->|tap CTA| S2[Screen 2]
+    S2 -->|valid| S3[Confirm]
+    S2 -->|invalid| S2err[Error state]
+    S2err -->|retry| S2
+    S3 --> End[Success]
 ```
 
-回審重點：human 判斷任務是否真實反映使用者目標、是否引導答案、edge state 涵蓋是否誠實、prototype fidelity 是否符合測試目的。
+### Step table
+
+| Step | Screen | User goal | Expected action | Next | Confidence |
+|---|---|---|---|---|---|
+| 1 | S1 | <一句目標> | tap primary CTA | S2 | **[H]** |
+| 2 | S2 | <一句目標> | 填表單 + submit | S3 / S2err | **[H]** |
+
+---
+
+## 3. Edge State Coverage
+<!-- owner: UX + UI · required: always -->
+
+<!-- ai-rule: 至少涵蓋 5 種 edge state（loading / empty / error / offline / partial / success）；每條含 trigger + recovery path + source -->
+
+| State | Screen | Trigger | Recovery path | Source |
+|---|---|---|---|---|
+| loading | S2 | submit 後等待 < 2s | spinner + 禁 CTA | flow §3 |
+| empty | S3 | 無歷史資料 | empty illustration + CTA | flow §5 |
+| error | S2 | API 失敗 / 表單錯誤 | inline + retry | flow §4 |
+| offline | S1 | 偵測無網路 | offline banner + cache | tech-spike |
+| partial | S2 | 部分欄位失敗 | 標紅 + 保留其他 | flow §4 |
+
+---
+
+## 4. Interaction Specs
+<!-- owner: UX + UI · required: full-only -->
+
+<!-- ai-rule: 每元素含 gesture + transition + timing + feedback -->
+
+| Element | Gesture | Transition | Timing (ms) | Feedback |
+|---|---|---|---|---|
+| Primary CTA | tap | instant | — | 視覺 ripple + haptic |
+| Card swipe | swipe-left | slide | 250 | 視覺 + haptic |
+| Long press | long_press (600ms) | scale 0.95 | 600 | haptic |
+
+---
+
+## 5. Participant & Method
+<!-- owner: UX · required: full-only -->
+
+- **Participants:** n = 5（NN/g 建議）
+- **Segment:** <目標使用者描述>
+- **Recruit criteria:** <篩選條件 + 排除條件>
+- **Method:** moderated think-aloud
+- **Session duration:** 45 分鐘
+- **Device:** <桌機 / 手機 / iOS / Android>
+
+---
+
+## 6. Test Questions（task-based）
+<!-- owner: UX · required: always -->
+
+<!-- ai-rule: 每題 task-based 情境（不告訴怎麼做）+ success criteria + ≥ 5 observation checkpoint + leading-language 自審；嚴禁引導語 -->
+
+### T1: <情境名稱>
+
+- **Scenario:** 「<例：你剛收到訂單，請取消上個月的訂閱。>」
+- **Success criteria:** time ≤ 60s · clicks ≤ 4 · errors ≤ 1
+- **Observation checkpoints:**
+  - <可能卡住的點 1>
+  - <可能卡住的點 2>
+  - <可能卡住的點 3>
+  - <可能卡住的點 4>
+  - <可能卡住的點 5>
+- **Follow-up open questions:**
+  - 「剛剛你為什麼這樣選？」
+  - 「你預期看到什麼？」
+- **Leading-language check:** ✅ 已自審無引導語（「這裡是不是很簡單？」= reject）
+- **Source:** wireframe §S2
+
+### T2 · T3 · ...
+
+---
+
+## 7. Narration Script
+<!-- owner: UX · required: full-only -->
+
+- **Intro:** 「<中立開場，不引導期待>」
+- **Consent:** 「<錄影 / 資料使用授權話術>」
+- **Think-aloud reminder:** 「<請邊操作邊說出你在想什麼>」
+- **Closing:** 「<收尾感謝 + follow-up 邀請>」
+
+---
+
+## 8. Prototype Fidelity & Tool
+<!-- owner: UX + UI · required: full-only -->
+
+- **Fidelity level:** low / mid / high — **Chosen:** mid
+- **Rationale:** <為何此 fidelity——夠真實但不浪費>
+- **Tool:** Figma / Framer / ProtoPie / Maze
+- **Trade-off:** <high 受測者視覺分心 / low 測不出 micro-interaction>
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Known limitations（誠實列入）
+
+- <例：iOS 手勢無法在 web prototype 還原>
+- <例：鍵盤 a11y 在 Figma prototype 不可測，需另跑 a11y audit>
+- <例：真實 API latency 未模擬，loading 體感與生產有差>
+
+### Risks
+
+> **R1:** <例：受測者 segment 不代表目標市場> — **Mitigation:** 嚴格招募條件 — **Owner:** <name>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：partial state 是否需測？>
+
+---
+
+## 10. Decision Log
+<!-- owner: UX · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Fidelity 等級 | low / mid / high | mid | low (測不出 micro)、high (受測者視覺分心) | **[H]** |
+| YYYY-MM-DD | Moderated vs unmoderated | mod / unmod / RITE | mod | unmod (think-aloud 無法觀察)、RITE (本輪非迭代) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: UX · required: full-only -->
+
+本 prototype plan **不處理**：
+
+- ❌ **不做後端 API 串接 / 真實資料** — 屬 Dev / 整合測試
+- ❌ **不做最終視覺 / 品牌色** — 屬 hi-fi mockup
+- ❌ **不做 motion timing 微調** — 屬 motion spec
+- ❌ **不做量化 A/B test** — 樣本太小，屬上線後埋點
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions：**
+  - <例：假設受測者裝置為 mobile + 有網路>
+  - <例：假設受測者 ≥ 5 名能涵蓋 80% 可用性問題>
+- **Highest-value next input:** <技術 spike 結果 / 競品 prototype 對標 / 第 6 名受測者>
+
+### TODO（缺資料）
+
+- _TODO: 需招募 5 位目標 segment 受測者_
+- _TODO: 補 partial state 互動規格_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] Flow steps 含 mermaid + table 兩種呈現
+> - [ ] Edge state ≥ 5 種（含 loading / empty / error / offline / partial）
+> - [ ] Interaction specs 含 gesture + transition + timing + feedback
+> - [ ] Test questions 全為 task-based（**沒引導語**），每題 ≥ 5 observation checkpoint
+> - [ ] Leading-language 自審行已標 ✅
+> - [ ] Narration script 4 段齊（intro / consent / think-aloud / closing）
+> - [ ] Fidelity 等級在 Decision Log 有 rationale
+> - [ ] Known limitations 誠實列入 a11y 限制
+> - [ ] Decision Log 每條 ≥ 2 個 rejected + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（prototype plan 是給人讀的 markdown）
+````
+
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 prototype plan markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 wireframe / user flow / 受測者招募條件 / 技術限制 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** Prototype 做到 high-fidelity 變成「demo 用」而非「測試用」、測試題目寫成引導語（「這裡是不是很簡單？」= 直接 reject）、edge state 只列 happy path、Known limitations 隱瞞 a11y 限制（受測完才發現鍵盤不通）、Decision Log 沒寫 fidelity 為何選 mid（= 黑箱）。AI 若漏這些，自檢清單會抓到並回頭補。

@@ -29,131 +29,330 @@ source: "deep-research-report.md §Implementation, §Deployment, Netflix canary"
 
 ## AI 怎麼加速
 
-讓 Claude 對 diff 標出「應該被 flag 包起來」的變更類型，並產生 cleanup 任務。
+把 diff + 既有 flag inventory + release plan 整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己標出高風險變更與 cleanup 任務，**人工只審 expiry 合理性與 kill switch 觸發條件**。本卡輸出**真實 Feature Flag spec markdown 文件**（含 flag 表、telemetry、cleanup policy），**不出 YAML schema**。
 
-```prompt-quick
-你是有 7+ 年生產系統經驗的資深 staff engineer（熟悉效能調校、observability、breaking change policy、Netflix canary / LaunchDarkly / Unleash 等 flag 平台）。任務：把 diff + 既有 flag inventory + release plan 轉成 Feature Flag spec（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給單 flag / kill switch / 小規模灰度用，**完整範本** 給 AB 實驗 / 跨服務 rollout / 合規場景用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[git diff 全文]
-[既有 flag inventory / 命名規約]
-[release plan 或 canary policy]
+```template-light
+---
+doc_type: "feature-flag"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["git-diff", "flag-inventory"]
+  optional: ["release-plan"]
+---
 
-輸出 schema：flag_name / scope (rollout%/segment/region) / kill_switch / expiry_date / owners / dependencies / telemetry / cleanup_policy / fallback_behavior
+# Feature Flag: <flag-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <Dev DRI> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 4, 5, 9, 12），全部必填——刻意沿用完整版的章節編號讓兩版可對照。每結論行內加 `（依據：diff path:line / release-plan §X）`；每量化欄位帶 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；**flag 必須有 expiry_date（≤ 90 天）+ cleanup owner + fallback**，缺一視為不合格。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行，Dev/SRE/PO 30 秒讀完。內容：flag 名、保護什麼變更、預計 rollout 期、kill switch 條件 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：這個 flag 把哪個變更從「不能合」變成「合進去但預設關閉」>
+
+---
+
+## 2. Flag Identity
+
+<!-- ai-rule: 命名必含模組 prefix（snake_case），對齊既有 inventory 規約 -->
+
+| Field | Value | Confidence |
+|---|---|---|
+| **Name** | `<module>_<feature>` (e.g. `checkout_new_pricing`) | **[H]** |
+| **Type** | release / experiment / ops / permission | **[H]** |
+| **Scope** | rollout %: 0-100 / segment / region | **[H]** |
+| **Expiry date** | YYYY-MM-DD (≤ 90 天) | **[H]** |
+
+---
+
+## 4. Owners & Lifecycle
+
+<!-- ai-rule: DRI + cleanup owner 必填（可同人）；expiry 缺失視為不合格 -->
+
+- **DRI:** <person or team>
+- **Cleanup owner:** <負責退役>
+- **Escalation:** <on-call rotation>
+- **Cleanup trigger:** <e.g. rollout = 100% sustained 14 days OR expiry_date reached>
+
+---
+
+## 5. Telemetry & Kill Switch
+
+<!-- ai-rule: 必有 exposure metric + SLO impact metric + kill switch alert 三件 -->
+
+| Signal | Name | Threshold |
+|---|---|---|
+| **Exposure** | `flag.<name>.exposure` | track on/off ratio |
+| **SLO impact** | <e.g. error_rate by flag> | < 1% |
+| **Kill switch alert** | <e.g. error_rate > 1% sustained 5min> | auto-disable flag |
+
+**Fallback on flag eval failure:** <e.g. default to off — 保守路徑>
+
+---
+
+## 9. Risks（top 3）
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner 三件齊 -->
+
+> **R1:** <風險描述> — **Mitigation:** <如何降低> — **Owner:** <誰負責>
+>
+> **R2:** ...
+>
+> **R3:** ...
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1>
+- **Highest-value next input:** <下一份最該補的 SLO 定義 / incident postmortem>
+
+### TODO（缺資料）
+
+- _TODO: 需要 SLO 數值校準 kill switch threshold_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 4, 5, 9, 12，刻意不連號）
+> - [ ] Flag name 含模組 prefix + snake_case
+> - [ ] Expiry date 存在且 ≤ 90 天
+> - [ ] DRI + cleanup owner 兩者皆填
+> - [ ] Telemetry 三件齊：exposure + SLO impact + kill switch alert
+> - [ ] Fallback on eval failure 已寫
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無 YAML / JSON schema 輸出（spec 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "feature-flag"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["git-diff", "flag-inventory", "release-plan"]
+  optional: ["slo-definition", "ab-test-design"]
+---
 
-你是有 7+ 年生產系統經驗的資深 staff engineer，熟悉效能調校、observability、breaking change policy、LaunchDarkly / Unleash / OpenFeature 等 flag 平台、Netflix canary 與 trunk-based development 實踐。
-你的輸出會交給 Dev（實作 flag 包裝）、SRE（監控 flag 對 SLO 影響）、PO（決定開關時機）、QA（驗 on/off 雙路徑）。
-他們需要每個 flag 都有清楚的退役條件與 fallback，所以你的 spec 必須機械可消費、有過期日、有 owner。
+# Feature Flag: <flag-name>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <Dev DRI> · **Last updated:** YYYY-MM-DD · **Reviewers:** Dev / SRE / PO / QA
 
-需要灰度、AB、kill switch、或 trunk-based 高頻部署時用本 Feature Flag。
-本卡核心問題：把「部署」與「發布」拆開 — 把上線風險從「不能合進主幹」變成「合進去但默認關閉」。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。對標 LaunchDarkly / Unleash / OpenFeature / Netflix canary 實踐。每結論行內 `（依據：diff path:line / release-plan §X / SLO §Y）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；**flag 必須有 expiry_date（≤ 90 天）+ cleanup owner + fallback + kill switch + telemetry**，缺一視為不合格；禁 YAML/JSON schema 輸出。
 
-## 輸入素材
+---
 
-[git diff 全文（含新增變更點）]
-[既有 flag inventory（避免重複 / 命名衝突）]
-[release plan 或 canary policy（rollout 階段定義）]
+## 1. Executive Summary
+<!-- owner: Dev DRI · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行：flag 名、保護什麼變更、預計 rollout 期、kill switch 條件、cleanup 期 -->
 
-1. 每個 flag 提案註明 source：[diff 檔案:行號] + 理由（可逆性 / blast radius / 依賴未就緒）。
-2. Trade-off 必須列負面後果（例如：加 flag 會增加 on/off 雙路徑測試成本 +30%，且 flag 不清會累積技術債）。
-3. 缺資料的欄位標 TODO(缺什麼)，不要編造；列「需要什麼補上」（例：缺 owner team 就標 TODO，不要 assign 給 unknown）。
-4. observability 必須涵蓋：flag exposure metric、on/off 路徑的 SLO 影響指標、kill switch 觸發 alert。
-5. Out of scope 至少 3 條，明寫不處理什麼（例：不處理純 bug fix、不處理安全 patch、不處理 UI 文案）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. 每個 flag 必須有 expiry_date（不超過 90 天）與 cleanup owner — 沒過期日的 flag 拒絕入庫。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話總結>
 
-flag_name:
-  value: <snake_case，含模組 prefix，例：checkout_new_pricing>
-  naming_convention_ref: <既有規約來源>
-  source: <input ref>
-  confidence: H | M | L
+---
 
-scope:
-  rollout_percentage: <0-100>
-  segment: [<beta_users / internal / region:tw>]
-  region: [<tw / jp / global>]
-  source: <input ref>
+## 2. Flag Identity
+<!-- owner: Dev DRI · required: always -->
 
-kill_switch:
-  enabled: true | false
-  trigger_metric: <例：error_rate > 1% sustained 5min>
-  rollback_action: <自動關 flag / 自動 revert>
+| Field | Value | Confidence |
+|---|---|---|
+| **Name** | `<module>_<feature>` (snake_case + prefix) | **[H]** |
+| **Type** | release / experiment / ops / permission | **[H]** |
+| **Naming convention ref** | <既有 inventory link> | **[H]** |
+| **Created date** | YYYY-MM-DD | **[H]** |
+| **Expiry date** | YYYY-MM-DD (≤ 90 天) | **[H]** |
 
-expiry_date:
-  date: <YYYY-MM-DD，不超過 90 天>
-  rationale: <為何此日期>
-  source: <input ref>
+---
 
-owners:
-  dri: <person or team>
-  cleanup_owner: <負責退役 — 可同上>
-  escalation: <on-call rotation>
+## 3. Scope & Targeting
+<!-- owner: Dev DRI + PO · required: always -->
 
-dependencies:
-  upstream_flags: [<flag 名稱>]
-  blocking_services: [<service>]
-  data_migration_ref: <link or N/A>
+<!-- ai-rule: rollout % / segment / region 三者至少一個明確；不能寫「全開」當預設 -->
 
-telemetry:
-  exposure_metric: <metric 名稱>
-  slo_impact_metric: [<metric>]
-  alert_rules: [<alert 名稱>]
+| Dimension | Value | Confidence |
+|---|---|---|
+| **Rollout %** | 0-100 (progressive) | **[H]** |
+| **Segments** | beta_users / internal / power_users | **[H]** |
+| **Regions** | tw / jp / global | **[H]** |
+| **Sticky bucketing** | by user_id / session_id | **[H]** |
 
-cleanup_policy:
-  trigger: <e.g. rollout = 100% sustained 14 days OR expiry_date reached>
-  removal_pr_template: <link>
-  audit_log: <where>
+---
 
-fallback_behavior:
-  on_flag_eval_failure: <e.g. default to off>
-  on_provider_outage: <e.g. cache last known value 60s>
-  source: <input ref>
+## 4. Owners & Lifecycle
+<!-- owner: Dev DRI · required: always -->
 
-decision_log:
-  - decision: <如：選 LaunchDarkly 而非自建 config service>
-    options_considered: [LaunchDarkly, Unleash, in_house_config]
-    chosen: LaunchDarkly
-    rejected_reason:
-      Unleash: <why not>
-      in_house_config: <why not>
-    confidence: H | M | L
+<!-- ai-rule: DRI + cleanup owner + escalation 三件齊；cleanup trigger 必須機械可判斷 -->
 
-out_of_scope:
-  - 純 bug fix（不需要 flag）
-  - 安全 patch（不能延遲）
-  - UI 文案修改（屬另一機制）
+- **DRI:** <person or team>
+- **Cleanup owner:** <負責退役，可同 DRI>
+- **Escalation:** <on-call rotation>
+- **Cleanup trigger:** <e.g. rollout = 100% sustained 14 days OR expiry_date reached>
+- **Removal PR template:** <link to PR template for flag removal>
+- **Audit log:** <where cleanup is tracked>
 
-## 思考步驟
+---
 
-產出前先：
-1. 從 diff 抓 3-5 個高風險變更點（schema migration / auth 路徑 / 新依賴 / 演算法替換），分別標 H/M/L confidence
-2. 列至少 2 條 viable rollout 策略（百分比漸進 vs segment 定向），各自負面後果
-3. 列你做了但 input 沒明說的假設（例如假設 flag platform 已就緒）
-4. 確認每個 flag 都有 expiry + cleanup owner + fallback
+## 5. Telemetry & Kill Switch
+<!-- owner: Dev DRI + SRE · required: always -->
 
-## 輸出
+<!-- ai-rule: 三類 signal 必有 — exposure / SLO impact / kill switch alert。每類含名稱 + threshold + action -->
 
-（依 output_schema YAML 填寫）
+| Signal type | Name | Threshold | Action |
+|---|---|---|---|
+| **Exposure** | `flag.<name>.exposure` | on/off ratio tracking | dashboard |
+| **SLO impact** | <e.g. `error_rate{flag=on}`> | < 1% | alert SRE |
+| **Kill switch** | <e.g. error_rate > 1% sustained 5min> | trigger | auto-disable flag |
+| **Latency impact** | <e.g. `p99_latency{flag=on}`> | < SLO + 10% | alert |
 
-## 自審
+---
 
-1. 哪個 flag confidence < H？特別是 expiry / owner 缺資料的要列出來。
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input，是 incident postmortem 還是 SLO 定義？為什麼？
+## 6. Fallback Behavior
+<!-- owner: Dev DRI · required: full-only -->
+
+<!-- ai-rule: provider outage 與 eval failure 兩種情境都要寫；預設行為傾向保守 -->
+
+- **On flag eval failure:** <e.g. default to off — 保守路徑>
+- **On provider outage:** <e.g. cache last known value 60s, then default to off>
+- **On config drift:** <e.g. CI lint 比對 inventory 與 prod state>
+
+---
+
+## 7. Dependencies
+<!-- owner: Dev DRI + Architect · required: full-only -->
+
+<!-- ai-rule: 至少列 upstream flags + blocking services + data migration ref -->
+
+| Type | Item | Status |
+|---|---|---|
+| **Upstream flags** | <flag A must be ON> | required |
+| **Blocking services** | <service X migrated to v2> | required |
+| **Data migration** | <link or N/A> | pre-req |
+
+---
+
+## 8. Rollout Plan
+<!-- owner: Dev DRI + PO · required: full-only -->
+
+<!-- ai-rule: 階段 + 觀察窗口 + 升級條件，禁止「直接全開」 -->
+
+| Phase | % | Window | Promotion criteria |
+|---|---|---|---|
+| Canary | 1% | 24h | error_rate < 0.5%, p99 < SLO |
+| Beta | 10% | 3 days | + no user complaint |
+| GA | 50% → 100% | 7 days | + cleanup PR ready |
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner 三件齊 -->
+
+> **R1:** <例：flag 不清會累積技術債> — **Mitigation:** <expiry + cleanup owner + 每季 audit> — **Owner:** <name>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：是否需要 sticky bucketing by user_id？>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: Dev DRI · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Flag platform 選擇 | LaunchDarkly / Unleash / in_house | LaunchDarkly | Unleash (OSS 但缺 audit log)、in_house (運維成本高) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: Dev DRI · required: full-only -->
+
+本 flag spec **不處理**：
+
+- ❌ **不處理純 bug fix** — 不需要 flag
+- ❌ **不處理安全 patch** — 不能延遲
+- ❌ **不處理 UI 文案修改** — 屬另一機制（content delivery）
+- ❌ **不處理長期 config** — flag ≠ config，flag 必須有 expiry
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1>
+  - <假設 2>
+- **Highest-value next input:** <e.g. SLO 定義 / incident postmortem / consumer traffic profile>
+
+### TODO（缺資料）
+
+- _TODO: 需要 SLO p99 數值校準 kill switch threshold_
+- _TODO: 補 cleanup PR template link_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] Flag name 含模組 prefix + snake_case，對齊既有 inventory
+> - [ ] Expiry date 存在且 ≤ 90 天
+> - [ ] DRI + cleanup owner + escalation 三件齊
+> - [ ] Telemetry 四類齊：exposure + SLO impact + kill switch + latency
+> - [ ] Fallback 寫了 eval failure + provider outage 兩種
+> - [ ] Rollout Plan 階段化（禁直接全開）
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無 YAML / JSON schema 輸出（spec 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 flag 是否真的需要（過度使用會累積技術債）、expiry 是否合理、kill switch 觸發條件是否誠實。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 Feature Flag spec markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 git diff 全文 / 既有 flag inventory / release-plan.md / SLO 定義 / incident 史）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** flag 不設 expiry（變永久 config 累積技術債）、flag 之間互相耦合（rollout 變地獄）、on/off 路徑不測（其中一條走入死路）、kill switch 沒有 alert 觸發條件（人工發現太慢）、cleanup owner 未指派（沒人退役）、把 bug fix 包進 flag（不需要的延遲）、預設行為傾向開（fallback 應保守傾向關）。AI 若漏這些，自檢清單會抓到並回頭補。

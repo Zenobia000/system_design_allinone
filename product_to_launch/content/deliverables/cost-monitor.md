@@ -29,126 +29,313 @@ source: "AWS Builders' Library, FinOps Foundation"
 
 ## AI 怎麼加速
 
-把近 30 天帳單 + tag 規範 + 使用量 metric 丟給 Claude 抽 anomaly 與歸因，DevOps 與 owner 審 rightsizing 風險。
+把近 30 天帳單 + tag 規範 + 使用量 metric 整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 rightsizing 風險與 SLO 影響**。本卡輸出**真實 Cost Monitor markdown 報告**（含成本歸因表、anomaly 規則、savings 候選帶 effort/risk、inline `[H/M/L]` badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 7+ 年 SRE 經驗的資深 SRE / FinOps 分析師（熟悉 AWS Builders' Library、FinOps Foundation、SOC 2 帳務 audit）。任務：把帳單明細 + tag + 使用量 metric 轉成 cost monitor 報告（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本：**輕量範本**給單帳號 / 小團隊 / MVP 預算控管，**完整範本**給跨團隊共用 account / SOC 2 帳務 audit / 多 region production 場景。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[近 30 天帳單明細（含 service / region / tag）]
-[Tag 規範與覆蓋率報表]
-[各服務使用量 metric（CPU / RAM / IO / 流量）]
+```template-light
+---
+doc_type: "cost-monitor"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["billing-export", "service-inventory"]
+  optional: ["tag-policy"]
+---
 
-輸出 schema：cost_per_service / anomaly_detection_method / top_drivers / attribution_tags / savings_candidates / budget_alerts / decision_log / out_of_scope（3 條）
+# Cost Monitor: <account / project>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造；savings 必須附 effort 與 risk。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <DevOps name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 4, 5, 7, 9），全部必填——刻意沿用完整版章節編號讓兩版可對照。每結論行內加 `（依據：billing §XXX）`；每量化欄位帶 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；anomaly 必須用比率（％ MoM 或 σ）而非絕對值；每個 savings 必含 effort + risk + SLO impact 三件。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行，主管 30 秒讀完。內容：總月度成本、MoM delta、top 1-2 driver、最大 savings 候選 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：本月 $X、MoM +Y%、最大 driver 是 Z>
+
+---
+
+## 2. Cost per Service（top 5-10）
+
+<!-- ai-rule: 排序 by monthly_cost desc；tag_owner = untagged 須在第 4 段列入 untagged bucket -->
+
+| Service | Monthly $ | MoM Δ% | Tag owner | Confidence |
+|---|---|---|---|---|
+| <checkout-api> | $X | +12% | team-payments | **[H]** |
+| <log-pipeline> | $Y | +45% | untagged | **[M]** |
+| ... | ... | ... | ... | ... |
+
+---
+
+## 4. Anomaly & Attribution
+
+<!-- ai-rule: anomaly 用比率，不准用絕對值；untagged_bucket 必填即使是 $0 -->
+
+### Anomaly detection
+
+| Field | Value |
+|---|---|
+| **Baseline** | trailing 30d median + seasonality adj |
+| **Threshold** | > 2σ OR > 25% MoM |
+| **Ignored events** | <release X, marketing Y> |
+
+### Attribution tags
+
+| Field | Value | Confidence |
+|---|---|---|
+| **Required tags** | team / feature / env / cost_center | — |
+| **Current coverage** | <e.g. 78%> | **[H]** |
+| **Untagged bucket** | $<N> · `_TODO: 歸因_` | **[M]** |
+
+---
+
+## 5. Savings Candidates
+
+<!-- ai-rule: 每條必含 effort + risk + risk_reason + slo_impact 四件；risk=high 須在 risk_reason 寫明何時觸發 -->
+
+| Candidate | Saving $/mo | Effort | Risk | Risk reason | SLO impact | Confidence |
+|---|---|---|---|---|---|---|
+| <rightsize ec2-prod-checkout> | $X | M | medium | 黑五流量回升會 throttle | burn_risk | **[M]** |
+| <log retention 90d → 30d> | $Y | S | low | debug 視窗縮短 | neutral | **[H]** |
+
+---
+
+## 7. Budget Alerts
+
+<!-- ai-rule: 至少 2 條 alert（forecast 超預算 + untagged bucket 超門檻） -->
+
+| Alert | Threshold | Channel | Audience |
+|---|---|---|---|
+| Forecast > budget × 1.1 | 10% over | slack + email | DevOps + Finance |
+| Untagged bucket > 10% of total | 10% | slack | DevOps |
+
+---
+
+## 9. Decision Log（key 2-3 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | RI 1y vs 3y vs SP | on-demand / RI-1y / RI-3y / SP | SP | RI-3y (commit 太久)、on-demand (省太少) | **[H]** |
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 4, 5, 7, 9）
+> - [ ] Cost per service 表帶 `[H/M/L]` badge + MoM Δ
+> - [ ] Anomaly 用比率（％ / σ）不准用絕對值
+> - [ ] Untagged bucket 必填（即使 $0）
+> - [ ] 每個 savings 含 effort + risk + risk_reason + slo_impact
+> - [ ] Budget alerts ≥ 2 條
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（cost report 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "cost-monitor"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["billing-export", "service-inventory", "tag-policy", "usage-metrics"]
+  optional: ["slo", "capacity-planning"]
+---
 
-你是有 7+ 年 SRE 經驗的資深 SRE / FinOps 分析師，熟悉 AWS Builders' Library、FinOps Foundation framework、Reserved Instance / Savings Plan 計算、rightsizing、SOC 2 帳務 audit trail。
-你的輸出會交給 服務 owner（決定要不要動）、Architect（架構級成本決策）、Finance（核對預算）、各團隊負責人（被歸因者要回應）。
-他們需要可歸因、可決策、有風險評估的 savings 候選，所以每個建議都要附 effort 與 risk。
+# Cost Monitor: <account / project>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <DevOps / FinOps> · **Last updated:** YYYY-MM-DD · **Reviewers:** Finance / Service owners / Architect
 
-雲端帳單 ≥ 月度預算門檻、或多團隊共用基礎設施時用本卡。
-本卡核心問題：把帳單拆到服務 / 環境 / 團隊，設燃燒率告警與預期 baseline，把「失控成本」變成「可歸因可決策」。
+> [!IMPORTANT]
+> **AI 填寫規則：** 10 段 H2 章節全部必填（任一缺失即不合格）。對標 AWS Builders' Library + FinOps Foundation framework。每結論行內 `（依據：billing §XXX / metric §YYY）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；anomaly 必須用比率（％ MoM 或 σ）；savings 必含 effort + risk + SLO impact；無歷史 baseline 寫 `_TODO_`；禁 YAML / JSON schema 輸出。
 
-## 輸入素材
+---
 
-[近 30 天帳單明細（含 service / region / tag）]
-[Tag 規範與覆蓋率報表]
-[各服務使用量 metric（CPU / RAM / IO / 流量）]
-[歷史 6-12 個月帳單摘要（季節性 baseline）]
+## 1. Executive Summary
+<!-- owner: FinOps · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行，主管 30 秒讀完。內容：總月度成本、MoM delta、top 2-3 driver、untagged bucket %、最大 savings 候選 + risk -->
 
-1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認] 或 untagged_bucket。
-2. Trade-off 必須列負面後果（例如：rightsizing X 服務省 $Y/月，但若流量回升會觸發 throttling）。
-3. 缺資料寫 TODO(缺什麼)，不要編造；anomaly 判定需附歷史 baseline，無歷史寫 TODO。
-4. SLO compliance：每個 savings 必須評估對 SLO 的影響（保護 / 中性 / 燃燒風險）；NFR 含 SOC 2 帳務 audit（變更要可追溯）、tag governance、預算 forecast 誤差 ≤ 10%。
-5. Out of scope：明列 3 條（例如：合約談判、外部 SaaS 訂閱、跨 cloud 比價）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. Anomaly 用比率而非絕對值（例如 「比 baseline 高 X%」），不能只說「貴」。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話總結：本月 $X、MoM +Y%、最大可省 $Z>
 
-cost_per_service:
-  - service: <name>
-    monthly_cost_usd: <number>
-    mom_delta_percent: <number>
-    tag_owner: <team or untagged>
-    source: <input ref>
-    confidence: H | M | L
+---
 
-anomaly_detection_method:
-  baseline: <e.g. trailing 30d median + seasonality adj>
-  threshold: <e.g. > 2σ OR > 25% MoM>
-  ignore_known_events: [<release X>, <marketing campaign Y>]
+## 2. Cost per Service
+<!-- owner: FinOps · required: always -->
 
-top_drivers:
-  - service: <name>
-    contribution_percent: <e.g. 35% of total>
-    growth_driver: <e.g. 流量成長 / log volume / 新 region>
-    source: <input ref>
+<!-- ai-rule: 列出 ≥ 80% 總成本的服務；排序 by monthly_cost desc；tag_owner=untagged 須在第 5 段 attribution 列入 -->
 
-attribution_tags:
-  required_tags: [team, feature, env, cost_center]
-  current_coverage: <e.g. 78% of cost tagged>
-  untagged_bucket_usd: <number + TODO(歸因什麼)>
+| Service | Monthly $ | MoM Δ% | Tag owner | Source | Confidence |
+|---|---|---|---|---|---|
+| <checkout-api> | $X | +12% | team-payments | billing §3 | **[H]** |
+| ... | ... | ... | ... | ... | ... |
 
-savings_candidates:
-  - candidate: <e.g. rightsize ec2-prod-checkout>
-    estimated_saving_usd_month: <number>
-    effort: enum[S, M, L]
-    risk: enum[low, medium, high]
-    risk_reason: <e.g. 若黑五流量回升會 throttle>
-    slo_impact: enum[protect, neutral, burn_risk]
-    source: <input ref>
-    confidence: H | M | L
+---
 
-budget_alerts:
-  - alert: <e.g. monthly forecast > budget × 1.1>
-    channel: <e.g. slack + email>
-    audience: <role>
-  - alert: <e.g. untagged_bucket > 10% of total>
-    channel: <slack>
+## 3. Anomaly Detection Method
+<!-- owner: FinOps · required: always -->
 
-decision_log:
-  - decision: <e.g. RI 1y vs 3y>
-    options_considered: [on-demand, RI-1y, RI-3y, savings-plan]
-    chosen: savings-plan
-    rejected_reason:
-      "RI-3y": <committed 太久, 不確定性高>
-      "on-demand": <省太少>
-    confidence: H | M | L
+<!-- ai-rule: anomaly 必須用比率；ignore_known_events 必填即使空陣列 -->
 
-out_of_scope:
-  - 合約談判（屬 Finance / Procurement）
-  - 外部 SaaS 訂閱（屬部門預算）
-  - 跨 cloud 比價（屬 platform strategy）
+| Field | Value | Rationale |
+|---|---|---|
+| **Baseline** | trailing 30d median + seasonality adj | <為何選此 baseline> |
+| **Threshold** | > 2σ OR > 25% MoM | <避免 false alarm> |
+| **Ignored events** | <release X, marketing Y> | <已知 spike 來源> |
 
-## 思考步驟
+---
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（最大成本 driver、最大 MoM 跳升、最大 untagged bucket）各標 H/M/L confidence
-2. 列至少 2 條 savings 路徑（aggressive rightsizing vs RI/SP commit）與各自的負面後果
-3. 列你做了但 input 沒明說的假設（如未來流量、新 feature 上線）
-4. 確認所有 anomaly 都有 baseline 對照
+## 4. Top Drivers
+<!-- owner: FinOps + Architect · required: always -->
 
-## 輸出
+<!-- ai-rule: ≥ 3 條 driver；每條附 growth_driver 來源（流量 / log volume / 新 region / 新 feature） -->
 
-（依 output_schema YAML 填寫）
+| Service | Contribution % of total | Growth driver | Source | Confidence |
+|---|---|---|---|---|
+| <log-pipeline> | 35% | log volume +60% post新 feature | billing §4 + metric §2 | **[H]** |
+| <s3-archive> | 20% | 新 region 啟用 | billing §5 | **[H]** |
 
-## 自審
+---
 
-1. 哪個欄位 confidence < H？列出來與所需補充資料。
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input（例如 instance utilization heatmap、跨 region 流量明細），是哪一份？為什麼？
+## 5. Attribution Tags & Untagged Bucket
+<!-- owner: FinOps + Platform · required: always -->
+
+<!-- ai-rule: untagged_bucket 必填；coverage < 80% 須列為 R1 risk -->
+
+| Field | Value | Confidence |
+|---|---|---|
+| **Required tags** | team / feature / env / cost_center | — |
+| **Current coverage** | <e.g. 78%> | **[H]** |
+| **Untagged bucket $** | $<N> | **[M]** |
+| **Untagged investigation** | _TODO: 反查 ARN → owner_ | — |
+
+---
+
+## 6. Savings Candidates
+<!-- owner: FinOps + Service owners · required: always -->
+
+<!-- ai-rule: 每條必含 effort + risk + risk_reason + slo_impact 四件；risk=high 須額外列入 Risks 段 -->
+
+| Candidate | Saving $/mo | Effort | Risk | Risk reason | SLO impact | Source | Confidence |
+|---|---|---|---|---|---|---|---|
+| <rightsize ec2-prod-checkout> | $X | M | medium | 黑五流量回升會 throttle | burn_risk | metric §3 | **[M]** |
+| <RI 1y commit on RDS prod> | $Y | S | low | commit 1y 鎖定容量 | protect | billing §6 | **[H]** |
+| <log retention 90d → 30d> | $Z | S | low | debug 視窗縮短 | neutral | policy §2 | **[H]** |
+
+---
+
+## 7. Budget Alerts
+<!-- owner: FinOps · required: always -->
+
+<!-- ai-rule: 至少 3 條 alert（forecast 超預算 + untagged bucket + service-level anomaly） -->
+
+| Alert | Threshold | Channel | Audience |
+|---|---|---|---|
+| Forecast > budget × 1.1 | 10% over | slack + email | DevOps + Finance |
+| Untagged bucket > 10% of total | 10% | slack | DevOps |
+| Per-service MoM > 25% | service-level | pagerduty (SEV3) | Service owner |
+
+---
+
+## 8. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner；任何 savings risk=high 必須在這裡列 -->
+
+> **R1:** <untagged bucket > 20% → 無法歸因，無法追責> — **Mitigation:** 強制 tag policy (CI gate) — **Owner:** Platform Lead
+>
+> **R2:** <rightsize 後黑五流量回升 throttle> — **Mitigation:** Auto-scaling guard + rollback runbook — **Owner:** SRE
+
+### Open Questions
+
+- [ ] **Q1:** <新 region 上線後成本是否會繼續成長？需 PO 預估>
+- [ ] **Q2:** <SP commit 期 1y vs 3y 該如何選？>
+
+---
+
+## 9. Decision Log
+<!-- owner: FinOps + Architect · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | RI vs SP vs on-demand | on-demand / RI-1y / RI-3y / SP | SP | RI-3y (commit 太久)、on-demand (省太少) | **[H]** |
+
+---
+
+## 10. Out of Scope & Confidence & TODO
+<!-- owner: All · required: always -->
+
+本 Cost Monitor 報告 **不處理**：
+
+- ❌ **不處理合約談判** — 屬 Finance / Procurement
+- ❌ **不處理外部 SaaS 訂閱（非雲端帳單）** — 屬部門預算
+- ❌ **不處理跨 cloud 比價策略** — 屬 platform strategy
+
+### Confidence & Sources
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1：未來流量 / 新 feature 上線時程>
+- **Highest-value next input:** <下一份最該補的輸入：instance utilization heatmap / 跨 region 流量明細 / commit 期 ROI 試算>
+
+### TODO（缺資料）
+
+- _TODO: 需要 6-12 個月帳單摘要校準 seasonality baseline_
+- _TODO: 反查 untagged ARN 對應 owner_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 10 段 H2 章節齊全（編號 1-10）
+> - [ ] Cost per service 表覆蓋 ≥ 80% 總成本
+> - [ ] Anomaly 用比率（％ / σ）不准用絕對值
+> - [ ] Untagged bucket 必填（即使 $0）
+> - [ ] 每個 savings 含 effort + risk + risk_reason + slo_impact
+> - [ ] Budget alerts ≥ 3 條
+> - [ ] risk=high 的 savings 同時列入 Risks 段
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無 YAML / JSON schema 輸出（cost report 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 rightsizing 是否會壓到 SLO、tag governance 是否需要強制、RI/SP 承諾期是否合理、未歸因 bucket 是否需要追責。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 Cost Monitor markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 近 30 天帳單明細 / tag 規範 + 覆蓋率 / 各服務 usage metric / 歷史 6-12 個月帳單摘要 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** anomaly 用絕對值說「太貴」（無法跨期比較）、savings 不附 SLO impact（rightsize 後出事 SRE 背鍋）、untagged bucket 寫「未知」（要列追查方法）、commit 期決策不附 ROI 試算（Finance 無從審）。AI 若漏這些，自檢清單會抓到並回頭補。

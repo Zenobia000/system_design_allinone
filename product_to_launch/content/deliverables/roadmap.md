@@ -31,143 +31,364 @@ Roadmap 應該是**outcome-based**：列出「要解什麼 problem / 達到什�
 
 ## AI 怎麼加速
 
-把 OKR + backlog + 跨團隊依賴 + capacity 估算丟給 AI 排 outcome-based roadmap（now/next/later），人工只審 outcome 是否真為 outcome（不是包裝成 outcome 的 feature）。
+把 OKR + backlog + 跨團隊依賴 + capacity 估算整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 outcome 是否真為 outcome（不是包裝成 outcome 的 feature）**。本卡輸出**真實 roadmap markdown 文件**（含 now/next/later 表、outcome 表、mermaid timeline、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 5+ 年 SaaS B2B 經驗的資深 PM（熟悉 OKR / JTBD / PRD / ADR / outcome-based roadmap）。任務：把 OKR + backlog + 依賴 + capacity 轉成 outcome-based roadmap（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本：**輕量範本**給單一 squad / 一季視野用，**完整範本**給跨季規劃 / stakeholder ≥ 5 人 / 含 bets 與 invalidation 訊號的場景用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[OKR（本季 + 下季）]
-[Backlog + RICE 分數]
-[跨團隊依賴清單 + capacity 估算]
+```template-light
+---
+doc_type: "roadmap"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["okr", "backlog"]
+  optional: ["team-capacity"]
+---
 
-輸出 schema：now_next_later / outcomes[]（含 leading KPI）/ dependencies（cross-team / tech）/ bets_and_milestones / capacity_assumptions / decision_log / out_of_scope（3 條）
+# Roadmap · <team-name> · <FY-Qn → FY-Qn+2>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；outcome 必須描述「解什麼問題」而非「上什麼 feature」；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <PM name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 5 段（編號 1, 2, 3, 10, 12），全部必填——刻意沿用完整版章節編號讓兩版可對照。Outcome **必須描述「解什麼問題 / 達到什麼狀態」**，禁寫 feature 名（負面後果：feature 延期整份 roadmap 失信）；越遠越粗（now 具體 / next 方向 / later 假設）。每結論 `（依據：OKR §X / 客戶承諾 §Y）`；每量化欄位 `[H/M/L]` badge；缺資料寫 `_TODO: 需要 XXX_` 不編造。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行：本 roadmap 視野（quarters）、now 欄 outcome 數、最大依賴風險、最不確定的 later bet -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：未來三季要解的核心問題群>
+
+---
+
+## 2. Now / Next / Later
+
+<!-- ai-rule: 三欄結構，越遠越粗。now 欄含具體 initiative；next 欄列方向 + 信心區間；later 欄列假設 + 觸發條件 -->
+
+| Horizon | Timeframe | Outcomes | Initiative status |
+|---|---|---|---|
+| **NOW** | <current Q> | OUT-001, OUT-002 | committed initiatives: <具體名> |
+| **NEXT** | <Q+1> | OUT-003 | candidates: <未承諾候選> |
+| **LATER** | <Q+2 ~ Q+3> | OUT-004 | triggers to promote: <什麼條件下升到 next> |
+
+---
+
+## 3. Outcomes（含 KPI）
+
+<!-- ai-rule: 每個 outcome 含 statement (狀態/結果，不是 feature 名) + leading KPI + lagging KPI + 對齊 OKR + 候選手段 -->
+
+### OUT-001 · NOW · **[H]**
+
+- **Statement:** <例：讓中型 SaaS 客戶在第一週感受到核心價值（不寫「上線 X feature」）>
+- **Leading KPI:** <週/月可看，例：activation rate W1 from 30% → 50%>
+- **Lagging KPI:** <季末看，例：W4 retention from 40% → 55%>
+- **Candidate initiatives:** <手段 A：onboarding 流程精簡 / 手段 B：in-app guide>
+- **Aligned OKR:** KR-1
+- **Source:** OKR §KR-1 + 客戶訪談 §3
+
+### OUT-002 · NOW · **[M]**
+
+...
+
+### OUT-003 · NEXT · **[M]**
+
+...
+
+### OUT-004 · LATER · **[L]**
+
+...
+
+---
+
+## 10. Decision Log（key 1-2 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected option + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why |
+|---|---|---|---|---|
+| YYYY-MM-DD | <例：OUT-002 放 now 還是 next> | now / next / 砍掉 | next | now (capacity 壓爆 OUT-001)、砍掉 (與 KR-2 強相關) |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **最低 confidence 項：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1，例：依賴團隊本季優先級不變>
+- **Highest-value next input:** <依賴團隊 commitment / 客戶訪談 / capacity 實測 三選一>
+
+### TODO（缺資料）
+
+- _TODO: 需要 platform team 確認 OUT-003 依賴 timeline_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 5 段 H2 章節齊全（編號 1, 2, 3, 10, 12，刻意不連號）
+> - [ ] 每個 outcome statement 描述「狀態 / 結果」，無 feature 名（「上線 X」「ship Y」= reject）
+> - [ ] 每個 outcome 含 leading KPI + lagging KPI 兩件
+> - [ ] 越遠越粗：now 具體 / next 方向 / later 假設 + 觸發條件
+> - [ ] 每結論帶 `[H/M/L]` badge + `（依據：...）` 行內引用
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（roadmap 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+````template-full
+---
+doc_type: "roadmap"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["okr", "backlog", "team-capacity", "cross-team-dependencies"]
+  optional: ["customer-commitments", "competitive-scan", "hiring-pipeline"]
+---
 
-你是有 5+ 年 SaaS B2B 經驗的資深 PM，熟悉 OKR、JTBD、PRD、ADR、outcome-based roadmap、now/next/later 框架、SAFe portfolio。
-你的輸出會交給 PO（依 roadmap 排 backlog 與 sprint）、HR（規劃招募）、業務（對客戶做承諾）、Stakeholders（資源預估與商業節奏對齊）。
-他們需要在 quarter-kickoff 會議用 roadmap 做承諾與資源決策，所以 outcome 必須真為 outcome、依賴必須真實、信心必須誠實。
+# Roadmap · <team-name> · <FY-Qn → FY-Qn+2>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <PM name> · **Last updated:** YYYY-MM-DD · **Reviewers:** PO / Dev Lead / Exec sponsor / HR
 
-跨季規劃、stakeholder ≥ 5 人需對齊、有外部承諾需求時用本 roadmap。
-本卡核心問題：讓 stakeholder 看到「未來三季要解什麼問題」而非「哪天上什麼 feature」，feature 是手段，可被替換。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。Outcome **必須描述「解什麼問題 / 達到什麼狀態」**，禁寫 feature 名（feature 延期整份 roadmap 失信，但 outcome 可用替代手段達成）；每個 outcome 必含 leading KPI（季中可調整）+ lagging KPI（季末判定）；越遠越粗（now 具體 initiative / next 方向 + 信心區間 / later 假設 + 觸發條件）；跨團隊依賴必標 owner team + needed by week + fallback；capacity 假設必標預留 incident & tech debt budget 20-30%。每結論 `（依據：OKR §X / 客戶承諾 §Y / capacity §Z）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；禁 YAML/JSON schema 輸出。
 
-## 任務
+---
 
-根據以下 input 產出「Roadmap · 產品路線圖」draft，採 now / next / later 三欄結構，越遠越粗。
+## 1. Executive Summary
+<!-- owner: PM · required: always -->
 
-## 輸入素材
+<!-- ai-fill: 3-5 行：本 roadmap 視野、now 欄 outcome 數、最大依賴風險、最強 bet、最不確定的 later 假設 -->
 
-[OKR（本季 + 下季 + 北極星指標）]
-[Backlog + RICE 分數 + 已驗證 user pain]
-[跨團隊依賴清單 + capacity 估算 + 外部承諾與 deadline]
+<3-5 行說明>
 
-## 規則
+> **TL;DR:** <一句話：未來三季要解的核心問題群 + 我們相信什麼>
 
-1. 每個 outcome 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Outcome 必須描述「解什麼問題 / 達到什麼狀態」，禁止寫 feature 名（負面後果：feature 延期整份 roadmap 失信，但 outcome 可用替代手段達成）。
-3. 每個 outcome 必含 leading KPI（季中可調整）+ lagging KPI（季末判定）。
-4. 越遠越粗：now 欄需含具體 initiative；next 欄列方向 + 信心區間；later 欄列假設 + 觸發條件。
-5. 跨團隊依賴必標 owner team + 預期完成週次 + fallback plan；外部 blocker 必標等待對象 + 替代方案。
-6. Capacity 假設必標：團隊人力 / 預留 incident & tech debt budget %（建議 20–30%）/ 招募節奏。
-7. Out of scope 至少 3 條（例：純技術重構走 tech roadmap、bug fix 走運維 sprint、實驗性 spike 走 discovery budget）。
+---
 
-## 輸出格式（YAML）
+## 2. Now / Next / Later
+<!-- owner: PM · required: always -->
 
-now_next_later:
-  now:
-    timeframe: <例：current quarter>
-    outcomes: [<outcome-id>]
-    initiatives_committed: [<具體 initiative>]
-  next:
-    timeframe: <例：next quarter>
-    outcomes: [<outcome-id>]
-    initiative_candidates: [<候選 initiative，未承諾>]
-  later:
-    timeframe: <例：2-3 quarters out>
-    outcomes: [<outcome-id>]
-    triggers_to_promote: [<什麼條件下會升到 next>]
+<!-- ai-rule: 三欄結構，越遠越粗 -->
 
-outcomes:
-  - id: OUT-001
-    statement: <要解什麼問題 / 達到什麼狀態>
-    leading_kpi:
-      metric: <週/月可看>
-      target: <number>
-    lagging_kpi:
-      metric: <季末看>
-      target: <number>
-    candidate_initiatives: [<手段 A, 手段 B>]
-    aligned_okr: <OKR-id>
-    source: <input ref>
-    confidence: H | M | L
+| Horizon | Timeframe | Outcomes | Initiative status |
+|---|---|---|---|
+| **NOW** | <current Q (Q-name)> | OUT-001, OUT-002 | committed: <具體 initiative 名> |
+| **NEXT** | <Q+1> | OUT-003 | candidates (未承諾): <候選 initiative> |
+| **LATER** | <Q+2 ~ Q+3> | OUT-004, OUT-005 | triggers to promote: <什麼條件下升到 next，例：OUT-001 lagging KPI 達標 + market signal> |
 
-dependencies:
-  cross_team:
-    - dep_id: DEP-001
-      owner_team: <team>
-      needed_by_week: <ISO week>
-      fallback_plan: <若延遲怎麼辦>
-      confidence: H | M | L
-  tech_dependencies: [<infra / platform 升級>]
-  external_blockers:
-    - blocker: <vendor / regulator>
-      awaiting: <what>
-      alternative: <plan B>
+---
 
-bets_and_milestones:
-  - bet_id: BET-001
-    hypothesis: <我們相信...，因為...>
-    invalidation_signal: <什麼訊號代表錯了>
-    milestone_check: <什麼時間點檢查>
-    sunset_criteria: <什麼條件下放棄>
+## 3. Timeline View
+<!-- owner: PM · required: full-only · skippable: 純 now-focus 時可省 -->
 
-capacity_assumptions:
-  team_size: <FTE>
-  reserved_for_incident_and_tech_debt: <%>
-  hiring_pipeline: <下季預計報到人數>
-  velocity_baseline: <近 3 sprint 平均>
-  source: <input ref>
+> [!IMPORTANT]
+> **AI 填寫規則：** 用 mermaid `gantt` 視覺化 outcome 跨季佈局。**不鎖死日期**，只用 quarter 粒度（不寫 specific dates）。
 
-decision_log:
-  - decision: <例：為何 outcome A 放 now 而非 next>
-    options_considered: [<A>, <B>, <C>]
-    chosen: <A>
-    rejected_reason:
-      B: <為何不選>
-      C: <為何不選>
-    confidence: H | M | L
-
-out_of_scope:
-  - <本 roadmap 不含 thing 1，例：純技術重構走 tech roadmap>
-  - <本 roadmap 不含 thing 2，例：bug fix 走運維 sprint>
-  - <本 roadmap 不含 thing 3，例：實驗性 spike 走 discovery budget>
-
-## 思考步驟
-
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（OKR 連結強度、客戶承諾 deadline、跨團隊 capacity 風險），標 H/M/L confidence
-2. 列至少 2 條 viable roadmap 策略（聚焦少數大 outcome vs 並行多個小 outcome），各自負面後果（聚焦會錯過多元商業機會；並行會 capacity 攤薄拖延）
-3. 列你做了但 input 沒明說的假設（招募節奏、市場節奏、依賴團隊優先級）
-4. 確認每個 outcome 描述都是「狀態 / 結果」而非「feature 名」
-
-## 輸出
-
-（依 output_schema YAML 填寫）
-
-## 自審
-
-1. 哪個 outcome 其實是 feature 包裝？列出來與重寫建議。
-2. 哪些假設來自我而非 input（特別是依賴團隊優先級 / capacity 數字）？標出來。
-3. 如果只能再追加一份 input（依賴團隊 commitment / 客戶訪談 / capacity 實測），哪一份對 roadmap 品質提升最大？
+```mermaid
+gantt
+    title Outcome Roadmap (quarter granularity, not dates)
+    dateFormat YYYY-MM-DD
+    section NOW
+    OUT-001 activation lift     :a1, 2025-Q1, 90d
+    OUT-002 onboarding revamp   :a2, 2025-Q1, 90d
+    section NEXT
+    OUT-003 retention play      :b1, 2025-Q2, 90d
+    section LATER
+    OUT-004 monetization bet    :c1, 2025-Q3, 90d
+    OUT-005 platform expansion  :c2, 2025-Q3, 90d
 ```
 
-回審重點：human 判斷是否真為 outcome（不是 feature 改名）、依賴是否真實、信心分數是否誠實、capacity 預留是否足夠應付 incident。
+---
+
+## 4. Outcomes（含 KPI）
+<!-- owner: PM · required: always -->
+
+<!-- ai-rule: 每個 outcome 含 statement (狀態/結果) + leading + lagging KPI + 候選 initiative + 對齊 OKR -->
+
+### OUT-001 · NOW · **[H]**
+
+- **Statement:** <例：讓中型 SaaS 客戶在 onboarding 第一週感受到核心價值>
+- **Leading KPI:** activation rate W1 from 30% → 50% (Amplitude)
+- **Lagging KPI:** W4 retention from 40% → 55% (Looker)
+- **Candidate initiatives:** <手段 A：onboarding 精簡 / 手段 B：in-app guide / 手段 C：首週 success manager>
+- **Aligned OKR:** KR-1
+- **Source:** OKR §KR-1 + 訪談 §3
+
+### OUT-002 · NOW · **[M]**
+
+...
+
+### OUT-003 · NEXT · **[M]**
+
+...
+
+### OUT-004 · LATER · **[L]**
+
+...
+
+---
+
+## 5. Cross-Team Dependencies
+<!-- owner: PM + Dev Lead · required: full-only -->
+
+<!-- ai-rule: 每條依賴必含 owner team + needed by week + fallback plan -->
+
+| Dep ID | Outcome blocked | Owner team | Needed by | Fallback plan | Confidence |
+|---|---|---|---|---|---|
+| DEP-001 | OUT-001 | platform-team | Week 4 | <例：本地 in-memory cache 暫代> | **[M]** |
+| DEP-002 | OUT-003 | data-team | Week 12 | <例：手動 pipeline 撐 1 季> | **[L]** |
+
+### Tech Dependencies
+
+- <例：infra K8s 1.30 升級>（owner: SRE, needed by Week 6）
+- <例：design system v2 migration>（owner: design-platform, needed by Week 8）
+
+### External Blockers
+
+| Blocker | Awaiting | Alternative (plan B) | Confidence |
+|---|---|---|---|
+| <例：vendor-X API v2> | release timeline | 用 v1 + adapter layer | **[M]** |
+| <例：金管會函釋> | 7 月公布 | 先做 sandbox, 公布後 1 週切真實 | **[L]** |
+
+---
+
+## 6. Bets & Milestones
+<!-- owner: PM · required: full-only -->
+
+<!-- ai-rule: 每個 bet 必含 hypothesis + invalidation signal + milestone check + sunset criteria -->
+
+### BET-001（對應 OUT-004）
+
+- **Hypothesis:** <我們相信...，因為...>
+- **Invalidation signal:** <什麼訊號代表錯了，例：Q2 mid leading KPI < 20% target>
+- **Milestone check:** <Q2 Week 6 review>
+- **Sunset criteria:** <什麼條件下放棄，例：3 個 milestone 連續 miss>
+
+### BET-002（對應 OUT-005）
+
+...
+
+---
+
+## 7. Capacity Assumptions
+<!-- owner: PM + HR · required: full-only -->
+
+| Assumption | Value | Confidence |
+|---|---|---|
+| Team size (current Q) | <例：6 FTE> | **[H]** |
+| Reserved for incident & tech debt | 25% | **[H]** |
+| Hiring pipeline (next Q) | <例：+2 by Week 4> | **[M]** |
+| Velocity baseline (近 3 sprint) | <例：38 points/sprint> | **[H]** |
+| Onboarding ramp 折扣 | new hire 前 4 週 50% | **[M]** |
+
+---
+
+## 8. Stakeholder Communication
+<!-- owner: PM · required: full-only -->
+
+| Audience | Frequency | Format | What to highlight |
+|---|---|---|---|
+| Exec sponsor | monthly | 1-pager + 30 min | leading KPI delta + 最大 dep risk |
+| Customers (key accounts) | quarterly | webinar + email | now 欄 outcome + next 欄方向 |
+| Internal teams | bi-weekly | Slack post + dashboard | 依賴狀態 + 變更通知 |
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+> **R1:** <例：DEP-002 data-team 已過載，OUT-003 可能整季 slip> — **Mitigation:** Week 4 重新校準 + 啟動 fallback — **Owner:** PM + data-team lead
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：OUT-004 是真 bet 還是 feature 包裝？需 PM 與 stakeholder 再對齊>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: PM · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | <例：OUT-002 放 now 還是 next> | now / next / 砍掉 | next | now (capacity 壓爆 OUT-001)、砍掉 (與 KR-2 強相關) | **[H]** |
+| YYYY-MM-DD | <例：OUT-004 是 bet 還是 commit> | bet / commit / 砍掉 | bet | commit (assumption 太多)、砍掉 (策略上重要) | **[M]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: PM · required: full-only -->
+
+本 roadmap **不處理**：
+
+- ❌ **純技術重構** — 走 tech roadmap（含 platform team 自己的 OKR）
+- ❌ **Bug fix / 運維 sprint** — sprint baseline 工作
+- ❌ **實驗性 spike / discovery** — 走 discovery budget（20% 預留）
+- ❌ **具體 sprint 拆解與 release schedule** — 屬 PO + release plan 卡
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1，例：platform-team 本季優先級不變>
+  - <假設 2，例：招募 +2 by Week 4 達成>
+- **Highest-value next input:** <依賴團隊 commitment / 客戶訪談 / capacity 實測>
+
+### TODO（缺資料）
+
+- _TODO: 需要 platform-team commitment 確認 DEP-001 fallback 可行_
+- _TODO: 需要 HR 確認招募 timeline 對齊 OUT-003 capacity_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] 每個 outcome statement 描述「狀態 / 結果」，無 feature 名（「上線 X」「ship Y」= reject）
+> - [ ] 每個 outcome 含 leading + lagging KPI 兩件
+> - [ ] Now / Next / Later 越遠越粗（now 具體 initiative / next 方向 / later 假設 + 觸發條件）
+> - [ ] Timeline 用 quarter 粒度，不鎖死 specific dates
+> - [ ] 跨團隊依賴每條含 owner team + needed by + fallback
+> - [ ] Bets 每個含 hypothesis + invalidation signal + sunset criteria
+> - [ ] Capacity 預留 20-30% incident & tech debt budget
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（roadmap 是給人讀的 markdown）
+````
+
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 roadmap markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 OKR / backlog + RICE / 跨團隊依賴清單 / capacity 估算 / 客戶承諾 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** Outcome 寫成 feature 名（「上線 X」「ship Y」= 直接 reject）、Now/Next/Later 都同樣顆粒度（沒做到越遠越粗）、依賴沒 fallback（一延整份失信）、Bets 沒寫 invalidation signal（變成永遠不會 sunset 的殭屍項）、capacity 沒預留 incident & tech debt budget。AI 若漏這些，自檢清單會抓到並回頭補。

@@ -31,130 +31,342 @@ PM、UX、Dev 自己測得很順，是因為他們知道流程。真實使用者
 
 ## AI 怎麼加速
 
-把測試錄影逐字稿丟給 AI 萃取 finding，人工只審嚴重度判斷與修正方向取捨。
+把 5 份測試逐字稿 + 任務清單整份丟給 agent，讓 agent 讀範本內 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審嚴重度判斷與修正方向取捨**。本卡輸出**真實 usability test report markdown**（含 findings 表 + severity rating + WCAG criterion 引用 + inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 5+ 年 product design 經驗的資深 UX researcher（熟悉 user research、Nielsen heuristics、WCAG 2.2、severity rating）。任務：把測試逐字稿轉成 可用性測試報告（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份 report 契約的兩種版本：**輕量範本** 給 5 受測者 / 單一 flow / RITE 快速迭代用，**完整範本** 給多 round、跨 segment、a11y audit 整合、PO 簽核情境用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[5 份使用者測試逐字稿（含任務、行為、quote）]
-[受測任務清單與成功定義]
-[參與者 profile（n、segment）]
+```template-light
+---
+doc_type: "usability-test"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["test-transcripts", "task-list"]
+  optional: ["prototype", "production-snapshot"]
+---
 
-輸出 schema：research_question / tasks / participant_profile / method / findings / recommendations / decision_log / out_of_scope（3 條）
+# Usability Test Report: <product-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <UX name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 5, 6, 10, 12），全部必填——刻意沿用完整版章節編號讓兩版可對照。Severity 只用 critical / major / minor 三級；命中率 ≥ 3/5 才能標 H + critical；n=1 必標 L + minor；每 finding 行內 `（依據：逐字稿 P3 03:20 / quote: "..."）`；缺資料寫 `_TODO_` 不編造 quote；a11y 相關 finding 必須標 wcag_criterion（如 2.4.7 Focus Visible）。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行：受測 N 人、發現 N 個 finding（critical / major / minor 分布）、最大系統性問題 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：是否建議上線 / 需延後 / 需另一輪測試>
+
+---
+
+## 2. Tasks & Completion Rate
+
+<!-- ai-rule: 每任務含 scenario + success criteria + completion rate (X/5) -->
+
+| ID | Scenario | Time max | Clicks max | Errors max | Completion | Source |
+|---|---|---|---|---|---|---|
+| T1 | <情境> | 60s | 4 | 1 | 3/5 | 逐字稿 §all |
+| T2 | <情境> | 90s | 6 | 1 | 5/5 | 逐字稿 §all |
+
+---
+
+## 5. Findings
+
+<!-- ai-rule: 每 finding 含 severity + hit_rate + quote + source + wcag_criterion (若 a11y); n=1 必標 minor + L -->
+
+### F1: <一句話描述>
+
+- **Severity:** **critical**
+- **Hit rate:** 4/5
+- **Description:** <現象描述>
+- **Quote:** 「<受測者原話>」 — P02 §03:20
+- **WCAG criterion:** 2.4.7 Focus Visible（若 a11y 相關）
+- **Confidence:** **[H]** — **Source:** 逐字稿 P02, P03, P04, P05
+
+### F2 · F3 · ...
+
+---
+
+## 6. Recommendations
+
+<!-- ai-rule: 每條對應 1 個 finding；含 fix + effort (S/M/L) + expected impact + trade-off -->
+
+| Finding | Fix | Effort | Expected impact | Trade-off |
+|---|---|---|---|---|
+| F1 | 加 inline error 顯示 | S (1d) | 完成率 3/5 → 5/5 | 視覺密度增加 |
+| F2 | 重排 nav 順序 | M (1w) | 找到時間 ↓ 40% | 既有用戶需重新學習 |
+
+---
+
+## 10. Decision Log（key 2-3 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | F1 上線前修還是延後 | fix_before / delay / ship_with_warning | fix_before | delay (OKR Q3 衝擊)、warning (使用者已會卡) | **[H]** |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions：**
+  - <例：假設 5 名受測者代表目標 segment>
+- **Highest-value next input:** <例：第 6 名受測者 / 量化埋點驗證 hit rate>
+
+### TODO（缺資料）
+
+- _TODO: 補 F2 的 WCAG criterion 對照_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 5, 6, 10, 12）
+> - [ ] 每 finding 有 severity + hit rate + quote + source
+> - [ ] n=1 finding **沒有**標成 critical（必為 minor + L）
+> - [ ] a11y 相關 finding 都有 WCAG criterion
+> - [ ] Recommendations 對應每個 critical finding
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（report 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "usability-test"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["test-transcripts", "task-list", "participant-profile"]
+  optional: ["prototype", "production-snapshot", "a11y-audit"]
+---
 
-你是有 5+ 年 product design 經驗的資深 UX researcher，熟悉 moderated/unmoderated test、think-aloud protocol、Nielsen heuristics、severity rating（critical/major/minor）、WCAG 2.2 a11y audit。
-你的輸出會交給 UI（修 mockup）、PM（調整 scope / 決定是否延上線）、PO（決定是否簽核）、Dev（補 edge case 實作）。
-他們會用來「上線前抓使用者真的會卡的點」，所以 finding 必須有 quote 佐證、嚴重度有依據、修正方向附 effort 估算。
+# Usability Test Report: <product-name>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <UX name> · **Last updated:** YYYY-MM-DD · **Reviewers:** UI / PM / PO / Dev
 
-新功能首版、改版核心 flow、高風險互動（金流/註冊）簽核前用本卡。NN/g 建議 5 個目標使用者 / round 是最低成本最高效率。
-本卡核心問題：哪些是個別使用者問題（noise）vs 系統性問題（signal）？哪些 critical 必須上線前修、哪些 minor 可以延後？
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。對標 Nielsen heuristics / WCAG 2.2 a11y audit。Severity 只用 critical / major / minor 三級；**命中率 ≥ 3/5 才能標 H + critical**；n=1 必標 L + minor；嚴格區分「個別使用者問題（noise, n=1）」與「系統性問題（signal, n ≥ 3/5）」；每 finding 行內 `（依據：逐字稿 P3 03:20 / quote: "..."）`；缺資料 `_TODO_` 不編造 quote；a11y barrier 必須額外標 wcag_criterion；禁 YAML/JSON schema 輸出。
 
-## 輸入素材
+---
 
-[5 份使用者測試逐字稿（含任務、行為、quote、time on task）]
-[受測任務清單與成功定義（time / clicks / errors 上限）]
-[參與者 profile（n、segment、招募條件）]
-[受測 prototype / 上線版本資訊]
+## 1. Executive Summary
+<!-- owner: UX · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行：受測 N 人、發現 N 個 finding（critical / major / minor 分布）、最大系統性問題、建議行動 -->
 
-1. 每個 finding 註明 source：[逐字稿 P3 03:20 / 受測者編號]；無法歸因者標 [來源未明示，需確認]。
-2. Trade-off 必須列負面後果（例：修 critical A 需重做 nav，會延上線 2 週、影響 OKR Q3）。
-3. 缺資料的欄位標 TODO(缺什麼)，不編造 quote 或 metric；列「需要什麼補上」。
-4. a11y（WCAG 2.2）：每個 finding 若涉及 a11y barrier（鍵盤、對比、focus、screen reader），必須額外標 wcag_criterion——任一未涵蓋需說明為何不適用。
-5. Out of scope 至少 3 條，明寫不做什麼（例：不做 A/B test 量化驗證、不做品牌偏好研究、不做技術可行性評估）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]——命中率 ≥ 3/5 才標 H，個別使用者標 L。
-7. 區分「個別使用者問題」（n=1）與「系統性問題」（n ≥ 3/5），避免誇大。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：是否建議上線 / 需延後 / 需另一輪測試>
 
-research_question:
-  primary: <一句話研究問題>
-  secondary: [<次要問題>]
-  source: <input ref>
-  confidence: H | M | L
+---
 
-tasks:
-  - id: T1
-    scenario: <情境描述（不告訴使用者怎麼做）>
-    success_criteria:
-      time_max: <秒>
-      clicks_max: <次>
-      errors_max: <次>
-    completion_rate: <X/5>
-    source: <input ref>
+## 2. Research Question & Tasks
+<!-- owner: UX · required: always -->
 
-participant_profile:
-  n: 5
-  segment: <目標使用者描述>
-  recruit_criteria: <篩選條件>
-  excluded: <排除誰、為何>
+### Research question
 
-method:
-  type: enum[moderated, unmoderated, think_aloud, RITE]
-  duration_per_session: <分鐘>
-  device: <桌機 / 手機 / iOS / Android>
+- **Primary:** <一句話研究問題>
+- **Secondary:** <次要問題>
 
-findings:
-  - id: F1
-    severity: enum[critical, major, minor]
-    description: <現象>
-    hit_rate: <X/5 受測者命中>
-    quote: <受測者原話>
-    screenshot_ref: <逐字稿時間戳或檔名>
-    wcag_criterion: <若 a11y 相關，例 2.4.7 Focus Visible>
-    source: <input ref>
-    confidence: H | M | L
+### Tasks
 
-recommendations:
-  - finding_id: F1
-    fix: <修正方向>
-    effort: enum[S, M, L]  # 1d / 1w / 2w+
-    expected_impact: <為何此修能改善>
-    trade_off: <負面後果>
+<!-- ai-rule: 每任務含 scenario + success criteria + completion rate -->
 
-decision_log:
-  - decision: <例：critical F1 上線前修還是延後>
-    options_considered: [fix_before_launch, delay_launch, ship_with_warning]
-    chosen: fix_before_launch
-    rejected_reason:
-      delay_launch: <為何不>
-      ship_with_warning: <為何不>
-    confidence: H | M | L
+| ID | Scenario | Time max | Clicks max | Errors max | Completion | Avg time | Source |
+|---|---|---|---|---|---|---|---|
+| T1 | <情境> | 60s | 4 | 1 | 3/5 | 78s | 逐字稿 §all |
+| T2 | <情境> | 90s | 6 | 1 | 5/5 | 65s | 逐字稿 §all |
 
-out_of_scope:
-  - <例：不做 A/B test 量化驗證（樣本太小）>
-  - <例：不做品牌偏好 / desirability 研究>
-  - <例：不做技術可行性評估（轉給 Dev）>
+---
 
-## 思考步驟
+## 3. Participant Profile
+<!-- owner: UX · required: full-only -->
 
-產出前先：
-1. 從逐字稿抓 3-5 個關鍵 signal（重複出現的卡點 / 共同 quote / 任務失敗模式）
-2. 列至少 2 條 viable 嚴重度判斷路徑（嚴格 vs 寬鬆）與各自負面後果
-3. 列你做了但 input 沒明說的假設（例：假設受測者代表目標 segment）
-4. 確認 a11y barrier 是否額外標 WCAG criterion
+- **n:** 5（NN/g 建議）
+- **Segment:** <目標使用者描述>
+- **Recruit criteria:** <篩選條件>
+- **Excluded:** <排除誰、為何>
 
-## 輸出
+### Demographics summary
 
-（依 output_schema YAML 填寫）
+| ID | Age range | Experience level | Device | Notes |
+|---|---|---|---|---|
+| P01 | 25-34 | 進階 | iPhone 14 | <備註> |
+| P02 | 35-44 | 初階 | Android | <備註> |
 
-## 自審
+---
 
-1. 哪個 finding confidence < H？是否只是 n=1 卻被標成 critical？
-2. 哪些假設來自我而非 input？標出來（特別是嚴重度判斷的主觀部分）。
-3. 如果只能再追加一份 input，是哪一份（例：第 6 位受測者 vs 量化埋點）？為什麼？
+## 4. Method
+<!-- owner: UX · required: full-only -->
+
+- **Type:** moderated / unmoderated / think-aloud / RITE — **Chosen:** moderated think-aloud
+- **Duration per session:** 45 分鐘
+- **Device tested:** mobile iOS / Android / desktop
+- **Tooling:** Figma prototype / Maze / Lookback
+- **Date range:** YYYY-MM-DD ~ YYYY-MM-DD
+
+---
+
+## 5. Findings
+<!-- owner: UX · required: always -->
+
+<!-- ai-rule: 每 finding 含 severity + hit_rate + quote + source + wcag_criterion (若 a11y); n=1 必標 minor + L; 命中率 ≥ 3/5 才能標 critical -->
+
+### F1: <一句話描述>
+
+- **Severity:** **critical**
+- **Hit rate:** 4/5（系統性問題）
+- **Description:** <現象描述>
+- **Quotes:**
+  - 「<受測者原話 1>」 — P02 §03:20
+  - 「<受測者原話 2>」 — P04 §05:10
+- **Screenshot ref:** <逐字稿時間戳或檔名>
+- **WCAG criterion:** 2.4.7 Focus Visible（若 a11y 相關）
+- **Heuristic:** Nielsen #5 Error prevention
+- **Confidence:** **[H]** — **Source:** 逐字稿 P02, P03, P04, P05
+
+### F2 · F3 · F4 · ...
+
+---
+
+## 6. Recommendations
+<!-- owner: UX + UI · required: always -->
+
+<!-- ai-rule: 每條對應 1 個 finding；含 fix + effort (S/M/L) + expected impact + trade-off -->
+
+| Finding | Fix | Effort | Expected impact | Trade-off |
+|---|---|---|---|---|
+| F1 | 加 inline error 顯示 | S (1d) | 完成率 3/5 → 5/5 | 視覺密度增加 |
+| F2 | 重排 nav 順序 | M (1w) | 找到時間 ↓ 40% | 既有用戶需重新學習 |
+| F3 | 重做 onboarding | L (2w+) | 新手完成率 ↑ 60% | 延上線 2 週、影響 OKR Q3 |
+
+---
+
+## 7. A11y Findings Summary
+<!-- owner: UX · required: full-only -->
+
+<!-- ai-rule: 將所有涉及 a11y 的 finding 集中對照 WCAG 2.2 criterion -->
+
+| Finding | WCAG criterion | Level | Severity |
+|---|---|---|---|
+| F1 | 2.4.7 Focus Visible | AA | critical |
+| F4 | 1.4.3 Contrast Minimum | AA | major |
+
+---
+
+## 8. Noise vs Signal
+<!-- owner: UX · required: full-only -->
+
+<!-- ai-rule: 嚴格區分「n=1 個別使用者問題」與「n ≥ 3/5 系統性問題」 -->
+
+### Signal (system-level, n ≥ 3/5)
+
+- **F1, F2:** 多人命中 → 上線前必修
+
+### Noise (individual, n=1)
+
+- **F5:** P03 個案，可能與其 domain 經驗有關 — 標 minor + L，先觀察
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+> **R1:** <例：F3 修正需重做 onboarding，延上線 2 週影響 OKR Q3> — **Mitigation:** 拆 phased rollout — **Owner:** <name>
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：F5 是否單一案例還是新手通病？需第 6 名受測者驗證>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: UX + PM · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | F1 上線前修還是延後 | fix_before / delay_launch / ship_with_warning | fix_before | delay (OKR Q3 衝擊)、warning (使用者已會卡) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: UX · required: full-only -->
+
+本 usability test report **不處理**：
+
+- ❌ **不做 A/B test 量化驗證** — 樣本太小（n=5）
+- ❌ **不做品牌偏好 / desirability 研究** — 屬獨立 brand research
+- ❌ **不做技術可行性評估** — 屬 Dev / Architect
+- ❌ **不做業務 KPI 預測** — 屬 PM 數據分析
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions：**
+  - <例：假設 5 名受測者代表目標 segment>
+  - <例：假設嚴重度判斷主觀部分對齊 Nielsen heuristics>
+- **Highest-value next input:** <第 6 名受測者 / 量化埋點驗證 hit rate / a11y full audit>
+
+### TODO（缺資料）
+
+- _TODO: 補 F2 的 WCAG criterion 對照_
+- _TODO: 第 6 名受測者驗證 F5 是否為系統性問題_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] 每 finding 有 severity + hit rate + quote (≥ 1) + source
+> - [ ] **n=1 finding 沒被標成 critical**（必為 minor + L）
+> - [ ] 命中率 ≥ 3/5 才標 H + critical
+> - [ ] a11y barrier 都對應 WCAG criterion + 集中到第 7 段
+> - [ ] Noise vs Signal 段有明確區分
+> - [ ] Recommendations 對應每個 critical / major finding
+> - [ ] Decision Log 每條 ≥ 2 個 rejected + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（report 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 finding 嚴重度是否誇大、是否區分「個別使用者問題」與「系統性問題」、修正方向 effort 是否合理。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 usability test report markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 5 份逐字稿 / 任務清單 + 成功定義 / 參與者 profile / 受測 prototype 或上線版本資訊 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** n=1 的個案被標成 critical（誇大）、忘了區分 noise vs signal（把個別使用者當系統性問題）、a11y finding 沒對應 WCAG criterion（修了也不知道過 audit 沒）、編造未發生的 quote、Decision Log 沒寫 delay / ship_with_warning 為何被拒（= 黑箱）、用同事或家人當受測者（不算目標 segment）。AI 若漏這些，自檢清單會抓到並回頭補。

@@ -29,140 +29,338 @@ source: "deep-research-report.md §Architecture, GitLab deprecation policy"
 
 ## AI 怎麼加速
 
-把 access log + endpoint inventory + 客戶清單餵給 Claude 抽殘留 caller 與遷移工作量，Architect / PO 審 timeline 與 fallback。
+把 access log + endpoint inventory + 客戶清單整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 timeline 與 fallback 政策**。本卡輸出**真實 Deprecation Plan markdown**（含 sunset timeline 表、affected consumer 表、success criteria、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 10+ 年分散式系統經驗的資深 architect（熟悉 ADR、OpenAPI、breaking change policy、GitLab deprecation policy、SOC 2 變更通知）。任務：把 access log + endpoint inventory + 客戶清單轉成 deprecation plan（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本：**輕量範本**給內部 API / 小型 consumer 集合 / 無合約場景，**完整範本**給對外 API / 企業客戶 / SOC 2 / GDPR 合約通知場景。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[Access log（過去 ≥ 30 天，含 caller identifier）]
-[Endpoint inventory（版本、owner、replacement 對應）]
-[客戶 / 內部 consumer 聯絡清單]
+```template-light
+---
+doc_type: "deprecation-plan"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["access-log", "endpoint-inventory"]
+  optional: ["consumer-contact-list"]
+---
 
-輸出 schema：deprecated_surface / replacement_path / sunset_timeline / affected_consumers / comms_channels / fallback_for_holdouts / success_criteria / decision_log / out_of_scope（3 條）
+# Deprecation Plan: <surface-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造；timeline 最短 90 天公告期。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <Architect / PO> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 6 段（編號 1, 2, 3, 5, 7, 9），全部必填——刻意沿用完整版章節編號讓兩版可對照。每結論行內加 `（依據：log §XXX）`；每量化欄位帶 `[H]/[M]/[L]` confidence badge；缺資料寫 `_TODO: 需要 XXX_` 不編造；最短公告期 90 天；caller 無法識別寫 `unknown_caller` 並列追查方式不假設；必須有 rollback 段（不准設「強制下線無例外」）。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行，主管 30 秒讀完。內容：要下架什麼、為何下架、何時 disable、有多少 affected caller -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：N 月內下架 X surface，影響 Y 個 caller，替代為 Z>
+
+---
+
+## 2. Deprecated Surface & Replacement
+
+<!-- ai-rule: replacement_path 必須具體；feature_parity 為 partial / breaking_changes 必須列差異 -->
+
+| Field | Value | Confidence |
+|---|---|---|
+| **Deprecated surface** | <e.g. GET /api/v1/users> | — |
+| **Reason** | <為何下架> | **[H]** |
+| **Replacement** | <e.g. GET /api/v2/users> | — |
+| **Feature parity** | full / partial / breaking_changes | **[H]** |
+| **Migration guide** | <link or `_TODO_`> | — |
+
+### Breaking changes（若有）
+
+- <change 1>
+- <change 2>
+
+---
+
+## 3. Sunset Timeline
+
+<!-- ai-rule: 總天數 ≥ 90；每個 phase 必須有日期；無合約資料時公告期需保守取上限 -->
+
+| Phase | Date (ISO) | Trigger / Behaviour |
+|---|---|---|
+| **Announce** | YYYY-MM-DD | 公告 + status page |
+| **Warning phase** | YYYY-MM-DD | 開始回傳 `Deprecation` header |
+| **Read-only** | YYYY-MM-DD | 拒絕新 client |
+| **Disable (soft)** | YYYY-MM-DD | 軟下線（保留快速回滾） |
+| **Remove (hard)** | YYYY-MM-DD | 程式碼移除 |
+| **Total days** | ≥ 90 | — |
+
+---
+
+## 5. Affected Consumers（top callers）
+
+<!-- ai-rule: 列出 top callers（≥ 80% 流量）；unknown_caller bucket 必填即使 0 -->
+
+| Caller | Tier | Req/30d | Contact | Migration ETA | Confidence |
+|---|---|---|---|---|---|
+| <org-a> | enterprise | 12k | a@x.com | YYYY-MM-DD | **[H]** |
+| <unknown_caller bucket> | unknown | 800 | _TODO: 反查 IP/UA_ | _TODO_ | **[L]** |
+
+---
+
+## 7. Success Criteria & Rollback
+
+<!-- ai-rule: 三條 metric 必填；rollback window ≥ 14d -->
+
+| Metric | Target |
+|---|---|
+| **Caller count at disable** | 0 unknown + ≤ 5 known approved |
+| **Traffic share at disable** | ≤ 0.1% of baseline |
+| **Rollback window** | ≥ 14d, ≤ 1h to re-enable |
+
+---
+
+## 9. Decision Log（key 2-3 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | 公告期 90d vs 180d | 60d / 90d / 180d | 90d | 60d (違反合約 30d + 採購週期)、180d (延誤新版 ROI) | **[H]** |
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 6 段 H2 章節齊全（編號 1, 2, 3, 5, 7, 9）
+> - [ ] Sunset timeline 含 5 個 phase + 總天數 ≥ 90
+> - [ ] unknown_caller bucket 必填（即使 0）+ 附追查方法
+> - [ ] Affected consumer 表覆蓋 ≥ 80% 流量
+> - [ ] Success criteria 含 caller count + traffic share + rollback window
+> - [ ] Rollback window ≥ 14d
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "deprecation-plan"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["access-log", "endpoint-inventory", "consumer-contact-list", "slo"]
+  optional: ["contract-terms", "traffic-baseline"]
+---
 
-你是有 10+ 年分散式系統經驗的資深 architect / platform owner，熟悉 ADR、OpenAPI、event-driven、breaking change policy、GitLab deprecation policy、Semantic Versioning、SOC 2 變更通知合規。
-你的輸出會交給 Dev（實作替代 + 監控）、Customer Success（外部通知）、DevOps（流量監控與下線執行）、Legal（合約變更通知）、PO（驗業務影響）。
-他們需要可追蹤、可監控、可回滾的下架計畫，所以每個階段必須有量化 success criteria。
+# Deprecation Plan: <surface-name>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <Architect / PO> · **Last updated:** YYYY-MM-DD · **Reviewers:** Dev / Customer Success / Legal / DevOps
 
-舊 API、舊 endpoint、舊 schema 仍有使用但需退場時用本卡。
-本卡核心問題：把「下架」從口頭承諾變成可追蹤的遷移，並用監控確認沒人在用才動手。
+> [!IMPORTANT]
+> **AI 填寫規則：** 10 段 H2 章節全部必填（任一缺失即不合格）。對標 GitLab deprecation policy + Semantic Versioning + SOC 2 變更通知。每結論行內 `（依據：log §XXX / contract §YYY）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；最短公告期 90 天；強制下線前 traffic ≤ 0.1%；必須有 rollback / 延期 plan（不准設「強制下線無例外」）；caller 無法識別寫 `unknown_caller` 並列追查方式；禁 YAML / JSON schema 輸出。
 
-## 輸入素材
+---
 
-[Access log（過去 ≥ 30 天，含 caller identifier、頻率、版本）]
-[Endpoint inventory（版本、owner、replacement 對應）]
-[客戶 / 內部 consumer 聯絡清單（含合約條款）]
-[現有 SLO 與 traffic baseline]
+## 1. Executive Summary
+<!-- owner: Architect/PO · required: always -->
 
-## 規則
+<!-- ai-fill: 3-5 行，主管 30 秒讀完。內容：要下架什麼、為何下架、何時 disable、affected caller 數、最大商業風險 -->
 
-1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認] 或 unknown_caller。
-2. Trade-off 必須列負面後果（例如：90 天公告期太短會擋住企業客戶採購週期；180 天太長會延遲新功能 X）。
-3. 缺資料寫 TODO(缺什麼)，不要編造；caller 無法識別寫 unknown_caller 並列追查方式，不要假設誰在用。
-4. SLO compliance：下線過程不能違反現有 SLO；NFR 含合約通知條款（SOC 2 / GDPR 適用時 ≥ 30 天）、最短公告期 90 天、強制下線前 traffic ≤ 0.1%。
-5. Out of scope：明列 3 條（例如：替代方案實作細節、合約罰款計算、產品行銷宣傳）。
-6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
-7. 必須有 rollback / 延期 plan；不能設定「強制下線無例外」。
+<3-5 行說明>
 
-## 輸出格式（YAML）
+> **TL;DR:** <一句話：N 月內下架 X，影響 Y 個 caller，最大風險 Z>
 
-deprecated_surface:
-  required: true
-  type: object
-  identifier: <e.g. GET /api/v1/users>
-  version: <e.g. v1>
-  reason: <why deprecating>
-  source: <input ref>
-  confidence: H | M | L
+---
 
-replacement_path:
-  new_surface: <e.g. GET /api/v2/users>
-  migration_guide: <link or TODO>
-  feature_parity: enum[full, partial, breaking_changes]
-  breaking_changes: [<change>]
+## 2. Deprecated Surface & Replacement
+<!-- owner: Architect · required: always -->
 
-sunset_timeline:
-  announce_date: <ISO>
-  warning_phase_start: <ISO>  # 開始回傳 Deprecation header
-  read_only_phase: <ISO>  # 拒絕新 client
-  disable_date: <ISO>  # 軟下線
-  remove_date: <ISO>  # 程式碼移除
-  minimum_total_days: <≥ 90>
-  source: <input ref>
-  confidence: H | M | L
+<!-- ai-rule: replacement_path 必須具體；feature_parity 為 partial / breaking_changes 必須列差異與 mitigation -->
 
-affected_consumers:
-  - consumer_id: <client_id or org>
-    contact: <email / Slack channel>
-    request_count_30d: <number>
-    business_tier: enum[free, paid, enterprise]
-    contractual_notice_required_days: <number>
-    migration_eta: <ISO or TODO>
-    source: <input ref>
+| Field | Value | Confidence |
+|---|---|---|
+| **Deprecated surface** | <e.g. GET /api/v1/users> | — |
+| **Version** | <v1> | — |
+| **Reason** | <e.g. 安全模型升級 / 效能 / consolidation> | **[H]** |
+| **Replacement surface** | <e.g. GET /api/v2/users> | — |
+| **Feature parity** | full / partial / breaking_changes | **[H]** |
+| **Migration guide** | <link or `_TODO_`> | — |
 
-comms_channels:
-  - channel: <e.g. status page>
-    cadence: <e.g. T-90d, T-60d, T-30d, T-7d, T-1d>
-  - channel: email
-    target: <all affected consumers>
-  - channel: in-app banner
-    target: <signed-in users>
+### Breaking changes
 
-fallback_for_holdouts:
-  policy: <e.g. enterprise client 可申請 30d 延期，最多 2 次>
-  approval: <role>
-  cost_of_extension: <internal effort + risk>
+- <change 1 + caller-side mitigation>
+- <change 2 + caller-side mitigation>
 
-success_criteria:
-  - metric: caller_count_at_disable_date
-    target: <e.g. 0 unknown callers, ≤ 5 known callers with approved extension>
-  - metric: traffic_share_at_disable_date
-    target: <≤ 0.1% of baseline>
-  - metric: rollback_capability_window
-    target: <e.g. 14d after disable, ≤ 1h to re-enable>
+---
 
-decision_log:
-  - decision: <e.g. 公告期 90d vs 180d>
-    options_considered: [60d, 90d, 180d]
-    chosen: 90d
-    rejected_reason:
-      "60d": <違反合約 30d + 採購週期>
-      "180d": <延誤新版上線 ROI>
-    confidence: H | M | L
+## 3. Sunset Timeline
+<!-- owner: PO + DevOps · required: always -->
 
-out_of_scope:
-  - 替代方案實作細節（屬 ADR / API spec）
-  - 合約罰款計算（屬 Legal）
-  - 產品行銷宣傳（屬 PMM）
+<!-- ai-rule: 總天數 ≥ 90；每個 phase 必須有 ISO 日期；無合約資料時公告期需保守取上限 -->
 
-## 思考步驟
+| Phase | Date (ISO) | Trigger / Behaviour | Notes |
+|---|---|---|---|
+| **Announce** | YYYY-MM-DD | 公告 + status page + email | T-90 |
+| **Warning phase** | YYYY-MM-DD | 回傳 `Deprecation` header + Sunset header | T-60 |
+| **Read-only** | YYYY-MM-DD | 拒絕新 client 註冊舊版 | T-30 |
+| **Disable (soft)** | YYYY-MM-DD | 軟下線，保留 14d rollback window | T-0 |
+| **Remove (hard)** | YYYY-MM-DD | 程式碼移除 | T+14 |
+| **Total days** | ≥ 90 | — | — |
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（最大 caller、最低 caller 但合約最嚴、unknown caller bucket）各標 H/M/L confidence
-2. 列至少 2 條 timeline 路徑（aggressive 90d vs conservative 180d）與各自的負面後果
-3. 列你做了但 input 沒明說的假設（如客戶遷移速度、企業客戶採購週期）
-4. 確認合約通知、SLO 保護、rollback 三象限都涵蓋
+---
 
-## 輸出
+## 4. Affected Consumers
+<!-- owner: Customer Success + DevOps · required: always -->
 
-（依 output_schema YAML 填寫）
+<!-- ai-rule: 列出 ≥ 90% 流量 caller；unknown_caller bucket 必填即使 0；enterprise tier 必須對應合約 notice 天數 -->
 
-## 自審
+| Caller ID | Tier | Req/30d | Contact | Contract notice (d) | Migration ETA | Source | Confidence |
+|---|---|---|---|---|---|---|---|
+| <org-a> | enterprise | 12,000 | a@x.com | 60 | YYYY-MM-DD | log §3 + contract §A | **[H]** |
+| <org-b> | paid | 4,200 | b@x.com | 30 | YYYY-MM-DD | log §4 | **[M]** |
+| <unknown_caller bucket> | unknown | 800 | _TODO: 反查 IP/UA_ | — | _TODO_ | log §7 | **[L]** |
 
-1. 哪個欄位 confidence < H？列出來與所需補充資料。
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input（例如合約條款摘要、unknown caller IP / UA 反查），是哪一份？為什麼？
+---
+
+## 5. Comms Channels
+<!-- owner: Customer Success · required: always -->
+
+<!-- ai-rule: ≥ 3 個 channel；cadence 至少 T-90, T-60, T-30, T-7, T-1 -->
+
+| Channel | Target | Cadence |
+|---|---|---|
+| Status page | public | T-90, T-60, T-30, T-7, T-1 |
+| Email | all affected consumers | T-90, T-30, T-7 |
+| In-app banner | signed-in users | from T-30 |
+| API response header | active callers | from warning phase |
+| Slack / Discord | community | T-90, T-30 |
+
+---
+
+## 6. Fallback for Holdouts
+<!-- owner: PO + Legal · required: full-only -->
+
+<!-- ai-rule: 必須有 fallback；不准設「強制下線無例外」；延期次數 + 上限要寫死 -->
+
+| Field | Value |
+|---|---|
+| **Policy** | enterprise 可申請 30d 延期，最多 2 次 |
+| **Approval role** | <e.g. VP Engineering> |
+| **Cost of extension** | 內部 ops effort + 額外 SLA 風險 |
+| **Extension request channel** | <e.g. support ticket + sales rep> |
+
+---
+
+## 7. Success Criteria & Rollback
+<!-- owner: DevOps + Architect · required: always -->
+
+<!-- ai-rule: 三條 metric 必填；rollback window ≥ 14d；rollback path 必須具體可執行 -->
+
+| Metric | Target | Measurement |
+|---|---|---|
+| **Caller count at disable** | 0 unknown + ≤ 5 known approved | log query |
+| **Traffic share at disable** | ≤ 0.1% of baseline | metric query |
+| **Rollback window** | ≥ 14d, ≤ 1h to re-enable | runbook |
+| **SLO impact during sunset** | 不違反現有 SLO | error-budget burn |
+
+### Rollback path
+
+1. <e.g. feature flag `enable_v1_api = true` 立即生效>
+2. <e.g. CDN 規則回滾>
+3. <e.g. 通知頻道更新>
+
+---
+
+## 8. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+<!-- ai-rule: 每條格式：失效模式 + Mitigation + Owner -->
+
+> **R1:** <unknown_caller 在 disable 後出現流量 → 不確定誰受影響> — **Mitigation:** 反查 IP/UA + 14d 軟下線觀察 — **Owner:** DevOps
+>
+> **R2:** <enterprise 客戶採購週期 > 90d 來不及遷> — **Mitigation:** Fallback 延期政策 + 客戶經理直接聯絡 — **Owner:** Customer Success
+
+### Open Questions
+
+- [ ] **Q1:** <某 enterprise 合約是否強制 180d notice？需 Legal 確認>
+- [ ] **Q2:** <unknown_caller 是否來自 abandoned integration？>
+
+---
+
+## 9. Decision Log
+<!-- owner: Architect + PO · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | 公告期長度 | 60d / 90d / 180d | 90d | 60d (違反合約 30d + 採購週期)、180d (延誤新版 ROI) | **[H]** |
+| YYYY-MM-DD | Fallback 政策 | no extension / 30d×1 / 30d×2 | 30d×2 | no extension (enterprise 反彈)、30d×1 (採購週期不夠) | **[M]** |
+
+---
+
+## 10. Out of Scope & Confidence & TODO
+<!-- owner: All · required: always -->
+
+本 Deprecation Plan **不處理**：
+
+- ❌ **不處理替代方案實作細節** — 屬 ADR / api-spec / data-model 卡
+- ❌ **不處理合約罰款計算** — 屬 Legal
+- ❌ **不處理產品行銷宣傳** — 屬 PMM
+
+### Confidence & Sources
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M] 欄位>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1：unknown_caller 為 abandoned integration>
+- **Highest-value next input:** <下一份最該補的輸入：合約條款摘要 / unknown caller IP-UA 反查>
+
+### TODO（缺資料）
+
+- _TODO: 補 unknown_caller IP/UA 反查結果_
+- _TODO: 確認 enterprise 合約 notice 天數_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 10 段 H2 章節齊全（編號 1-10）
+> - [ ] Sunset timeline 含 5 個 phase + 總天數 ≥ 90
+> - [ ] unknown_caller bucket 必填（即使 0）+ 附追查方法
+> - [ ] Affected consumer 表覆蓋 ≥ 90% 流量 + 每個 enterprise 對應合約 notice 天數
+> - [ ] Comms channels ≥ 3 個 + cadence ≥ 5 個時點
+> - [ ] Fallback 政策必填（不准「強制下線無例外」）
+> - [ ] Success criteria 含 caller / traffic / rollback / SLO 四象限
+> - [ ] Rollback path 步驟具體可執行
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] Risks 每條格式：失效模式 + Mitigation + Owner
+> - [ ] 無 YAML / JSON schema 輸出
 ```
 
-回審重點：human 判斷時程是否符合合約、unknown caller 是否需先解決才能下線、fallback 政策是否可被執行、rollback window 是否足夠。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 Deprecation Plan markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 access log 摘要（含 caller 頻次）/ endpoint inventory / consumer 聯絡清單 / 合約 notice 條款 / 現有 SLO + traffic baseline 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** 只發 email 不在 API 回應加 Deprecation header（caller 看不到）、無 unknown_caller 段（disable 後出事才知道有人在用）、無 rollback window（一旦炸開無法救）、公告期不滿 90d（違反通用 best practice 與合約）、設「強制下線無例外」（enterprise 客戶會升級到 C-level）。AI 若漏這些，自檢清單會抓到並回頭補。

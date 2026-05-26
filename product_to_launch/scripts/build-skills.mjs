@@ -12,15 +12,20 @@ const ROOT = path.resolve(__dirname, "..");
 const SRC = path.join(ROOT, "content", "deliverables");
 const OUT = path.join(ROOT, "public", "skills");
 
-const FENCE_RE_GLOBAL = /```(\S*)\s*\n([\s\S]*?)```/g;
+// CommonMark N-backtick rule: opening uses ≥ 3 backticks; closing must match or
+// exceed the opening count. Inner fences with fewer backticks are content.
+// Matches a fence opener at start-of-line/string, captures backtick count + info string,
+// then lazily consumes until a closing fence of equal-or-greater backticks.
+const FENCE_RE_GLOBAL = /(?:^|\n)(`{3,})([^\n]*)\n([\s\S]*?)\n\1`*[ \t]*(?=\n|$)/g;
 
 function extractFences(body) {
   const out = { default: null, quick: null, full: null };
   for (const m of body.matchAll(FENCE_RE_GLOBAL)) {
-    const lang = m[1];
-    const text = m[2].replace(/\s+$/, "");
-    const kind = lang === "prompt-quick" ? "quick"
-               : lang === "prompt-full" ? "full"
+    const lang = m[2].trim();
+    const text = m[3].replace(/\s+$/, "");
+    // template-light/full = new doc-driven names; prompt-quick/full = legacy fallback.
+    const kind = lang === "template-light" || lang === "prompt-quick" ? "quick"
+               : lang === "template-full" || lang === "prompt-full" ? "full"
                : "default";
     if (out[kind] == null) out[kind] = text;
   }

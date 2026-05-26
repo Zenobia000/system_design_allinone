@@ -31,127 +31,311 @@ OKR 的價值不是 KPI 別名，而是**強迫團隊在季度內只承諾少數
 
 ## AI 怎麼加速
 
-把北極星指標 + 本季商業目標 + 歷史達成率丟給 AI 反推候選 Objective/KR，人工只審 ambition 與 trade-off。
+把北極星指標 + 本季商業目標 + 歷史達成率整份丟給 agent，讓 agent 讀範本內的 `> [!IMPORTANT]` 規則與 `<!-- ai-fill -->` 註解自己填，**人工只審 ambition 與 trade-off**。本卡輸出**真實 OKR markdown 文件**（含 KR 表、counter-metric、cadence、inline `[H/M/L]` confidence badge），**不出 YAML schema**。
 
-```prompt-quick
-你是有 5+ 年 SaaS B2B 經驗的資深 PM（熟悉 OKR / JTBD / PRD / ADR）。任務：把北極星指標 + 本季商業目標 + 歷史達成率轉成 OKR draft（YAML 格式）。
+## 文件範本
 
-## 輸入素材
+下面兩個 tab 是同一份契約的兩種版本：**輕量範本**給 solo / 小團隊單季快速設定用，**完整範本**給跨 squad / 董事會 level 承諾 / 含 leading/lagging cadence 場景用。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
-[北極星指標 + 當前值]
-[本季商業目標]
-[上季 OKR 達成率]
+```template-light
+---
+doc_type: "okr"
+variant: "light"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["north-star-metric", "quarterly-business-goals"]
+  optional: ["last-quarter-okr-attainment"]
+---
 
-輸出 schema：objective_statement / key_results[] / counter_metric / alignment_to_north_star / leading_vs_lagging / quarterly_cadence / decision_log / out_of_scope（3 條）
+# OKR · <FY-Qn> · <team-name>
 
-每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；KR 必須含 baseline → target 數字與量測方式；缺資料寫 TODO(缺什麼)，不編造。
-結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
+**Status:** Draft v0.X · **Owner:** <PM name> · **Last updated:** YYYY-MM-DD
+
+> [!IMPORTANT]
+> **AI 填寫規則：** 本範本 5 段（編號 1, 2, 5, 10, 12），全部必填——刻意沿用完整版章節編號讓兩版可對照。Objective 必須質性、有方向感，**禁寫成 task list**（「完成 feature A」= 直接 reject）；每個 KR 必含 baseline → target 數字 + 量測方式；理想 ambition 信心 0.5–0.7；必含至少 1 個 counter-metric 防 goal-hacking。缺資料寫 `_TODO: 需要 XXX_` 不編造。
+
+---
+
+## 1. Executive Summary
+
+<!-- ai-fill: 3-5 行：本季 Objective 一句話、KR 數量、最大不確定性、最強商業承諾節點 -->
+
+<3-5 行說明>
+
+> **TL;DR:** <一句話：本季要達成什麼質性結果，砍掉什麼讓位>
+
+---
+
+## 2. Objective & Key Results
+
+### Objective · **[H]**
+
+<!-- ai-rule: 質性陳述。禁出現「完成 / 上線 / ship」這類 task 詞。應有方向感 + 對誰有影響 -->
+
+> <例：讓中型 SaaS 客戶在 onboarding 第一週就感受到核心價值>
+
+**Source:** business-goals §1 + north-star §current-gap
+
+### Key Results
+
+<!-- ai-rule: 2-4 個 KR。每個 KR 含 baseline → target + measurement + 量測來源系統 + leading/lagging 標記 -->
+
+| ID | Statement | Baseline | Target | Measurement | Type | Ambition (0-1) | Confidence |
+|---|---|---|---|---|---|---|---|
+| KR-1 | <將 X 從 A 提升到 B by 季末> | <num + 來源系統> | <num> | <how + 頻率> | **leading** | 0.6 | **[H]** |
+| KR-2 | ... | ... | ... | ... | **lagging** | 0.55 | **[M]** |
+| **Counter** | <例：退費率 不可惡化超過 X%> | <baseline> | < X% | <how> | guardrail | — | **[H]** |
+
+---
+
+## 5. Cadence & Pivot Triggers
+
+<!-- ai-rule: 至少寫週 check-in 看什麼 leading 指標 + 季中 pivot 觸發條件 -->
+
+- **Weekly check-in:** <監看 KR-1 / 其他 leading 指標>
+- **Mid-quarter pivot trigger:** <例：第 6 週 KR-1 < 30% target progress 則重新校準>
+- **End-quarter review:** <達成判定標準與 retro 流程>
+
+---
+
+## 10. Decision Log（key 1-2 條）
+
+<!-- ai-rule: 每條必含 chosen + 至少 1 個 rejected option + 拒絕原因 -->
+
+| Date | Decision | Options | Chosen | Rejected why |
+|---|---|---|---|---|
+| YYYY-MM-DD | <例：選 KR-1 還是候選 KR-X> | KR-1 / KR-X / 兩者並行 | KR-1 | KR-X (與 OKR 主軸偏離)、並行 (capacity 壓爆) |
+
+---
+
+## 12. Confidence & Sources & TODO
+
+- **最低 confidence 項：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions（推測但 input 未明說）：**
+  - <假設 1，例：團隊本季 capacity 不變>
+- **Highest-value next input:** <capacity 數字 / 同業 benchmark / 客戶訪談 三選一>
+
+### TODO（缺資料）
+
+- _TODO: 需要 XXX 校準 KR-2 baseline_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 5 段 H2 章節齊全（編號 1, 2, 5, 10, 12，刻意不連號）
+> - [ ] Objective 是質性陳述，無 task 詞（完成 / 上線 / ship）
+> - [ ] 每個 KR 含 baseline → target + measurement + leading/lagging 標記
+> - [ ] 至少 1 個 leading KR 以便季中調整
+> - [ ] 至少 1 個 counter-metric 防 goal-hacking
+> - [ ] 每個 KR 帶 ambition (0-1) + `[H/M/L]` badge + `（依據：...）` 引用
+> - [ ] Decision Log ≥ 1 條，每條有 rejected reason
+> - [ ] 無 YAML / JSON schema 輸出（OKR 是給人讀的 markdown）
 ```
 
-```prompt-full
-## 角色
+```template-full
+---
+doc_type: "okr"
+variant: "full"
+status: "draft"
+owner: "<your-name>"
+last_updated: "YYYY-MM-DD"
+upstream:
+  required: ["north-star-metric", "quarterly-business-goals", "last-quarter-okr-attainment"]
+  optional: ["industry-benchmark", "capacity-forecast", "customer-interviews"]
+---
 
-你是有 5+ 年 SaaS B2B 經驗的資深 PM，熟悉 OKR、JTBD、PRD、ADR、leading/lagging metric 設計。
-你的輸出會交給 PO（拆 backlog 並排優先序）、Dev Lead（驗證 capacity 與排 sprint）、Stakeholders（追季度進度與資源承諾）。
-他們需要在 30 分鐘內判斷「這個季度該砍掉什麼來達成 KR」，所以你的 OKR 必須少而精、可量測、有 ambition。
+# OKR · <FY-Qn> · <team-name>
 
-## 情境脈絡
+**Status:** Draft v0.X · **Owner:** <PM name> · **Last updated:** YYYY-MM-DD · **Reviewers:** PO / Dev Lead / Exec sponsor
 
-季度規劃、跨團隊對齊、需要在多個 backlog item 間排優先序時用本 OKR。
-本卡核心問題：把產品方向翻成季度內只承諾少數幾個可衡量結果，其他都得讓位。
+> [!IMPORTANT]
+> **AI 填寫規則：** 12 段 H2 章節全部必填（任一缺失即不合格）。Objective 必須質性、有方向感（**禁 task list**）；每個 KR 必含 baseline → target 數字 + 量測方式 + 來源系統 + leading/lagging 標記；ambition 信心 0.5–0.7（高於 0.7 太保守、低於 0.5 不切實際）；必含至少 1 個 counter-metric 防 goal-hacking；必須區分 leading vs lagging（至少 1 個 leading 以便季中調整）。每結論 `（依據：business-goals §X / north-star §Y）`；每量化欄位 `[H/M/L]` badge；缺資料 `_TODO: 需要 XXX_` 不編造；禁 YAML/JSON schema 輸出。
 
-## 任務
+---
 
-根據以下 input 產出「OKR · 目標與關鍵結果」draft。
+## 1. Executive Summary
+<!-- owner: PM · required: always -->
 
-## 輸入素材
+<!-- ai-fill: 3-5 行：本季 Objective、KR 數量、對 north-star 的預期貢獻 %、最大假設與不確定性 -->
 
-[北極星指標 + 當前值 + 同業 benchmark]
-[本季商業目標（董事會 / CEO 層級）]
-[上季 OKR 達成率 + 歷史 baseline]
+<3-5 行說明>
 
-## 規則
+> **TL;DR:** <一句話：本季要達成什麼質性結果，砍掉什麼讓位>
 
-1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
-2. Objective 必須質性、有方向感，禁止寫成 task list（如「完成 feature A」）。
-3. 每個 KR 必須含 baseline → target 數字 + 量測方式 + 量測來源系統，缺任一標 TODO(缺什麼)。
-4. Ambition 校準：理想信心 0.5–0.7（過高代表保守、過低代表不切實際），標 confidence: [H/M/L]。
-5. 必須含至少 1 個 counter_metric（防 goal-hacking，例如「提升轉換率」配對「不可惡化退費率」）。
-6. 必須區分 leading vs lagging KR，至少 1 個 leading KR 以便季中可調整。
-7. Out of scope 至少 3 條，明寫本季 OKR 不處理什麼（例：技術債、純內部工具、>1 季才能驗證的指標）。
+---
 
-## 輸出格式（YAML）
+## 2. Objective
+<!-- owner: PM · required: always -->
 
-objective_statement:
-  required: true
-  type: string
-  source: <input ref>
-  confidence: H | M | L
-  example: |
-    讓中型 SaaS 客戶在 onboarding 第一週就感受到核心價值
+<!-- ai-rule: 質性陳述，禁任務化（「完成 / 上線 / ship」直接 reject）。應有方向感、清楚誰受影響、為何此季要做 -->
 
-key_results:
-  - id: KR-1
-    statement: <將 X 從 A 提升到 B by 季末>
-    baseline: <number + 量測系統>
-    target: <number>
-    measurement: <how + 量測頻率>
-    type: enum[leading, lagging]
-    source: <input ref>
-    confidence: H | M | L
-    ambition_score: <0.0–1.0，理想 0.5–0.7>
+> <例：讓中型 SaaS 客戶在 onboarding 第一週就感受到核心價值>
 
-counter_metric:
-  metric: <防 goal-hacking 的對沖指標>
-  threshold: <不可惡化的上限>
-  source: <input ref>
+- **Confidence:** **[H]**
+- **Source:** business-goals §1 + north-star §current-gap
+- **Rationale:** <為何此 objective 是本季關鍵：北極星 gap / 客戶承諾 / 商業節奏>
 
-alignment_to_north_star:
-  north_star: <指標名稱 + 當前值>
-  contribution: <本 OKR 預期對 north star 的貢獻 + 量化估算>
-  confidence: H | M | L
+---
 
-leading_vs_lagging:
-  leading_kr_ids: [<KR-id>]
-  lagging_kr_ids: [<KR-id>]
-  rationale: <為何這樣分>
+## 3. Key Results
+<!-- owner: PM · required: always -->
 
-quarterly_cadence:
-  weekly_checkin: <要看哪些 leading 指標>
-  midquarter_pivot_trigger: <什麼條件下要調整 KR>
-  endquarter_review: <達成判定標準>
+<!-- ai-rule: 3-5 個 KR。每個 KR 含 baseline → target + measurement + type + ambition 0-1 + source -->
 
-decision_log:
-  - decision: <例：為何選 KR-1 而非候選 KR-X>
-    options_considered: [<A>, <B>, <C>]
-    chosen: <A>
-    rejected_reason:
-      B: <為何不選>
-      C: <為何不選>
-    confidence: H | M | L
+| ID | Statement | Baseline | Target | Measurement | Source system | Type | Ambition | Confidence |
+|---|---|---|---|---|---|---|---|---|
+| KR-1 | <將 X 從 A 提升到 B by 季末> | A | B | <how + 量測頻率> | <Amplitude / Looker / SQL> | **leading** | 0.6 | **[H]** |
+| KR-2 | ... | ... | ... | ... | ... | **lagging** | 0.55 | **[M]** |
+| KR-3 | ... | ... | ... | ... | ... | **leading** | 0.65 | **[M]** |
 
-out_of_scope:
-  - <本季 OKR 不處理 thing 1>
-  - <本季 OKR 不處理 thing 2>
-  - <本季 OKR 不處理 thing 3>
+---
 
-## 思考步驟
+## 4. Counter-metric（防 goal-hacking）
+<!-- owner: PM · required: always -->
 
-產出前先：
-1. 從 input 抓 3-5 個關鍵 signal（北極星 gap、上季漏接點、商業承諾節點），標 H/M/L confidence
-2. 列至少 2 條 viable OKR 路徑（防守型 vs 進攻型），各自負面後果（例：選防守會錯過市場窗口；選進攻會壓爆 capacity）
-3. 列你做了但 input 沒明說的假設（例：團隊 capacity、市場節奏、依賴可用性）
-4. 確認每個 KR 都能在季末用客觀數字判定達成
+<!-- ai-rule: 至少 1 個 counter-metric；必須對應某個 KR 的可能負面外溢 -->
 
-## 輸出
+| Counter-metric | Threshold (不可惡化的上限) | Why this hedges | Source |
+|---|---|---|---|
+| <例：退費率> | < X% (current Y%) | KR-1 衝轉換率時可能引入低品質流量 | finance §1 |
+| <例：CSAT> | ≥ Z (current Z+0.2) | KR-2 衝速度可能犧牲體驗 | NPS dashboard |
 
-（依 output_schema YAML 填寫）
+---
 
-## 自審
+## 5. Alignment to North Star
+<!-- owner: PM · required: always -->
 
-1. 哪個 KR 的 ambition_score < 0.5 或 > 0.7？為什麼？需要什麼補資料才能校準？
-2. 哪些假設來自我而非 input？標出來。
-3. 如果只能再追加一份 input，是哪一份（capacity 數字 / 同業 benchmark / 客戶訪談）？為什麼？
+- **North star metric:** <名稱 + 當前值 + benchmark>
+- **Expected contribution:** <例：本 OKR 預估貢獻 north-star +12% by Q-end，因為 KR-1 直接驅動 activation rate>
+- **Confidence:** **[M]**
+- **Source:** <input ref>
+
+---
+
+## 6. Leading vs Lagging Breakdown
+<!-- owner: PM · required: full-only -->
+
+<!-- ai-rule: 至少 1 個 leading KR 以便季中可調整；rationale 必須說明季中 pivot 機制 -->
+
+- **Leading KRs:** KR-1, KR-3
+- **Lagging KRs:** KR-2
+- **Rationale:** <leading 是行為先行指標（usage / activation），lagging 是結果（revenue / retention）。leading 季中可調整路徑、lagging 季末才能判定>
+
+---
+
+## 7. Quarterly Cadence
+<!-- owner: PM + Exec · required: full-only -->
+
+| Check-in | Frequency | What to look at | Decision threshold |
+|---|---|---|---|
+| Weekly leading review | 週一 30 min | KR-1 / KR-3 weekly delta | < 50% expected pace → 升級到 PM + Dev Lead |
+| Mid-quarter pivot review | 第 6 週 60 min | 全部 KR + counter-metric | < 30% target progress → 重新校準 target 或砍 KR |
+| End-quarter review | 季末 90 min | 達成數字 + 自評 0-1 | 自評 0.7-1.0 = 達成；< 0.4 = 重新檢視 ambition 設定 |
+
+---
+
+## 8. Capacity & Dependencies
+<!-- owner: PM + Dev Lead · required: full-only -->
+
+| Dependency | Owner | Needed by | Risk if late | Confidence |
+|---|---|---|---|---|
+| <例：onboarding flow refactor> | <eng-team-A> | Week 4 | KR-1 baseline 量測無法啟動 | **[M]** |
+| <例：data pipeline 升級> | <data-team> | Week 6 | KR-3 measurement 不準 | **[L]** |
+
+- **Team capacity assumption:** <FTE 數 + 預留 incident & tech debt budget 20-30%>
+
+---
+
+## 9. Risks & Open Questions
+<!-- owner: All · required: always -->
+
+### Risks
+
+> **R1:** <例：KR-1 ambition 0.6 但歷史 attainment 僅 0.3，可能過樂觀> — **Mitigation:** 第 4 週 checkpoint 重新校準 — **Owner:** PM
+>
+> **R2:** ...
+
+### Open Questions
+
+- [ ] **Q1:** <例：KR-2 measurement 是用 Amplitude 還是自建 SQL？data team 待確認>
+- [ ] **Q2:** ...
+
+---
+
+## 10. Decision Log
+<!-- owner: PM · required: always -->
+
+<!-- ai-rule: 每條必含 ≥ 2 個 rejected options + 各自 rejected reason -->
+
+| Date | Decision | Options considered | Chosen | Rejected why | Confidence |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | <例：本季 Objective 主軸> | activation / retention / monetization | activation | retention (上季已做)、monetization (PMF 未穩) | **[H]** |
+| YYYY-MM-DD | <例：是否設 counter-metric on CSAT> | yes / no | yes | no (KR-2 對速度的衝擊會傷體驗，必須對沖) | **[H]** |
+
+---
+
+## 11. Out of Scope
+<!-- owner: PM · required: full-only -->
+
+本季 OKR **不處理**：
+
+- ❌ **技術債清理** — 屬 tech-debt budget（已預留 20% capacity）
+- ❌ **純內部工具改進** — 屬 platform team OKR
+- ❌ **> 1 季才能驗證的指標** — 屬 annual roadmap
+- ❌ **Bug fix 與運維** — 屬 sprint 內 baseline 工作
+
+---
+
+## 12. Confidence & Sources & TODO
+<!-- owner: All · required: always -->
+
+- **整份文件最低 confidence 欄位：** <列出所有 [L] 與 [M]>
+- **Fabricated assumptions（推測但 input 未明說的）：**
+  - <假設 1，例：本季團隊 capacity 與上季持平>
+  - <假設 2，例：data pipeline 升級不延期>
+- **Highest-value next input:** <capacity 實測 / 同業 benchmark / 客戶 switch interview>
+
+### TODO（缺資料）
+
+- _TODO: 需要 data team 確認 KR-2 measurement 是否可用 Amplitude 既有事件_
+- _TODO: 需要上季 retro 數據校準 ambition score 起始點_
+
+---
+
+> [!CAUTION]
+> **輸出前 AI 自檢：**
+> - [ ] 12 段 H2 章節齊全（編號 1-12）
+> - [ ] Objective 是質性陳述、無 task 詞（完成 / 上線 / ship）
+> - [ ] 每個 KR 含 baseline → target + measurement + source system + leading/lagging 標記
+> - [ ] 每個 KR 含 ambition (0-1) + 在 0.5-0.7 區間（超出區間須附 Rationale）
+> - [ ] 至少 1 個 leading KR 以便季中調整
+> - [ ] 至少 1 個 counter-metric 對應某 KR 的負面外溢
+> - [ ] 對 north-star 的預期貢獻已量化估算
+> - [ ] Capacity & Dependencies 標 owner + needed by + fallback
+> - [ ] Decision Log 每條 ≥ 2 個 rejected options + 各自 reason
+> - [ ] 無 YAML / JSON schema 輸出（OKR 是給人讀的 markdown）
 ```
 
-回審重點：human 判斷 ambition 是否誠實（信心 > 8 太保守、< 3 太激進）、counter_metric 是否真能防 goal-hacking、out-of-scope 有沒有偷渡技術債。
+## 怎麼觸發
+
+先在上方 tab 選「輕量範本」或「完整範本」、按複製存到你的 AI 工作環境（web chat 對話框、Claude Code / Cursor / Aider 等 harness agent 的 context、或專案內任何 markdown 檔），再複製下面這段、把貼位區換成你的真實文件全文，給 AI：
+
+```trigger
+請依據以下「文件範本」與「上游文件」產出 OKR markdown。嚴格遵守範本內所有 `> [!IMPORTANT]` 規則、`<!-- ai-fill -->` / `<!-- ai-rule -->` 欄位指引，並在結尾跑完 `> [!CAUTION]` 自檢清單。
+
+## 文件範本（貼這裡）
+⏬
+（貼上面選好的「輕量範本」或「完整範本」全文）
+⏫
+
+## 上游文件（貼這裡）
+⏬
+（貼 north-star 指標當前值與 benchmark / 本季商業目標 / 上季 OKR 達成率 全文）
+⏫
+```
+
+> [!TIP]
+> **常見錯誤：** Objective 寫成 task list（「完成 feature A」= 直接 reject）、KR 不可量測（「提升使用者滿意度」沒 baseline → target）、ambition 系統性過保守（全部 > 0.7 = 沒挑戰）、漏 counter-metric（衝指標時無對沖）、out-of-scope 偷渡技術債當 KR。AI 若漏這些，自檢清單會抓到並回頭補。

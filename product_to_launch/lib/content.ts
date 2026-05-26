@@ -113,6 +113,7 @@ export function renderMarkdown(md: string): string {
   let inQuote = false;
   let inCode = false;
   let codeLang = "";
+  let codeFenceLen = 0;
   let codeBuf: string[] = [];
   let para: string[] = [];
 
@@ -130,24 +131,32 @@ export function renderMarkdown(md: string): string {
   };
 
   for (const rawLine of lines) {
-    // Fenced code block boundary — track exact line, no trimming inside
-    // Allow hyphenated lang tags like `prompt-quick` / `prompt-full`.
-    const fence = /^```([\w-]*)\s*$/.exec(rawLine);
+    // Fenced code block boundary — CommonMark N-backtick rule:
+    // opening uses ≥ 3 backticks; closing must match or exceed opening count.
+    // Inner fences with fewer backticks (e.g. ```mermaid inside ````template-full)
+    // are treated as content. Allow hyphenated lang tags like `prompt-quick` / `template-light`.
+    const fence = /^(`{3,})([\w-]*)\s*$/.exec(rawLine);
     if (fence) {
+      const ticks = fence[1].length;
       if (inCode) {
-        const safe = codeBuf.join("\n")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;");
-        const cls = codeLang ? ` class="lang-${codeLang}"` : "";
-        const kind = codeLang === "prompt-quick" ? "quick"
-                   : codeLang === "prompt-full" ? "full"
-                   : "default";
-        out.push(`<pre data-prompt-block data-prompt-kind="${kind}"><code${cls}>${safe}</code></pre>`);
-        inCode = false; codeLang = ""; codeBuf = [];
+        if (ticks >= codeFenceLen) {
+          const safe = codeBuf.join("\n")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+          const cls = codeLang ? ` class="lang-${codeLang}"` : "";
+          // template-light/full = new doc-driven names; prompt-quick/full = legacy fallback.
+          const kind = codeLang === "template-light" || codeLang === "prompt-quick" ? "quick"
+                     : codeLang === "template-full" || codeLang === "prompt-full" ? "full"
+                     : "default";
+          out.push(`<pre data-prompt-block data-prompt-kind="${kind}"><code${cls}>${safe}</code></pre>`);
+          inCode = false; codeLang = ""; codeFenceLen = 0; codeBuf = [];
+        } else {
+          codeBuf.push(rawLine);
+        }
       } else {
         flushPara(); flushList(); flushQuote();
-        inCode = true; codeLang = fence[1];
+        inCode = true; codeLang = fence[2]; codeFenceLen = ticks;
       }
       continue;
     }
@@ -165,8 +174,19 @@ export function renderMarkdown(md: string): string {
     }
     if (line.startsWith("> ")) {
       flushPara(); flushList();
+      const content = line.slice(2);
+      // GFM alert: first line of blockquote matches `[!TYPE]` — open as styled callout.
+      const alert = !inQuote && /^\[!(NOTE|TIP|IMPORTANT|CAUTION|WARNING)\]\s*$/i.exec(content);
+      if (alert) {
+        const type = alert[1].toLowerCase();
+        const label = type.charAt(0).toUpperCase() + type.slice(1);
+        out.push(`<blockquote class="alert alert-${type}">`);
+        out.push(`<p class="alert-label">${label}</p>`);
+        inQuote = true;
+        continue;
+      }
       if (!inQuote) { out.push("<blockquote>"); inQuote = true; }
-      out.push(`<p>${inline(line.slice(2))}</p>`);
+      out.push(`<p>${inline(content)}</p>`);
       continue;
     }
     const liU = /^[-*]\s+(.*)/.exec(line);

@@ -55,9 +55,9 @@ demo/
 
 ### 老師（你）— 用 SmartTrip FX 示範
 
-1. 打開 [`content/deliverables/jtbd.md`](../product_to_launch/content/deliverables/jtbd.md) — 看「原始模板」與 `prompt-full` 的 schema 規則
-2. 打開 [`demo/01-discovery/01-jtbd/模板輸入.md`](./01-discovery/01-jtbd/模板輸入.md) — 看「套上 SmartTrip 後長什麼樣」
-3. 在課堂上把 `模板輸入.md` 的 `═══ ... ═══` 之間整段貼到 Claude → 即時演示 AI 產出
+1. 打開 [`content/deliverables/jtbd.md`](../product_to_launch/content/deliverables/jtbd.md) — 看「文件範本」段內的 `> [!IMPORTANT]` 規則與 `<!-- ai-rule -->` 註解
+2. 打開 [`demo/01-discovery/01-jtbd/模板輸入.md`](./01-discovery/01-jtbd/模板輸入.md) — 看「套上 SmartTrip 後長什麼樣」（含上游文件 + 薄 trigger 組裝示範）
+3. 在課堂上把 `模板輸入.md` 的 trigger 段（含貼位區內容）整段貼到 Claude → 即時演示 AI 產出
 4. 對照 [`實際結果.md`](./01-discovery/01-jtbd/實際結果.md) 講解 confidence、source、decision_log、out_of_scope 的判讀方式
 5. 講「**學生常見錯誤**」表 — 把那 4-5 行當 anti-pattern 分析
 
@@ -67,9 +67,9 @@ demo/
 2. 進 [`/workshop/`](http://localhost:3000/workshop/) 看自己的 15 卡學習路徑
 3. 從 01-jtbd 開始，每張卡：
    - 點「前往卡片」打開 `content/deliverables/<slug>.md`
-   - 複製 `prompt-full` 區塊到 Claude
-   - 把 `[使用者訪談紀錄]` `[業務脈絡]` `[JTBD 卡]` 等 `[XXX]` 佔位符**換成自己的 brief / 上游卡輸出**
-   - 送出，拿到自己版本的 markdown
+   - 在「文件範本」段選「輕量範本」或「完整範本」tab，按複製
+   - 在「怎麼觸發」段複製薄 trigger，把貼位區換成自己的 brief / 上游卡輸出全文
+   - 送出，拿到自己版本的 markdown（不再是 YAML）
 4. 點「看 SmartTrip FX 標準答案」對照 `demo/` 對應卡的 `實際結果.md`
 5. 對照「**學生常見錯誤**」自審，修正後勾起 checkbox
 
