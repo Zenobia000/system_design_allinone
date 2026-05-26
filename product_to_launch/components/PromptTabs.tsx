@@ -18,80 +18,6 @@ interface Props {
 
 type Kind = "quick" | "full";
 
-interface ChipSpec {
-  slug: string;
-  label: string;
-  test: (text: string) => boolean;
-}
-
-// Feature detectors. Order matters — chips render in this order after the
-// always-on line-count chip.
-const CHIP_SPECS: ChipSpec[] = [
-  {
-    slug: "role",
-    label: "role",
-    test: (t) => /<role>/i.test(t),
-  },
-  {
-    slug: "input",
-    label: "XML 邊界",
-    test: (t) => /<input>/i.test(t),
-  },
-  {
-    slug: "schema",
-    label: "schema",
-    test: (t) => /output_schema|輸出\s*schema/im.test(t),
-  },
-  {
-    slug: "anti-hallu",
-    label: "anti-hallu",
-    test: (t) => /不要編造|缺資料.*TODO|hallucinat/im.test(t),
-  },
-  {
-    slug: "hml",
-    label: "H/M/L",
-    test: (t) => /confidence:\s*\[?H/i.test(t) || /H\/M\/L/.test(t),
-  },
-  {
-    slug: "thinking",
-    label: "thinking",
-    test: (t) => /<thinking>/i.test(t),
-  },
-  {
-    slug: "self-verify",
-    label: "self-verify",
-    test: (t) => /<verify>/i.test(t),
-  },
-  {
-    slug: "decision-log",
-    label: "decision log",
-    test: (t) => /decision_log/i.test(t),
-  },
-  {
-    slug: "out-of-scope",
-    label: "out-of-scope",
-    test: (t) => /out_of_scope|out of scope/i.test(t),
-  },
-];
-
-interface Chip {
-  slug: string;
-  label: string;
-  meta?: boolean;
-}
-
-function detectChips(text: string, lineCount: number): Chip[] {
-  const chips: Chip[] = [
-    { slug: "lines", label: `${lineCount} 行`, meta: true },
-  ];
-  for (const spec of CHIP_SPECS) {
-    if (spec.test(text)) {
-      chips.push({ slug: spec.slug, label: spec.label });
-    }
-  }
-  return chips;
-}
-
 const TABS: { kind: Kind; label: string; sub: string }[] = [
   { kind: "quick", label: "Quick", sub: "12 行 · 快速試用" },
   { kind: "full", label: "Full", sub: "~50 行 · 正式產出" },
@@ -109,11 +35,6 @@ export default function PromptTabs({ slug, quick, full }: Props) {
 
   const quickLines = useMemo(() => quick.split("\n").length, [quick]);
   const fullLines = useMemo(() => full.split("\n").length, [full]);
-
-  const chips = useMemo(
-    () => detectChips(prompt, active === "quick" ? quickLines : fullLines),
-    [prompt, active, quickLines, fullLines],
-  );
 
   const activeIndex = active === "quick" ? 0 : 1;
 
@@ -195,18 +116,6 @@ export default function PromptTabs({ slug, quick, full }: Props) {
             aria-hidden="true"
             data-pos={activeIndex}
           />
-        </div>
-
-        <div className="ptc__chips" aria-live="polite">
-          {chips.map((chip) => (
-            <span
-              key={chip.slug}
-              className={`ptc__chip${chip.meta ? " ptc__chip--meta" : ""}`}
-              data-chip={chip.slug}
-            >
-              {chip.label}
-            </span>
-          ))}
         </div>
       </header>
 
