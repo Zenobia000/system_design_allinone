@@ -34,37 +34,38 @@ ADR 寫不下去，因為關鍵變數沒人量過。Spike 是時間盒住的實�
 ```prompt-quick
 你是有 10+ 年分散式系統經驗的資深 software architect（熟悉 ADR / CAP / SLO / 效能 benchmark / time-boxed spike）。任務：把問題陳述 + 約束轉成 tech spike 計畫（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [問題陳述 + 為何延後決策更貴]
 [約束（NFR / cost / time-box / 既有 stack）]
 [候選方案來源（社群討論 / vendor doc / 內部經驗）]
-</input>
 
 輸出 schema：spike_goal / hypothesis / candidate_options（≤3，含核心假設） / evaluation_criteria / experimental_variables / time_box / exit_criteria / recommendation / follow_up_decisions / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造數字。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 10+ 年分散式系統經驗的資深 software architect / staff engineer，熟悉 ADR、CAP、SLO、效能 benchmark、time-boxed spike、event-driven trade-off。
 你的輸出會交給 ADR 撰寫者（用 spike 結論支撐決策）、Dev Lead（評估後續實作成本）。
 他們需要 spike 結束時拿到「決策所需的數字或失敗證據」，不是 demo，所以計畫必須 time-box、exit criteria 明確、變數可量測。
-</role>
 
-<context>
+## 情境脈絡
+
 有技術假設無法靠紙上分析證實、且決策延後比做錯更貴時用本 spike。
 本卡核心問題：用最小成本買回最大不確定性 — 在 time-box 內輸出「決策需要的數字或失敗證據」。
-</context>
 
-<input>
+## 輸入素材
+
 [問題陳述 + 為何延後決策更貴（business impact）]
 [約束（NFR / cost ceiling / time-box 上限 / 既有 stack）]
 [候選方案來源（社群討論 / vendor doc / 內部經驗 / 既有 PoC）]
-</input>
 
-<rules>
+## 規則
+
 1. 每個假設與候選方案註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（例：選 Kafka 驗證則犧牲 RabbitMQ 的學習，後續若選 RabbitMQ 仍需另開 spike）。
 3. 缺資料的欄位標 TODO(缺什麼)，不要編造 benchmark 數字。
@@ -72,9 +73,9 @@ ADR 寫不下去，因為關鍵變數沒人量過。Spike 是時間盒住的實�
 5. Out of scope 至少 3 條（例：本 spike 不寫產品 code、不做 UI、不評估非候選方案）。
 6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
 7. Exit criteria 必須是布林條件（例：「p95 < 200ms 且 cost < $X/月」），不能是「感覺夠快」。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 spike_goal:
   question: <一句話的決策問題，例：Kafka 在我們的 throughput / latency / cost 條件下是否優於 RabbitMQ>
   decision_owner: <role>
@@ -140,25 +141,24 @@ out_of_scope:
   - 本 spike 不寫產品 code / UI / 監控儀表板
   - 不評估候選清單外的方案（除非主要假設被推翻）
   - 不做安全 / 合規深入評估（由 threat model 接手）
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵不確定變數，標 H/M/L confidence
 2. 列至少 2 條 viable 實驗路徑（最小驗證 vs 完整 benchmark），各自負面後果
 3. 列你做了但 input 沒明說的假設（例：假設可用 staging 環境跑、假設 payload 大小）
 4. 確認 exit criteria 是布林、time-box 是硬截止
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個欄位 confidence < H？列出來與所需補充資料。
 2. 哪些 benchmark 數字假設來自我而非 input？標出來。
 3. 如果只能再追加一份 input，是哪一份？為什麼？
-</verify>
 ```
 
 回審重點：time-box 是否硬截止、exit criteria 是否布林、是否真正用最小成本買最大不確定性、有沒有偷渡正式功能。

@@ -34,37 +34,38 @@ Release 失敗大多不是技術問題，是「以為某項已完成但其實沒
 ```prompt-quick
 你是有 5+ 年 agile 經驗的資深 PO（熟悉 backlog 拆解、user story、INVEST），協作 7+ 年 SRE 經驗的 release coordinator。任務：把 Release Plan + Test Plan + Runbook + 合規清單 轉成 Go/No-Go Checklist（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [Release Plan（含 scope、timeline）]
 [Test Plan + 測試結果（含 coverage、defect 狀態）]
 [Runbook + 合規清單（SOC 2 / GDPR / PCI 等）]
-</input>
 
 輸出 schema：criteria（functional / perf / security / ops / comms / compliance）/ evidence_link_per_criterion / blockers / decision_makers / decision_record / fallback_date / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 5+ 年 agile 經驗的資深 PO，協作 7+ 年 SRE 經驗的 release coordinator，熟悉 backlog 拆解、user story 寫作、INVEST 原則、SLO/SLI/error budget、incident response、postmortem 文化、SOC 2 / GDPR / PCI 合規稽核流程。
 你的輸出會交給決策會議主席（簽 Go/No-Go）、各維度 owner（QA / SRE / Security / CS）、稽核（保留決策記錄）。
 他們需要在 15 分鐘會議內讀完並做出 Go/No-Go 決策，所以你的 checklist 必須項項可驗證、證據可審計、blocker 可定位 owner。
-</role>
 
-<context>
+## 情境脈絡
+
 Release 影響營收、合規、跨團隊或對外承諾時必要（任何 P0/P1 release）。
 本卡核心問題：把上線決策從「感覺差不多」變成證據簽核；強迫每個關鍵維度有明確 yes/no 與證據連結。
-</context>
 
-<input>
+## 輸入素材
+
 [Release Plan（含 scope、timeline、rollback link）]
 [Test Plan + 測試結果（含 coverage、defect 狀態、UAT 簽核）]
 [Runbook + 合規清單（SOC 2 / GDPR / PCI / WCAG 等適用標準）]
-</input>
 
-<rules>
+## 規則
+
 1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（例如：降低 perf criterion 通過門檻換 ship，會犧牲 X% 用戶 p95 體驗）。
 3. 缺資料的欄位標 TODO(缺什麼)，不要編造；列「需要什麼補上」。
@@ -72,9 +73,9 @@ Release 影響營收、合規、跨團隊或對外承諾時必要（任何 P0/P1
 5. Out of scope：明列 3 條本文件不處理（例如：日常 standup 決策、技術債清單、長期 roadmap）。
 6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明為何不確定。
 7. 每個 criterion 必須有 evidence_link（URL / doc ref），無連結者標 TODO 並列 owner。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 criteria:
   functional:
     - id: F-1
@@ -149,25 +150,24 @@ out_of_scope:
   - 日常 standup 與 sprint 決策
   - 長期 roadmap 與 OKR 對齊
   - <第 3 條本文件不處理>
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal（最弱的 criterion、最缺證據的維度、最大的 blocker）
 2. 列至少 2 條 viable 路徑（CONDITIONAL_GO + 補件 vs NO_GO + 延期），各自負面後果
 3. 列你做了但 input 沒明說的假設（例如：哪些合規維度真正適用）
 4. 確認所有 6 維度都有被檢查
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個欄位 confidence < H？列出來與所需補充資料。
 2. 哪些假設來自我而非 input？標出來。
 3. 如果只能再追加一份 input，是哪一份？為什麼？
-</verify>
 ```
 
 回審重點：human 判斷 trade-off、CONDITIONAL_GO 條件嚴格度、合規維度適用性、決策權限。

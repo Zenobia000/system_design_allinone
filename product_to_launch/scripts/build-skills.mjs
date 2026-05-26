@@ -43,7 +43,7 @@ function buildSkill(fm, prompt, variant) {
   const name = `${fm.slug}-${suffix}`;
   const description = fm.hook || `${fm.title} prompt`;
   const variantLabel = variant === "quick" ? "Quick (≤ 12 行)"
-                     : variant === "full" ? "Full (含 XML 結構 / schema / self-verify)"
+                     : variant === "full" ? "Full (含 markdown 分段 / schema / self-verify)"
                      : null;
   return `---
 name: ${name}

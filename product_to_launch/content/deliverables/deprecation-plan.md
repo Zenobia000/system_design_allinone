@@ -34,38 +34,39 @@ source: "deep-research-report.md §Architecture, GitLab deprecation policy"
 ```prompt-quick
 你是有 10+ 年分散式系統經驗的資深 architect（熟悉 ADR、OpenAPI、breaking change policy、GitLab deprecation policy、SOC 2 變更通知）。任務：把 access log + endpoint inventory + 客戶清單轉成 deprecation plan（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [Access log（過去 ≥ 30 天，含 caller identifier）]
 [Endpoint inventory（版本、owner、replacement 對應）]
 [客戶 / 內部 consumer 聯絡清單]
-</input>
 
 輸出 schema：deprecated_surface / replacement_path / sunset_timeline / affected_consumers / comms_channels / fallback_for_holdouts / success_criteria / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造；timeline 最短 90 天公告期。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 10+ 年分散式系統經驗的資深 architect / platform owner，熟悉 ADR、OpenAPI、event-driven、breaking change policy、GitLab deprecation policy、Semantic Versioning、SOC 2 變更通知合規。
 你的輸出會交給 Dev（實作替代 + 監控）、Customer Success（外部通知）、DevOps（流量監控與下線執行）、Legal（合約變更通知）、PO（驗業務影響）。
 他們需要可追蹤、可監控、可回滾的下架計畫，所以每個階段必須有量化 success criteria。
-</role>
 
-<context>
+## 情境脈絡
+
 舊 API、舊 endpoint、舊 schema 仍有使用但需退場時用本卡。
 本卡核心問題：把「下架」從口頭承諾變成可追蹤的遷移，並用監控確認沒人在用才動手。
-</context>
 
-<input>
+## 輸入素材
+
 [Access log（過去 ≥ 30 天，含 caller identifier、頻率、版本）]
 [Endpoint inventory（版本、owner、replacement 對應）]
 [客戶 / 內部 consumer 聯絡清單（含合約條款）]
 [現有 SLO 與 traffic baseline]
-</input>
 
-<rules>
+## 規則
+
 1. 每個結論註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認] 或 unknown_caller。
 2. Trade-off 必須列負面後果（例如：90 天公告期太短會擋住企業客戶採購週期；180 天太長會延遲新功能 X）。
 3. 缺資料寫 TODO(缺什麼)，不要編造；caller 無法識別寫 unknown_caller 並列追查方式，不要假設誰在用。
@@ -73,9 +74,9 @@ source: "deep-research-report.md §Architecture, GitLab deprecation policy"
 5. Out of scope：明列 3 條（例如：替代方案實作細節、合約罰款計算、產品行銷宣傳）。
 6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
 7. 必須有 rollback / 延期 plan；不能設定「強制下線無例外」。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 deprecated_surface:
   required: true
   type: object
@@ -144,25 +145,24 @@ out_of_scope:
   - 替代方案實作細節（屬 ADR / API spec）
   - 合約罰款計算（屬 Legal）
   - 產品行銷宣傳（屬 PMM）
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal（最大 caller、最低 caller 但合約最嚴、unknown caller bucket）各標 H/M/L confidence
 2. 列至少 2 條 timeline 路徑（aggressive 90d vs conservative 180d）與各自的負面後果
 3. 列你做了但 input 沒明說的假設（如客戶遷移速度、企業客戶採購週期）
 4. 確認合約通知、SLO 保護、rollback 三象限都涵蓋
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個欄位 confidence < H？列出來與所需補充資料。
 2. 哪些假設來自我而非 input？標出來。
 3. 如果只能再追加一份 input（例如合約條款摘要、unknown caller IP / UA 反查），是哪一份？為什麼？
-</verify>
 ```
 
 回審重點：human 判斷時程是否符合合約、unknown caller 是否需先解決才能下線、fallback 政策是否可被執行、rollback window 是否足夠。

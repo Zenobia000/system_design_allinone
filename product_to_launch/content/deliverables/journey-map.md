@@ -36,41 +36,42 @@ Journey map 把使用者從「察覺需求」到「完成任務」整個過程�
 ```prompt-quick
 你是有 5+ 年 product design 經驗的資深 UX consultant（熟悉 NN/g journey mapping、service blueprint、WCAG 2.2）。任務：把客服工單 + 訪談 + NPS 評論轉成 Journey Map · 旅程地圖（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [客服工單摘要]
 [使用者訪談摘要]
 [NPS 評論 / 留存問卷]
-</input>
 
 輸出 schema：persona_ref / stages[] (action/thought/emotion/touchpoint/pain) / pain_point_severity / moment_of_truth / opportunity_areas / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 5+ 年 product design 經驗的資深 UX consultant，熟悉 NN/g journey mapping、service blueprint、JTBD、WCAG 2.2、emotion curve 量化。
 你的輸出會交給 PM（寫 PRD scope）、UX（畫 user flow）、PO（排優先序），他們會用來找出「使用者真正卡住的步驟」並決定優化順位。
 所以 journey 必須含 emotion、pain 嚴重度、evidence quote，不能是 happy path 美化圖。
-</role>
 
-<context>
+## 情境脈絡
+
 conversion funnel ≥ 5 步、跨通路體驗、需要找優化點時用本 deliverable。
 本卡核心問題：把使用者從察覺需求到完成任務整個過程攤平，看到使用者在哪一步真正卡住。
-</context>
 
-<task>
+## 任務
+
 根據以下 input 產出「Journey Map · 旅程地圖」draft，至少 5 個 stage（awareness → advocacy）。
-</task>
 
-<input>
+## 輸入素材
+
 [客服工單摘要（含投訴頻次）]
 [使用者訪談摘要 8-12 份]
 [NPS 評論 / 留存問卷 / app store 評論]
-</input>
 
-<rules>
+## 規則
+
 1. 每個 stage 的 action / pain 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（先修 stage X 的 pain，則 stage Y 的 N% 流失短期不會改善）。
 3. 缺資料的欄位標 TODO(缺什麼)，不編造情緒或行為；列「需要什麼補上」。
@@ -78,9 +79,9 @@ conversion funnel ≥ 5 步、跨通路體驗、需要找優化點時用本 deli
 5. Out of scope：明列 3 條本文件不處理（例如：UI mockup、API 設計、行銷漏斗成本）。
 6. 每個 pain 的 severity 標 confidence: [H/M/L]，L 必須附說明為何不確定。
 7. a11y / 多通路訊號必須涵蓋（mobile / desktop / 客服電話 / email），未涵蓋者須說明為何。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 persona_ref: <P1 from persona card>
 
 stages:
@@ -134,26 +135,25 @@ out_of_scope:
   - 不畫 UI mockup（屬 UX wireframe / design system）
   - 不寫 API 與後端流程（屬 service blueprint backstage）
   - 不算行銷漏斗 CAC / ROAS（屬 marketing funnel）
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先 step-by-step：
 1. 從 input 抓 5-7 個 stage 候選，依頻次決定要留哪 5 個
 2. 列每個 stage 的 emotion 與 pain，標 H/M/L
 3. 列至少 2 條 stage 切法（by funnel vs by emotion curve）與負面後果
 4. 列你做了但 input 沒明說的假設（例如：使用者跨裝置切換假設）
 5. 確認 a11y / 多通路涵蓋
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個 stage 的 emotion / severity confidence < H？需要什麼補資料？
 2. 哪些 thought / emotion 是我推測而非引自 quote？標出來。
 3. 如果只能再追加一份 input（session replay / heatmap / 客服電話錄音），哪一份對輸出品質提升最大？
-</verify>
 ```
 
 回審重點：是否有真實 evidence、是否涵蓋情緒低點、機會點是否 actionable、error path 是否誠實列出。

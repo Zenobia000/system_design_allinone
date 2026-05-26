@@ -36,41 +36,42 @@ Stakeholder Map 在 discovery 結束前把「誰影響專案、誰被專案影�
 ```prompt-quick
 你是有 5+ 年企業系統經驗的資深 BA（熟悉 BPMN、規則引擎、合規需求拆解、BABOK stakeholder analysis）。任務：把組織架構 + 專案 scope + 衝突歷史轉成 stakeholder map（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [組織架構圖 / 部門清單]
 [專案 scope 與影響範圍]
 [過往相似案的衝突 / 升級紀錄]
-</input>
 
 輸出 schema：stakeholders[]（power/interest）/ communication_cadence / decision_makers / blockers_and_allies / raci_matrix / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；必標 ≥ 2 個沉默但有否決權的角色（資安 / 法遵 / 稽核）；缺資料寫 TODO(缺什麼)，不編造。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 5+ 年企業系統經驗的資深 BA，熟悉 BPMN、規則引擎、合規需求拆解、BABOK stakeholder analysis、RACI 框架、組織行為。
 你的輸出會交給 PM（規劃溝通節奏與升級路徑）、PO（排簽核節點到 sprint plan）、QA / SRE（列受影響系統與通知名單）、PMO（補組織視角）。
 他們需要在 discovery 結束前就用這張圖決定「誰先 talk、誰要 brief、誰要 sign-off」，所以漏掉一個沉默否決者就會在後期吃掉整個 sprint。
-</role>
 
-<context>
+## 情境脈絡
+
 跨部門新功能、合規/稽核專案、敏感資料變更、變更影響 ≥ 3 個團隊時用本卡。
 本卡核心問題：把「誰影響專案、誰被專案影響、誰要被通知、誰要簽核」攤平在一張 interest × influence 矩陣上，避免後期升級衝突。
-</context>
 
-<task>
+## 任務
+
 根據以下 input 產出「Stakeholder Map」draft，含 power/interest 分類 + RACI + 溝通節奏 + 沉默否決者警示。
-</task>
 
-<input>
+## 輸入素材
+
 [組織架構圖 / 部門清單 / 角色職掌]
 [專案 scope（含影響系統 / 資料分類 / 合規依據）]
 [過往相似案的衝突 / 升級 / 否決紀錄]
-</input>
 
-<rules>
+## 規則
+
 1. 每個 stakeholder 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. 必須涵蓋內部（業務 / 工程 / 設計）+ 橫向（資安 / 法遵 / 稽核 / 財務）+ 外部（客戶 / 監管 / 廠商）三類；任一類別缺項要說明為何不適用。
 3. 必須標 ≥ 2 個「沉默但具否決權」角色（資安 / 法遵 / 稽核 / DPO / 內控）；漏標的負面後果：上線前一週被否決全部重做。
@@ -78,9 +79,9 @@ Stakeholder Map 在 discovery 結束前把「誰影響專案、誰被專案影�
 5. RACI 必須對應到具體 deliverable / decision，不可只給角色一個總體 R/A/C/I。
 6. 溝通節奏必須含 cadence（週 / 雙週 / 月 / 里程碑觸發）+ 媒介（會議 / 報告 / dashboard）+ 升級路徑。
 7. Out of scope 至少 3 條（例：跨專案 program governance 走 PMO 卡、員工關係衝突走 HR、單純技術評審走 architect review）。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 stakeholders:
   - id: SH-001
     name_or_role: <角色 / 姓名>
@@ -138,25 +139,24 @@ out_of_scope:
   - <本卡不含 thing 1，例：跨專案 program governance>
   - <本卡不含 thing 2，例：員工關係衝突走 HR>
   - <本卡不含 thing 3，例：純技術評審走 architect review>
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 input 抓 3-5 個關鍵 signal（scope 觸及的合規條款、過往相似案的否決點、組織內部既有政治張力），標 H/M/L confidence
 2. 列至少 2 條 viable stakeholder 策略（廣納：早期廣徵詢 vs 精打：只 brief 必要人），各自負面後果（廣納會稀釋決策速度；精打會漏沉默否決者）
 3. 列你做了但 input 沒明說的假設（特定角色的決策權、過往衝突當事人是否仍在位）
 4. 確認三類別（內部 / 橫向 / 外部）+ ≥ 2 個沉默否決者都已列出
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個沉默否決者 confidence 不高？需要找誰確認決策權範圍？
 2. 哪些假設來自我而非 input（特別是過往衝突紀錄、現任角色職掌）？標出來。
 3. 如果只能再追加一份 input（PMO 治理文件 / 法遵簽核紀錄 / 過往升級 ticket），哪一份對 stakeholder map 品質提升最大？
-</verify>
 ```
 
 回審重點：human 判斷是否漏掉法遵 / 資安 / 稽核等沉默否決者、決策權描述是否準確、RACI 是否對應具體 deliverable 而非籠統角色。

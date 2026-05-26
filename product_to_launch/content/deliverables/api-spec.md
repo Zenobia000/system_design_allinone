@@ -36,37 +36,38 @@ API Spec（OpenAPI 3.1）的核心價值是**讓契約先穩定**，雙方可以
 ```prompt-quick
 你是有 10+ 年分散式系統經驗的資深 software architect（熟悉 OpenAPI 3.1 / REST / idempotency / rate limit / SOC 2 audit）。任務：把 SRS + user story 轉成 OpenAPI 契約（YAML 格式）。
 
-<input>
+## 輸入素材
+
 [SRS / 功能規格]
 [User story / 使用情境]
 [既有 API 風格指南 / error taxonomy]
-</input>
 
 輸出 schema：endpoints[]（path/method/operationId）/ request_schemas（含 validation：pattern/min/max） / response_schemas（per status 含 4xx/5xx） / auth_scopes / idempotency_keys / rate_limits / x_governance（owner/consumers/freeze/change_policy） / error_taxonomy / decision_log / out_of_scope（3 條）
 
 每欄附 source: [input 第 X 段] 與 confidence: [H/M/L]；缺資料寫 TODO(缺什麼)，不編造欄位。
-結尾 <verify>：列 confidence 最低的欄位與所需補充資料。
+結尾以 `## 自審` 段：列 confidence 最低的欄位與所需補充資料。
 ```
 
 ```prompt-full
-<role>
+## 角色
+
 你是有 10+ 年分散式系統經驗的資深 software architect / BE lead，熟悉 OpenAPI 3.1、REST、idempotency、rate limit、JWT/OAuth2、SOC 2 audit、breaking change policy。
 你的輸出會交給 FE（消費契約、寫 mock）、BE（生產契約、寫 handler）、QA（contract test）、SDK generator（自動生成 client）。
 他們需要 spec 在 freeze 那一刻就機械可消費 — 欄位型別 / error code / idempotency / governance 缺一不可。
-</role>
 
-<context>
+## 情境脈絡
+
 FE/BE 跨團隊、microservice 整合、對外 public API 時用本 API spec。
 本卡核心問題：在開工前 freeze 契約，讓 FE/BE/QA 從 mock server 開始平行寫 code 與 test。
-</context>
 
-<input>
+## 輸入素材
+
 [SRS / 功能規格（含 endpoint 對應的業務動作）]
 [User story / 使用情境（含主要 / 例外流程）]
 [既有 API 風格指南 / error taxonomy / auth 模型]
-</input>
 
-<rules>
+## 規則
+
 1. 每個 endpoint / schema 註明 source：[input 第 X 段]；無法歸因者標 [來源未明示，需確認]。
 2. Trade-off 必須列負面後果（例：選 sync 回應則犧牲峰值容量；選 async webhook 則增加 FE 整合複雜度）。
 3. 缺資料的欄位標 TODO(缺什麼)，不要編造欄位或 error code。
@@ -74,9 +75,9 @@ FE/BE 跨團隊、microservice 整合、對外 public API 時用本 API spec。
 5. Out of scope 至少 3 條（例：內部 RPC、admin console、batch ETL 不在本契約）。
 6. 每個關鍵宣稱標 confidence: [H/M/L]，L 必須附說明。
 7. Breaking change policy 必須寫死（版本策略 / deprecation 通知期 / consumer 通知機制）。
-</rules>
 
-<output_schema>
+## 輸出格式（YAML）
+
 endpoints:
   - path: /v1/orders
     method: POST
@@ -155,25 +156,24 @@ out_of_scope:
   - 內部 RPC / gRPC 不走本 OpenAPI 契約
   - Admin console API 另開 spec
   - Batch ETL / file-based 整合不在本卡
-</output_schema>
 
-<thinking>
+## 思考步驟
+
 產出前先：
 1. 從 SRS 抓 3-5 個核心業務動作（CRUD + 領域事件），標 H/M/L confidence
 2. 列至少 2 條 viable API style 路徑（REST resource vs RPC action），各自負面後果
 3. 列你做了但 input 沒明說的假設（例：假設 JWT、假設 cursor 分頁）
 4. 確認 endpoint / schema / auth / error / idempotency / rate limit / governance 七象限都涵蓋
-</thinking>
 
-<output>
+## 輸出
+
 （依 output_schema YAML 填寫）
-</output>
 
-<verify>
+## 自審
+
 1. 哪個 endpoint / error code confidence < H？列出來與所需補充資料。
 2. 哪些 schema 假設來自我而非 input？標出來。
 3. 如果只能再追加一份 input，是哪一份？為什麼？
-</verify>
 ```
 
 回審重點：error code 涵蓋 4xx/5xx 完整、idempotency 在 POST/PATCH 標清楚、breaking change policy 與 consumer 對齊。
