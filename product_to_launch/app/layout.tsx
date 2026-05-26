@@ -102,14 +102,18 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Next.js dev mode injects React Refresh runtime that uses eval(). Production
+// builds (the only thing that gets deployed) do not need 'unsafe-eval'.
+// `frame-ancestors` is omitted on purpose — meta-delivered CSP ignores it;
+// click-jacking is blocked by `X-Frame-Options: DENY` set in firebase.json.
+const isDev = process.env.NODE_ENV === "development";
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
-  "style-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob:",
-  "font-src 'self' data:",
+  "font-src 'self' data: https://fonts.gstatic.com",
   "connect-src 'self'",
-  "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
 ].join("; ");
