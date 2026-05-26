@@ -45,8 +45,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint (pre-deploy gate)
-        run: npm run lint
+      # `next lint` is deprecated in Next.js 15 (interactive prompt blocks CI)
+      # and slated for removal in 16. The build step below is the de-facto
+      # type/sanity gate; we rely on local checks for style.
 
       - name: Build (static export)
         env:
