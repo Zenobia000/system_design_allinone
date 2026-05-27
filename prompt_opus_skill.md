@@ -5,18 +5,36 @@
 
 ---
 
-## 一、模型分級總覽
+## 一、模型分級總覽（2026-05 修正版）
 
-當前主流大模型大致分為四個等級，差異主要在「推理深度、指令遵循、單位成本、延遲」四個維度。
+當前主流大模型可分為四個工程等級：Frontier、Pro、Fast、Open / Self-host。
+差異不只在「聰明程度」，更在推理深度、工具使用、延遲、成本、部署治理與可驗證性。
 
-| 等級 | 定位 | 典型代表 | 適合任務 | 不適合任務 |
-|---|---|---|---|---|
-| **Frontier（旗艦級）** | 最深推理、最強 Agent 能力 | Claude Opus 4.7、GPT-5 Pro / o-series、Gemini 2.x Ultra | 多步驟程式設計、長鏈推理、跨檔案重構、複雜決策 | 大量瑣碎查詢、即時對話、批次清洗 |
-| **Pro（主力級）** | 推理品質與成本的甜蜜點 | Claude Sonnet 4.6、GPT-5、Gemini 2.x Pro | 日常編碼、文件撰寫、結構化抽取、Agent 中間步驟 | 需要極限推理的研究級任務 |
-| **Fast（輕量級）** | 低延遲、低成本 | Claude Haiku 4.5、GPT-5 mini、Gemini Flash | 分類、路由、Tool calling、批次摘要、UI 串流 | 多跳推理、長程記憶協作 |
-| **Open / Self-host** | 可自託管、可微調 | Llama 3.x / 4、Qwen 2.x、DeepSeek V3 / R1 | 資料敏感場景、固定領域微調、邊緣部署 | 需要最新世界知識或極致通用能力 |
+| 等級 | 定位 | 2026-05 建議代表模型 |
+|---|---|---|
+| **Frontier** | 最深推理、長程 Agent、跨檔案工程、研究級任務 | OpenAI **GPT-5.5 / GPT-5.5 pro**、Anthropic **Claude Opus 4.7**、Google **Gemini 3.1 Pro**、xAI **Grok 4.3** |
+| **Pro** | 主力日常模型，兼顧品質、成本與速度 | OpenAI **GPT-5.4 / GPT-5.4 pro / GPT-5**、Anthropic **Claude Sonnet 4.6**、Google **Gemini 2.5 Pro**、Alibaba **Qwen3-Max / Qwen3.6-Plus**、**DeepSeek V3.2 / V3.2-Speciale** |
+| **Fast** | 低延遲、低成本、高頻任務 | OpenAI **GPT-5.4 mini / nano、GPT-5 mini / nano**、Anthropic **Claude Haiku 4.5**、Google **Gemini 3 Flash / 2.5 Flash / 2.5 Flash-Lite** |
+| **Open / Self-host** | 可自託管、可微調，適合敏感資料與內網場景 | Meta **Llama 4 Maverick / Scout**、Alibaba **Qwen3 open 系列**、**DeepSeek V3.2 可用權重版本**、Mistral **Large 3 / Devstral 2 / Medium 3.5**、OpenAI **gpt-oss-120b / gpt-oss-20b** |
 
-> 注意：同一供應商的「越強模型 ≠ 一切任務都更好」。例如 Opus 4.7 在字面遵循與工具使用上更嚴格，反而不適合需要「腦補補完」的閒聊式需求（見文末案例）。
+> **命名與版本提醒**（依官方文件 2026-05 校對）：
+> - OpenAI 已不是 GPT-5 / GPT-5 Pro 為主力，**Frontier 是 GPT-5.5 系列**；"o4" 並非當前可用的旗艦完整模型名，**o4-mini 已由 GPT-5 mini 接替**。
+> - Google 應寫 **Gemini 3.1 Pro**（不是 Gemini 3 Pro）。
+> - xAI 已推出 **Grok 4.3**，建議優先使用而非僅標 Grok 4。
+> - DeepSeek **V3.1 已過期**，目前為 V3.2 / V3.2-Speciale；pricing 文件也出現 `deepseek-v4-pro`（部署前需實測與確認供應區域）。
+> - Mistral **Large 2.1 已被 Large 3 取代**，主表不再放 2.1。
+>
+> **Benchmark 時效提醒**：以上排名以 2026-05 為基準，建議定期回查：
+> - [LMArena](https://lmarena.ai/)（人類盲測 ELO）
+> - [SWE-bench Verified](https://www.swebench.com/)（真實 GitHub issue 修復，500 任務子集，受 agent harness 影響）
+> - [Aider Polyglot Leaderboard](https://aider.chat/docs/leaderboards/)（多語言編碼）
+> - [Artificial Analysis](https://artificialanalysis.ai/)（綜合 + 價格 + 速度）
+> - [ARC-AGI Leaderboard](https://arcprize.org/leaderboard)（抽象推理）
+>
+> **重要警告**：
+> 1. 不要把某模型永久綁定某榜單第一名——榜單會換，且 agent harness 設計常常比模型本體影響更大。
+> 2. 同一供應商「越強 ≠ 一切任務都更好」。例如 Opus 4.7 在字面遵循上更嚴格，反而不適合需要「腦補補完」的閒聊需求（見文末案例）。
+> 3. Benchmark 高不代表你的特定 workload 更好——務必跑自家 eval。
 
 ---
 
@@ -32,22 +50,29 @@
 
 ---
 
-## 三、任務 × 模型對照表
+## 三、任務 × 模型對照表（2026-05 修正版）
 
-| 任務類型 | 首選 | 備援 / 互審 | 備註 |
+> 注意：benchmark 僅供參考方向，**不要把某模型永久綁定某榜單第一名**。SWE-bench Verified 只有 500 任務且受 agent harness 影響很大。
+
+| 任務類型 | 首選 | 備援 / 互審 | 參考 benchmark |
 |---|---|---|---|
-| 跨檔案重構、Repo 級改動 | Frontier（Opus 4.7） | Pro 預覽 diff | Frontier 易自評過樂觀，需測試守門 |
-| 單檔修 bug、寫新功能 | Pro（Sonnet 4.6） | Frontier 處理難題 | 多數時候 Pro 已夠 |
-| 程式碼審查 | 與作者「不同家」的 Frontier | — | 例如 Claude 寫 → GPT 審 |
-| 終端指令 / Shell 操作 | Pro 或 GPT 系列 | — | Claude 在 shell 上偏保守 |
-| 網頁搜尋 + 整合 | Gemini 或 GPT（內建 search 強） | Claude 整理 | Claude 自身不擅長即時網頁 |
-| 結構化抽取 / JSON | Fast（Haiku 4.5、Flash） | Pro 補錯 | 大量批次跑 Fast 即可 |
-| 分類 / 意圖路由 | Fast | — | 不需要推理 |
-| 長文翻譯、潤稿 | Pro | Frontier 處理高難度段落 | |
-| 研究級長鏈推理 | Frontier + Extended Thinking | 另一家 Frontier 互審 | |
-| 影像 / 圖表理解 | Gemini 或 GPT-5 多模態 | Claude 補文字推論 | |
-| Tool calling / Function call 主迴圈 | Pro | Fast 處理子步驟 | Frontier 太貴，Pro 已穩 |
-| 個資敏感 / 內網資料 | Self-host（Qwen / Llama） | — | 走本地或私有雲 |
+| 跨檔案重構、Repo 級改動 | **Claude Opus 4.7** / **GPT-5.5 pro** | Sonnet 4.6 預覽 diff | SWE-bench Verified（模型 + harness 一起看） |
+| 單檔修 bug、寫新功能 | **Sonnet 4.6** / **GPT-5.4** | Frontier 處理難題 | Aider Polyglot、LiveCodeBench |
+| 程式碼審查 | 與作者「不同家」的 Frontier（Claude 寫 → GPT-5.5 審；反之亦可） | — | 跨家盲點互補，無單一 benchmark |
+| 終端指令 / Shell 操作 | **GPT-5.4 / GPT-5.5** / **Gemini 3.1 Pro** | Claude 補規劃 | Terminal-Bench、OSWorld |
+| 網頁搜尋 + 整合 | **Gemini 3.1 Pro**（原生 Search Grounding）/ **GPT-5.5** with web | Claude 整理 | SimpleQA、BrowseComp |
+| 結構化抽取 / JSON | **Haiku 4.5** / **Gemini 2.5 Flash / Flash-Lite** / **GPT-5.4 mini** | Pro 補錯 | JSON-mode 準確率、IFEval |
+| 分類 / 意圖路由 | **Haiku 4.5** / **GPT-5.4 nano / GPT-5 nano** | — | 延遲 P50 < 500ms |
+| 長文翻譯、潤稿 | **Sonnet 4.6** | Opus 4.7 處理高難段落 | FLORES-200、人工盲測 |
+| 研究級長鏈推理 | **Opus 4.7** + Extended Thinking、**GPT-5.5 pro**、**Gemini 3.1 Pro Deep Think** | 另一家 Frontier 互審 | GPQA Diamond、AIME 2025、HMMT |
+| 影像 / 圖表理解 | **Gemini 3.1 Pro** / **GPT-5.5** | Claude 補文字推論 | MMMU-Pro、ChartQA、MathVista |
+| 影片理解 | **Gemini 3.1 Pro / Gemini 3 Flash**（長上下文 + 原生影片） | — | Video-MME、EgoSchema |
+| Tool calling 主迴圈 | **Sonnet 4.6** / **GPT-5.4** / **Grok 4.3** | Haiku 4.5 / Flash 處理子步驟 | BFCL v3、τ-bench |
+| 抽象推理 / 規劃 | **Opus 4.7** / **GPT-5.5 pro** | — | ARC-AGI-2 |
+| 個資敏感 / 內網資料 | **Qwen3 open** / **Llama 4 Maverick** / **DeepSeek V3.2 權重版** / **gpt-oss-120b** | — | Open LLM Leaderboard v3 |
+| 數學競賽級 | **GPT-5.5 pro** / **Gemini 3.1 Pro Deep Think** / **Opus 4.7** | DeepSeek V3.2-Speciale 互審 | AIME 2025、HMMT、Putnam |
+| 中國雲 / 中文任務 | **Qwen3-Max / Qwen3-Max-Thinking / Qwen3.6-Plus** | DeepSeek V3.2 | C-Eval、CMMLU |
+| Coding Agent（開源） | **Devstral 2** / **Llama 4 Maverick** | Qwen3-Max | SWE-bench Verified（開源組） |
 
 ---
 
@@ -123,22 +148,29 @@
 
 ---
 
-## 九、模型挑選決策樹（快速版）
+## 九、模型挑選決策樹（2026-05 快速版）
 
 ```
 任務是什麼？
 ├─ 即時對話 / 分類 / 路由
-│   └─ Fast（Haiku 4.5 / Flash / mini）
+│   └─ Haiku 4.5 / Gemini 2.5 Flash / Flash-Lite / GPT-5.4 nano / GPT-5 nano
 ├─ 日常編碼 / 文件 / 結構化抽取
-│   ├─ 可驗證 → Pro 獨跑（Sonnet 4.6 / GPT-5）
-│   └─ 難驗證 → Pro 產出 + 另一家 Pro 審
-├─ 跨檔案重構 / 多步驟 Agent / 研究級推理
-│   ├─ 有測試守門 → Frontier 獨跑（Opus 4.7 / GPT-5 Pro）
-│   └─ 無測試守門 → Frontier 產出 + 另一家 Frontier 審 + 人類確認
+│   ├─ 可驗證 → Sonnet 4.6 或 GPT-5.4 獨跑
+│   └─ 難驗證 → Sonnet 4.6 產出 + GPT-5.4 / GPT-5.5 審（跨家）
+├─ 跨檔案重構 / Repo 級 Agent
+│   ├─ 有測試守門 → Opus 4.7 獨跑
+│   └─ 無測試守門 → Opus 4.7 + GPT-5.5 pro 互審 + 人類確認
+├─ 研究級推理 / 數學競賽 / 抽象推理
+│   └─ GPT-5.5 pro / Opus 4.7 Extended Thinking / Gemini 3.1 Pro Deep Think
 ├─ 即時網頁搜尋整合
-│   └─ Gemini / GPT 內建 search → 交 Claude 整理
-└─ 個資 / 敏感資料
-    └─ Self-host（Llama / Qwen / DeepSeek）+ 必要時微調
+│   └─ Gemini 3.1 Pro（Search Grounding）或 GPT-5.5（web tool）→ Claude 整理
+├─ 多模態（影像 / 影片 / 圖表）
+│   └─ Gemini 3.1 Pro（長上下文 + 原生影片）/ GPT-5.5
+├─ 中文 / 中國雲場景
+│   └─ Qwen3-Max / Qwen3.6-Plus / DeepSeek V3.2
+└─ 個資 / 敏感資料 / 內網
+    └─ Self-host：Qwen3 open / Llama 4 Maverick / DeepSeek V3.2 權重版 / gpt-oss-120b
+       （必要時微調）
 ```
 
 ---
