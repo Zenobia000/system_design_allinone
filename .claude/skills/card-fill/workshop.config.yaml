@@ -1,0 +1,31 @@
+workshop: smarttrip-fx
+seed_brief: demo/種子簡報.md
+
+templates_dir: templates       # 學員從 atlas.sunnydatascience.com 下載的模板放這
+workspace_dir: workspace       # 學員填出的 deliverable 放這
+ledger_path: .claude/skills/card-fill/ledger/smarttrip.ledger.json
+
+# 此 skill 不限定 N 卡。學員想做哪張卡（54 個 atlas slug 之一，或任何新 slug），
+# 都可以 register / hint / check / map。下面只是「常見的 SDLC 鏈推薦順序」，
+# 用在 `/card-fill map` 與 `/card-fill hint <slug>` 的 fallback 提示，**不是硬擋**。
+
+atlas_base_url: https://atlas.sunnydatascience.com/deliverables
+
+recommended_chain:
+  - jtbd
+  - value-hypothesis
+  - prd
+  - acceptance-criteria
+  - adr
+  - c4-diagram
+  - api-spec
+  - data-model
+  - non-functional-reqs
+  - code-review-checklist
+  - unit-test
+  - release-plan
+  - rollback-plan
+  - runbook
+  - postmortem
+
+variant: template-light
