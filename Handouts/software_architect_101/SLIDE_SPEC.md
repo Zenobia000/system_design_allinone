@@ -42,7 +42,7 @@ Ch0 專用型：
 
 Capstone 專用型：
 
-- `whitepaper_recap` — 白皮書完整回顧（v1→v5 演化）
+- `whitepaper_recap` — 白皮書完整回顧（v1→v5 演化；kicker 用 `RECAP`，Deep Teal）
 
 ## Rendering Mode
 
@@ -120,10 +120,11 @@ Capstone 專用型：
 - 不出現「武僧委員會」
 - 不出現任何暗示內部教學角色的具名稱謂
 
-Kicker 只能使用 `0_STYLE_GUIDE.md` 六拍視覺編碼表中的中性標籤（SCENARIO / KEY QUESTIONS / METHOD / ARTIFACT / REAL WORLD / TRADE-OFF / INTRO / PREVIEW）。
+Kicker 只能使用 `0_STYLE_GUIDE.md` 六拍視覺編碼表中的中性標籤（SCENARIO / KEY QUESTIONS / METHOD / ARTIFACT / REAL WORLD / TRADE-OFF / INTRO / PREVIEW / RECAP）。
 
 ## `whitepaper_version` Field
 
 - 產出物拍（`layout_type: artifact`）必須填 `whitepaper_version: "v0"` 到 `"v5"`，對應所屬幕的白皮書版本；v0 為 Ch0 的空白委託書 artifact。
+- Capstone 跨版本彙總 artifact（`layout_type` 為 `artifact` 或 `whitepaper_recap` 的回顧頁）可填 `whitepaper_version: "v1→v5"`，表示涵蓋整段演化。
 - 其他所有頁留空：`whitepaper_version: ""`
 - 不使用舊欄位名稱 `diagram_version`；本課程統一使用 `whitepaper_version`。

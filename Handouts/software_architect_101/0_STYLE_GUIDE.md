@@ -89,6 +89,7 @@
 | 6 | 取捨 | TRADE-OFF | Teal + Red 雙色並陳 | `#2E7D86` + `#E8634F` |
 | — | 登場（Ch0 專用） | INTRO | Deep Teal | `#2E7D86` |
 | — | 預告（Ch0 專用） | PREVIEW | Mint | `#97E8D6` |
+| — | 回顧（Capstone 專用） | RECAP | Deep Teal | `#2E7D86` |
 
 > **硬性規則（禁用具名引導裝置）**：Kicker 只能使用上表中性標籤。投影片上**不得出現**「委員質詢」「蘇格拉底」「武僧委員會」或任何具名引導裝置的字樣，違者必須移除後才能出圖。
 
@@ -275,7 +276,7 @@ rendering_mode: "image_prompt"
 ### 規則二：不使用具名引導裝置
 
 - 投影片上 **不得出現**「委員質詢」「蘇格拉底」「武僧委員會」或任何具名引導裝置字樣
-- Kicker 一律使用「架構師六拍視覺編碼」中的中性標籤（SCENARIO / KEY QUESTIONS / METHOD / ARTIFACT / REAL WORLD / TRADE-OFF / INTRO / PREVIEW）
+- Kicker 一律使用「架構師六拍視覺編碼」中的中性標籤（SCENARIO / KEY QUESTIONS / METHOD / ARTIFACT / REAL WORLD / TRADE-OFF / INTRO / PREVIEW / RECAP）
 
 ---
 
