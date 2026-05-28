@@ -13,7 +13,7 @@ output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 whitepaper_version: "v2"
-rendering_mode: "programmatic_diagram"
+rendering_mode: "image_prompt"
 ---
 
 # Slide 07 · 白皮書 v2：技術棧
@@ -74,55 +74,8 @@ ADR（架構決策記錄）是給三個月後的你和新隊友看的：「當�
 
 ## Diagram Spec
 ```yaml
-diagram_type: "domain_model"
-whitepaper_version: "v2"
-focus: "技術棧選型表 + ADR-001 決策記錄（TimescaleDB as PostgreSQL extension）"
-not_applicable: false
-rendering_rules:
-  canvas: "1920x1080"
-  safe_margin_px: 96
-  layout: "structured_document"
-  description: >
-    This page is a structured document, not a node-graph. Render as two stacked
-    blocks: (1) Tech Stack Table (4 rows + header) and (2) ADR-001 text block.
-    No node-and-edge graph is required. Follow Visual Spec for exact layout,
-    colors, and typography. Tool names use JetBrains Mono / Mint. Logo strip
-    at bottom of ADR block shows PostgreSQL, TimescaleDB, FastAPI, Redis.
-  table_header_bg: "Deep Teal #2E7D86"
-  table_row_alt_bg: ["#1E3450", "#172A40"]
-  adr_block_bg: "#172A40"
-  adr_block_border: "Mint #97E8D6 1px rounded 12px"
-  tool_name_font: "JetBrains Mono Mint #97E8D6"
-  version_label: "白皮書 v2, JetBrains Mono Caption, bottom-right of table"
-
-tech_stack_table:
-  columns: ["層級", "技術選擇", "說明"]
-  rows:
-    - layer: "API 後端"
-      tech: "FastAPI (Python)"
-      note: "熟悉語言、async 支援"
-    - layer: "時序儲存"
-      tech: "PostgreSQL + TimescaleDB"
-      note: "SQL 介面 + 時序壓縮"
-    - layer: "快取層"
-      tech: "Redis"
-      note: "P99 < 10s SLA 輔助"
-    - layer: "訊息佇列"
-      tech: "Kafka"
-      note: "尖峰 6,000 msg/s 緩衝"
-
-adr_001:
-  id: "ADR-001"
-  title: "選用 TimescaleDB 作時序儲存"
-  context: "每天 35 GB 讀數；主要查詢為時間範圍聚合；需 90 天 retention policy；團隊熟悉 PostgreSQL"
-  decision: "以 TimescaleDB extension 擴充既有 PostgreSQL，不引入全新資料庫系統"
-  consequences:
-    pros:
-      - "保留完整 SQL 查詢能力，team 無額外學習成本"
-      - "原生 columnar 壓縮，時序資料約可壓縮 90%，降低儲存費"
-      - "自動 retention policy 替代手動 batch DELETE"
-    cons:
-      - "TimescaleDB extension 版本需與 PostgreSQL major version 對齊，升級需測試"
+not_applicable: true
+reason: "技術棧表 + ADR 為結構化文件，非節點/邊圖（依 DIAGRAM_SPEC，ADR 選型頁可用文字比較表，不強制程式化圖）。"
 ```
 
 ## Logo Assets
@@ -202,9 +155,9 @@ v2 白皮書的第二個產出：技術棧選型表和 ADR-001。技術棧四層
 - [ ] Title "白皮書 v2：技術棧" — 7 Chinese characters (CJK only; v2 and ： are ASCII/punctuation), within 14-char limit.
 - [ ] Kicker reads `ARTIFACT` with Deep Navy background + Mint #97E8D6 2 px outline.
 - [ ] `whitepaper_version: "v2"` in frontmatter (artifact slide).
-- [ ] `rendering_mode: "programmatic_diagram"` in frontmatter.
+- [ ] `rendering_mode: "image_prompt"` in frontmatter.
 - [ ] Progress capsule `架構白皮書 v2 · 建模與選型` present below kicker.
-- [ ] Diagram Spec is present and contains `tech_stack_table` + `adr_001` blocks.
+- [ ] `Diagram Spec` is `not_applicable: true` with reason (技術棧表 + ADR 為結構化文件，非節點/邊圖).
 - [ ] Tech stack table has exactly 4 data rows: FastAPI, PostgreSQL+TimescaleDB, Redis, Kafka.
 - [ ] Technical values match shared numbers: 6,000 msg/s (Kafka row), P99 < 10s (Redis row), 35 GB (ADR context).
 - [ ] ADR-001 has Context / Decision / Consequences (pros + cons) structure.
