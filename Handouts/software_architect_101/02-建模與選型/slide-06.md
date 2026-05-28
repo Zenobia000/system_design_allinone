@@ -27,7 +27,7 @@ rendering_mode: "image_prompt"
   - Card C: `Time-Series DB` / 時序資料庫 — 以時間為主鍵、原生壓縮與保留策略
 
 ## Beginner Anchor
-ACID 和 BASE 不是對立，是取捨：業務交易需要 ACID，IoT 時序讀數用 BASE 夠了——但時序 DB 在關聯式 DB 上加了按時間壓縮與批刪，是中間路線。
+ACID 和 BASE 不是對立，是取捨：業務交易需要 ACID，IoT 時序讀數不需要複雜事務，但 TimescaleDB 給你兩全：ACID 底座 + 時序原生能力。
 
 ## Learning Goal
 讓學員能區分 ACID 和 BASE 的取捨情境，理解時序資料庫是「關聯式 + 時序原生能力」的組合，為 ADR-001 選型決策奠定概念基礎。

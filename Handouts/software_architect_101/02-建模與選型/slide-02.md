@@ -39,7 +39,7 @@ rendering_mode: "image_prompt"
 - Kicker label: `KEY QUESTIONS`, top-left. Mint `#97E8D6` pill, Deep Navy text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em.
 - Title: Noto Sans TC 900 / 80 px / Warm White `#F4F1EA`, left-aligned.
 - Body (3 lines): Noto Sans TC 500 / 34 px / Warm White / line-height 1.60, left-aligned.
-- Right side: three large question-mark icons arranged in a column, each paired with a short label in Mint `#97E8D6`: "實體？", "所有權？", "邊界？". Icons are flat geometric circles with `?` in Inter 900 / Mint. Size ~120 px diameter.
+- Right side: three large question-mark icons arranged in a column, each paired with a short label in Mint `#97E8D6`: "實體？", "所有權？", "語義？". Icons are flat geometric circles with `?` in Inter 900 / Mint. Size ~120 px diameter.
 - Below each icon-label pair: a thin Mint 1 px horizontal divider.
 - Left body text aligns to the left third of the canvas; right icons occupy the right third.
 - Logo: `logo-light.png`, 64 px height, bottom-right, 96 px from edges.
@@ -62,7 +62,7 @@ not_applicable — this is a key-questions slide, not a technical flow diagram.
 not_applicable — this is a key-questions slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" pill badge, Mint #97E8D6 background, Deep Navy text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em, rounded capsule. Title "核心名詞與邊界" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Left portion: 3 body lines Noto Sans TC 500 / 34 px / Warm White / line-height 1.60. Right portion: three vertically stacked flat geometric circles (~120 px diameter) in Mint #97E8D6 outline / 2 px, each containing a "?" in Inter 900 Mint, paired with small label text "實體？", "所有權？", "邊界？" to the right of each circle, Noto Sans TC 500 / 28 px / Mint. Thin Mint 1 px dividers between each icon-label pair. No 3D, no gradients, no photos. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Clean 16:9 composition.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" pill badge, Mint #97E8D6 background, Deep Navy text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em, rounded capsule. Title "核心名詞與邊界" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Left portion: 3 body lines Noto Sans TC 500 / 34 px / Warm White / line-height 1.60. Right portion: three vertically stacked flat geometric circles (~120 px diameter) in Mint #97E8D6 outline / 2 px, each containing a "?" in Inter 900 Mint, paired with small label text "實體？", "所有權？", "語義？" to the right of each circle, Noto Sans TC 500 / 28 px / Mint. Thin Mint 1 px dividers between each icon-label pair. No 3D, no gradients, no photos. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Clean 16:9 composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite any body lines.
@@ -83,7 +83,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Body line 1: "哪些是核心實體？誰擁有資料？" — 14 chars ✓.
 - [ ] Body line 2: "Device 跟 Sensor 是同一件事嗎？" — check ASCII mixed, visual width ≤ 18 ✓.
 - [ ] Body line 3: "Alert 是資料還是事件？邊界在哪？" — check ≤ 18 chars ✓.
-- [ ] Right side has 3 question-mark icons with labels "實體？", "所有權？", "邊界？".
+- [ ] Right side has 3 question-mark icons with labels "實體？", "所有權？", "語義？".
 - [ ] No source/citation text on slide.
 - [ ] No named facilitation device text on slide.
 - [ ] Logo `logo-light.png` is 64 px height, bottom-right corner.

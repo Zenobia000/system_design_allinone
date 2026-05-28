@@ -98,7 +98,7 @@
   - 大標：白皮書 v2：技術棧
   - 進度膠囊：`架構白皮書 v2 · 建模與選型`
   - 技術棧表 + ADR-001：選 TimescaleDB 的理由
-- 視覺：programmatic_diagram — 技術棧表 + ADR-001 結構化文件
+- 視覺：image_prompt — 技術棧表 + ADR-001 結構化文件
 - Logo strip：PostgreSQL、TimescaleDB、FastAPI、Redis
 - 品牌：logo 右下 64 px + 頁尾
 - 旁白：ADR（Architecture Decision Record）是架構決策的文字記錄，讓三個月後的自己、新加入的工程師都知道「當時為什麼選這個」。ADR-001 是第一個正式決策：選 TimescaleDB（PostgreSQL 的時序擴充外掛）而非通用關聯式 DB。
