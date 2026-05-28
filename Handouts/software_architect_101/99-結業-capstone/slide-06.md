@@ -31,7 +31,7 @@ rendering_mode: "image_prompt"
   CAP 定理 · 一致性模型 · 分散式事務 · 服務網格
 
   **做一次真實專案**
-  把這套白皮書流程用在你的下一個 side project
+  挑一個 GitHub repo 或線上服務，用 v1 需求書起手
   從需求到 FMEA，走一遍五幕
 
   **面試時的架構決策表達**
@@ -81,7 +81,7 @@ not_applicable — this is a graduation and preview slide, not a technical flow 
 not_applicable — this is a graduation and preview slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone graduation slide. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "PREVIEW" pill badge — Mint #97E8D6 background, Deep Navy #152238 text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "你能當架構師了" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below title: 3 body lines Noto Sans TC 500 / 34 px / Warm White, line-height 1.60. Below body: 3 equal-width horizontal next-steps blocks (~95% canvas width, gap 24 px). Each block: #172A40 background, rounded 16 px, Mint #97E8D6 1 px border, 4 px Mint top accent bar. Block 1 (numbered "01" in Inter 800 48 px Mint): title "深化分散式系統" Noto Sans TC 700 28 px Warm White, content "CAP 定理 · 一致性模型 · 分散式事務 · 服務網格" Noto Sans TC 500 24 px Warm White (technical terms in JetBrains Mono Mint). Block 2 (numbered "02"): title "做一次真實專案" Noto Sans TC 700 28 px Warm White, content about applying the 5-act whitepaper process to side projects. Block 3 (numbered "03"): title "面試架構決策表達" Noto Sans TC 700 28 px Warm White, content "說 Why：需求驅動 → 選型理由 → VCRE 取捨 → 演進路徑" with technical terms in JetBrains Mono Mint. Below the 3 blocks: centered closing line "v0 → v5 完成了。架構師的旅程從這裡繼續。" in Noto Sans TC 500 28 px Mint #97E8D6. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Inspiring graduation slide composition with balanced whitespace.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone graduation slide. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "PREVIEW" pill badge — Mint #97E8D6 background, Deep Navy #152238 text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "你能當架構師了" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below title: 3 body lines Noto Sans TC 500 / 34 px / Warm White, line-height 1.60. Below body: 3 equal-width horizontal next-steps blocks (~95% canvas width, gap 24 px). Each block: #172A40 background, rounded 16 px, Mint #97E8D6 1 px border, 4 px Mint top accent bar. Block 1 (numbered "01" in Inter 800 48 px Mint): title "深化分散式系統" Noto Sans TC 700 28 px Warm White, content "CAP 定理 · 一致性模型 · 分散式事務 · 服務網格" Noto Sans TC 500 24 px Warm White (technical terms in JetBrains Mono Mint). Block 2 (numbered "02"): title "做一次真實專案" Noto Sans TC 700 28 px Warm White, content "挑一個 GitHub repo 或線上服務，用 v1 需求書起手；從需求到 FMEA，走一遍五幕" Noto Sans TC 500 24 px Warm White. Block 3 (numbered "03"): title "面試架構決策表達" Noto Sans TC 700 28 px Warm White, content "說 Why：需求驅動 → 選型理由 → VCRE 取捨 → 演進路徑" with technical terms in JetBrains Mono Mint. Below the 3 blocks: centered closing line "v0 → v5 完成了。架構師的旅程從這裡繼續。" in Noto Sans TC 500 28 px Mint #97E8D6. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Inspiring graduation slide composition with balanced whitespace.
 
 ## Negative Prompt
 - Do not invent extra blocks or change the 3 next-steps categories defined above.

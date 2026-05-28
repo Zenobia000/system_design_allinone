@@ -38,7 +38,7 @@ rendering_mode: "programmatic_diagram"
 - Kicker label: `ARTIFACT`, top-left. Pill style: Deep Navy background, Mint `#97E8D6` 2 px border, Warm White text, Inter 700 / 24 px, all-caps.
 - Progress Capsule: `架構白皮書 v1→v5 · 結業 Capstone`, below kicker, Mint text on Deep Navy, rounded capsule, Inter 700 + JetBrains Mono for version tag, 34 px.
 - Title: Noto Sans TC 900 / 80 px / Warm White, left-aligned.
-- Main diagram: programmatic staged-evolution layout (per Diagram Spec). 5 horizontal stage rows, each row representing one whitepaper version. Rendered per Diagram Spec below.
+- Main diagram: programmatic staged-evolution layout (per Diagram Spec). 6 horizontal stage rows: a ghost/faded v0 row at top (opacity 40%, dashed border, no NEW badge) followed by 5 solid v1–v5 rows. The v0 ghost row closes the visual loop from slide-01's blank brief. Rendered per Diagram Spec below.
 - Version label bottom-right of diagram: `v1→v5`, JetBrains Mono / 26 px / Mint `#97E8D6`.
 - Logo: `logo-light.png`, 64 px height, bottom-right canvas corner, 96 px from edges.
 - Footer: `桑尼資料科學 · 版權所有 ©`, 22 px / 500 weight / Warm White.
@@ -67,6 +67,17 @@ rendering_rules:
   stage_gap: 12px
 
 stages:
+  - id: "v0"
+    label: "v0 空白委託書"
+    label_color: "Warm White #F4F1EA (ghost/faded, opacity 40%)"
+    description: "起點：一份空白委託書——需求未知、技術未定"
+    new_artifacts:
+      - id: "blank_brief"
+        label: "空白委託書"
+        subtitle: "需求未知 · 技術未定"
+        status: "ghost"
+    note: "Ghost stage — faded/dashed border, no NEW badge. Arrow to v1 is dashed Warm White opacity 40%."
+
   - id: "v1"
     label: "v1 · 幕 1：需求與約束"
     label_color: "Mint #97E8D6"
@@ -149,6 +160,12 @@ stages:
         status: "new"
 
 edges:
+  - from: "v0"
+    to: "v1"
+    label: "幕 1 開始"
+    style: "dashed"
+    meaning: "ghost_start"
+    note: "Ghost arrow — dashed Warm White opacity 40%, bridges slide-01 v0 blank brief to the evolution."
   - from: "v1"
     to: "v2"
     label: "幕 2 新增"
@@ -209,10 +226,10 @@ none — this diagram represents abstract whitepaper artifacts, not named techno
 not_applicable — this is an artifact slide (evolution diagram), not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone chapter. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v1→v5 · 結業 Capstone" in Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書演化 v1→v5" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: staged evolution diagram rendered programmatically (topology from Diagram Spec). 5 horizontal stage rows, top-to-bottom: v1 (幕1, Mint label), v2 (幕2, Mint label), v3 (幕3, Mint label), v4 (幕4, Coral Red #E8634F label with warning node markers), v5 (幕5, Forest Green #5B9770 label). Each row contains 2-3 artifact node boxes: Mint #97E8D6 4 px border (new status), JetBrains Mono 24 px Warm White label, Deep Navy fill, rounded 8 px, "NEW" badge top-right. v4 nodes use Coral Red lightning marker. Vertical solid Mint arrows connecting stage rows (幕 N → 幕 N+1). Row labels left-aligned: Inter 700 28 px in stage color. Bottom-right of diagram: "v1→v5" JetBrains Mono 26 px Mint. Bottom-right canvas: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone chapter. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v1→v5 · 結業 Capstone" in Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書演化 v1→v5" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: staged evolution diagram rendered programmatically (topology from Diagram Spec). 6 horizontal stage rows, top-to-bottom: first a ghost/faded "v0 空白委託書" row (Warm White label at 40% opacity, dashed Warm White border node, no NEW badge, faded dashed arrow down to v1 — closes the loop from slide-01), then v1 (幕1, Mint label), v2 (幕2, Mint label), v3 (幕3, Mint label), v4 (幕4, Coral Red #E8634F label with warning node markers), v5 (幕5, Forest Green #5B9770 label). Each v1–v5 row contains 2-3 artifact node boxes: Mint #97E8D6 4 px border (new status), JetBrains Mono 24 px Warm White label, Deep Navy fill, rounded 8 px, "NEW" badge top-right. v4 nodes use Coral Red lightning marker. Vertical solid Mint arrows connecting v1→v2→v3→v4→v5 stage rows. Row labels left-aligned: Inter 700 28 px in stage color. Bottom-right of diagram: "v1→v5" JetBrains Mono 26 px Mint. Bottom-right canvas: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
 
 ## Negative Prompt
-- Do not invent extra artifacts or stages beyond the 5 versions (v1–v5) defined in Diagram Spec.
+- Do not invent extra artifacts or stages beyond the ghost v0 + 5 versions (v1–v5) defined in Diagram Spec.
 - Do not mix v4 warning markers onto non-v4 rows.
 - Do not add source citations, references, or "Source:" lines.
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
@@ -233,7 +250,8 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Progress capsule `架構白皮書 v1→v5 · 結業 Capstone` present below kicker.
 - [ ] Diagram Spec is a complete YAML block (not `not_applicable`).
 - [ ] Diagram Spec defines `diagram_type: "data_flow"` with `layout: "staged_evolution"`.
-- [ ] Exactly 5 stages: v1, v2, v3, v4, v5 in order.
+- [ ] Ghost v0 stage present at top of diagram (faded/dashed, opacity 40%, no NEW badge) — closes loop from slide-01.
+- [ ] Exactly 6 stages in Diagram Spec: v0 (ghost) + v1, v2, v3, v4, v5 in order.
 - [ ] v1 artifacts match actual ch01 slide-05: PRD 功能清單 / NFR 矩陣 / 約束清單.
 - [ ] v2 artifacts match actual ch02 slide-04 and slide-07: 領域模型 ER / 技術棧 / ADR-001.
 - [ ] v3 artifacts match actual ch03 slide-05 and slide-06: C4 容器圖 / 三條資料流.

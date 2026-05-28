@@ -35,7 +35,7 @@ rendering_mode: "image_prompt"
   | 幕 4 | 多 AZ 現在做 vs 等 v5 | 3 | 5 | 3 | 5 | v4 先 SPOF 緩解，v5 再多 AZ |
   | 幕 5 | 微服務先行 vs Monolith 先行 | 4 | 2 | 2 | 4 | Modular monolith 先行 |
 
-- Caption below table: V/E 高=好；C/R 高=該擔心（幕 5 的 C/R 低=成本低/風險低，是優點）
+- Caption below table: V/E 高=好；C/R 高=該擔心（幕 3 R=4＝Kafka 新依賴；幕 4 C=5＝超預算）；幕 5 C/R 低=成本低/風險低，是優點
 
 ## Beginner Anchor
 五幕所有 VCRE 打分一次攤開看取捨——每個決策不是孤立的，它們共同構成一條「現在可控、未來可演進」的務實路徑。
@@ -63,7 +63,7 @@ rendering_mode: "image_prompt"
     - Special note: 幕 5 C=2 and R=2 use Forest Green (low cost and low risk = good for this option).
   - 結論 column: Noto Sans TC 500 / 22 px / Mint `#97E8D6`.
   - Table border: Mint `#97E8D6` 1 px.
-- Caption below table: `V/E 高=好；C/R 高=該擔心（幕 5 C/R 低=成本低/風險低，是優點）`
+- Caption below table: `V/E 高=好；C/R 高=該擔心（幕 3 R=4＝Kafka 新依賴；幕 4 C=5＝超預算）；幕 5 C/R 低=成本低/風險低，是優點`
   - Noto Sans TC 400 / 24 px / Warm White, left-aligned.
   - Numbers/abbreviations in JetBrains Mono.
 - Logo: `logo-light.png`, 64 px height, bottom-right.
@@ -137,7 +137,7 @@ not_applicable — this is a consolidated trade-off summary slide, not a technic
 **核心取捨（全課）**：五幕五個決策，用 VCRE 量化的共同邏輯是「現在可控（成本/風險在 MVP 邊界內）、未來可演進（E 分均高）」。沒有一個決策是「永久封閉」的——每個結論都有明確的演進時機和觸發條件。
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone chapter. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "TRADE-OFF" dual-color pill badge — left half Deep Teal #2E7D86, right half Coral Red #E8634F, diagonal split, Warm White text, 24 px Inter 700. Title "VCRE 決策總複盤" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 3 body lines Noto Sans TC 500 / 34 px / Warm White. Below body: VCRE summary table (~95% canvas width). Header row: Deep Teal #2E7D86 background, Warm White Noto Sans TC 700 26 px, columns: 幕 / 決策題目 / V / C / R / E / 結論. 5 data rows alternating #1E3450 / #172A40 backgrounds. 幕 column: Mint #97E8D6 Noto Sans TC 700 24 px. 決策題目: Warm White Noto Sans TC 500 24 px. V/C/R/E score columns: JetBrains Mono 26 px, score-colored: high-V and high-E in Forest Green #5B9770; high-C (≥4) and high-R (≥4) in Coral Red #E8634F; v5 row C=2 and R=2 in Forest Green (low=good for monolith). 結論 column: Mint #97E8D6 Noto Sans TC 500 22 px. Table border: Mint #97E8D6 1 px. Below table: short caption in Noto Sans TC 400 24 px Warm White: "V/E 高=好；C/R 高=該擔心（幕 5 C/R 低=成本低/風險低，是優點）". Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone chapter. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "TRADE-OFF" dual-color pill badge — left half Deep Teal #2E7D86, right half Coral Red #E8634F, diagonal split, Warm White text, 24 px Inter 700. Title "VCRE 決策總複盤" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 3 body lines Noto Sans TC 500 / 34 px / Warm White. Below body: VCRE summary table (~95% canvas width). Header row: Deep Teal #2E7D86 background, Warm White Noto Sans TC 700 26 px, columns: 幕 / 決策題目 / V / C / R / E / 結論. 5 data rows alternating #1E3450 / #172A40 backgrounds. 幕 column: Mint #97E8D6 Noto Sans TC 700 24 px. 決策題目: Warm White Noto Sans TC 500 24 px. V/C/R/E score columns: JetBrains Mono 26 px, score-colored: high-V and high-E in Forest Green #5B9770; high-C (≥4) and high-R (≥4) in Coral Red #E8634F; v5 row C=2 and R=2 in Forest Green (low=good for monolith). 結論 column: Mint #97E8D6 Noto Sans TC 500 22 px. Table border: Mint #97E8D6 1 px. Below table: short caption in Noto Sans TC 400 24 px Warm White: "V/E 高=好；C/R 高=該擔心（幕 3 R=4＝Kafka 新依賴；幕 4 C=5＝超預算）；幕 5 C/R 低=成本低/風險低，是優點". Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
 
 ## Negative Prompt
 - Do not invent extra rows, columns, or VCRE scores beyond the 5 rows defined above.
@@ -172,7 +172,7 @@ VCRE 是整門課的第二條螺旋。從幕 1 開始，每一幕都有一個 VC
 - [ ] 幕 4 決策題目: "多 AZ 備援現在做 vs 等 v5" — matches ch04/slide-07.
 - [ ] 幕 5 決策題目: "微服務先行 vs Modular Monolith 先行" — matches ch05/slide-08.
 - [ ] Score color polarity correct: V/E high → Forest Green; C/R high → Coral Red; 幕5 C=2/R=2 → Forest Green (exception noted in Visual Spec and VCRE Scorecard).
-- [ ] Polarity caption present below table: "V/E 高=好；C/R 高=該擔心".
+- [ ] Polarity caption present below table: "V/E 高=好；C/R 高=該擔心（幕 3 R=4＝Kafka 新依賴；幕 4 C=5＝超預算）；幕 5 C/R 低=成本低/風險低，是優點".
 - [ ] VCRE Scorecard section present with all 5 acts scored + per-dimension reasoning.
 - [ ] All VCRE scores and conclusions match actual per-chapter source slides.
 - [ ] `whitepaper_version` is empty (TRADE-OFF slide, not artifact).
