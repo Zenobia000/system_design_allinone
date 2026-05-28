@@ -24,9 +24,9 @@ rendering_mode: "image_prompt"
 - Vocabulary Table (5 rows, 2 columns: 術語 | 一句定義):
   | 術語 | 定義（≤ 18 字） |
   |------|----------------|
-  | Replica / 複本 | 同一份資料的多個副本，任一掛掉可切換 |
+  | Replica / 複本 | 資料與服務的多個副本，任一掛掉可切換 |
   | Retry / 重試 | 失敗後自動再試，搭配退避避免雪崩 |
-  | Idempotency / 冪等 | 相同請求多次執行，結果一致不重複 |
+  | Idempotency / 冪等 | 相同請求重複執行，結果一致，Retry 安全 |
   | Backpressure / 背壓 | 下游告知上游放慢，避免佇列無限膨脹 |
   | Circuit Breaker / 熔斷 | 偵測下游異常後斷開，防止故障擴散 |
 
@@ -73,7 +73,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 
 ## Negative Prompt
 - Do not invent extra rows or change the 5 defined resilience terms.
-- Do not change the definitions — each must be ≤ 18 Chinese characters and technically accurate.
+- Do not change the definitions — Replica uses "資料與服務的多個副本，任一掛掉可切換"; Idempotency uses "相同請求重複執行，結果一致，Retry 安全"; each must be ≤ 18 Chinese characters and technically accurate.
 - Do not add source citations, references, or "Source:" lines.
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
@@ -90,9 +90,9 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Exactly 5 vocabulary rows: Replica/複本, Retry/重試, Idempotency/冪等, Backpressure/背壓, Circuit Breaker/熔斷.
 - [ ] Each left-column term uses JetBrains Mono for English term.
 - [ ] Each definition is ≤ 18 Chinese characters.
-- [ ] Replica definition: "同一份資料的多個副本，任一掛掉可切換" — 18 chars ✓
+- [ ] Replica definition: "資料與服務的多個副本，任一掛掉可切換" — 18 chars ✓
 - [ ] Retry definition: "失敗後自動再試，搭配退避避免雪崩" — 16 chars ✓
-- [ ] Idempotency definition: "相同請求多次執行，結果一致不重複" — 16 chars ✓
+- [ ] Idempotency definition: "相同請求重複執行，結果一致，Retry 安全" — 15 CJK chars ✓
 - [ ] Backpressure definition: "下游告知上游放慢，避免佇列無限膨脹" — 17 chars ✓
 - [ ] Circuit Breaker definition: "偵測下游異常後斷開，防止故障擴散" — 16 chars ✓
 - [ ] No source/citation text on slide.

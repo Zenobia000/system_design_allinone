@@ -119,7 +119,7 @@ nodes:
       failure_mode: "單一 Kafka broker 掛掉"
       impact: "sensor-readings topic 不可用，上報寫入中斷，Processor 消費停止"
       sla_impact: "寫入路徑全斷；Kafka 積壓；告警靜默"
-      cost_impact: "若 TSDB 同時不可用，停機成本 ~$20,000/hr"
+      cost_impact: "寫入中斷期間上報資料丟失，設備重連 backoff 累積，TSDB 出現資料缺口；與 TSDB 全停的 $20,000/hr 屬不同量級"
       mitigation: "複本（Kafka multi-broker cluster）+ 背壓（consumer lag 監控告警）"
     note: "SPOF：單一 Kafka broker。v4 緩解：部署 3-broker cluster，設定 replication.factor=3，min.insync.replicas=2。"
 
@@ -346,7 +346,7 @@ Redis 單實例也是潛在 SPOF，但影響程度比 TSDB 低：
 | SPOF 元件 | 失效模式 | SLA 影響 | 停機成本影響 | 緩解手法 |
 |-----------|---------|---------|------------|---------|
 | TSDB（TimescaleDB 單實例） | 實例崩潰 | 整廠監控全黑，可用性 0% | ~$20,000/hr | Replica（Primary+Standby）+ 讀寫分離 |
-| Kafka（單 broker） | broker 掛掉，topic 不可用 | 上報寫入中斷，告警靜默 | 積壓期間資料丟失風險 | 3-broker cluster，replication.factor=3 |
+| Kafka（單 broker） | broker 掛掉，topic 不可用 | 上報寫入中斷，告警靜默 | 上報資料丟失 + 設備重連 backoff 累積，TSDB 資料缺口；與 TSDB 全停 $20k/hr 屬不同量級 | 3-broker cluster，replication.factor=3 |
 | Stream Processor（單實例） | OOM 崩潰或 rebalance 逾時 | 告警 P99 > 10s，積壓回放突波 | 間接：告警未及時，停機發現延遲 | Consumer Group ≥2 + Retry + Idempotency |
 
 ## VCRE Scorecard

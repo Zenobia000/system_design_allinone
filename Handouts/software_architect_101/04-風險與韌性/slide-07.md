@@ -23,7 +23,7 @@ rendering_mode: "image_prompt"
 - Title: 多 AZ 備援值得嗎
 - Body:
   - 多 AZ：跨區備援，單 AZ 故障服務不中斷
-  - 成本：雲費約增 1.5–2×，估計 $3,000–6,000/月
+  - 成本：多 AZ 雲費額外增加 $3,000–6,000/月
   - 現階段：6 人 MVP 團隊，複雜度超出能力邊界
 - VCRE Scorecard (below body — 4-cell horizontal cards)
 
@@ -42,7 +42,7 @@ VCRE 打分：多 AZ 備援 vs 成本——正確方向但時機不對。先做 
 - Body (3 lines): Noto Sans TC 500 / 34 px / Warm White `#F4F1EA` / line-height 1.60, left-aligned. Numbers ($3,000, $6,000, 1.5, 2, 6) in JetBrains Mono. "多 AZ" in JetBrains Mono.
 - VCRE Scorecard (below body, ~90% width, 4 equal cards, rounded 16 px, gap 16 px):
   - Card V: background Deep Navy `#152238`, border Mint `#97E8D6` 2 px. Top: `V` Inter 800 48 px Mint. Mid: `商業價值` Noto Sans TC 700 28 px Warm White. Score: `3/5` JetBrains Mono 34 px Coral Red. Reason: `可用性提升，但 MVP 規模效益有限` Noto Sans TC 500 26 px Warm White.
-  - Card C: background Deep Teal `#2E7D86`. Top: `C` Inter 800 48 px Warm White. Mid: `成本 TCO` Noto Sans TC 700 28 px Warm White. Score: `5/5` JetBrains Mono 34 px Coral Red. Reason: `雲費翻 1.5–2×，超出 $5k/月預算` Noto Sans TC 500 26 px Warm White.
+  - Card C: background Deep Teal `#2E7D86`. Top: `C` Inter 800 48 px Warm White. Mid: `成本 TCO` Noto Sans TC 700 28 px Warm White. Score: `5/5` JetBrains Mono 34 px Coral Red. Reason: `多 AZ 額外增 $3k–6k/月，總費超出 $5k 預算` Noto Sans TC 500 26 px Warm White.
   - Card R: background Deep Navy `#152238`, border Mint `#97E8D6` 2 px. Top: `R` Inter 800 48 px Mint. Mid: `風險` Noto Sans TC 700 28 px Warm White. Score: `3/5` JetBrains Mono 34 px Coral Red. Reason: `多 AZ 複雜度，6 人團隊 3 個月難駕馭` Noto Sans TC 500 26 px Warm White.
   - Card E: background Deep Teal `#2E7D86`. Top: `E` Inter 800 48 px Warm White. Mid: `可演進` Noto Sans TC 700 28 px Warm White. Score: `5/5` JetBrains Mono 34 px Forest Green `#5B9770`. Reason: `先 SPOF 緩解，v5 再加多 AZ` Noto Sans TC 500 26 px Warm White.
 - Caption below VCRE cards: `結論：v4 先做 SPOF 緩解，v5 再演進多 AZ。` Noto Sans TC 400 / 26 px / Mint `#97E8D6`, left-aligned.
@@ -67,14 +67,14 @@ not_applicable — this is a trade-off decision slide, not a technical flow diag
 | 維度 | 評分（1-5） | 本決策的具體理由 |
 |------|------------|----------------|
 | V 商業價值 | 3 | 多 AZ 確實提升可用性（99.9% → 接近 99.95%+），減少單 AZ 故障停機風險。但 MVP 階段用戶規模有限，每月少損失的停機費是假設性收益，而非確定性收益。對業務的直接商業價值在現階段中等。 |
-| C 成本 TCO | 5 | 多 AZ 部署需要所有有狀態服務（TSDB、Kafka、Redis）跨 AZ 複製，雲費保守估計增加 1.5–2 倍，從 <$5,000/月直接超出預算至 $7,500–$10,000/月以上。加上跨 AZ 資料傳輸費、多倍授權費、更多 EC2 實例費，TCO 壓力極高。 |
+| C 成本 TCO | 5 | 多 AZ 部署需要所有有狀態服務（TSDB、Kafka、Redis）跨 AZ 複製，額外雲費保守估計 $3,000–$6,000/月（即增加 1.5–2 倍）。目前底線雲費 <$5,000/月，加上多 AZ 追加費用後總費用直接超出 $5k/月預算（預估 $8,000–$11,000/月），TCO 壓力極高。 |
 | R 風險 | 3 | 多 AZ 架構複雜度大幅提升：跨 AZ 延遲（1–5ms）影響 TSDB replication lag、Kafka ISR 同步、Redis Sentinel 選舉。6 人熟 Python 剛碰雲端的團隊在 3 個月 MVP 期間內設計並正確部署多 AZ，失敗風險中等偏高——可能比不做多 AZ 還不穩定。 |
 | E 可演進 | 5 | 先集中在 v4 做好 SPOF 緩解（TSDB Replica + Kafka multi-broker + Consumer Group ≥2），v5 系統穩定後再加多 AZ，每步都是安全的增量改進。架構設計本身不封閉多 AZ 選項——服務已 stateless，有狀態層已有 Replica 基礎，往多 AZ 演進路徑清晰。 |
 
 **核心取捨**：多 AZ 是正確方向但時機不對——成本超預算、複雜度超出 MVP 團隊能力邊界；先做 SPOF 緩解打穩基礎，v5 演進多 AZ 是務實路徑。
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "TRADE-OFF" dual-color pill badge — left half Deep Teal #2E7D86, right half Coral Red #E8634F, diagonal split, Warm White text, 24 px Inter 700. Title "多 AZ 備援值得嗎" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 3 body lines Noto Sans TC 500 / 34 px / Warm White, technical values ($3,000, $6,000, 1.5, 2×, 6 人) in JetBrains Mono. Below body: VCRE scorecard — 4 equal horizontal rounded cards (16 px, gap 16 px, ~90% width). Cards alternate: V (#152238 with Mint 2 px border), C (#2E7D86), R (#152238 Mint border), E (#2E7D86). Each card shows letter (V/C/R/E) at top in Inter 800 48 px (V/R in Mint #97E8D6, C/E in Warm White), Chinese dimension name in Noto Sans TC 700 28 px Warm White, a score number (3/5 or 5/5) in JetBrains Mono 34 px (V/C/R scores Coral Red #E8634F, E score Forest Green #5B9770), and one short reason line in Noto Sans TC 500 26 px Warm White. Below cards: caption "結論：v4 先做 SPOF 緩解，v5 再演進多 AZ。" in Mint #97E8D6 26 px. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Balanced decision-framework composition.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "TRADE-OFF" dual-color pill badge — left half Deep Teal #2E7D86, right half Coral Red #E8634F, diagonal split, Warm White text, 24 px Inter 700. Title "多 AZ 備援值得嗎" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 3 body lines Noto Sans TC 500 / 34 px / Warm White, technical values ($3,000, $6,000, 6 人) in JetBrains Mono. Line 2 shows "多 AZ 雲費額外增加 $3,000–6,000/月" (additional cost framing). Below body: VCRE scorecard — 4 equal horizontal rounded cards (16 px, gap 16 px, ~90% width). Cards alternate: V (#152238 with Mint 2 px border), C (#2E7D86), R (#152238 Mint border), E (#2E7D86). Each card shows letter (V/C/R/E) at top in Inter 800 48 px (V/R in Mint #97E8D6, C/E in Warm White), Chinese dimension name in Noto Sans TC 700 28 px Warm White, a score number (3/5 or 5/5) in JetBrains Mono 34 px (V/C/R scores Coral Red #E8634F, E score Forest Green #5B9770), and one short reason line in Noto Sans TC 500 26 px Warm White. Below cards: caption "結論：v4 先做 SPOF 緩解，v5 再演進多 AZ。" in Mint #97E8D6 26 px. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Balanced decision-framework composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text, extra VCRE dimensions, or rewrite the title or body lines.
@@ -87,7 +87,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 
 ## Speaker Notes
-用 VCRE 框架打分。V（商業價值）3/5：多 AZ 確實提升可用性，但在 MVP 階段用戶規模有限，每月少損失的停機費是假設性收益。中等商業價值。C（成本 TCO）5/5：雲費翻 1.5–2 倍，保守估計從 <$5,000/月直接超出到 $7,500–$10,000/月以上，遠超 $5,000/月預算限制，TCO 壓力極高。R（風險）3/5：多 AZ 架構複雜度大幅提升——跨 AZ 延遲影響 TSDB replication、Kafka ISR、Redis Sentinel 選舉。6 人 Python 新手雲端團隊 3 個月 MVP 內部署並正確維運多 AZ，失敗風險中等偏高。E（可演進）5/5：先做好 v4 的 SPOF 緩解（TSDB Replica + Kafka 3-broker + Consumer Group ≥2），v5 系統穩定後再加多 AZ——路徑清晰，不鎖死未來選項。結論：多 AZ 是正確方向，但「做得到」和「現在就做」是兩個問題。v4 先做 SPOF 緩解，v5 再演進。
+用 VCRE 框架打分。V（商業價值）3/5：多 AZ 確實提升可用性，但在 MVP 階段用戶規模有限，每月少損失的停機費是假設性收益。中等商業價值。C（成本 TCO）5/5：多 AZ 額外追加雲費 $3,000–$6,000/月（這是在現有 <$5,000/月底線之上的增加量，相當於雲費翻 1.5–2 倍），總費直接突破 $5k/月預算限制，保守估計 $8,000–$11,000/月，TCO 壓力極高。R（風險）3/5：多 AZ 架構複雜度大幅提升——跨 AZ 延遲影響 TSDB replication、Kafka ISR、Redis Sentinel 選舉。6 人 Python 新手雲端團隊 3 個月 MVP 內部署並正確維運多 AZ，失敗風險中等偏高。E（可演進）5/5：先做好 v4 的 SPOF 緩解（TSDB Replica + Kafka 3-broker + Consumer Group ≥2），v5 系統穩定後再加多 AZ——路徑清晰，不鎖死未來選項。結論：多 AZ 是正確方向，但「做得到」和「現在就做」是兩個問題。v4 先做 SPOF 緩解，v5 再演進。
 
 ## QA Checklist
 - [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
@@ -95,14 +95,14 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Kicker reads `TRADE-OFF` and uses dual-color pill (Deep Teal + Coral Red).
 - [ ] Body has exactly 3 lines, each ≤ 18 Chinese characters.
 - [ ] Body line 1: "多 AZ：跨區備援，單 AZ 故障服務不中斷" — within 18 chars ✓
-- [ ] Body line 2: "成本：雲費約增 1.5–2×，估計 $3,000–6,000/月" — within 18 chars ✓
+- [ ] Body line 2: "成本：多 AZ 雲費額外增加 $3,000–6,000/月" — within 18 chars ✓
 - [ ] Body line 3: "現階段：6 人 MVP 團隊，複雜度超出能力邊界" — within 18 chars ✓
-- [ ] $3,000–6,000/月 consistent with <$5,000/月 shared budget constraint (exceeds it — correct framing).
+- [ ] $3,000–6,000/月 is ADDITIONAL cost on top of <$5,000/月 baseline → total clearly exceeds $5k/月 budget (correct framing).
 - [ ] 6 人 team size matches shared IoT numbers.
 - [ ] VCRE Scorecard section present with all 4 dimensions scored.
 - [ ] VCRE scores: V=3, C=5, R=3, E=5.
 - [ ] V and R score reasons reference MVP scale / team capacity.
-- [ ] C score reason references $5k/月 budget and 1.5–2× cost increase.
+- [ ] C score reason references $5k/月 budget and $3k–6k/月 ADDITIONAL cost (not $3k–6k total).
 - [ ] E score reason references "先 SPOF 緩解，v5 再加多 AZ" evolution path.
 - [ ] Core trade-off statement: 多 AZ 正確方向但時機不對，v4 先 SPOF 緩解，v5 多 AZ.
 - [ ] 4 VCRE visual cards on slide, in V/C/R/E order.
