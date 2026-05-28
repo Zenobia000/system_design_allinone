@@ -22,14 +22,14 @@ rendering_mode: "programmatic_diagram"
 - Kicker: `ARTIFACT`
 - Progress Pill: `架構白皮書 v3 · 系統設計`
 - Title: 白皮書 v3：C4 容器圖
-- Diagram caption: 9 個容器 · 三條路徑：上報寫入 / 查詢讀取 / 告警
+- Diagram caption: 7 個容器 · 2 個外部角色 · 三條路徑：上報寫入 / 查詢讀取 / 告警
 - Version label (bottom-right of diagram): `白皮書 v3`
 
 ## Beginner Anchor
-C4 容器圖是整個 v3 白皮書的骨架——每個方塊是一個可獨立部署的東西，每條線是一個技術通訊選擇（同步或非同步）。
+C4 容器圖是整個 v3 白皮書的骨架——每個方塊是一個可獨立部署的東西，每條線是一個技術通訊選擇（同步或非同步）。這不是微服務架構：Ingest API、Processor、Query API 可以共用同一個 codebase；C4 容器圖描述的是可部署單元，不預設要拆幾個 repo。
 
 ## Learning Goal
-讓學員看到 IoT 系統全部 9 個容器及其三條通訊路徑，理解為什麼 Ingest API 和 Query API 要拆開、Kafka 為何擋在 Ingest 和 Processor 之間。
+讓學員看到 IoT 系統 7 個容器及 2 個外部角色，以及三條通訊路徑，理解為什麼 Ingest API 和 Query API 要拆開、Kafka 為何擋在 Ingest 和 Processor 之間。
 
 ## Visual Spec
 - Canvas: `1920 x 1080 px`, safe margin `96 px`.
@@ -54,7 +54,7 @@ C4 容器圖是整個 v3 白皮書的骨架——每個方塊是一個可獨立�
 ```yaml
 diagram_type: "c4_container"
 whitepaper_version: "v3"
-focus: "IoT 監控系統 9 個容器全貌：Ingest 寫入路徑、Query 讀取路徑、Alert 告警路徑"
+focus: "IoT 監控系統 7 個容器 + 2 個外部角色（Device/Gateway、Dashboard）全貌：Ingest 寫入路徑、Query 讀取路徑、Alert 告警路徑"
 rendering_rules:
   canvas: "1920x1080"
   safe_margin_px: 96
@@ -87,6 +87,7 @@ nodes:
     subtitle: "感測器上報源"
     type: "external"
     group: "external"
+    is_external_actor: true
     status: "new"
     note: "10,000 台感測器設備，透過 MQTT 或 HTTP POST 每 5 秒上報一筆讀數。均值 2,000 msg/s，尖峰 6,000 msg/s，每筆 ~200 B。"
 
@@ -151,6 +152,7 @@ nodes:
     subtitle: "Web UI"
     type: "frontend"
     group: "external"
+    is_external_actor: true
     status: "new"
     note: "操作員瀏覽器端應用。透過 Query API 取得裝置讀數和告警列表。不直接連 TSDB 或 Redis。"
 
@@ -199,10 +201,10 @@ edges:
 
   - from: "query_api"
     to: "cache"
-    label: "cache get/set"
+    label: "cache-aside: GET / SET EX60"
     style: "solid"
-    meaning: "read"
-    note: "先查 Redis，cache hit 直接回傳。cache miss 時查 TSDB 後回填 Redis。"
+    meaning: "read+write-back"
+    note: "cache-aside 模式：先 GET key（read）；cache hit 直接回傳；cache miss 時查 TSDB，再 SET key EX 60（write-back，TTL 60s）。此邊同時代表讀取與寫回兩個操作。"
 
   - from: "query_api"
     to: "tsdb"
@@ -269,11 +271,11 @@ edges:
 ### 讀取路徑（Read / Query Path）
 
 1. Dashboard 發送 GET 請求至 Query API（例：`GET /v1/devices/{id}/readings?range=1h`）。
-2. Query API 先查 **Redis cache**（key = 查詢參數 hash）。
+2. Query API 執行 `Redis GET {key}`（**cache-aside 讀取**；key = 查詢參數 hash）。
    - **Cache Hit**：直接回傳快取結果（P99 < 10 ms），滿足 SLA。
    - **Cache Miss**：繼續步驟 3。
 3. Query API 查 TimescaleDB 執行 `time_bucket()` 聚合，取得結果（P99 < 2s，取決於 hypertable chunk 數）。
-4. 查詢結果**回填 Redis**，設 TTL 60 秒。
+4. 執行 `Redis SET {key} {value} EX 60`（**cache-aside 寫回**，TTL 60 秒）。圖上 `query_api → cache` 這條邊同時表示此 GET 讀取與 SET 寫回兩個操作（edge label: `cache-aside: GET / SET EX60`）。
 5. 回傳結果給 Dashboard。
 
 **Stateless 關鍵點：**
@@ -310,7 +312,11 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 
 ## Speaker Notes
-白皮書 v3 的第一個正式產出：C4 容器圖。9 個容器，三條路徑。最重要的設計決策在中間那條非同步虛線——Ingest API 把讀數 enqueue 到 Kafka 之後就回 202 了，不等 TSDB 寫完。這個決策解決了尖峰 6,000 msg/s 的吞吐量問題：Kafka 變成削峰緩衝器，Processor 可以用自己的節奏消費，TSDB 不會被直接砸到。讀取路徑的核心設計是 Query API → Redis cache → TSDB 的兩段查詢：cache hit 直接回傳，確保 P99 < 10s SLA；cache miss 才打 TSDB。告警路徑從 Processor 出發，非同步送到 Alert Service，時間預算從 Device 到通知送出 P99 < 10s 完全可達。
+白皮書 v3 的第一個正式產出：C4 容器圖。7 個容器 + 2 個外部角色（Device/Gateway、Dashboard），三條路徑。
+
+回答 slide-02 的問題：「要微服務嗎？」——這不是微服務架構。Ingest API、Processor、Query API 可以共用同一個 codebase，甚至同一個 git repo。C4 容器圖描述的是「可部署單元」——哪些部分需要獨立擴展、獨立故障隔離；它不預設你要拆幾個 repo 或幾個服務。容器圖的重點是分離關注點（吞吐量 vs 延遲、寫入 vs 查詢），而不是強制微服務化。
+
+最重要的設計決策在中間那條非同步虛線——Ingest API 把讀數 enqueue 到 Kafka 之後就回 202 了，不等 TSDB 寫完。這個決策解決了尖峰 6,000 msg/s 的吞吐量問題：Kafka 變成削峰緩衝器，Processor 可以用自己的節奏消費，TSDB 不會被直接砸到。讀取路徑的核心設計是 Query API → Redis cache（cache-aside：先 GET，miss 再 SET EX60）→ TSDB 的兩段查詢：cache hit 直接回傳，確保 P99 < 10s SLA；cache miss 才打 TSDB 並回填 Redis。告警路徑從 Processor 出發，非同步送到 Alert Service，時間預算從 Device 到通知送出 P99 < 10s 完全可達。
 
 ## QA Checklist
 - [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
@@ -321,13 +327,14 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Progress capsule `架構白皮書 v3 · 系統設計` present below kicker.
 - [ ] Diagram Spec is a complete YAML block (not `not_applicable`).
 - [ ] Diagram Spec defines `diagram_type: "c4_container"`.
-- [ ] Exactly 9 nodes defined: device_gateway, ingest_api, message_queue, stream_processor, tsdb, query_api, cache, alert_service, dashboard.
+- [ ] Diagram caption reads "7 個容器 · 2 個外部角色" (not "9 個容器").
+- [ ] 9 nodes total: 7 containers (ingest_api, message_queue, stream_processor, tsdb, query_api, cache, alert_service) + 2 external actors (device_gateway, dashboard) marked with `is_external_actor: true`.
 - [ ] All 9 nodes have `status: "new"` (first appearance in v3).
 - [ ] Exactly 8 edges defined with correct styles (solid=sync, dashed=async).
 - [ ] Ingest edge (device_gateway → ingest_api) annotated with `~6,000 msg/s peak`.
 - [ ] Write path edges: device_gateway→ingest_api (solid/write), ingest_api→message_queue (dashed/async), message_queue→stream_processor (dashed/async), stream_processor→tsdb (solid/write).
 - [ ] Alert path: stream_processor→alert_service (dashed/async).
-- [ ] Read path: dashboard→query_api (solid/read), query_api→cache (solid/read), query_api→tsdb (solid/read).
+- [ ] Read path: dashboard→query_api (solid/read), query_api→cache (solid/read+write-back, label "cache-aside: GET / SET EX60"), query_api→tsdb (solid/read).
 - [ ] Technical Flow Details covers: write path (enqueue+ack+consume+batch write), alert path (P99 < 10s budget breakdown), read path (cache hit/miss), stateless design, failure handling (idempotent write, offset commit after success).
 - [ ] Logo Assets section lists all 4 tools: Kafka, Redis, PostgreSQL, FastAPI.
 - [ ] Logo Assets notes FastAPI as "需補抓" with expected asset path.

@@ -44,9 +44,11 @@ Stateless 讓你擴展，Cache 讓你快，Message Queue 讓你不被尖峰打�
   - Top line: English term (`Stateless` / `Cache` / `Message Queue`) in JetBrains Mono 500 / 34 px / Mint `#97E8D6`, + `/` separator + Chinese name in Noto Sans TC 500 / 34 px / Warm White `#F4F1EA`.
   - Divider: thin Mint `#97E8D6` horizontal rule 1 px.
   - Bottom line: one-sentence definition, Noto Sans TC 500 / 34 px / Warm White `#F4F1EA`, line-height 1.40, ≤ 18 Chinese characters.
-- Below vocabulary cards: small diagram strip (120 px tall) showing:
-  Device icon → solid Mint arrow → `Ingest API` box (Stateless label) → dashed Mint arrow → Queue icon → solid Mint arrow → `Processor` box
-  This mini-diagram shows how the three concepts chain together in the system. JetBrains Mono node labels 22 px.
+- Below vocabulary cards: small diagram strip (120 px tall) showing two parallel paths:
+  - Write path (top row): Device icon → solid Mint arrow → `Ingest API` box (Stateless label) → dashed Mint arrow → Queue icon → solid Mint arrow → `Processor` box
+  - Read path (bottom row, offset right to align with Query API): `Dashboard` box → solid Mint arrow → `Query API` box (Stateless label) → solid Mint arrow → `Cache` box (TTL 60s label)
+  A short vertical dashed Mint line connects `Cache` upward to indicate write-back path.
+  This mini-diagram shows how all three concepts (Stateless, Cache, Message Queue) are used in the system. JetBrains Mono node labels 22 px.
 - Logo: `logo-light.png`, 64 px height, bottom-right, 96 px from edges.
 - Footer: `桑尼資料科學 · 版權所有 ©`, 22 px / 500 weight / Warm White.
 - No source/citation text. No named facilitation devices.
@@ -67,7 +69,7 @@ not_applicable — this is a vocabulary-card / method slide; the mini-strip is i
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" kicker pill — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "削峰用佇列" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below title: three vocabulary cards arranged in a horizontal row, equal width ~530 px, height ~200 px, gap 24 px. Each card: Deep Teal #2E7D86 background, rounded corners 16 px. Card top: English term (Stateless / Cache / Message Queue) JetBrains Mono 500 34 px Mint #97E8D6 + "/" + Chinese name Noto Sans TC 500 34 px Warm White. Thin Mint 1 px horizontal divider. Card bottom: one-sentence definition ≤ 18 Chinese chars Noto Sans TC 500 34 px Warm White line-height 1.40. Below the three cards: a compact mini-diagram strip (height ~100 px) showing: small device square → Mint solid arrow → "Ingest API" box (labeled Stateless) → Mint dashed arrow → Queue cylinder → Mint solid arrow → "Processor" box. All mini-nodes: Deep Navy fill, Mint 2 px border, JetBrains Mono 22 px Warm White label. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Clean educational layout.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" kicker pill — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "削峰用佇列" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below title: three vocabulary cards arranged in a horizontal row, equal width ~530 px, height ~200 px, gap 24 px. Each card: Deep Teal #2E7D86 background, rounded corners 16 px. Card top: English term (Stateless / Cache / Message Queue) JetBrains Mono 500 34 px Mint #97E8D6 + "/" + Chinese name Noto Sans TC 500 34 px Warm White. Thin Mint 1 px horizontal divider. Card bottom: one-sentence definition ≤ 18 Chinese chars Noto Sans TC 500 34 px Warm White line-height 1.40. Below the three cards: a compact mini-diagram strip (height ~120 px) showing two parallel rows. Top row (write path): small device square → Mint solid arrow → "Ingest API" box (labeled Stateless) → Mint dashed arrow → Queue cylinder → Mint solid arrow → "Processor" box. Bottom row (read path, slightly offset right): "Dashboard" box → Mint solid arrow → "Query API" box (labeled Stateless) → Mint solid arrow → "Cache" box (labeled TTL 60s). A short vertical dashed Mint line from Cache hints at write-back. All mini-nodes: Deep Navy fill, Mint 2 px border, JetBrains Mono 22 px Warm White label. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Clean educational layout.
 
 ## Negative Prompt
 - Do not invent extra vocabulary cards beyond Stateless, Cache, Message Queue.
@@ -88,7 +90,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Exactly 3 vocabulary cards: Stateless, Cache, Message Queue.
 - [ ] Each card has: English term (JetBrains Mono / Mint) + Chinese name + divider + definition (≤ 18 chars).
 - [ ] Card background is Deep Teal `#2E7D86`.
-- [ ] Mini-strip diagram below cards shows Device → Ingest API → Queue → Processor flow.
+- [ ] Mini-strip diagram below cards shows two rows: write path (Device → Ingest API → Queue → Processor) and read path (Dashboard → Query API → Cache), demonstrating all three vocab concepts (Stateless, Cache, Message Queue).
 - [ ] No standard body text lines (vocabulary cards replace them).
 - [ ] Logo `logo-light.png` is 64 px height, bottom-right corner.
 - [ ] Footer reads `桑尼資料科學 · 版權所有 ©` at 22 px.

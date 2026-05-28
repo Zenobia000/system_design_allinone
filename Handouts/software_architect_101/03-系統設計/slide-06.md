@@ -185,10 +185,11 @@ edges:
 
   - from: "ingest_api"
     to: "kafka"
-    label: "enqueue → ack → 202"
+    label: "enqueue"
     style: "dashed"
     meaning: "async"
-    note: "非同步 enqueue；Kafka Producer ack 後 Ingest API 才回傳 202 Accepted 給設備。"
+    response_annotation: "ack / 202 Accepted"
+    note: "非同步 enqueue（前向邊，ingest_api → kafka）。Kafka Producer ack 確認後，Ingest API 才回傳 HTTP 202 Accepted 給設備（回應方向：kafka ack → ingest_api → device）。edge label 僅標 forward 操作 'enqueue'；ack / 202 的語意在 response_annotation 與 Technical Flow Details 說明，不混入前向邊 label。"
 
   - from: "kafka"
     to: "processor"
@@ -262,7 +263,7 @@ edges:
 
 1. **Device → Ingest API**：設備發送 `POST /v1/readings`，Ingest API 同步接收 HTTP 請求（TCP 連線建立 + 解析）。這段是「同步接收」但不是「同步處理到底」。
 2. **Ingest API → Kafka（async enqueue）**：Ingest API 立即將讀數序列化並呼叫 Kafka Producer `send()`。這是**非同步**操作——Producer 不直接等待 TSDB 寫入結果，而是等待 Kafka **broker ack**（`acks=1` 或 `acks=all` 依可靠度設定）。
-3. **Kafka Producer Ack → HTTP 202**：Kafka broker 確認訊息已持久化到 topic partition 後，Ingest API 回傳 **HTTP 202 Accepted**（非 201 Created）給設備。202 的語意是「已接受，將非同步處理」——這讓設備可以立刻發送下一筆，不阻塞。
+3. **Kafka Producer Ack → HTTP 202**：圖上 `ingest_api → kafka` 邊 label 為 `enqueue`（前向操作）。Kafka broker ack 確認後，Ingest API 才回傳 **HTTP 202 Accepted**（非 201 Created）給設備——這是回應方向（kafka ack → ingest_api → device），不是前向 enqueue 操作。202 的語意是「已接受，將非同步處理」，讓設備可以立刻發送下一筆，不阻塞。
 4. **Kafka → Processor（consume at-least-once）**：Stream Processor Consumer Group 以自身速率從 Kafka `sensor-readings` topic 消費訊息，批次大小可調（如每批 100–500 筆）。
 5. **Processor → TSDB（batch INSERT）**：批次 `INSERT INTO readings(timestamp, sensor_id, value)` 至 TimescaleDB hypertable。成功後才提交 Kafka consumer offset。
 6. **Retry on failure**：若 TSDB 寫入失敗（如 DB 短暫不可用），Processor 不提交 offset → Kafka 重播同一批訊息 → Processor 重試。Consumer 必須實作 **idempotent 寫入**（以 `(sensor_id, timestamp)` 做 ON CONFLICT DO NOTHING），防止重播產生重複資料。
@@ -355,7 +356,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 
 ## Speaker Notes
-v3 第二個產出：關鍵資料流圖。這張圖回答了 slide-02 提的三個問題。寫入路徑：Ingest API 不同步等 TSDB，enqueue 到 Kafka 後立刻回 202——這個非同步語意決定了 6,000 msg/s 撐得住；Processor 在寫入成功後才提交 offset，確保 at-least-once 加上 idempotency 等於 exactly-once。讀取路徑：cache hit P99 < 50ms 遠優於 10s SLA；cache miss 打 TSDB 再回填，TTL 60 秒讓 Dashboard 資料新鮮但不每次打 DB。告警路徑：從 Device 到通知送出 P99 < 4 秒，10 秒 SLA 的餘裕非常充足。右側 API 草稿三個端點讓前後端工程師可以直接開始對齊 contract，不需要再開會。
+v3 第二個產出：關鍵資料流圖。這張圖回答了 slide-02 提的三個問題。寫入路徑：Ingest API 不同步等 TSDB——先 enqueue 到 Kafka（前向操作），等 Kafka broker ack 後才回 202 Accepted（回應方向）——這個非同步語意決定了 6,000 msg/s 撐得住；Processor 在寫入成功後才提交 offset，確保 at-least-once 加上 idempotency 等於 exactly-once。讀取路徑：cache hit P99 < 50ms 遠優於 10s SLA；cache miss 打 TSDB 再回填，TTL 60 秒讓 Dashboard 資料新鮮但不每次打 DB。告警路徑：從 Device 到通知送出 P99 < 4 秒，10 秒 SLA 的餘裕非常充足。右側 API 草稿三個端點讓前後端工程師可以直接開始對齊 contract，不需要再開會。
 
 ## QA Checklist
 - [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
@@ -368,7 +369,7 @@ v3 第二個產出：關鍵資料流圖。這張圖回答了 slide-02 提的三�
 - [ ] Diagram Spec defines `diagram_type: "data_flow"`.
 - [ ] Three path groups defined: write_path, read_path, alert_path.
 - [ ] All nodes listed with correct path assignments and status: new.
-- [ ] Write path edges: device→ingest_api (solid/write), ingest_api→kafka (dashed/async with enqueue+ack semantics), kafka→processor (dashed/async), processor→tsdb_write (solid/write).
+- [ ] Write path edges: device→ingest_api (solid/write), ingest_api→kafka (dashed/async, label "enqueue", response_annotation "ack / 202 Accepted" — forward edge label must NOT conflate with response direction), kafka→processor (dashed/async), processor→tsdb_write (solid/write).
 - [ ] Read path edges: dashboard→query_api (solid/read), query_api→redis_cache (solid/read with hit/miss), query_api→tsdb_read (solid/read for cache miss).
 - [ ] Alert path edge: processor→alert_service (dashed/async).
 - [ ] Technical Flow Details covers: enqueue+ack+202 semantics, at-least-once + idempotency, cache hit/miss TTL logic, P99 alert time budget breakdown table, API draft with 3 endpoint signatures.

@@ -27,7 +27,7 @@ rendering_mode: "image_prompt"
   - 上報路徑和查詢路徑能共用同一個 API 嗎？
 
 ## Beginner Anchor
-不是「要不要微服務」，而是「哪段路徑需要同步保證、哪段可以非同步削峰」——這才是 C4 圖畫出來前要問清楚的三個問題。
+不是「要不要微服務」，而是「哪段路徑需要同步保證、哪段可以非同步削峰」——這才是 C4 圖畫出來前要問清楚的三個問題。（答案：這不是微服務架構——Ingest API、Processor、Query API 可以共用同一個 codebase；C4 容器圖描述的是可部署單元，不預設要拆幾個 repo。）
 
 ## Learning Goal
 讓學員把模糊的「要微服務嗎」分解為三個可回答的設計問題，建立後續 C4 容器圖決策的問題框架。
@@ -72,7 +72,11 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not place any architecture diagram on this slide — it is a question-framing slide only.
 
 ## Speaker Notes
-把「要微服務嗎」這個大問題拆成三個可以回答的具體設計問題。第一：通訊協議的選擇——REST 適合同步請求-回應，gRPC 適合高效能服務間通訊，Queue（Kafka）適合需要削峰和非同步保證的場景。第二：stateless 設計——Ingest API 和 Query API 都應該是 stateless，好處是可以水平擴展，Session 和使用者狀態如果有的話應該外掛到 Redis 或資料庫，不放在服務記憶體裡。第三：上報路徑和查詢路徑的關注點完全不同——上報要吞吐量優先（尖峰 6,000 msg/s），查詢要延遲優先（P99 < 10s）；把它們拆成 Ingest API 和 Query API 是正確的分離關注點決策。
+把「要微服務嗎」這個大問題拆成三個可以回答的具體設計問題。
+
+先直接回答標題問題：這不是微服務架構。Ingest API、Processor、Query API 可以共用同一個 codebase；C4 容器圖描述的是「可部署單元」，不預設要拆幾個 repo。容器圖的重點是「哪些部分要獨立擴展、獨立故障隔離」，不是強制拆服務。學員不要把「C4 有多個容器方塊」誤讀為「一定要微服務」。
+
+三個具體設計問題：第一：通訊協議的選擇——REST 適合同步請求-回應，gRPC 適合高效能服務間通訊，Queue（Kafka）適合需要削峰和非同步保證的場景。第二：stateless 設計——Ingest API 和 Query API 都應該是 stateless，好處是可以水平擴展，Session 和使用者狀態如果有的話應該外掛到 Redis 或資料庫，不放在服務記憶體裡。第三：上報路徑和查詢路徑的關注點完全不同——上報要吞吐量優先（尖峰 6,000 msg/s），查詢要延遲優先（P99 < 10s）；把它們拆成 Ingest API 和 Query API 是正確的分離關注點決策。
 
 ## QA Checklist
 - [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
