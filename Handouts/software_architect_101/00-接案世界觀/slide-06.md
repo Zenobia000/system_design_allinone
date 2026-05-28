@@ -63,7 +63,7 @@ none — no named companies, cloud services, frameworks, or packages appear on t
 not_applicable — this is a decision framework introduction slide, not a technical flow diagram.
 
 ## VCRE Scorecard
-not_applicable — this slide introduces the VCRE framework itself (it is the definition slide, not a decision evaluation slide). VCRE scoring is applied starting from Act 1 trade-off slides.
+not_applicable: VCRE 定義頁，實際打分從幕1開始
 
 ## GPT Image Prompt
 Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge Deep Teal #2E7D86, Warm White text. Title "VCRE 計分卡" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: four equal horizontal cards (rounded 16 px, spacing 20 px, ~90% width total). Alternating backgrounds: card 1 Deep Navy #152238, card 2 Deep Teal #2E7D86, card 3 Deep Navy, card 4 Deep Teal. Each card has: large letter (V/C/R/E) at top, Chinese dimension name in middle, English name in JetBrains Mono, one-line question at bottom — all in Warm White / Mint. Below cards: caption "沒有最好的答案，只有取捨。" in Deep Navy 26 px. Bottom-right: logo placeholder 64 px (dark version). Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy. Balanced, tool-like presentation.

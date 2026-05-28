@@ -22,9 +22,9 @@ rendering_mode: "image_prompt"
 - Kicker: `INTRO`
 - Title: 主角：工廠監控系統
 - Body:
-  - 10,000 台設備 · 每 5 秒上報 · 2,000 msg/s
+  - 10,000 台設備 · 每 5 秒上報 · 2,000 msg/s 均值 · 尖峰 6,000
   - 告警 P99 < 10 秒；可用性 99.9%
-  - 6 人團隊 · 3 個月 · 雲費 < $5,000/月
+  - 6 人團隊 · 3 個月 · 初期雲費 < $5,000/月
 
 ## Beginner Anchor
 這些數字是整門課的約束條件——每次做決策，都要對著它們問「這樣設計撐得住嗎？」
@@ -78,9 +78,9 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 ## QA Checklist
 - [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title "主角：工廠監控系統" is exactly 9 characters — within 14-char limit.
-- [ ] Body line 1 surfaces: 10,000 台設備、每 5 秒上報、2,000 msg/s.
+- [ ] Body line 1 surfaces: 10,000 台設備、每 5 秒上報、2,000 msg/s 均值、尖峰 6,000.
 - [ ] Body line 2 surfaces: 告警 P99 < 10 秒、可用性 99.9%.
-- [ ] Body line 3 surfaces: 6 人團隊、3 個月、雲費 < $5,000/月.
+- [ ] Body line 3 surfaces: 6 人團隊、3 個月、初期雲費 < $5,000/月.
 - [ ] Each body line is ≤ 18 Chinese characters.
 - [ ] Total body lines ≤ 3.
 - [ ] Kicker reads `INTRO` and uses Deep Teal `#2E7D86` beat color.

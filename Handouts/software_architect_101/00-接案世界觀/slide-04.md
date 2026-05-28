@@ -83,7 +83,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Title "架構師的五幕地圖" is exactly 8 characters — within 14-char limit.
 - [ ] Five nodes present: 需求評估 / 建模選型 / 系統設計 / 風險韌性 / 落地演進.
 - [ ] Version capsules v1–v5 visible below each node.
-- [ ] Body line 3 ≤ 18 chars: "每幕結束，白皮書長大一個版本" = 14 chars ✓.
+- [ ] Body line 3 ≤ 18 chars: "你是決策者，不是旁觀者" = 11 chars ✓.
 - [ ] Total body lines ≤ 3.
 - [ ] Kicker reads `METHOD` and uses Deep Teal `#2E7D86` beat color.
 - [ ] Logo `logo-light.png` is 64 px height, bottom-right corner.
