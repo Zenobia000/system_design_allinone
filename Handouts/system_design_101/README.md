@@ -32,7 +32,7 @@
 | 2 | 狂看菜單 | DB 每次都重查，太慢 | Cache（快取） | v3：Cache 層加入 |
 | 3 | 資料又多又重要 | 訂單爆量，一台 DB 塞不下也讀不動 | 讀取複本 + 分片（Sharding） | v4：Primary + Replica + 分片 |
 | 4 | 東西會壞 | 機器會掛、客人按兩次重複扣款 | 容錯複本 + 重試 + 冪等 | v5：備援 + 標出會壞的點 |
-| 5 | 照片與影片 | 圖片太大，DB 塞不下 | CDN + 物件儲存 | v6：CDN + Object Storage |
+| 5 | 照片與影片 | 圖片太大，DB 塞不下 | CDN + 物件儲存 | v6：CDN + Blob Storage |
 | 6 | 即時與等待 | 同步處理，一個慢全慢 | 訊息佇列（Message Queue） | v7：Queue + Worker |
 | 7 | 找東西（選配） | 關鍵字搜尋太慢 | 搜尋引擎（Search Index） | v7+：Search Index 旁路 |
 | 99 | 結業 Capstone | — | 綜合所有章節，設計新系統 | v1 → v7 完整演化 |
@@ -47,11 +47,11 @@ v2（Ch1）  手機 ──→ Load Balancer ──→ [Server × N] ──→ DB
 v3（Ch2）  手機 ──→ LB ──→ [Server × N] ──→ Cache → DB
 v4（Ch3）  ... → Cache → Primary DB ⇌ Replica DB + 分片（Sharding）
 v5（Ch4）  備援節點 + 重試/冪等（防重複扣款），標出會壞的點
-v6（Ch5）  CDN ─→ 靜態資源；Object Storage 旁掛
+v6（Ch5）  CDN ─→ 靜態資源；Blob Storage 旁掛
 v7（Ch6）  Message Queue + Worker Pool 非同步處理層
 ```
 
-每一章只長出「一個新方塊」，不跳章。
+每一章只新增「一個能力區塊」，不跳章。部分能力區塊會包含多個元件，例如 v4 的 Primary / Replica / Shard，或 v6 的 CDN / Blob Storage。
 
 ---
 
@@ -61,7 +61,7 @@ v7（Ch6）  Message Queue + Worker Pool 非同步處理層
 
 ### 螺旋一：架構圖逐章生長
 - 每章結尾有「畫給我看」回顧練習
-- 學員只需在上一版本加一個方塊
+- 學員只需在上一版本加一個能力區塊
 - 結業時能默畫完整 v1 → v7
 
 ### 螺旋二：C/A/L/Cost 計分卡
@@ -93,8 +93,23 @@ v7（Ch6）  Message Queue + Worker Pool 非同步處理層
 
 ## 如何閱讀本課程內容
 
-- 每章一個 `slides.md` 檔案
-- 每張卡片格式：`### Slide N · 標題`，含節奏拍、卡片文字、視覺 prompt、品牌規格、旁白
+- 原始草稿：每章一個 `slides.md` 檔案，保留完整敘事脈絡
+- 產圖規格：每張投影片一個 `slide-XX.md` 檔案，可直接作為批量產圖輸入
+- 每頁規格含 frontmatter、On-slide Text、Beginner Anchor、Visual Spec、GPT Image Prompt、Negative Prompt、Speaker Notes、QA Checklist
+- `layout_type: architecture_diagram` 的頁面必須使用 `Diagram Spec` 程式化渲染，不交給圖片模型自由生成架構拓樸
 - 視覺風格：**LinkedIn 4:5 可滑動卡片**（1080 × 1350 px）
 - 製作時請搭配 `0_STYLE_GUIDE.md` 確保字型、色票、邊距一致
-- `slides.md` 是設計說明書（prompt 形式），非最終渲染成品
+- `slides.md` 是章節草稿；`slide-XX.md` 是單頁產圖規格，仍非最終渲染成品
+
+---
+
+## 產圖工作流
+
+1. 讀取單頁 `slide-XX.md`。
+2. 使用 frontmatter 決定產圖方式：
+   - `rendering_mode: image_prompt`：可交給 GPT Image 2 產生插畫 / 版面底圖。
+   - `rendering_mode: programmatic_diagram`：先用 `Diagram Spec` 產生 SVG / HTML / 其他向量圖，再套用品牌樣式。
+3. 若頁面有 `Logo Assets`，使用核准的官方 logo asset 後製疊上，不讓模型仿製品牌標誌。
+4. 若頁面有 `Technical Flow Details`，確認最終架構圖完整呈現讀寫路徑、非同步行為、失敗處理與一致性取捨。
+5. 最終中文字、logo、頁尾與精準架構圖建議由模板或程式化流程疊上，不依賴圖片模型臨場生成。
+6. 出圖前跑每頁 `QA Checklist`，尤其檢查標題字數、色票、邊距、官方 logo 與技術流程是否嚴謹。

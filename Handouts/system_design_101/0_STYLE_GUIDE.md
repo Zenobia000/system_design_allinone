@@ -148,12 +148,15 @@
 - 箭頭：Mint `#97E8D6`，粗 2 px，實線（同步）/ 虛線（非同步）
 - **當章新增方塊**：邊框改為 Mint `#97E8D6`，4 px，並加「NEW」標籤（Kicker 規格）
 - 每章版本號標於圖右下：`架構圖 vN`，Caption 規格
+- 正式架構圖頁必須使用單頁 `slide-XX.md` 的 `Diagram Spec` 程式化渲染
+- GPT Image 2 只可用於架構圖背景、外框與簡單 icon 風格，不可決定節點、箭頭或拓樸
+- v4 之後優先用群組節點降低密度，例如 `Replica DB x N`、`Shard DB x N`
 
 ---
 
 ## 卡片 Prompt 模板
 
-每張卡片使用以下結構（`slides.md` 檔案格式）：
+原始章節草稿使用以下結構（`slides.md` 檔案格式）：
 
 ```markdown
 ### Slide N · [卡片標題]
@@ -165,6 +168,55 @@
 - 品牌：logo 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：（選填，供講師/錄音稿使用）
 ```
+
+單頁產圖規格使用 `slide-XX.md`，必須包含：
+
+```markdown
+---
+chapter: "第 N 章：章名"
+slide: "1"
+title: "≤ 14 中文字短標"
+original_title: "來源大標"
+beat: "六拍之一"
+kicker: "PAIN POINT / ANALOGY / CONCEPT / DIAGRAM / TRADE-OFF / PREVIEW"
+layout_type: "layout id"
+audience_level: "beginner"
+output: "1080x1350"
+rendering_mode: "image_prompt | programmatic_diagram"
+diagram_version: "vN 或空字串"
+---
+
+## On-slide Text
+## Beginner Anchor
+## Learning Goal
+## Visual Spec
+## Diagram Spec
+## GPT Image Prompt
+## Negative Prompt
+## Speaker Notes
+## QA Checklist
+```
+
+### GPT Image 2 使用規則
+
+- 圖片模型不負責產生最終中文字；最終中文字以 `On-slide Text` 為準
+- 圖片模型不負責架構拓樸；正式架構圖以 `Diagram Spec` 為準
+- 圖片模型不負責繪製實名品牌 logo；logo 必須使用核准的官方 asset 後製疊上
+- Prompt 必須指定品牌色票、畫布、kicker、短標與禁止事項
+- Negative Prompt 必須禁止亂生額外文字、改寫中文、霓虹色、3D 反光、clipart、雜亂貼紙
+
+### 實名 Logo 使用規則
+
+- 凡提到公司、雲端服務、框架、套件、開源產品，單頁規格必須列 `Logo Assets`
+- Logo 使用官方素材，不可用 AI 生成近似圖
+- Logo strip 最多 4 個，放在案例/佐證區，不取代架構圖節點
+- 若 logo 素材尚未取得，仍需列 expected asset path，並於 QA 階段阻擋最終輸出
+
+### 技術流程嚴謹度
+
+- 正式架構圖頁除了 `Diagram Spec`，還必須有 `Technical Flow Details`
+- 技術流程需說明讀寫路徑、同步/非同步、快取命中/未命中、複寫延遲、重試、Failover、Queue ack/retry、搜尋索引同步等關鍵細節
+- 若一張 4:5 圖面放不下所有細節，圖面可分層，但 `Technical Flow Details` 不可省略
 
 ---
 
@@ -182,3 +234,8 @@
 - [ ] logo 右下角 64 px，版本正確（深/淺底對應）
 - [ ] 頁尾文字「桑尼資料科學 · 版權所有 ©」
 - [ ] 架構圖有版本號（vN）且新增方塊有 Mint 邊框標示
+- [ ] 單頁 `slide-XX.md` 有 `Beginner Anchor`，能用一句話講清本頁重點
+- [ ] `rendering_mode: programmatic_diagram` 的頁面有完整 `Diagram Spec`
+- [ ] `rendering_mode: image_prompt` 的頁面不要求模型畫精準架構拓樸
+- [ ] 提到實名公司/服務/套件的頁面有 `Logo Assets`
+- [ ] 架構圖頁有 `Technical Flow Details`，沒有省略關鍵讀寫、非同步或失敗流程
