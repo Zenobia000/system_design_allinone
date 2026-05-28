@@ -1,6 +1,6 @@
 # 架構師 101（software_architect_101）課程設計規格
 
-> 設計日期：2026-05-28
+> 設計日期：2026-05-28（修訂：2026-05-29）
 > 來源課程設計邏輯：`Handouts/system_design_101/`
 > 來源內容：`Handouts/software_architect/架構師.md`（七步流程骨架）+ `Handouts/software_architect/ppt/`（十章知識，當技術解藥）
 > 狀態：設計定稿，待轉實作計畫（writing-plans）
@@ -24,18 +24,22 @@
 
 - 不重做 / 不遷移既有 Marp `ppt/` 課程。
 - 不教「如何打造架構師武僧 Agent 系統」本身（`架構師.md` 只當**敘事骨架**，不是產品介紹主題）。
-- Phase 1 不產出最終圖檔，只產出規格（`slide-XX.md`），產圖是後續工作流。
+- 不產出最終圖檔，只產出規格（`slide-XX.md`），產圖是後續工作流。
 
 ---
 
 ## 2. 核心設計決策（已與使用者確認）
 
-1. **敘事骨架** = `架構師.md` 的七步架構設計流程（你扮演架構師，武僧委員會用蘇格拉底式提問引導你）。
-2. **主角案例** = 即時 IoT 設備監控系統（貫穿全課；對應既有 `ppt/09-case-study`、`SA簡報/S14`）。
+1. **敘事骨架** = `架構師.md` 的七步架構設計流程。以「一位資深架構師用提問引導你量化決策」為教學底色。
+2. **主角案例** = 即時 IoT 設備監控系統（貫穿全課；知識素材對應 `ppt/`，但僅供作者參考，不上版）。
 3. **第二螺旋計分卡** = **VCRE**：商業價值 Value / 成本 Cost(TCO) / 風險 Risk / 可演進 Evolvability。
 4. **章節切法** = **五幕**（合併七步中內容較薄的步驟）+ Ch0 接案世界觀 + Capstone 白皮書整合。
 5. **產出格式** = 完整沿用 101 的 `slide-XX.md` 規格驅動產圖（1920×1080、GPT Image + 程式化圖、桑尼品牌）。
 6. **資料夾** = `Handouts/software_architect_101/`。
+7. **投影片不具名引導裝置、不標來源**：
+   - 投影片上**不出現**「委員質詢」「蘇格拉底」「武僧委員會」等字樣；引導只是內部教學語氣，Kicker 用中性標籤。
+   - 投影片上**不標任何 reference 來源**（不放 `> Source:` 之類）；知識來源對應只存在於本設計文件，供作者參考。
+8. **一次補齊全部章節**：不分階段，七章（Ch0 + 幕1–5 + Capstone）一次產出。
 
 ---
 
@@ -43,7 +47,9 @@
 
 主角：即時 IoT 設備監控系統。架構白皮書隨幕成長 v1→v5。
 
-| 章 | 幕名 | = 架構師.md 步驟 | ppt 知識解藥來源 | 白皮書產出 |
+> 下表「ppt 知識解藥來源」欄是**作者內部對照**，用來決定每幕要寫什麼內容；**不得出現在任何投影片上**。
+
+| 章 | 幕名 | = 架構師.md 步驟 | ppt 知識解藥來源（內部對照） | 白皮書產出 |
 |---|------|----------------|-----------------|-----------|
 | Ch0 | 接案世界觀 | Orchestrator（總架構師） | Ch1 角色與價值 | v0：空白委託書 + VCRE 計分卡發放 |
 | 幕1 | 需求與約束 | 步驟1 需求分析師 | Ch2 需求/SLA、Ch9 成本/期限/團隊約束 | v1：PRD + NFR 矩陣 + 約束清單 |
@@ -59,16 +65,18 @@
 
 ## 4. 架構師六拍（節奏）
 
-保留 101 六拍骨架與色票，微調前兩拍以貼合「決策引導」情境。每幕的 `slide-XX.md` 依此節奏排列；Ch0 免「委員質詢」拍（同 101 Ch0 免痛點）。
+保留 101 六拍骨架與色票。每幕的 `slide-XX.md` 依此節奏排列；Ch0 免第一拍（同 101 Ch0 免痛點）。
 
-| 序 | 101 原拍 | 架構師版拍 | Kicker | 色票 | Hex |
-|----|---------|-----------|--------|------|-----|
-| 1 | 痛點 | 委員質詢（武僧丟失敗情境/尖銳問題） | CHALLENGE | Coral Red | `#E8634F` |
-| 2 | 類比 | 蘇格拉底提問（逼你把形容詞變數字） | SOCRATIC | Mint | `#97E8D6` |
-| 3 | 技術 | 方法 / 詞彙卡（PRD、NFR、DDD、C4、ADR…） | METHOD | Deep Teal | `#2E7D86` |
-| 4 | 架構圖 | 產出物（本步驟讓白皮書 +1） | ARTIFACT | Deep Navy | `#152238` |
-| 5 | 佐證 | 業界佐證（大廠怎麼做） | REAL WORLD | Forest Green | `#5B9770` |
-| 6 | 取捨 | VCRE 取捨（四維打分） | TRADE-OFF | Teal + Red | `#2E7D86` + `#E8634F` |
+> 內部教學語氣：以「資深架構師用提問引導你量化決策」為底，但**這個引導裝置不在投影片上具名**（不出現「委員質詢」「蘇格拉底」「武僧委員會」等字樣）。Kicker 一律用下表中性標籤。
+
+| 序 | 內部拍名 | 上版 Kicker | 這一拍在做什麼 | 色票 | Hex |
+|----|---------|------------|----------------|------|-----|
+| 1 | 情境 | SCENARIO | 丟出架構師會遇到的失敗情境/難題 | Coral Red | `#E8634F` |
+| 2 | 關鍵提問 | KEY QUESTIONS | 把模糊形容詞逼成可量化的問題 | Mint | `#97E8D6` |
+| 3 | 方法 | METHOD | 帶出方法與詞彙卡（PRD、NFR、DDD、C4、ADR…） | Deep Teal | `#2E7D86` |
+| 4 | 產出物 | ARTIFACT | 本步驟讓架構白皮書 +1 | Deep Navy | `#152238` |
+| 5 | 業界佐證 | REAL WORLD | 大廠/真實案例怎麼做 | Forest Green | `#5B9770` |
+| 6 | 取捨 | TRADE-OFF | VCRE 四維打分 | Teal + Red | `#2E7D86` + `#E8634F` |
 
 Ch0 專用拍：`INTRO`（登場，Deep Teal）、`PREVIEW`（預告，Mint）。
 
@@ -104,7 +112,7 @@ Ch0 專用拍：`INTRO`（登場，Deep Teal）、`PREVIEW`（預告，Mint）�
 | 檔案 | 沿用 | 需改寫 |
 |------|------|--------|
 | `0_STYLE_GUIDE.md` | 畫布 1920×1080、安全邊距 96px、字型家族、品牌色票、字數硬上限、詞彙卡格式 | 六拍視覺編碼 → 架構師六拍；進度條 → 「架構白皮書 vN」；計分卡 → VCRE；架構圖視覺規範 → C4/領域模型/資料流 |
-| `SLIDE_SPEC.md` | frontmatter 結構、必備段落、Title Rule、Logo Rule | `layout_type` 換成 `challenge / socratic / method / artifact / real_world / tradeoff`（+ Ch0 的 `intro / preview`、Capstone 的 `whitepaper_recap`）；`diagram_version` 範圍 v1→v5 |
+| `SLIDE_SPEC.md` | frontmatter 結構、必備段落、Title Rule、Logo Rule | `layout_type` 換成 `scenario / key_questions / method / artifact / real_world / tradeoff`（+ Ch0 的 `intro / preview`、Capstone 的 `whitepaper_recap`）；`diagram_version` 範圍 v1→v5；明訂**投影片不標來源** |
 | `DIAGRAM_SPEC.md` | rendering_mode 機制、節點/邊規則、JetBrains Mono 標籤 | 程式化圖類型改為 **C4 容器圖 / 領域模型(ER) / 關鍵資料流**；版本演化語意改為「白皮書產出物 v1→v5」而非擴展性架構 |
 | `LOGO_ASSETS.md` | logo 原則、Logo Strip 規格、provenance 要求 | 工具清單改架構師課用到的（PostgreSQL、FastAPI、Kafka、Redis、Docker、Kubernetes、Grafana、OpenTelemetry…）；**多數已在 `system_design_101/assets/logos/` 抓過，可重用** |
 | `README.md` | 課程閱讀方式、產圖工作流 | 課程定位、五幕地圖、白皮書演化總表、雙螺旋、架構師六拍 |
@@ -155,13 +163,13 @@ chapter_slug: "NN-幕名"
 slide: "1"
 title: "≤ 14 中文字短標"
 original_title: "來源大標"
-beat: "委員質詢 / 蘇格拉底提問 / 方法 / 產出物 / 業界佐證 / 取捨"
-kicker: "CHALLENGE / SOCRATIC / METHOD / ARTIFACT / REAL WORLD / TRADE-OFF"
-layout_type: "challenge"
+beat: "情境 / 關鍵提問 / 方法 / 產出物 / 業界佐證 / 取捨"
+kicker: "SCENARIO / KEY QUESTIONS / METHOD / ARTIFACT / REAL WORLD / TRADE-OFF"
+layout_type: "scenario"
 audience_level: "intermediate"
 output: "1920x1080"
-source_style_guide: "../0_STYLE_GUIDE.md"
-source_deck: "slides.md"
+source_style_guide: "../0_STYLE_GUIDE.md"   # 內部 metadata，不上版
+source_deck: "slides.md"                      # 內部 metadata，不上版
 whitepaper_version: ""          # 產出物頁填 v1..v5，其他頁留空
 rendering_mode: "image_prompt"  # 或 programmatic_diagram
 ```
@@ -178,6 +186,11 @@ rendering_mode: "image_prompt"  # 或 programmatic_diagram
 
 - `VCRE Scorecard`：本決策在商業價值 / 成本 / 風險 / 可演進四維的評分與理由。
 
+**On-slide 規則：**
+
+- 投影片上的文字一律以 `On-slide Text` 為準，**不得加入任何來源/出處標註**。
+- 引導裝置（架構師提問語氣）不具名；Kicker 只用 §4 的中性標籤。
+
 ---
 
 ## 9. 產圖工作流與品牌（沿用 101）
@@ -187,30 +200,25 @@ rendering_mode: "image_prompt"  # 或 programmatic_diagram
 3. GPT Image 2 不決定最終中文字、不決定架構拓樸、不仿製品牌 logo。
 4. Logo 用核准官方素材後製疊上；多數工具 logo 已存在 `system_design_101/assets/logos/`，可重用或軟連結。
 5. 頁尾固定「桑尼資料科學 · 版權所有 ©」，logo 右下 64px。
-6. 出圖前跑每頁 `QA Checklist`。
+6. **最終圖上不出現任何來源出處字樣**；亦不出現引導裝置具名。
+7. 出圖前跑每頁 `QA Checklist`（含「無來源標註」「無具名引導裝置」兩項檢查）。
 
 ---
 
-## 10. 建置計畫（分階段）
+## 10. 建置順序（一次補齊全部章節）
 
-### Phase 1（本次 spec 主範圍 → 第一份實作計畫）
+不分階段，七章一次產出。建議建置順序（先地基後內容）：
 
-把格式端到端跑通，鎖定可複製的樣板：
+1. 五個 spec 檔（`0_STYLE_GUIDE` / `SLIDE_SPEC` / `DIAGRAM_SPEC` / `LOGO_ASSETS` / `README`）+ `assets/logos/README.md`。
+2. **Ch0 接案世界觀**（slides.md + 全部 slide-XX.md）—— 同時一次定下 IoT 系統的規模/SLA/裝置數字，作為後續各幕的共用設定。
+3. **幕1 需求與約束**（白皮書 v1）。
+4. **幕2 建模與選型**（白皮書 v2）。
+5. **幕3 系統設計**（白皮書 v3）。
+6. **幕4 風險與韌性**（白皮書 v4）。
+7. **幕5 落地與演進**（白皮書 v5）。
+8. **Capstone 白皮書整合**（v1→v5）。
 
-1. 五個 spec 檔（`0_STYLE_GUIDE` / `SLIDE_SPEC` / `DIAGRAM_SPEC` / `LOGO_ASSETS` / `README`）。
-2. `assets/logos/README.md`（重用 101 素材的說明）。
-3. **Ch0 接案世界觀**整章（`slides.md` + 全部 `slide-XX.md`）。
-4. **幕1 需求與約束**整章（`slides.md` + 全部 `slide-XX.md`）當第一個內容樣板。
-
-驗收：Ch0 + 幕1 每頁通過自身 QA Checklist；六拍、進度膠囊、VCRE 計分卡、白皮書 v1 產出物都正確呈現。
-
-### Phase 2+（各自獨立 plan）
-
-- 幕2 建模與選型（白皮書 v2）
-- 幕3 系統設計（白皮書 v3）
-- 幕4 風險與韌性（白皮書 v4）
-- 幕5 落地與演進（白皮書 v5）
-- Capstone 白皮書整合（v1→v5）
+每章建議 6–8 頁，與 101 一致。每頁完成後跑自身 QA Checklist。各幕內容須沿用 Ch0 定下的同一組 IoT 設定數字。
 
 ---
 
@@ -218,7 +226,8 @@ rendering_mode: "image_prompt"  # 或 programmatic_diagram
 
 - 任何人讀 `README.md` 能在 2 分鐘內理解五幕地圖、雙螺旋、六拍。
 - 任一 `slide-XX.md` 能獨立交付產圖流程，不需讀完整章草稿。
-- Ch0 + 幕1 樣板能被直接複製套用到幕2–5，無需重新發明結構。
+- 全課七章一次補齊且結構一致：Ch0 的章節結構能被一致套用到各幕。
+- 投影片上**零來源標註、零具名引導裝置**。
 - 全課視覺與 `system_design_101` 同調（同品牌、同畫布、同 spec 哲學），但內容與節奏明確是「架構師決策」而非「系統擴展」。
 
 ---
