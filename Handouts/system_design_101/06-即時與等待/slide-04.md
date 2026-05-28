@@ -71,6 +71,11 @@ Use approved official logo assets, not AI-generated approximations.
 
 Placement: render these as a compact implementation-logo strip near the vocabulary card. Keep the course logo/footer unchanged.
 
+## Interview Angle
+- Likely follow-up: "什麼時候該加 Queue？"
+- Strong answer: "當任務很慢、不需要同步完成、或需要削峰時，可以把工作放進 Queue。代價是使用者看到的是 eventual result，而且 Worker 必須能 retry、去重、處理 dead letter。"
+- Common trap: 把 Queue 當成萬用加速器，卻忘記它讓流程變成非同步，也讓錯誤處理更複雜。
+
 ## GPT Image Prompt
 Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is CONCEPT. Title is "先排隊再處理". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
 

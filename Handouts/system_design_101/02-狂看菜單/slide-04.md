@@ -68,6 +68,11 @@ Use approved official logo assets, not AI-generated approximations.
 
 Placement: render these as a compact implementation-logo strip near the vocabulary card. Keep the course logo/footer unchanged.
 
+## Interview Angle
+- Likely follow-up: "Cache 裡的資料如果舊了怎麼辦？"
+- Strong answer: "我會先看資料是否能接受短暫不一致。菜單通常可以用 TTL 或更新時 invalidation；如果是付款金額或庫存，就不能只信 Cache。"
+- Common trap: 只說加 Redis 會變快，卻沒說 cache hit / miss、TTL、invalidation 和 source of truth。
+
 ## GPT Image Prompt
 Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is CONCEPT. Title is "快取三個詞，先背起來". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
 

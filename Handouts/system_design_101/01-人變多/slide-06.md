@@ -123,6 +123,11 @@ edges:
 3. Selected Server handles the request and talks to Database.
 4. State must not live only inside one Server; session/state should be externalized.
 
+## Interview Angle
+- Likely follow-up: "為什麼不只把 Server 換成更大台？"
+- Strong answer: "垂直擴展比較快，但有上限也有單點風險；水平擴展加 LB 可以繼續加機器，代價是部署和狀態管理變複雜。"
+- Common trap: 只說 Load Balancer 可以分流，卻沒說 Server 必須盡量無狀態，否則請求切到不同機器會出問題。
+
 ## GPT Image Prompt
 Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is DIAGRAM. Title is "架構長出新方塊了". Generate only the background, framing, and simple technical icon style; the architecture diagram must be rendered from the Diagram Spec separately.
 

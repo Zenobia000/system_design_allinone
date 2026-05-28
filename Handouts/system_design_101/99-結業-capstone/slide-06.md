@@ -60,6 +60,11 @@ not_applicable: true
 reason: "This slide is illustration/text driven, not a formal architecture diagram."
 ```
 
+## Interview Angle
+- Likely follow-up: "投票系統最重要的取捨是什麼？"
+- Strong answer: "每人只能投一次，所以一致性優先。即時票數可以快但允許短暫不準，最終票數必須以 DB 或可審計資料為準。"
+- Common trap: 為了顯示即時票數而把 Cache 當 source of truth，導致重複投票或票數錯誤時沒有可回復依據。
+
 ## GPT Image Prompt
 Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is CHALLENGE. Title is "選解藥畫圖". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
 

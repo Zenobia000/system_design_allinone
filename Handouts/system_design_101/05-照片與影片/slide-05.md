@@ -66,6 +66,11 @@ Use approved official logo assets, not AI-generated approximations.
 
 Placement: render these as a compact logo strip near the real-world evidence area. Keep the course logo/footer unchanged.
 
+## Interview Angle
+- Likely follow-up: "為什麼圖片不直接從 Server 或 DB 出？"
+- Strong answer: "大型靜態資源會吃頻寬和延遲。Blob Storage 負責存檔，CDN 把熱門內容放到靠近使用者的邊緣節點；代價是快取失效和權限控制要設計清楚。"
+- Common trap: 只說 CDN 比較快，卻沒分清楚 DB 存 metadata、Blob 存檔案、CDN 負責傳輸。
+
 ## GPT Image Prompt
 Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is CONCEPT. Title is "就近快取檔案". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
 

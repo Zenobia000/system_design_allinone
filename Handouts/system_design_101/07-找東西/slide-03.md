@@ -69,6 +69,11 @@ Use approved official logo assets, not AI-generated approximations.
 
 Placement: render these as a compact implementation-logo strip near the vocabulary card. Keep the course logo/footer unchanged.
 
+## Interview Angle
+- Likely follow-up: "為什麼不用 SQL LIKE 就好？"
+- Strong answer: "小資料量可以先用 LIKE 或 DB index；當需要關鍵字相關性、分詞、排序、模糊查詢和大量搜尋流量時，才把搜尋讀路徑交給 Search Index。代價是索引同步延遲。"
+- Common trap: 一開始就上 Elasticsearch，卻沒說資料如何從 DB 同步到 index，以及 index 落後時使用者會看到什麼。
+
 ## GPT Image Prompt
 Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is CONCEPT. Title is "預先建表，查詢秒回". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
 

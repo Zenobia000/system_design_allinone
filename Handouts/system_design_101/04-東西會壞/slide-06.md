@@ -189,6 +189,11 @@ edges:
 3. Retry is allowed only when the operation has an idempotency key or dedupe guard.
 4. Payment/order creation must use a unique request/order key to avoid duplicate side effects.
 
+## Interview Angle
+- Likely follow-up: "使用者按付款兩次，或 retry 送了兩次，怎麼避免重複扣款？"
+- Strong answer: "寫入類操作要用 idempotency key，讓同一個業務請求重送時只被處理一次。Retry 提高可用性，但沒有冪等會製造重複副作用。"
+- Common trap: 只說 retry 可以修復失敗，卻沒說 retry 也可能讓付款、下單、寄信重複發生。
+
 ## GPT Image Prompt
 Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is DIAGRAM. Title is "標出故障點". Generate only the background, framing, and simple technical icon style; the architecture diagram must be rendered from the Diagram Spec separately.
 

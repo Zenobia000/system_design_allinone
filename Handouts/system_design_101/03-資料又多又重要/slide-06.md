@@ -177,6 +177,11 @@ edges:
 4. Shard DB x N partitions data by a deterministic key, such as user_id or order_id range.
 5. Cross-shard queries must be treated as slower and more complex than single-shard queries.
 
+## Interview Angle
+- Likely follow-up: "Replica 和 Sharding 解的是同一個問題嗎？"
+- Strong answer: "Replica 主要分擔讀取和提高可用性；Sharding 是把資料切開處理容量和寫入壓力。Replica 可能有延遲，Sharding 會讓查詢和搬資料變複雜。"
+- Common trap: 把 Replica 當成無成本的即時備份，或在資料量還小時就急著 sharding。
+
 ## GPT Image Prompt
 Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is DIAGRAM. Title is "DB 變多了，各有分工". Generate only the background, framing, and simple technical icon style; the architecture diagram must be rendered from the Diagram Spec separately.
 

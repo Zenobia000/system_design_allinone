@@ -23,7 +23,7 @@
 
 ---
 
-## 爆點地圖（9 章總覽）
+## 爆點地圖（10 章總覽）
 
 | # | 章節 | 開場的痛 | 技術解藥 | 架構圖長出什麼 |
 |---|------|----------|----------|---------------|
@@ -35,6 +35,7 @@
 | 5 | 照片與影片 | 圖片太大，DB 塞不下 | CDN + 物件儲存 | v6：CDN + Blob Storage |
 | 6 | 即時與等待 | 同步處理，一個慢全慢 | 訊息佇列（Message Queue） | v7：Queue + Worker |
 | 7 | 找東西（選配） | 關鍵字搜尋太慢 | 搜尋引擎（Search Index） | v7+：Search Index 旁路 |
+| 8 | 面試實戰（選修） | 會畫圖，但不知道面試怎麼講 | 需求 → 估算 → v1 → 爆點 → 取捨 | 面試回答 SOP + 投票題示範 |
 | 99 | 結業 Capstone | — | 綜合所有章節，設計新系統 | v1 → v7 完整演化 |
 
 ---
@@ -89,6 +90,8 @@ v7（Ch6）  Message Queue + Worker Pool 非同步處理層
 5. **佐證**（成功綠）— IG / Uber / 蝦皮也這樣做
 6. **取捨**（teal+red）— C/A/L/Cost 複盤
 
+第 8 章是選修橋接章，不強制使用六拍節奏。它改用面試 SOP：問需求 → 估規模 → 畫 v1 → 找爆點 → 講取捨。目標是把 101 的學習成果轉成面試與實務討論時能說出口的回答。
+
 ---
 
 ## 如何閱讀本課程內容
@@ -96,6 +99,7 @@ v7（Ch6）  Message Queue + Worker Pool 非同步處理層
 - 原始草稿：每章一個 `slides.md` 檔案，保留完整敘事脈絡
 - 產圖規格：每張投影片一個 `slide-XX.md` 檔案，可直接作為批量產圖輸入
 - 每頁規格含 frontmatter、On-slide Text、Beginner Anchor、Visual Spec、GPT Image Prompt、Negative Prompt、Speaker Notes、QA Checklist
+- 第 8 章面試實戰頁額外含 Interview Skill、Rubric、Mock Interviewer Prompt、Answer Template、Common Mistakes
 - `layout_type: architecture_diagram` 的頁面必須使用 `Diagram Spec` 程式化渲染，不交給圖片模型自由生成架構拓樸
 - 視覺風格：**LinkedIn 4:5 可滑動卡片**（1080 × 1350 px）
 - 製作時請搭配 `0_STYLE_GUIDE.md` 確保字型、色票、邊距一致

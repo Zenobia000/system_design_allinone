@@ -24,6 +24,19 @@ diagram_version: ""
 rendering_mode: "image_prompt"
 ```
 
+面試實戰章可使用這些額外 `layout_type`：
+
+- `interview_practice`
+- `interview_sop`
+- `interview_question_card`
+- `interview_estimation`
+- `interview_antipattern`
+- `interview_answer_template`
+- `interview_architecture_walkthrough`
+- `interview_followup`
+- `practice_experience`
+- `interview_cheatsheet`
+
 ## Rendering Mode
 
 - `image_prompt`：適合痛點、類比、詞彙卡、取捨、練習與 Capstone 頁。圖片模型只負責視覺底圖與插畫，精準中文字建議由模板疊上。
@@ -45,6 +58,14 @@ rendering_mode: "image_prompt"
 - `Speaker Notes`：講師旁白或錄音稿參考。
 - `QA Checklist`：出圖前檢查項目。
 
+第 8 章面試實戰頁額外必備：
+
+- `Interview Skill`：本頁訓練的面試能力與可練習口條。
+- `Rubric`：好回答與弱回答的判準。
+- `Mock Interviewer Prompt`：面試官可能丟出的題目或追問。
+- `Answer Template`：新手可直接套用的回答句型。
+- `Common Mistakes`：本頁要避免的常見錯誤。
+
 ## Title Rule
 
 `title` 是實際建議上版短標，必須盡量控制在 14 個中文字以內。若來源大標過長，保留在 `original_title`，避免模型或模板為了塞字而縮小字級。
@@ -61,3 +82,14 @@ rendering_mode: "image_prompt"
 - read path 與 write path
 - cache hit / miss、replication、queue、search sync 等特殊流程
 - async / retry / failover / eventual consistency 等失敗或延遲語意
+
+## Interview Practice Rule
+
+面試實戰章不能只做勵志提醒。每一頁都要能回答「面試時下一句怎麼講」，因此必須提供：
+
+- 可複誦的回答句型
+- 一個 mock interviewer prompt
+- 至少三個 common mistakes
+- 一個 rubric，明確區分好回答和弱回答
+
+如果面試頁提到 Kafka、Redis、Elasticsearch 等工具但重點是追問語境，可只用文字呈現；若頁面是在正式介紹框架、套件或產品，仍必須遵守 Logo Rule。
