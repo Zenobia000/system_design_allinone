@@ -96,7 +96,7 @@
 
 ## 品牌配置（每卡必須）
 
-**Logo 來源資料夾**：`Handouts/system_design/openslide/assets/branding/`
+**Logo 來源資料夾**：`Handouts/system_design/openslide/assets/branding/`（與 system_design_101 共用品牌素材，路徑不變）
 
 | 場景 | 使用 Logo 檔 |
 |------|-------------|
@@ -212,8 +212,8 @@ kicker: "SCENARIO / KEY QUESTIONS / METHOD / ARTIFACT / REAL WORLD / TRADE-OFF"
 layout_type: "scenario"
 audience_level: "intermediate"
 output: "1920x1080"
-source_style_guide: "../0_STYLE_GUIDE.md"
-source_deck: "slides.md"
+source_style_guide: "../0_STYLE_GUIDE.md"   # 內部 metadata，不上版
+source_deck: "slides.md"                      # 內部 metadata，不上版
 whitepaper_version: ""
 rendering_mode: "image_prompt"
 ---
@@ -293,4 +293,4 @@ rendering_mode: "image_prompt"
 - [ ] 取捨拍（TRADE-OFF）有 `VCRE Scorecard`
 - [ ] **投影片上無任何來源/出處標註**（不出現 `Source:`、`參考：` 等字樣）
 - [ ] **投影片上無具名引導裝置**（不出現「委員質詢」「蘇格拉底」「武僧委員會」等字樣）
-- [ ] `whitepaper_version` 欄位：產出物頁填 `v1`..`v5`，其他頁留空
+- [ ] `whitepaper_version` 欄位：產出物頁填 `v0`..`v5`（v0 為 Ch0 空白委託書），其他頁留空

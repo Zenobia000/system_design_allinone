@@ -40,7 +40,7 @@ edges:
 
 - `existing`：前面版本已出現的節點，Deep Teal `#2E7D86` 2 px 邊框。
 - `new`：本幕新增能力，Mint `#97E8D6` 4 px 邊框，右上角加 `NEW`。
-- `warning`：本幕要提醒會壞或需監控的節點，保留既有邊框並加 Coral Red `#E8634F` 故障標記。
+- `warning`：本幕要提醒會壞或需監控的節點，保留既有邊框並加 Coral Red `#E8634F` 故障標記。warning 節點靠 Coral Red 閃電/故障 icon 與 SCENARIO kicker 區隔；同一頁若同時出現，icon 是辨識依據。
 
 ## Edge Rules
 
@@ -83,7 +83,7 @@ edges:
 各白皮書版本對應的圖細節要求：
 
 ### v1（幕 1：需求與約束）
-本版多為表格與文字形式（PRD、NFR 矩陣、約束清單），可無程式化圖。若有圖，以需求維度的高層示意為主，不要求完整拓樸。
+本版多為表格與文字形式（PRD、NFR 矩陣、約束清單），可無程式化圖。若有圖，以需求維度的高層示意為主，不要求完整拓樸。v1 需求類產出物頁若無正式圖，`Diagram Spec` 填 `not_applicable: true`（與 0_STYLE_GUIDE 自查清單一致）。
 
 ### v2（幕 2：建模與選型）
 必須包含 `domain_model` ER 圖：核心業務實體（Device、Metric、Alert、Tenant 等）及其關聯。ADR-001 技術選型頁可附文字比較表，不強制程式化圖。

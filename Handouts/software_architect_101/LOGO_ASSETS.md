@@ -22,7 +22,7 @@ assets/logos/
   api/
     fastapi.svg
   messaging/
-    apache-kafka.svg
+    kafka.svg
   cache/
     redis.svg
   containers/
@@ -45,7 +45,7 @@ assets/logos/
 | PostgreSQL | 資料庫 | `assets/logos/databases/postgresql.svg` | 是（`../../system_design_101/assets/logos/`） |
 | TimescaleDB | 時序資料庫 | `assets/logos/databases/timescaledb.svg` | 否，需補抓 |
 | FastAPI | API 框架 | `assets/logos/api/fastapi.svg` | 否，需補抓 |
-| Apache Kafka | 訊息佇列 | `assets/logos/messaging/apache-kafka.svg` | 是（101 已有 `kafka.svg`） |
+| Apache Kafka | 訊息佇列 | `assets/logos/messaging/kafka.svg` | 是（101 已有 `kafka.svg`） |
 | Redis | 快取 | `assets/logos/cache/redis.svg` | 是（101 已有） |
 | Docker | 容器 | `assets/logos/containers/docker.svg` | 否，需補抓 |
 | Kubernetes | 容器編排 | `assets/logos/containers/kubernetes.svg` | 否，需補抓 |

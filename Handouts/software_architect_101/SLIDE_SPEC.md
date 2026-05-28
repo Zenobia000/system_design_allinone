@@ -124,6 +124,6 @@ Kicker 只能使用 `0_STYLE_GUIDE.md` 六拍視覺編碼表中的中性標籤�
 
 ## `whitepaper_version` Field
 
-- 產出物拍（`layout_type: artifact`）必須填 `whitepaper_version: "v1"` 到 `"v5"`，對應所屬幕的白皮書版本。
+- 產出物拍（`layout_type: artifact`）必須填 `whitepaper_version: "v0"` 到 `"v5"`，對應所屬幕的白皮書版本；v0 為 Ch0 的空白委託書 artifact。
 - 其他所有頁留空：`whitepaper_version: ""`
 - 不使用舊欄位名稱 `diagram_version`；本課程統一使用 `whitepaper_version`。
