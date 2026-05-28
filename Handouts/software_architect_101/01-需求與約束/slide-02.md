@@ -22,7 +22,7 @@ rendering_mode: "image_prompt"
 - Kicker: `KEY QUESTIONS`
 - Title: 把形容詞逼成數字
 - Body:
-  - 告警延遲：P99 < 10 秒，允許最多 0.1% 例外
+  - 告警延遲：P99 < 10 秒，允許最多 1% 例外
   - 設備規模：10,000 台，峰值 6,000 msg/s
   - 可用性：99.9%（每月停機 ≤ 43 分鐘）
 
@@ -79,7 +79,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Kicker reads `KEY QUESTIONS` and uses Mint `#97E8D6` beat color (pill background).
 - [ ] Kicker pill text is Deep Navy `#152238` (light background → dark text rule).
 - [ ] Body has exactly 3 lines, each ≤ 18 Chinese characters.
-- [ ] Body line 1: "告警延遲：P99 < 10 秒，允許最多 0.1% 例外" ≤ 18 chars ✓
+- [ ] Body line 1: "告警延遲：P99 < 10 秒，允許最多 1% 例外" ≤ 18 chars ✓
 - [ ] Body line 2: "設備規模：10,000 台，峰值 6,000 msg/s" ≤ 18 chars ✓
 - [ ] Body line 3: "可用性：99.9%（每月停機 ≤ 43 分鐘）" ≤ 18 chars ✓
 - [ ] Numbers P99, 10,000, 6,000, 99.9%, 43 match Ch0 shared numbers.

@@ -24,7 +24,7 @@ rendering_mode: "image_prompt"
 - Vocabulary Cards (replaces plain body lines — 3 cards):
   - Card 1 — `NFR` / 非功能需求：系統「怎麼運作」，不是「做什麼」
   - Card 2 — `SLA` / 服務等級協議：可用性和延遲的白紙黑字承諾
-  - Card 3 — `SLO` / `SLI`：SLO 是內部目標，SLI 是量測的實際數字
+  - Card 3 — `SLO` / `SLI`：SLO 是內部目標，SLI 是量到的實際比例
 
 ## Beginner Anchor
 工程師寫的「顯示設備狀態」是功能需求（做什麼）；「P99 延遲 < 10 秒」是非功能需求（怎麼運作）。架構師必須兩者都寫清楚。
