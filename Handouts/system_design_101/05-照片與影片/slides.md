@@ -15,7 +15,7 @@
         - 第一行：每家店上傳十張菜單照，三百萬用戶每人存幾張。
         - 第二行：DB 存不下，磁碟空間快滿，備份極慢。
         - 第三行：圖片載入要等五秒，用戶早就離開了。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 300 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個 DB 圓柱方塊（底色 `#1E3450`，邊框 Coral Red `#E8634F` / 4 px），方塊上方堆疊多個小方形 icon（代表圖片檔案，各自不同深淺的 `#1E3450`，邊框 Coral Red / 1 px），數量很多擠成一堆，溢出 DB 方塊邊界。方塊右側有一個容量條，填充至 95%（Coral Red），右端標示「95% FULL」/ JetBrains Mono 500 / 26 px / `#E8634F`。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 300 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個 DB 圓柱方塊（底色 `#1E3450`，邊框 Coral Red `#E8634F` / 4 px），方塊上方堆疊多個小方形 icon（代表圖片檔案，各自不同深淺的 `#1E3450`，邊框 Coral Red / 1 px），數量很多擠成一堆，溢出 DB 方塊邊界。方塊右側有一個容量條，填充至 95%（Coral Red），右端標示「95% FULL」/ JetBrains Mono 500 / 26 px / `#E8634F`。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：圖片和影片的特性與結構性資料完全不同——它們是大型二進位檔案，不適合塞進關聯式資料庫。這個痛要讓學員感受到：DB 是用來存結構化資料的，把大量圖片塞進去是在用錯工具。下一張類比才能讓解法顯得自然。
 
@@ -30,7 +30,7 @@
         - 第一行：台灣用戶連到美國的伺服器，每張圖要等三秒。
         - 第二行：尖峰時段大量請求，Server 傳圖頻寬被佔滿。
         - 第三行：用戶體驗差，直接關掉換競品。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個水平距離示意圖（線條插畫）。左側：手機圖示（線條，Mint `#97E8D6`），標示「台灣用戶」/ Noto Sans TC 500 / 24 px / `#F4F1EA`。右側：Server 方塊（底色 `#1E3450`，邊框 Deep Teal / 2 px，內文「Server（美國）」/ JetBrains Mono / 24 px）。兩者之間的箭頭（Coral Red / 2 px / 虛線，極長，代表遠距）上方標示「3 秒...」/ JetBrains Mono / 34 px / Coral Red。箭頭下方有一個鐘表 icon（線條，Coral Red），秒針指向 3。下方另一個方塊（圓角 16 px，底色 `#1E3450`，邊框 Coral Red / 2 px）：上行「頻寬」/ Noto Sans TC 700 / 28 px / `#F4F1EA`，容量條填滿 100%（Coral Red）。大標置於頂部 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在底部 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾同規格。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個水平距離示意圖（線條插畫）。左側：手機圖示（線條，Mint `#97E8D6`），標示「台灣用戶」/ Noto Sans TC 500 / 24 px / `#F4F1EA`。右側：Server 方塊（底色 `#1E3450`，邊框 Deep Teal / 2 px，內文「Server（美國）」/ JetBrains Mono / 24 px）。兩者之間的箭頭（Coral Red / 2 px / 虛線，極長，代表遠距）上方標示「3 秒...」/ JetBrains Mono / 34 px / Coral Red。箭頭下方有一個鐘表 icon（線條，Coral Red），秒針指向 3。下方另一個方塊（圓角 16 px，底色 `#1E3450`，邊框 Coral Red / 2 px）：上行「頻寬」/ Noto Sans TC 700 / 28 px / `#F4F1EA`，容量條填滿 100%（Coral Red）。大標置於頂部 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在底部 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾同規格。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：兩個痛：儲存問題（DB 塞爆）和速度問題（傳輸太慢）。本章的兩個解法各解一個：Blob Storage 解儲存，CDN 解速度。讓學員在進入類比前先把兩個問題都感受到。
 
@@ -45,7 +45,7 @@
         - 第一行：抽屜（DB）放文件；大量照片放專用倉庫。
         - 第二行：全國連鎖店在各城市設分店，就近取貨最快。
         - 第三行：Blob Storage 是倉庫，CDN 是就近的分店。
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / 深色文字 Deep Navy `#152238`。畫面中央：兩組插圖並排（線條插畫，Deep Teal `#2E7D86` 線條）：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / 深色文字 Deep Navy `#152238`。畫面中央：兩組插圖並排（線條插畫，Deep Teal `#2E7D86` 線條）：
 
   左組（Blob Storage 類比）：一個小辦公室抽屜（標「DB 抽屜」/ Noto Sans TC 400 / 24 px / `#152238`，旁邊畫一個大 X Coral Red）旁邊有一個大倉庫建築圖示（標「專用倉庫」/ Noto Sans TC 400 / 24 px / `#152238`，旁邊有 Forest Green 打勾）。抽屜和倉庫之間一條箭頭（Mint）從 X 方向指向倉庫。下方 Caption「照片放倉庫，不塞 DB」/ Noto Sans TC 400 / 26 px / `#152238`。
 
@@ -66,7 +66,7 @@
         - 第一行：圖片、影片、PDF，統一存進物件儲存。
         - 第二行：DB 只存檔案位置（URL），不存原始檔案。
         - 第三行：儲存成本低，容量近乎無限，方便備份。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「大檔案有專用倉庫」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「大檔案有專用倉庫」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
 
   詞彙卡 A（Blob Storage / 物件儲存）：
   - 上行：`Blob Storage`（JetBrains Mono 500 / 34 px / `#97E8D6`）/ `物件儲存`（Noto Sans TC 500 / 34 px / `#F4F1EA`），以 `/` 分隔
@@ -89,7 +89,7 @@
         - 第一行：CDN 在全球各地佈署快取節點（Edge）。
         - 第二行：用戶請求圖片，從最近的節點回傳，毫秒級。
         - 第三行：Origin Server 壓力大減，只需首次傳輸。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「把檔案快取到離用戶最近的地方」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「把檔案快取到離用戶最近的地方」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
 
   詞彙卡 A（CDN / 內容傳遞網路）：
   - 上行：`CDN`（JetBrains Mono 500 / 34 px / `#97E8D6`）/ `內容傳遞網路`（Noto Sans TC 500 / 34 px / `#F4F1EA`），以 `/` 分隔
@@ -112,7 +112,7 @@
         - 第一行：圖片和影片存進 Blob Storage，DB 只存 URL。
         - 第二行：CDN 節點在用戶附近，圖片秒開。
         - 第三行：（留白）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「靜態資源走 CDN，大檔案進倉庫」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「靜態資源走 CDN，大檔案進倉庫」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
 
   畫面主體為架構圖 v6，延續 v5 佈局，由左至右橫向排列，置中：
 
@@ -158,7 +158,7 @@
         - 第一行：YouTube 每分鐘上傳 500 小時影片，全靠物件儲存。
         - 第二行：Netflix 在全球 4000+ 節點快取，才能一秒開片。
         - 第三行：（C/A/L/Cost 計分卡見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「YouTube 和 Netflix 靠 CDN 撐全球影音」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「YouTube 和 Netflix 靠 CDN 撐全球影音」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
 
   大標下方兩行佐證文字 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，左對齊。
 
@@ -189,7 +189,7 @@
         - 第一行：v5 基礎上，Client 前加 CDN，Server 旁加 Blob Storage。
         - 第二行：靜態資源走哪條路？動態 API 走哪條路？
         - 第三行：下章：訂單做好了沒？一直刷新很煩。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v6」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v6」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 
   大標下方兩行提示文字 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。
 

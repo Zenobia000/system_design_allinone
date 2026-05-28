@@ -15,7 +15,7 @@
         - 第一行：用 DB 的 LIKE 查詢，全表掃一遍才有結果。
         - 第二行：五百萬筆菜單，一次搜尋讓 DB 喘不過氣。
         - 第三行：查不準、又慢，搜尋功能根本沒人用。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 500 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：左側手機圖示（Mint 線條，標「搜尋：附近蛋餅」/ JetBrains Mono / 24 px / `#F4F1EA`），一條箭頭（Coral Red / 2 px）指向「Database」方塊（底色 `#1E3450`，邊框 Coral Red `#E8634F` / 4 px，標「LIKE '%蛋餅%'」/ JetBrains Mono / 22 px / Coral Red）。Database 方塊右側：一個大型沙漏 icon（線條，Coral Red），旁邊標「掃描 500 萬筆...」/ Noto Sans TC 700 / 30 px / Coral Red。Database 方塊下方有一條進度條，填充 99%（Coral Red），標「全表掃描」/ JetBrains Mono / 22 px / Coral Red。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 500 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：左側手機圖示（Mint 線條，標「搜尋：附近蛋餅」/ JetBrains Mono / 24 px / `#F4F1EA`），一條箭頭（Coral Red / 2 px）指向「Database」方塊（底色 `#1E3450`，邊框 Coral Red `#E8634F` / 4 px，標「LIKE '%蛋餅%'」/ JetBrains Mono / 22 px / Coral Red）。Database 方塊右側：一個大型沙漏 icon（線條，Coral Red），旁邊標「掃描 500 萬筆...」/ Noto Sans TC 700 / 30 px / Coral Red。Database 方塊下方有一條進度條，填充 99%（Coral Red），標「全表掃描」/ JetBrains Mono / 22 px / Coral Red。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：LIKE 查詢的問題在於：沒有索引可以走，只能全表掃描。筆數越多越慢，關鍵字越模糊越慢。用戶想搜「附近有什麼蛋餅」，卻等到逾時，體驗崩潰。這是電商、外送 App 都一定會碰到的問題，學員應該立刻有共鳴。
 
@@ -30,7 +30,7 @@
         - 第一行：想找「蛋餅」，不會從第一頁翻到最後一頁。
         - 第二行：翻到書末索引，「蛋餅 → 第 42 頁」，直接跳過去。
         - 第三行：索引是提前建好的，查的時候秒回。
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / Deep Navy `#152238` 文字。畫面中央：左側一本翻開的書圖示（線條插畫，Deep Teal `#2E7D86` 線條），書頁顯示滿滿文字（細橫線）。書右側箭頭（Deep Teal / 2 px）指向右側「索引頁」圖示：一頁條目列表，第一條醒目標示「蛋餅 → p.42」/ JetBrains Mono / 24 px / `#152238`，其餘條目為淡色。「索引頁」下方 Caption 26 px：「提前整理好，查詢秒回」/ `#152238`。左側書圖示下方 Caption：「一頁一頁翻？太慢了」/ Coral Red `#E8634F` / 26 px。大標在圖上方 / Noto Sans TC 900 / 80 px / `#152238`，居中。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，居中。右下角 logo-dark.png 或 logo-main.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#152238`。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / Deep Navy `#152238` 文字。畫面中央：左側一本翻開的書圖示（線條插畫，Deep Teal `#2E7D86` 線條），書頁顯示滿滿文字（細橫線）。書右側箭頭（Deep Teal / 2 px）指向右側「索引頁」圖示：一頁條目列表，第一條醒目標示「蛋餅 → p.42」/ JetBrains Mono / 24 px / `#152238`，其餘條目為淡色。「索引頁」下方 Caption 26 px：「提前整理好，查詢秒回」/ `#152238`。左側書圖示下方 Caption：「一頁一頁翻？太慢了」/ Coral Red `#E8634F` / 26 px。大標在圖上方 / Noto Sans TC 900 / 80 px / `#152238`，居中。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，居中。右下角 logo-dark.png 或 logo-main.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#152238`。
 - 品牌：logo-dark.png 或 logo-main.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：書末索引是最直覺的類比——索引是「提前整理好的查找表」，搜尋引擎的反向索引也是一樣的邏輯：提前把「字出現在哪些文件」記下來，查詢時直接查那張表，不需要翻遍所有資料。讓學員先把這個直覺建立起來，下一張才引入技術名詞。
 
@@ -45,7 +45,7 @@
         - 第一行：不等查詢時掃描，提前建好「字 → 文件」的對照表。
         - 第二行：查「蛋餅」，秒找出所有含這個詞的菜單。
         - 第三行：還能依相關性排序，最準的結果排最前。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「預先建表，查詢秒回」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序兩張詞彙卡，垂直堆疊，卡片間距 24 px：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「預先建表，查詢秒回」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序兩張詞彙卡，垂直堆疊，卡片間距 24 px：
 
   詞彙卡 A（Search Engine / 搜尋引擎）：
   - 圓角 16 px，底色 Deep Teal `#2E7D86`
@@ -72,7 +72,7 @@
         - 第一行：搜尋請求不進 DB，改進 Search Index。
         - 第二行：資料寫入 DB 後，非同步同步給搜尋索引。
         - 第三行：（留白）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「搜尋服務旁掛，資料從 DB 同步過去」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「搜尋服務旁掛，資料從 DB 同步過去」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
 
   畫面主體為架構圖 v7+，延續 v7 全部方塊，佈局由左至右橫向排列，置中：
 
@@ -122,7 +122,7 @@
         - 第一行：蝦皮、Momo 等電商搜尋走 Elasticsearch 之類的引擎。
         - 第二行：快又準；代價是多一套系統要維護。
         - 第三行：（C/A/L/Cost 計分卡見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「電商搜尋都是獨立搜尋引擎」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「電商搜尋都是獨立搜尋引擎」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
 
   大標下方兩行佐證文字 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，左對齊。
 
@@ -153,7 +153,7 @@
         - 第一行：v7 基礎上，右側旁掛一個 Search Index 方塊。
         - 第二行：DB 畫一條虛線箭頭指向 Search Index（資料同步）。
         - 第三行：恭喜完成選配章，你的架構圖升級為 v7+。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / Deep Navy `#152238` 文字。大標「闔上這頁，默畫含搜尋的架構圖」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / Deep Navy `#152238` 文字。大標「闔上這頁，默畫含搜尋的架構圖」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 
   大標下方兩行提示文字 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。
 

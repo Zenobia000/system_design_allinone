@@ -9,7 +9,7 @@ beat: "痛點"
 kicker: "PAIN POINT"
 layout_type: "pain_point"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -33,13 +33,13 @@ rendering_mode: "image_prompt"
 讓初學者先感受到本章問題，不急著講技術名詞。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Coral Red #E8634F.
 - Typography and brand placement must follow `../0_STYLE_GUIDE.md`.
 - Use the image prompt for illustration and layout only; keep final Chinese text controlled by the slide text above when possible.
 
 ### Source Visual Direction
-> 1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字 / 同 Slide 1 規格。畫面中央：一個垂直數字對比區塊，以兩列呈現——左側標示「1 台 Server」/ Noto Sans TC 500 / 34 px / `#F4F1EA`，右側以 JetBrains Mono / 160 px / 900 weight / Coral Red `#E8634F` 呈現巨數字「×」（乘號），代表超載；下方對比行「10,000 請求」/ JetBrains Mono / 80 px / Mint `#97E8D6`。整體視覺傳達嚴重失衡。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。右下 logo-light.png 64 px。頁尾同規格。
+> 1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字 / 同 Slide 1 規格。畫面中央：一個垂直數字對比區塊，以兩列呈現——左側標示「1 台 Server」/ Noto Sans TC 500 / 34 px / `#F4F1EA`，右側以 JetBrains Mono / 160 px / 900 weight / Coral Red `#E8634F` 呈現巨數字「×」（乘號），代表超載；下方對比行「10,000 請求」/ JetBrains Mono / 80 px / Mint `#97E8D6`。整體視覺傳達嚴重失衡。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。右下 logo-light.png 64 px。頁尾同規格。
 
 ## Diagram Spec
 ```yaml
@@ -48,7 +48,7 @@ reason: "This slide is illustration/text driven, not a formal architecture diagr
 ```
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is PAIN POINT. Title is "問題很簡單：只有一台". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is PAIN POINT. Title is "問題很簡單：只有一台". Follow the source visual direction, with clean line illustration and stable 16:9 PowerPoint slide composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -60,7 +60,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Us
 讓學員理解「一台機器就是有天花板」這個物理事實。換更大台只是換更高的天花板，終究還是會爆。這裡埋下「換機器不是解法」的鋪墊，為「多台機器」解法做準備。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Kicker reads `PAIN POINT` and uses the correct beat color.
 - [ ] Logo and footer are placed according to the style guide.

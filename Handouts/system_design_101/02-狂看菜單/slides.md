@@ -15,7 +15,7 @@
         - 第一行：每次打開 App，都去 DB 查一次菜單。
         - 第二行：十萬個人同時查，DB 回應越來越慢。
         - 第三行：菜單根本沒變——卻一直重複查一樣的資料。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 10 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個 DB 圓柱方塊（邊框 Coral Red `#E8634F` / 4 px，底色 `#1E3450`），方塊旁顯示「DB」/ JetBrains Mono / 28 px / `#F4F1EA`。方塊四周以 Coral Red 細線條（2 px）畫出多條密集箭頭從左側射入（代表大量查詢請求湧入），箭頭頂端有小的「菜單？」文字標籤 / JetBrains Mono / 18 px / `#97E8D6`。方塊右側加一個溫度計或警示 icon（線條，Coral Red）表示過熱/超載。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 10 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個 DB 圓柱方塊（邊框 Coral Red `#E8634F` / 4 px，底色 `#1E3450`），方塊旁顯示「DB」/ JetBrains Mono / 28 px / `#F4F1EA`。方塊四周以 Coral Red 細線條（2 px）畫出多條密集箭頭從左側射入（代表大量查詢請求湧入），箭頭頂端有小的「菜單？」文字標籤 / JetBrains Mono / 18 px / `#97E8D6`。方塊右側加一個溫度計或警示 icon（線條，Coral Red）表示過熱/超載。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：這次的痛是「浪費型」的痛——不是系統壞了，是系統在做蠢事：重複查一樣的東西。學員要感受到「這很沒效率」的那種挫折感，才有動力接受快取的解法。
 
@@ -30,7 +30,7 @@
         - 第一行：菜單一天只改一次，但十萬個人各查一次。
         - 第二行：DB 被一樣的問題問到崩潰。
         - 第三行：這不是流量問題，是設計問題。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字 / 同 Slide 1 規格。畫面中央：一個視覺對比區塊——左側標示「菜單更新次數」/ Noto Sans TC 500 / 34 px / `#F4F1EA`，下方巨數字「1」/ JetBrains Mono / 160 px / 900 weight / Mint `#97E8D6`（代表一天更新一次）；右側標示「DB 查詢次數」/ Noto Sans TC 500 / 34 px / `#F4F1EA`，下方巨數字「100,000」/ JetBrains Mono / 80 px / 900 weight / Coral Red `#E8634F`。中間以一個雙向「vs」文字分隔 / Inter 800 / 48 px / `#F4F1EA`。大標置於頂部 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。右下 logo-light.png 64 px。頁尾同規格。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字 / 同 Slide 1 規格。畫面中央：一個視覺對比區塊——左側標示「菜單更新次數」/ Noto Sans TC 500 / 34 px / `#F4F1EA`，下方巨數字「1」/ JetBrains Mono / 160 px / 900 weight / Mint `#97E8D6`（代表一天更新一次）；右側標示「DB 查詢次數」/ Noto Sans TC 500 / 34 px / `#F4F1EA`，下方巨數字「100,000」/ JetBrains Mono / 80 px / 900 weight / Coral Red `#E8634F`。中間以一個雙向「vs」文字分隔 / Inter 800 / 48 px / `#F4F1EA`。大標置於頂部 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。右下 logo-light.png 64 px。頁尾同規格。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：「1 vs 100,000」的數字衝擊讓問題一眼看出來。這不是一道算術題，而是讓學員直觀感受到「浪費」有多荒謬。第三行「這不是流量問題，是設計問題」是關鍵轉折——把責任從使用者身上拉回到設計者身上。
 
@@ -45,7 +45,7 @@
         - 第一行：每次想吃優格，都跑一趟超市——很蠢。
         - 第二行：聰明的做法：買一批，放家裡冰箱，要吃就拿。
         - 第三行：「冰箱」就是快取——把熱資料放在手邊。
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。畫面中央：一個橫向對比插圖（線條插畫，非照片）。左側：「每次跑超市」場景——一個人物線條站在超市圖示（矩形代表建築）前，以 Coral Red `#E8634F` 的「×」符號標示「低效」，下方 Caption「每次都去 DB 查」/ Noto Sans TC 400 / 26 px / `#152238`。右側：「放冰箱」場景——一個冰箱圖示（簡化矩形），冰箱門微開，露出優格圖示（圓形），以 Forest Green `#5B9770` 的「v」符號標示「高效」，下方 Caption「放快取，直接拿」/ Noto Sans TC 400 / 26 px / `#152238`。兩個場景以 Deep Teal `#2E7D86` 線條繪製，水平並排，中間留一個「→」轉向箭頭（Mint `#97E8D6`）。大標在圖上方 / Noto Sans TC 900 / 80 px / `#152238`，居中。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，居中。右下角 logo-dark.png 或 logo-main.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#152238`。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。畫面中央：一個橫向對比插圖（線條插畫，非照片）。左側：「每次跑超市」場景——一個人物線條站在超市圖示（矩形代表建築）前，以 Coral Red `#E8634F` 的「×」符號標示「低效」，下方 Caption「每次都去 DB 查」/ Noto Sans TC 400 / 26 px / `#152238`。右側：「放冰箱」場景——一個冰箱圖示（簡化矩形），冰箱門微開，露出優格圖示（圓形），以 Forest Green `#5B9770` 的「v」符號標示「高效」，下方 Caption「放快取，直接拿」/ Noto Sans TC 400 / 26 px / `#152238`。兩個場景以 Deep Teal `#2E7D86` 線條繪製，水平並排，中間留一個「→」轉向箭頭（Mint `#97E8D6`）。大標在圖上方 / Noto Sans TC 900 / 80 px / `#152238`，居中。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，居中。右下角 logo-dark.png 或 logo-main.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#152238`。
 - 品牌：logo-dark.png 或 logo-main.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：「每次跑超市 vs 放冰箱」是最具體的快取類比。重點是最後一句揭曉：「冰箱就是快取」，讓學員自己在腦中完成類比對應，不要急著解釋，讓 moment of insight 自然發生。
 
@@ -57,7 +57,7 @@
 - 卡片文字：
     - 大標：**快取三個詞，先背起來**
     - 內文：（以詞彙卡取代一般內文，見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「快取三個詞，先背起來」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序排列三張詞彙卡，垂直堆疊，卡片間距 24 px，每張圓角 16 px，底色 Deep Teal `#2E7D86`：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「快取三個詞，先背起來」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序排列三張詞彙卡，垂直堆疊，卡片間距 24 px，每張圓角 16 px，底色 Deep Teal `#2E7D86`：
 
   詞彙卡 A：
   - 上行：`Cache`（JetBrains Mono 500 / 34 px / `#97E8D6`）/ `快取`（Noto Sans TC 500 / 34 px / `#F4F1EA`），以 `/` 分隔
@@ -86,7 +86,7 @@
         - 第一行：記憶體讀取：約 100 奈秒（ns）。
         - 第二行：跨網路讀 DB：約 1-10 毫秒（ms）。
         - 第三行：快取命中比去 DB 快了一萬倍。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「快幾萬倍——不誇張」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「快幾萬倍——不誇張」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 
   大標下方：一個橫向延遲對比圖（視覺化條狀圖，非精確數學）。兩條水平色條，由左對齊起始：
   - 上方色條（短）：標示「記憶體」/ Noto Sans TC 500 / 34 px / `#F4F1EA`，色條顏色 Mint `#97E8D6`，條長約 1/8 畫面寬，右端標示「~100 ns」/ JetBrains Mono 500 / 34 px / `#97E8D6`。
@@ -109,7 +109,7 @@
         - 第一行：Server 先問快取，有就直接回，不打 DB。
         - 第二行：快取沒有，才去 DB 查，然後存進快取。
         - 第三行：（留白）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「架構中間多了一層快取」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「架構中間多了一層快取」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
 
   畫面主體為架構圖 v3，延續 v2 佈局，由左至右橫向排列，置中：
 
@@ -148,7 +148,7 @@
         - 第一行：幾乎所有大站都靠快取扛讀取流量。
         - 第二行：代價：快取沒更新時，客人看到舊菜單。
         - 第三行：（C/A/L/Cost 打分見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「速度快了，但菜單可能是舊的」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「速度快了，但菜單可能是舊的」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
 
   大標下方兩行佐證文字 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60。
 
@@ -179,7 +179,7 @@
         - 第一行：v2 基礎上，在 Server 和 DB 之間加一個 Cache。
         - 第二行：哪條箭頭是 hit？哪條是 miss？
         - 第三行：下章：訂單爆量，一個 DB 放不下了。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v3」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v3」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 
   大標下方兩行提示文字 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。
 

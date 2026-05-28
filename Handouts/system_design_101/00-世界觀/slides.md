@@ -11,7 +11,7 @@
 - 卡片文字：
     - 大標：**你每天用的 App，背後長什麼樣？**
     - 內文：（無內文，全版大標 + 視覺衝擊）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。畫面中央：一支手機線稿輪廓，以 Mint `#97E8D6` 細線條（2 px）繪出，手機螢幕內顯示一個簡化的點餐 icon（碗 + 筷子，單色線條）。大標「你每天用的 App，背後長什麼樣？」以 Noto Sans TC 900 Black / 80 px / `#F4F1EA` 置於手機下方，左對齊，水平位於安全邊距內。左上角 Kicker 標籤：「INTRO」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / `#2E7D86` 底色圓角膠囊（8 px）/ `#F4F1EA` 文字。右下角：`logo-light.png` 高度 64 px。頁尾：「桑尼資料科學 · 版權所有 ©」/ Noto Sans TC 500 / 22 px / `#F4F1EA`，距底部 96 px。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。畫面中央：一支手機線稿輪廓，以 Mint `#97E8D6` 細線條（2 px）繪出，手機螢幕內顯示一個簡化的點餐 icon（碗 + 筷子，單色線條）。大標「你每天用的 App，背後長什麼樣？」以 Noto Sans TC 900 Black / 80 px / `#F4F1EA` 置於手機下方，左對齊，水平位於安全邊距內。左上角 Kicker 標籤：「INTRO」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / `#2E7D86` 底色圓角膠囊（8 px）/ `#F4F1EA` 文字。右下角：`logo-light.png` 高度 64 px。頁尾：「桑尼資料科學 · 版權所有 ©」/ Noto Sans TC 500 / 22 px / `#F4F1EA`，距底部 96 px。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：開場不說廢話。一個問題，讓學員想：「對，我每天開 App 但完全不知道裡面是什麼。」
 
@@ -27,7 +27,7 @@
         - 第一行：從 10 個朋友開始，小小的。
         - 第二行：你負責開發，我來解釋背後發生什麼。
         - 第三行：準備好了嗎？系統等等就要爆了。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 10 用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。中央區域：一個以 Mint `#97E8D6` 描邊的手機圖示（線條風格），螢幕內顯示簡易點餐 UI 示意（三列菜單條目，線條只，非照片）。圖示下方：大標「我們要開一家線上點餐 App」/ Noto Sans TC 900 / 80 px / `#F4F1EA`。大標下方三行內文 / Noto Sans TC 500 / 34 px / 行高 1.60 / `#F4F1EA`。左上角 Kicker 標籤：「INTRO」樣式同 Slide 1。右下 logo-light.png 64 px。頁尾同規格。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 10 用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。中央區域：一個以 Mint `#97E8D6` 描邊的手機圖示（線條風格），螢幕內顯示簡易點餐 UI 示意（三列菜單條目，線條只，非照片）。圖示下方：大標「我們要開一家線上點餐 App」/ Noto Sans TC 900 / 80 px / `#F4F1EA`。大標下方三行內文 / Noto Sans TC 500 / 34 px / 行高 1.60 / `#F4F1EA`。左上角 Kicker 標籤：「INTRO」樣式同 Slide 1。右下 logo-light.png 64 px。頁尾同規格。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：課程的第一個情境設定。學員要有代入感——他們就是那個「開發者」。數字「10」要夠小，讓人覺得「這應該沒問題吧」，埋下後面章節的反差。
 
@@ -42,7 +42,7 @@
         - 第一行：客人點餐 → 服務生傳單 → 廚房做菜
         - 第二行：冰箱存料、菜單放桌上、帳單算完收錢
         - 第三行：每個角色各司其職，缺一不可
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。頂部左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / 文字 Deep Navy `#152238`。中央區域：一個橫向流程插圖（線條插畫風格，非照片），由左至右三個圖示：[人物/客人] → [服務生端盤] → [廚師在爐前]，箭頭用 Deep Teal `#2E7D86`，每個圖示下方 Caption 26 px 標示中文角色名（客人 / 服務生 / 廚師）。圖下方：大標「App 就像一家餐廳」/ Noto Sans TC 900 / 80 px / `#152238`，居中。三行內文 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，居中。右下角：logo-dark.png 或 logo-main.png 高度 64 px。頁尾：「桑尼資料科學 · 版權所有 ©」/ 22 px / `#152238`。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。頂部左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / 文字 Deep Navy `#152238`。中央區域：一個橫向流程插圖（線條插畫風格，非照片），由左至右三個圖示：[人物/客人] → [服務生端盤] → [廚師在爐前]，箭頭用 Deep Teal `#2E7D86`，每個圖示下方 Caption 26 px 標示中文角色名（客人 / 服務生 / 廚師）。圖下方：大標「App 就像一家餐廳」/ Noto Sans TC 900 / 80 px / `#152238`，居中。三行內文 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，居中。右下角：logo-dark.png 或 logo-main.png 高度 64 px。頁尾：「桑尼資料科學 · 版權所有 ©」/ 22 px / `#152238`。
 - 品牌：logo-dark.png 或 logo-main.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：類比拍要讓人「哦！我懂了」。先讓餐廳的畫面在腦子裡跑，技術詞彙下一張才出現。不要急著說 Server。
 
@@ -54,7 +54,7 @@
 - 卡片文字：
     - 大標：**三個你要記住的角色**
     - 內文：（以詞彙卡取代一般內文，見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色 / `#F4F1EA` 文字。頂部大標「三個你要記住的角色」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序排列三張詞彙卡，垂直堆疊，卡片間距 24 px，每張詞彙卡圓角 16 px，底色 Deep Teal `#2E7D86`，內容如下：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色 / `#F4F1EA` 文字。頂部大標「三個你要記住的角色」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序排列三張詞彙卡，垂直堆疊，卡片間距 24 px，每張詞彙卡圓角 16 px，底色 Deep Teal `#2E7D86`，內容如下：
 
   詞彙卡 A：
   - 上行：`Client`（JetBrains Mono 500 / 34 px / `#97E8D6`）/ `客人端`（Noto Sans TC 500 / 34 px / `#F4F1EA`），中英並排，以 `/` 分隔
@@ -83,7 +83,7 @@
         - 第一行：① 手機送出「我要蛋餅」的請求
         - 第二行：② Server 收到，去 DB 查有沒有庫存
         - 第三行：③ DB 回資料，Server 整理後送回手機
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ 同前。大標「點一份蛋餅，發生什麼？」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方：一個垂直流程圖（由上到下），三個方塊依序排列：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ 同前。大標「點一份蛋餅，發生什麼？」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方：一個垂直流程圖（由上到下），三個方塊依序排列：
 
   [手機圖示 + 文字「Client · 你的手機」] 
   ↓（箭頭 Mint `#97E8D6` / 2 px，標「HTTP 請求」/ JetBrains Mono / 26 px）
@@ -107,7 +107,7 @@
         - 第一行：一支手機、一台 Server、一個 DB
         - 第二行：三個方塊，串起整個服務
         - 第三行：（空，讓圖呼吸）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「這就是最簡單的系統」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，上方。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「這就是最簡單的系統」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，上方。
 
   畫面主體為架構圖，水平三方塊排列，置中：
   
@@ -139,7 +139,7 @@
 - 卡片文字：
     - 大標：**之後每個決定，問這四題**
     - 內文：（四格計分卡取代純文字，見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色漸層底色圓角膠囊 / `#F4F1EA` 文字。大標「之後每個決定，問這四題」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色漸層底色圓角膠囊 / `#F4F1EA` 文字。大標「之後每個決定，問這四題」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
 
   大標下方：2×2 格子計分卡，四格等大，圓角 16 px，間距 20 px，整體佔畫面中央 2/3 區域。
 
@@ -184,7 +184,7 @@
         - 第一行：人變多，一台 Server 開始喘不過氣。
         - 第二行：下一章，系統就要爆了。
         - 第三行：（練習區）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「一台機器就夠了⋯嗎？」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「一台機器就夠了⋯嗎？」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 
   大標下方兩行內文 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。
 

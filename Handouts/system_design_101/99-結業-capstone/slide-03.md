@@ -9,7 +9,7 @@ beat: "RECAP"
 kicker: "RECAP"
 layout_type: "tradeoff_scorecard"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -31,13 +31,13 @@ rendering_mode: "image_prompt"
 讓學員用固定框架理解本頁重點。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Deep Teal #2E7D86.
 - Typography and brand placement must follow `../0_STYLE_GUIDE.md`.
 - Use the image prompt for illustration and layout only; keep final Chinese text controlled by the slide text above when possible.
 
 ### Source Visual Direction
-> 1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「RECAP」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「四個維度，任何系統都能評」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
+> 1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「RECAP」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「四個維度，任何系統都能評」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
 >
 >   大標下方：C/A/L/Cost 四格計分卡（2×2），每格圓角 16 px，間距 20 px，整體佔畫面中央 2/3 區域。
 >
@@ -76,7 +76,7 @@ reason: "This slide is illustration/text driven, not a formal architecture diagr
 ```
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is RECAP. Title is "四個維度，任何系統都能評". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is RECAP. Title is "四個維度，任何系統都能評". Follow the source visual direction, with clean line illustration and stable 16:9 PowerPoint slide composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -88,7 +88,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Us
 四格計分卡在第 0 章發放，每章都用它評分，現在最後一次完整複習。核心訊息只有一句：「沒有最好的答案，只有取捨。」這是整門課的哲學精髓。學員看到這四個格子，應該能自動回想起每一章的技術選擇是在哪個維度上得分、在哪個維度上付出代價。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Kicker reads `RECAP` and uses the correct beat color.
 - [ ] Logo and footer are placed according to the style guide.

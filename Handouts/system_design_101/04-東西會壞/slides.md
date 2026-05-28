@@ -15,7 +15,7 @@
         - 第一行：Primary DB 突然離線，服務全面中斷。
         - 第二行：Server 重啟中，請求全部逾時等待。
         - 第三行：一個節點壞，整個系統就跟著倒。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 100 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個簡化架構示意（水平三方塊：Client → Server → DB），其中 DB 方塊（圓角矩形，底色 `#1E3450`）邊框改為 Coral Red `#E8634F` / 4 px，方塊右上角有一個閃電符號（線條，Coral Red，代表「當機」），方塊內文字「Primary DB」/ JetBrains Mono 500 / 28 px / `#F4F1EA`。從 Server 到 DB 的箭頭改為 Coral Red 虛線，標示「X 中斷」/ JetBrains Mono / 18 px / Coral Red。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 100 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個簡化架構示意（水平三方塊：Client → Server → DB），其中 DB 方塊（圓角矩形，底色 `#1E3450`）邊框改為 Coral Red `#E8634F` / 4 px，方塊右上角有一個閃電符號（線條，Coral Red，代表「當機」），方塊內文字「Primary DB」/ JetBrains Mono 500 / 28 px / `#F4F1EA`。從 Server 到 DB 的箭頭改為 Coral Red 虛線，標示「X 中斷」/ JetBrains Mono / 18 px / Coral Red。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：這一章的痛是「硬體本就會壞」——這是任何規模都必須面對的現實，不是優化問題，是生存問題。讓學員感受到：就算前三章的擴展做得再好，硬體故障還是能讓一切瞬間歸零。
 
@@ -30,7 +30,7 @@
         - 第一行：客人送出訂單，網路卡住沒收到回應。
         - 第二行：客人再按一次，Server 收到兩筆訂單。
         - 第三行：帳戶重複扣款，客服電話打爆。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：兩個並排的問題方塊，各自圓角 16 px，底色 `#1E3450`，邊框 Coral Red `#E8634F` / 2 px：左方塊頂部小標「送出 #1」/ Inter 700 / 24 px / Coral Red。主文字「訂單 A」/ Noto Sans TC 700 / 34 px / `#F4F1EA`。下方小字「$320 元」/ JetBrains Mono / 26 px / `#97E8D6`。右方塊頂部小標「送出 #2（重複）」/ Coral Red。主文字「訂單 A」/ 34 px / `#F4F1EA`。下方小字「$320 元」/ JetBrains Mono / 26 px / Coral Red。兩方塊中間有「×2」文字 / Inter 800 / 64 px / Coral Red `#E8634F`。兩方塊下方：一個寬版方塊，底色 `#1E3450`，邊框 Coral Red / 2 px，內文「扣款兩次」/ Noto Sans TC 700 / 34 px / Coral Red，代表後果。大標置於頂部 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在底部 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾同規格。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：兩個並排的問題方塊，各自圓角 16 px，底色 `#1E3450`，邊框 Coral Red `#E8634F` / 2 px：左方塊頂部小標「送出 #1」/ Inter 700 / 24 px / Coral Red。主文字「訂單 A」/ Noto Sans TC 700 / 34 px / `#F4F1EA`。下方小字「$320 元」/ JetBrains Mono / 26 px / `#97E8D6`。右方塊頂部小標「送出 #2（重複）」/ Coral Red。主文字「訂單 A」/ 34 px / `#F4F1EA`。下方小字「$320 元」/ JetBrains Mono / 26 px / Coral Red。兩方塊中間有「×2」文字 / Inter 800 / 64 px / Coral Red `#E8634F`。兩方塊下方：一個寬版方塊，底色 `#1E3450`，邊框 Coral Red / 2 px，內文「扣款兩次」/ Noto Sans TC 700 / 34 px / Coral Red，代表後果。大標置於頂部 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在底部 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾同規格。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：第二個痛比機器掛掉更貼近使用者——重複扣款是每個人都能感同身受的噩夢。這讓學員明白「容錯」不只是基礎設施問題，也是業務邏輯問題，冪等性是答案。
 
@@ -45,7 +45,7 @@
         - 第一行：簽收確認：包裹送到才算完成，沒收到重寄。
         - 第二行：備份路線：主要快遞掛了，換另一條路送。
         - 第三行：不能寄丟，也不能因重寄而送兩份。
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / 深色文字 Deep Navy `#152238`。畫面中央：一個橫向雙路徑插圖（線條插畫，非照片），Deep Teal `#2E7D86` 線條：上方路徑從「寄件人」→ 「主要快遞員」→「收件人（有簽收回條）」；主要快遞員圖示上方畫一個 X（Coral Red / 2 px），表示這條路失敗；下方備援路徑從「寄件人」→「備用快遞員」→「收件人（有簽收回條）」，箭頭用 Mint `#97E8D6`；收件人只有一個（兩條路匯合），右上角有綠色打勾（Forest Green `#5B9770`）。大標在圖上方 / Noto Sans TC 900 / 80 px / `#152238`，居中。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，居中。右下角 logo-dark.png 或 logo-main.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#152238`。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / 深色文字 Deep Navy `#152238`。畫面中央：一個橫向雙路徑插圖（線條插畫，非照片），Deep Teal `#2E7D86` 線條：上方路徑從「寄件人」→ 「主要快遞員」→「收件人（有簽收回條）」；主要快遞員圖示上方畫一個 X（Coral Red / 2 px），表示這條路失敗；下方備援路徑從「寄件人」→「備用快遞員」→「收件人（有簽收回條）」，箭頭用 Mint `#97E8D6`；收件人只有一個（兩條路匯合），右上角有綠色打勾（Forest Green `#5B9770`）。大標在圖上方 / Noto Sans TC 900 / 80 px / `#152238`，居中。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，居中。右下角 logo-dark.png 或 logo-main.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#152238`。
 - 品牌：logo-dark.png 或 logo-main.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：這個類比同時涵蓋兩個痛：備份路線對應容錯備援（Failover），簽收確認對應冪等（Idempotency）。「不能寄丟，也不能送兩份」是這章最精準的一句話，要讓學員記住。
 
@@ -60,7 +60,7 @@
         - 第一行：Failover：主機掛了，自動切到備援節點。
         - 第二行：健康檢查持續偵測各節點是否存活。
         - 第三行：Retry：失敗了自動重送，但要小心重複。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「掛了就切，切了再試」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序兩張詞彙卡，垂直堆疊，卡片間距 24 px：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「掛了就切，切了再試」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序兩張詞彙卡，垂直堆疊，卡片間距 24 px：
 
   詞彙卡 A（Failover / 容錯備援）：
   - 圓角 16 px，底色 Deep Teal `#2E7D86`
@@ -87,7 +87,7 @@
         - 第一行：送出「訂單 #A001」，不管送幾次只建一筆。
         - 第二行：靠唯一訂單編號去重，防止重複扣款。
         - 第三行：Retry 安全的前提，就是操作必須冪等。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「同一個操作做幾次，結果都一樣」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「同一個操作做幾次，結果都一樣」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
 
   詞彙卡 A（Idempotency / 冪等）：
   - 上行：`Idempotency`（JetBrains Mono 500 / 34 px / `#97E8D6`）/ `冪等`（Noto Sans TC 500 / 34 px / `#F4F1EA`），以 `/` 分隔
@@ -110,7 +110,7 @@
         - 第一行：Primary 掛了，自動切換到 Replica 當主。
         - 第二行：健康檢查隨時偵測，發現掛掉立即切換。
         - 第三行：（留白）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「標出會壞的點，加上備援路徑」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「標出會壞的點，加上備援路徑」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
 
   畫面主體為架構圖 v5，延續 v4 佈局，由左至右橫向排列，置中：
 
@@ -159,7 +159,7 @@
         - 第一行：Stripe 等金流每筆請求帶唯一 key，去重防重複。
         - 第二行：付款要「強一致」；看菜單可以「最終一致」。
         - 第三行：（C/A/L/Cost 計分卡見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「金流系統靠冪等防重複扣款」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「金流系統靠冪等防重複扣款」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
 
   大標下方兩行佐證文字 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，左對齊。
 
@@ -192,7 +192,7 @@
         - 第一行：v4 基礎上，加上健康檢查方塊與備援路徑。
         - 第二行：哪個節點標了「會壞的點」？Failover 往哪切？
         - 第三行：下章：圖片和影片，DB 要怎麼存？
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v5」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v5」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 
   大標下方兩行提示文字 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。
 

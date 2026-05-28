@@ -9,7 +9,7 @@ beat: "取捨"
 kicker: "TRADE-OFF"
 layout_type: "interview_answer_template"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -33,7 +33,7 @@ rendering_mode: "image_prompt"
 提供新手可直接套用的面試回答句型。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Deep Teal #2E7D86 with Coral Red cost marker.
 - Use a large fill-in-the-blank sentence card; highlight X/Y/Z/A/B as variable chips.
 - Keep the sentence readable; do not overdecorate.
@@ -79,7 +79,7 @@ reason: "Trade-off sentence template, not runtime data flow."
 - 沒說規模變大後怎麼演進。
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Kicker is TRADE-OFF. Title is "一句話講取捨". Show a large fill-in-the-blank interview sentence template with variable chips and a mini C/A/L/Cost scorecard. Use approved palette only.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Kicker is TRADE-OFF. Title is "一句話講取捨". Show a large fill-in-the-blank interview sentence template with variable chips and a mini C/A/L/Cost scorecard. Use approved palette only.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -90,7 +90,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Ki
 這張直接承接原講義的面試決勝句。小白只要會用這個句型，就能把「技術選擇」變成「有條件、有代價、有升級路線」的系統設計回答。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Variable chips are readable and not confused with real architecture nodes.
 - [ ] No extra generated text appears on the final image.

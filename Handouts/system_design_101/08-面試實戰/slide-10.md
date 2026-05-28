@@ -9,7 +9,7 @@ beat: "小抄"
 kicker: "CHEATSHEET"
 layout_type: "interview_cheatsheet"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -33,7 +33,7 @@ rendering_mode: "image_prompt"
 用一張總結卡收束面試實戰章，讓學員有可複誦的小抄。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Mint #97E8D6.
 - Use a compact cheat-sheet poster with five numbered reminders and one large final sentence.
 - Avoid tiny text; this should still be readable as a social card.
@@ -79,7 +79,7 @@ reason: "Summary slide, not runtime data flow."
 - 不敢說「這個規模暫時不需要 X」。
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Kicker is CHEATSHEET. Title is "最後小抄". Show a compact cheat-sheet poster with five numbered reminders. Use approved palette only and keep all text readable.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Kicker is CHEATSHEET. Title is "最後小抄". Show a compact cheat-sheet poster with five numbered reminders. Use approved palette only and keep all text readable.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -90,7 +90,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Ki
 最後小抄要讓學員帶走一套救命流程。面試卡住時，不要亂加技術，回到需求、估算、v1、爆點、取捨。能說「這個規模不需要 X」也是成熟回答。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Five reminders are present and readable.
 - [ ] No extra generated text appears on the final image.

@@ -9,7 +9,7 @@ beat: "實務"
 kicker: "PRACTICE"
 layout_type: "practice_experience"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -33,7 +33,7 @@ rendering_mode: "image_prompt"
 補足原講義中的實戰經驗：先觀察、再升級、並記錄取捨。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Deep Teal #2E7D86.
 - Show a production dashboard plus a small architecture evolution strip.
 - Keep dashboard generic; no real vendor UI or fake product logo.
@@ -79,7 +79,7 @@ reason: "Operational practice guidance, not a specific runtime flow."
 - 把面試答案當成真實生產系統的唯一答案。
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Kicker is PRACTICE. Title is "實務不是炫技". Show a generic production dashboard and a simple v1 to bottleneck to upgrade flow. Use approved palette only.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Kicker is PRACTICE. Title is "實務不是炫技". Show a generic production dashboard and a simple v1 to bottleneck to upgrade flow. Use approved palette only.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -90,7 +90,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Ki
 這張把面試和工作接起來。實務中真正成熟的做法不是一開始堆滿工具，而是先上簡單方案、量測瓶頸、再用最小必要升級解痛點。這也能讓面試回答更可信。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Dashboard is generic and does not imitate real vendor UI.
 - [ ] No extra generated text appears on the final image.

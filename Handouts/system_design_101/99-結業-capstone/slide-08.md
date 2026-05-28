@@ -9,7 +9,7 @@ beat: "NEXT"
 kicker: "NEXT"
 layout_type: "next_steps"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -33,13 +33,13 @@ rendering_mode: "image_prompt"
 讓學員用固定框架理解本頁重點。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Mint #97E8D6.
 - Typography and brand placement must follow `../0_STYLE_GUIDE.md`.
 - Use the image prompt for illustration and layout only; keep final Chinese text controlled by the slide text above when possible.
 
 ### Source Visual Direction
-> 1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「NEXT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / Deep Navy `#152238` 文字。大標「想再深一點，往這些方向走」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+> 1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「NEXT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / Deep Navy `#152238` 文字。大標「想再深一點，往這些方向走」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 >
 >   大標下方：三個方向方塊，垂直堆疊，間距 20 px，每個方塊圓角 16 px，底色 Deep Teal `#2E7D86`：
 >
@@ -68,7 +68,7 @@ reason: "This slide is illustration/text driven, not a formal architecture diagr
 ```
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is NEXT. Title is "想再深一點，往這些方向走". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is NEXT. Title is "想再深一點，往這些方向走". Follow the source visual direction, with clean line illustration and stable 16:9 PowerPoint slide composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -80,7 +80,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Us
 這張是全課程的最後一張，語氣要是鼓勵 + 開放。三個方向方塊給出進階學習的概念關鍵字，但不給具體資源路徑——學員自己去搜這些關鍵字，就是主動學習的開始。最後一行「你已經不是對架構圖一無所知的初學者了」是給學員帶走的成就感句子，要讓人看完想截圖。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Kicker reads `NEXT` and uses the correct beat color.
 - [ ] Logo and footer are placed according to the style guide.

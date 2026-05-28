@@ -9,7 +9,7 @@ beat: "反模式"
 kicker: "ANTI-PATTERN"
 layout_type: "interview_antipattern"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -33,7 +33,7 @@ rendering_mode: "image_prompt"
 提醒新手避免常見面試反模式，並把課程的逐章演化法轉成答題方法。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Coral Red #E8634F.
 - Use a split visual: left "too much too soon" cluttered sketch crossed out; right "v1 then upgrade" clean path.
 - Do not use nested cards.
@@ -79,7 +79,7 @@ reason: "Behavioral interview guidance, not runtime data flow."
 - 沒說明新元件解決哪個痛點。
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Kicker is ANTI-PATTERN. Title is "不要先畫圖". Show a clean comparison between a crossed-out overcomplicated sketch and a simple v1 to v3 evolution path. Use approved palette only.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Kicker is ANTI-PATTERN. Title is "不要先畫圖". Show a clean comparison between a crossed-out overcomplicated sketch and a simple v1 to v3 evolution path. Use approved palette only.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -90,7 +90,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Ki
 這張補原講義最重要的面試提醒：不要跳過需求和估算直接畫圖。好的回答應該像 101 一樣，一開始只有 v1，接著說「哪裡會爆，所以我加這個能力」。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] The crossed-out anti-pattern does not become the visual focus more than the correct path.
 - [ ] No extra generated text appears on the final image.

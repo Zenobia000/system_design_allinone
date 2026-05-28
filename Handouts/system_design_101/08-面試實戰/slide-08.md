@@ -9,7 +9,7 @@ beat: "追問"
 kicker: "FOLLOW-UP"
 layout_type: "interview_followup"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -33,7 +33,7 @@ rendering_mode: "image_prompt"
 讓新手知道面試追問常見方向，並學會用取捨回答。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Coral Red #E8634F.
 - Use three follow-up cards with small icons: failure, duplicate, tool choice.
 - Framework/tool names may appear as text only; do not use logos here because the point is decision logic, not brand recall.
@@ -79,7 +79,7 @@ reason: "Follow-up question slide, not a runtime technical flow."
 - 沒分清楚同步路徑和非同步路徑。
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Kicker is FOLLOW-UP. Title is "面試官追問". Show three stacked follow-up question cards about failure, duplicate action, and tool choice. Use approved palette only; no logos.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Kicker is FOLLOW-UP. Title is "面試官追問". Show three stacked follow-up question cards about failure, duplicate action, and tool choice. Use approved palette only; no logos.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -90,7 +90,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Ki
 追問是面試最像實務的地方。真實工作裡也會有人問：「如果掛了怎麼辦？」「為什麼不用某工具？」回答時不要急著迎合，要先講風險，再講選擇，再講代價。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Tool names are text only; no fake logos are generated.
 - [ ] No extra generated text appears on the final image.

@@ -101,7 +101,7 @@ v7（Ch6）  Message Queue + Worker Pool 非同步處理層
 - 每頁規格含 frontmatter、On-slide Text、Beginner Anchor、Visual Spec、GPT Image Prompt、Negative Prompt、Speaker Notes、QA Checklist
 - 第 8 章面試實戰頁額外含 Interview Skill、Rubric、Mock Interviewer Prompt、Answer Template、Common Mistakes
 - `layout_type: architecture_diagram` 的頁面必須使用 `Diagram Spec` 程式化渲染，不交給圖片模型自由生成架構拓樸
-- 視覺風格：**LinkedIn 4:5 可滑動卡片**（1080 × 1350 px）
+- 視覺風格：**PPT 16:9 投影片**（1920 × 1080 px）
 - 製作時請搭配 `0_STYLE_GUIDE.md` 確保字型、色票、邊距一致
 - `slides.md` 是章節草稿；`slide-XX.md` 是單頁產圖規格，仍非最終渲染成品
 

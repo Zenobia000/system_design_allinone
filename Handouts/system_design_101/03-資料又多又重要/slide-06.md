@@ -9,7 +9,7 @@ beat: "架構圖"
 kicker: "DIAGRAM"
 layout_type: "architecture_diagram"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: "v4"
@@ -32,14 +32,14 @@ rendering_mode: "programmatic_diagram"
 在上一版架構上新增本章能力區塊，讓演化可視化。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Deep Navy #152238 with Mint edge.
 - Typography and brand placement must follow `../0_STYLE_GUIDE.md`.
 - Render the architecture diagram from `Diagram Spec`; do not ask an image model to invent node positions or arrow topology.
 - Keep only the current chapter capability marked as `new`; previous nodes must use existing styling.
 
 ### Source Visual Direction
-> 1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「DB 變多了，各有分工」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
+> 1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「DB 變多了，各有分工」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
 >
 >   畫面主體為架構圖 v4，延續 v3 佈局，由左至右橫向排列，置中：
 >
@@ -80,7 +80,7 @@ rendering_mode: "programmatic_diagram"
 version: "v4"
 focus: "新增資料層能力區塊：Primary 寫入、Replica 讀取、Shard 分片。"
 rendering_rules:
-  canvas: "1080x1350"
+  canvas: "1920x1080"
   safe_margin_px: 96
   existing_node_border: "Deep Teal #2E7D86 2px"
   new_node_border: "Mint #97E8D6 4px + NEW label"
@@ -183,7 +183,7 @@ edges:
 - Common trap: 把 Replica 當成無成本的即時備份，或在資料量還小時就急著 sharding。
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is DIAGRAM. Title is "DB 變多了，各有分工". Generate only the background, framing, and simple technical icon style; the architecture diagram must be rendered from the Diagram Spec separately.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is DIAGRAM. Title is "DB 變多了，各有分工". Generate only the background, framing, and simple technical icon style; the architecture diagram must be rendered from the Diagram Spec separately.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -197,7 +197,7 @@ v4 是 v3 的 DB 區域大幅擴展。Client、Load Balancer、Server、Cache �
 
 ## QA Checklist
 - [ ] Technical Flow Details match the Diagram Spec edges and do not skip required failure/async behavior.
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Kicker reads `DIAGRAM` and uses the correct beat color.
 - [ ] Logo and footer are placed according to the style guide.

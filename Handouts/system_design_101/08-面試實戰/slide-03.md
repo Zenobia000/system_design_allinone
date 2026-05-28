@@ -9,7 +9,7 @@ beat: "需求"
 kicker: "REQUIREMENTS"
 layout_type: "interview_question_card"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -33,7 +33,7 @@ rendering_mode: "image_prompt"
 讓新手掌握面試開場最該問的問題類型。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Deep Teal #2E7D86.
 - Use a checklist card layout with six compact question chips.
 - Avoid decorative speech bubbles that make the slide look like a comic.
@@ -79,7 +79,7 @@ reason: "Requirement clarification slide, not a system flow slide."
 - 把自己的產品假設當成題目要求。
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Kicker is REQUIREMENTS. Title is "先問需求". Show a clean checklist board with six compact question chips. Use approved palette only, flat editorial style, no fake UI screenshots.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Kicker is REQUIREMENTS. Title is "先問需求". Show a clean checklist board with six compact question chips. Use approved palette only, flat editorial style, no fake UI screenshots.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -90,7 +90,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Ki
 先問需求是面試第一個加分點。這張要教學員用 C/A/L/Cost 反問題目：哪個維度不能犧牲？如果投票系統，一致性重要；如果動態牆，延遲和可用性可能更重要。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Requirement chips remain short and readable.
 - [ ] No extra generated text appears on the final image.

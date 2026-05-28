@@ -9,7 +9,7 @@ beat: "登場"
 kicker: "INTRO"
 layout_type: "instructional_card"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -35,13 +35,13 @@ rendering_mode: "image_prompt"
 建立課程情境與主角 App，降低進入門檻。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Deep Teal #2E7D86.
 - Typography and brand placement must follow `../0_STYLE_GUIDE.md`.
 - Use the image prompt for illustration and layout only; keep final Chinese text controlled by the slide text above when possible.
 
 ### Source Visual Direction
-> 1080×1350 px 直幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 10 用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。中央區域：一個以 Mint `#97E8D6` 描邊的手機圖示（線條風格），螢幕內顯示簡易點餐 UI 示意（三列菜單條目，線條只，非照片）。圖示下方：大標「我們要開一家線上點餐 App」/ Noto Sans TC 900 / 80 px / `#F4F1EA`。大標下方三行內文 / Noto Sans TC 500 / 34 px / 行高 1.60 / `#F4F1EA`。左上角 Kicker 標籤：「INTRO」樣式同 Slide 1。右下 logo-light.png 64 px。頁尾同規格。
+> 1920×1080 px 橫幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 10 用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。中央區域：一個以 Mint `#97E8D6` 描邊的手機圖示（線條風格），螢幕內顯示簡易點餐 UI 示意（三列菜單條目，線條只，非照片）。圖示下方：大標「我們要開一家線上點餐 App」/ Noto Sans TC 900 / 80 px / `#F4F1EA`。大標下方三行內文 / Noto Sans TC 500 / 34 px / 行高 1.60 / `#F4F1EA`。左上角 Kicker 標籤：「INTRO」樣式同 Slide 1。右下 logo-light.png 64 px。頁尾同規格。
 
 ## Diagram Spec
 ```yaml
@@ -50,7 +50,7 @@ reason: "This slide is illustration/text driven, not a formal architecture diagr
 ```
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is INTRO. Title is "線上點餐 App". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is INTRO. Title is "線上點餐 App". Follow the source visual direction, with clean line illustration and stable 16:9 PowerPoint slide composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -62,7 +62,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Us
 課程的第一個情境設定。學員要有代入感——他們就是那個「開發者」。數字「10」要夠小，讓人覺得「這應該沒問題吧」，埋下後面章節的反差。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Kicker reads `INTRO` and uses the correct beat color.
 - [ ] Logo and footer are placed according to the style guide.

@@ -15,7 +15,7 @@
         - 第一行：下單後 Server 同步等待後廚，請求卡住不動。
         - 第二行：五百萬用戶每人每秒刷新，Server 被佔滿。
         - 第三行：後廚慢一點，前台全部塞車。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 500 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個水平流程示意圖。左側：手機圖示（Mint 線條，標「Client」/ JetBrains Mono / 24 px / `#F4F1EA`）。一條箭頭（Coral Red / 2 px / 實線）指向中央「Server」方塊（底色 `#1E3450`，邊框 Coral Red `#E8634F` / 4 px，標「Server」/ JetBrains Mono / 28 px）。Server 方塊右側一條箭頭指向「後廚處理」方塊（底色 `#1E3450`，邊框 Coral Red / 2 px，標「Processing...」/ JetBrains Mono / 24 px / Coral Red）。後廚處理方塊右側有一個大型沙漏 icon（線條，Coral Red），右側標示「等待中...」/ Noto Sans TC 700 / 34 px / Coral Red。Server 方塊下方有一個佇列容量條，填充 95%（Coral Red），標「請求積壓」/ JetBrains Mono / 22 px / Coral Red。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 500 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個水平流程示意圖。左側：手機圖示（Mint 線條，標「Client」/ JetBrains Mono / 24 px / `#F4F1EA`）。一條箭頭（Coral Red / 2 px / 實線）指向中央「Server」方塊（底色 `#1E3450`，邊框 Coral Red `#E8634F` / 4 px，標「Server」/ JetBrains Mono / 28 px）。Server 方塊右側一條箭頭指向「後廚處理」方塊（底色 `#1E3450`，邊框 Coral Red / 2 px，標「Processing...」/ JetBrains Mono / 24 px / Coral Red）。後廚處理方塊右側有一個大型沙漏 icon（線條，Coral Red），右側標示「等待中...」/ Noto Sans TC 700 / 34 px / Coral Red。Server 方塊下方有一個佇列容量條，填充 95%（Coral Red），標「請求積壓」/ JetBrains Mono / 22 px / Coral Red。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：同步處理的問題在於：一個慢操作，把所有後面的請求都卡住了。這讓學員感受到：當處理速度跟不上請求速度，同步架構會崩潰。外送餐點、影片轉檔、寄送郵件——這些都是「不應該同步等」的場景。
 
@@ -30,7 +30,7 @@
         - 第一行：同步處理：Server 等後廚做完才回應。
         - 第二行：尖峰時段一百個請求同時進來，全部排隊。
         - 第三行：最後進來的用戶，等到逾時直接報錯。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一條垂直請求列（左側），八個請求方塊（圓角矩形，底色 `#1E3450`，邊框 Coral Red `#E8634F` / 1 px）垂直堆疊，各自標示「請求 #1」至「請求 #8」/ JetBrains Mono / 22 px / `#F4F1EA`。最頂端的「請求 #1」有一條箭頭（Mint / 實線）指向右側「Server」方塊（底色 `#1E3450`，邊框 Deep Teal / 2 px）。Server 右側一條虛線箭頭（Coral Red）指向「後廚 Processing」方塊（底色 `#1E3450`，邊框 Coral Red / 4 px），旁邊有沙漏 icon（Coral Red），標「慢...」/ Noto Sans TC 700 / 28 px / Coral Red。其餘請求 #2 至 #8 旁邊各有一個等待 icon（小時鐘，Coral Red）。最底部「請求 #8」旁邊有紅色 X icon，標「逾時」/ Noto Sans TC 700 / 26 px / Coral Red。大標置於頂部 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在底部 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾同規格。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一條垂直請求列（左側），八個請求方塊（圓角矩形，底色 `#1E3450`，邊框 Coral Red `#E8634F` / 1 px）垂直堆疊，各自標示「請求 #1」至「請求 #8」/ JetBrains Mono / 22 px / `#F4F1EA`。最頂端的「請求 #1」有一條箭頭（Mint / 實線）指向右側「Server」方塊（底色 `#1E3450`，邊框 Deep Teal / 2 px）。Server 右側一條虛線箭頭（Coral Red）指向「後廚 Processing」方塊（底色 `#1E3450`，邊框 Coral Red / 4 px），旁邊有沙漏 icon（Coral Red），標「慢...」/ Noto Sans TC 700 / 28 px / Coral Red。其餘請求 #2 至 #8 旁邊各有一個等待 icon（小時鐘，Coral Red）。最底部「請求 #8」旁邊有紅色 X icon，標「逾時」/ Noto Sans TC 700 / 26 px / Coral Red。大標置於頂部 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在底部 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。右下 logo-light.png 64 px。頁尾同規格。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：視覺重點是「一長排等待的請求」讓人直覺感受到阻塞的可怕。最後一個請求逾時報錯是讓學員記住的痛——逾時在系統設計中是「最壞的失敗方式之一」，因為用戶不知道操作到底有沒有成功。
 
@@ -45,7 +45,7 @@
         - 第一行：點完餐拿號碼牌，去坐著，廚房慢慢做。
         - 第二行：好了叫號通知，客人再來取餐。
         - 第三行：窗口不堵車，客人也不用乾等。
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / 深色文字 Deep Navy `#152238`。畫面中央：一個三步驟流程插圖（橫向，線條插畫，Deep Teal `#2E7D86` 線條），由左至右：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / 深色文字 Deep Navy `#152238`。畫面中央：一個三步驟流程插圖（橫向，線條插畫，Deep Teal `#2E7D86` 線條），由左至右：
 
   步驟一：客人圖示在窗口取號碼牌（號碼牌圖示，標「#42」），下方 Caption「拿號碼牌」/ Noto Sans TC 400 / 26 px / `#152238`。
 
@@ -74,7 +74,7 @@
         - 第一行：Queue：請求進來先排進佇列，立刻回應客人。
         - 第二行：Worker：背景慢慢從 Queue 取出任務處理。
         - 第三行：Server 解放，尖峰流量不再塞車。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「請求先排隊，Worker 慢慢處理」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序兩張詞彙卡，垂直堆疊，卡片間距 24 px：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「請求先排隊，Worker 慢慢處理」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方依序兩張詞彙卡，垂直堆疊，卡片間距 24 px：
 
   詞彙卡 A（Message Queue / 訊息佇列）：
   - 圓角 16 px，底色 Deep Teal `#2E7D86`
@@ -101,7 +101,7 @@
         - 第一行：推播通知：Server 主動推送「你的餐好了」。
         - 第二行：長輪詢：Client 問一次，Server 等到有消息才回。
         - 第三行：兩種方式讓客人不用自己一直刷新。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「Worker 做完了，怎麼告訴客人？」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方兩張詞彙卡，垂直堆疊，卡片間距 24 px：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「Worker 做完了，怎麼告訴客人？」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方兩張詞彙卡，垂直堆疊，卡片間距 24 px：
 
   詞彙卡 A（Push Notification / 推播通知）：
   - 圓角 16 px，底色 Deep Teal `#2E7D86`
@@ -128,7 +128,7 @@
         - 第一行：請求進 Queue，Worker 從 Queue 取出慢慢處理。
         - 第二行：Server 只管接收，不再被慢任務拖住。
         - 第三行：（留白）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「非同步層加入，接近完整後端架構」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「非同步層加入，接近完整後端架構」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
 
   畫面主體為架構圖 v7，延續 v6 佈局，由左至右橫向排列，置中：
 
@@ -184,7 +184,7 @@
         - 第一行：Uber Eats 和 Foodpanda 用 Queue 處理訂單狀態。
         - 第二行：解耦讓系統能扛尖峰；代價是結果不是即時的。
         - 第三行：（C/A/L/Cost 計分卡見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「外送 App 訂單狀態都走佇列 + 推播」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「外送 App 訂單狀態都走佇列 + 推播」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
 
   大標下方兩行佐證文字 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60，左對齊。
 
@@ -215,7 +215,7 @@
         - 第一行：v6 基礎上，Server 下方加一條箭頭進 Queue，Queue 接 Worker Pool。
         - 第二行：Worker 做完後，結果往哪走？通知怎麼回？
         - 第三行：恭喜：你已能默畫現代後端完整架構。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v7」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v7」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 
   大標下方兩行提示文字 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。
 

@@ -9,7 +9,7 @@ beat: "預告"
 kicker: "PREVIEW"
 layout_type: "practice_preview"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -34,13 +34,13 @@ rendering_mode: "image_prompt"
 用默畫練習收束本章，並銜接下一個痛點。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Mint #97E8D6.
 - Typography and brand placement must follow `../0_STYLE_GUIDE.md`.
 - Use the image prompt for illustration and layout only; keep final Chinese text controlled by the slide text above when possible.
 
 ### Source Visual Direction
-> 1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / Deep Navy `#152238` 文字。大標「闔上這頁，默畫含搜尋的架構圖」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+> 1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / Deep Navy `#152238` 文字。大標「闔上這頁，默畫含搜尋的架構圖」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 >
 >   大標下方兩行提示文字 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60，左對齊。
 >
@@ -61,7 +61,7 @@ reason: "Practice prompt slide; it asks learners to redraw the architecture and 
 ```
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is PREVIEW. Title is "默畫搜尋架構". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is PREVIEW. Title is "默畫搜尋架構". Follow the source visual direction, with clean line illustration and stable 16:9 PowerPoint slide composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -73,7 +73,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Us
 這張收尾強調選配章的設計邏輯：v7+ 是「旁路」，不改動主線架構，只是加一個獨立的搜尋服務旁掛上去。讓學員理解「系統演化不一定是線性的，有時候是旁路擴充」。Caption 點明：加一個方塊，不改動主線，這是微服務拆分的前身思維。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Kicker reads `PREVIEW` and uses the correct beat color.
 - [ ] Logo and footer are placed according to the style guide.

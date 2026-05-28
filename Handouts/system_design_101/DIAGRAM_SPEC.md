@@ -8,7 +8,7 @@
 version: "v7"
 focus: "本頁新增能力的一句話"
 rendering_rules:
-  canvas: "1080x1350"
+  canvas: "1920x1080"
   safe_margin_px: 96
   existing_node_border: "Deep Teal #2E7D86 2px"
   new_node_border: "Mint #97E8D6 4px + NEW label"

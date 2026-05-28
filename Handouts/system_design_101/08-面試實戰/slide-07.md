@@ -9,7 +9,7 @@ beat: "示範"
 kicker: "WALKTHROUGH"
 layout_type: "interview_architecture_walkthrough"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: "interview-vote-v1"
@@ -33,7 +33,7 @@ rendering_mode: "programmatic_diagram"
 用一題面試題示範需求、估算、v1、爆點與取捨如何合在一起。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Deep Navy #152238 with Coral Red challenge accent.
 - Render the architecture diagram from `Diagram Spec`; do not ask an image model to invent topology.
 - Mark the idempotency guard and Primary DB as the correctness-critical path.
@@ -46,7 +46,7 @@ rendering_mode: "programmatic_diagram"
 version: "interview-vote-v1"
 focus: "線上投票系統：先保證每人只能投一次，再提供即時票數顯示。"
 rendering_rules:
-  canvas: "1080x1350"
+  canvas: "1920x1080"
   safe_margin_px: 96
   existing_node_border: "Deep Teal #2E7D86 2px"
   new_node_border: "Mint #97E8D6 4px"
@@ -171,7 +171,7 @@ reason: "No real company, framework, package, or product logo is referenced."
 - 只談高併發，不談一致性。
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Kicker is WALKTHROUGH. Title is "投票題示範". Generate only background, framing, and clean technical icon style; the architecture diagram must be rendered from Diagram Spec separately.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Kicker is WALKTHROUGH. Title is "投票題示範". Generate only background, framing, and clean technical icon style; the architecture diagram must be rendered from Diagram Spec separately.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -183,7 +183,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Ki
 
 ## QA Checklist
 - [ ] Technical Flow Details match the Diagram Spec edges and do not skip idempotency behavior.
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Kicker reads `WALKTHROUGH` and uses the correct beat color.
 - [ ] All diagram edges reference existing node ids.

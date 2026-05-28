@@ -15,7 +15,7 @@
         - 第一行：一百萬個訂單，DB 寫入速度越來越慢。
         - 第二行：容量快滿了，每次查詢都要等更久。
         - 第三行：一台 DB 壞掉，所有訂單全部消失。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 100 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個 DB 圓柱方塊（底色 `#1E3450`，邊框 Coral Red `#E8634F` / 4 px）。方塊下方加一個視覺化容量條（進度條樣式），底色 `#1E3450`，填充色 Coral Red `#E8634F`，填充到 90% 以上，代表「快滿了」，右端標示「90% FULL」/ JetBrains Mono 500 / 26 px / `#E8634F`。方塊右側加一個裂縫 icon（線條，Coral Red），代表壓力極限。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。頂部安全邊距內：進度條膠囊「服務 100 萬用戶」，底色 Mint `#97E8D6`，文字 Deep Navy `#152238`，Inter 700 + JetBrains Mono（數字部分）/ 34 px，圓角 20 px，左對齊。左上角 Kicker 標籤：「PAIN POINT」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字。畫面中央：一個 DB 圓柱方塊（底色 `#1E3450`，邊框 Coral Red `#E8634F` / 4 px）。方塊下方加一個視覺化容量條（進度條樣式），底色 `#1E3450`，填充色 Coral Red `#E8634F`，填充到 90% 以上，代表「快滿了」，右端標示「90% FULL」/ JetBrains Mono 500 / 26 px / `#E8634F`。方塊右側加一個裂縫 icon（線條，Coral Red），代表壓力極限。大標置於圖上方 / Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。三行內文在圖下方 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。右下 logo-light.png 64 px。頁尾「桑尼資料科學 · 版權所有 ©」/ 22 px / `#F4F1EA`，距底部 96 px。
 - 品牌：logo-light.png 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：這章的痛是雙重的：效能（太慢）加上可靠性（壞了就沒了）。學員要感受到「訂單資料不能消失」這個重量——相比菜單查詢，訂單是金錢，消失代表更大的損失。這種情感重量才能讓後面的解法顯得必要。
 
@@ -30,7 +30,7 @@
         - 第一行：危機一：讀寫請求太多，DB 跑不動。
         - 第二行：危機二：容量快滿，資料快放不下。
         - 第三行：這兩個問題需要不同的解法。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字 / 同 Slide 1 規格。畫面中央：兩個並排的問題方塊，各自圓角 16 px，底色 `#1E3450`，邊框 Coral Red `#E8634F` / 2 px：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PAIN POINT」/ Coral Red `#E8634F` 底色圓角膠囊 / `#F4F1EA` 文字 / 同 Slide 1 規格。畫面中央：兩個並排的問題方塊，各自圓角 16 px，底色 `#1E3450`，邊框 Coral Red `#E8634F` / 2 px：
 
   左方塊：頂部小標「危機一」/ Inter 700 / 24 px / Coral Red `#E8634F`。主文字「讀寫太慢」/ Noto Sans TC 700 / 34 px / `#F4F1EA`。下方小字「DB 回應越來越慢，撐不住請求量」/ Noto Sans TC 400 / 26 px / `#F4F1EA` / 行高 1.40。
 
@@ -53,7 +53,7 @@
         - 第一行：常用的食物多備幾台冰箱——壞了不怕，備份有。
         - 第二行：東西太多放不下，就依種類分不同冰箱存。
         - 第三行：複本解決「讀太慢」，分片解決「放不下」。
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。畫面中央：兩組冰箱插圖（線條插畫，非照片），以深海軍藍 Deep Teal `#2E7D86` 線條繪製：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「ANALOGY」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。畫面中央：兩組冰箱插圖（線條插畫，非照片），以深海軍藍 Deep Teal `#2E7D86` 線條繪製：
 
   左組（複本類比）：一台主冰箱（略大）旁邊有兩台較小的備份冰箱，主冰箱向兩台備份各畫一條箭頭（Mint `#97E8D6`），代表「複製」。三台冰箱排成三角形。下方 Caption「複本：多備幾台，讀取分流」/ Noto Sans TC 400 / 26 px / `#152238`。
 
@@ -74,7 +74,7 @@
         - 第一行：主 DB（Primary）負責所有寫入。
         - 第二行：複本（Replica）只負責讀取，同步主 DB 的資料。
         - 第三行：讀寫分離，讓兩邊都不會太忙。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「讀太慢？加複本來分擔」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Inter 700 / 24 px / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「讀太慢？加複本來分擔」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
 
   詞彙卡 A：
   - 上行：`Read Replica`（JetBrains Mono 500 / 34 px / `#97E8D6`）/ `讀取複本`（Noto Sans TC 500 / 34 px / `#F4F1EA`），以 `/` 分隔
@@ -97,7 +97,7 @@
         - 第一行：把資料依規則切成多份，各存到不同 DB。
         - 第二行：例如：用戶 1-100 萬存 DB1，101-200 萬存 DB2。
         - 第三行：每台 DB 只存一部分，容量問題解決。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「放不下？把資料切開存」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「CONCEPT」/ Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「放不下？把資料切開存」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。大標下方一張詞彙卡，圓角 16 px，底色 Deep Teal `#2E7D86`：
 
   詞彙卡 A：
   - 上行：`Sharding`（JetBrains Mono 500 / 34 px / `#97E8D6`）/ `分片`（Noto Sans TC 500 / 34 px / `#F4F1EA`），以 `/` 分隔
@@ -120,7 +120,7 @@
         - 第一行：Primary DB 負責寫入，Replica 負責讀取。
         - 第二行：資料依規則切片，分存到多台 DB。
         - 第三行：（留白）
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「DB 變多了，各有分工」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「DIAGRAM」/ Inter 700 / 24 px / Deep Navy `#152238` 底色 + Mint `#97E8D6` 左側 4 px 色條 / `#F4F1EA` 文字。大標「DB 變多了，各有分工」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
 
   畫面主體為架構圖 v4，延續 v3 佈局，由左至右橫向排列，置中：
 
@@ -169,7 +169,7 @@
         - 第一行：大型電商訂單庫都分片加複本，撐住百億資料。
         - 第二行：但複本可能短暫不同步，跨片查詢變複雜。
         - 第三行：（C/A/L/Cost 打分見視覺 prompt）
-- 視覺 prompt：1080×1350 px 直幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「大電商的訂單系統都長這樣」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Warm White `#F4F1EA`。左上角 Kicker 標籤：「TRADE-OFF」/ Inter 700 / 24 px / 全大寫 / 左半 Deep Teal `#2E7D86`、右半 Coral Red `#E8634F` 雙色並陳底色圓角膠囊 / `#F4F1EA` 文字。大標「大電商的訂單系統都長這樣」/ Noto Sans TC 900 / 80 px / `#152238`，左對齊。
 
   大標下方兩行佐證文字 / Noto Sans TC 500 / 34 px / `#152238` / 行高 1.60。
 
@@ -200,7 +200,7 @@
         - 第一行：v3 基礎上，DB 區域長出 Primary + Replica + 分片。
         - 第二行：哪條箭頭是寫入？哪條是讀取同步？
         - 第三行：下章：機器壞了怎麼辦？資料不能消失。
-- 視覺 prompt：1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v4」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
+- 視覺 prompt：1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「PREVIEW」/ Inter 700 / 24 px / Mint `#97E8D6` 底色圓角膠囊 / `#152238` 文字。大標「闔上這頁，默畫架構圖 v4」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊。
 
   大標下方兩行提示文字 / Noto Sans TC 500 / 34 px / `#F4F1EA` / 行高 1.60。
 

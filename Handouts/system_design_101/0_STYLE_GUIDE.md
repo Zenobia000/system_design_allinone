@@ -8,10 +8,10 @@
 
 | 項目 | 值 |
 |------|----|
-| 尺寸 | 1080 × 1350 px（4:5 直幅） |
+| 尺寸 | 1920 × 1080 px（16:9 橫幅） |
 | 安全邊距 | 四邊各 96 px |
-| 內容可用區 | 888 × 1158 px |
-| 色彩模式 | RGB（社群平台輸出） |
+| 內容可用區 | 1728 × 888 px |
+| 色彩模式 | RGB（PPT / 螢幕簡報輸出） |
 | 解析度 | 72 dpi（螢幕）/ 導出 @2x 給高密度螢幕 |
 
 ---
@@ -20,7 +20,7 @@
 
 | 用途 | 中文字型 | 拉丁 / 數字 | 選用理由 |
 |------|----------|-------------|----------|
-| 標題 Display | Noto Sans TC 900 Black | Inter 800 ExtraBold | 粗體在 feed 縮圖也讀得到 |
+| 標題 Display | Noto Sans TC 900 Black | Inter 800 ExtraBold | 粗體在投影與螢幕分享時也讀得到 |
 | 內文 Body | Noto Sans TC 500 Medium | Inter 500 Medium | 高易讀、專業中性 |
 | 技術名詞 / 數字標註 | — | JetBrains Mono 500 Regular | 等寬字型 = 技術術語視覺信號 |
 
@@ -28,7 +28,7 @@
 
 ---
 
-## 字級階層（基準：1080 × 1350 px）
+## 字級階層（基準：1920 × 1080 px）
 
 | 角色 | 字級 | 字重 | 行高 | 備註 |
 |------|------|------|------|------|
@@ -164,7 +164,7 @@
 - 卡片文字：
     - 大標：[≤ 14 中文字，粗體]
     - 內文：[≤ 3 行，每行 ≤ 18 中文字，白話]
-- 視覺 prompt：[可直接拿去生成的圖像/版面描述，含 4:5 尺寸說明、字型、品牌色票]
+- 視覺 prompt：[可直接拿去生成的圖像/版面描述，含 16:9 PPT 尺寸說明、字型、品牌色票]
 - 品牌：logo 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
 - 旁白：（選填，供講師/錄音稿使用）
 ```
@@ -181,7 +181,7 @@ beat: "六拍之一"
 kicker: "PAIN POINT / ANALOGY / CONCEPT / DIAGRAM / TRADE-OFF / PREVIEW"
 layout_type: "layout id"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 rendering_mode: "image_prompt | programmatic_diagram"
 diagram_version: "vN 或空字串"
 ---
@@ -216,7 +216,7 @@ diagram_version: "vN 或空字串"
 
 - 正式架構圖頁除了 `Diagram Spec`，還必須有 `Technical Flow Details`
 - 技術流程需說明讀寫路徑、同步/非同步、快取命中/未命中、複寫延遲、重試、Failover、Queue ack/retry、搜尋索引同步等關鍵細節
-- 若一張 4:5 圖面放不下所有細節，圖面可分層，但 `Technical Flow Details` 不可省略
+- 若一張 16:9 投影片放不下所有細節，圖面可分層，但 `Technical Flow Details` 不可省略
 
 ---
 
@@ -224,7 +224,7 @@ diagram_version: "vN 或空字串"
 
 製作每張卡片前，確認：
 
-- [ ] 畫布 1080 × 1350 px，安全邊距 96 px
+- [ ] 畫布 1920 × 1080 px，安全邊距 96 px
 - [ ] 大標 ≤ 14 字，內文每行 ≤ 18 字，整卡 ≤ 3 行
 - [ ] 字型：標題 Noto Sans TC 900 + Inter 800；內文 Noto Sans TC 500 + Inter 500
 - [ ] 術語使用 JetBrains Mono

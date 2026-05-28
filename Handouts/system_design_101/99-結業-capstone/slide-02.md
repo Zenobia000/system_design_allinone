@@ -9,7 +9,7 @@ beat: "RECAP"
 kicker: "RECAP"
 layout_type: "recap_timeline"
 audience_level: "beginner"
-output: "1080x1350"
+output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
 diagram_version: ""
@@ -34,13 +34,13 @@ rendering_mode: "image_prompt"
 讓學員用固定框架理解本頁重點。
 
 ## Visual Spec
-- Canvas: `1080 x 1350 px`, safe margin `96 px`.
+- Canvas: `1920 x 1080 px`, safe margin `96 px`.
 - Beat color: Deep Teal #2E7D86.
 - Typography and brand placement must follow `../0_STYLE_GUIDE.md`.
 - Use the image prompt for illustration and layout only; keep final Chinese text controlled by the slide text above when possible.
 
 ### Source Visual Direction
-> 1080×1350 px 直幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「RECAP」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「v1 到 v7，每章長一個能力區塊」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
+> 1920×1080 px 橫幅。底色 Deep Navy `#152238`。左上角 Kicker 標籤：「RECAP」/ Inter 700 / 24 px / 全大寫 / 字距 0.12 em / Deep Teal `#2E7D86` 底色圓角膠囊 / `#F4F1EA` 文字。大標「v1 到 v7，每章長一個能力區塊」/ Noto Sans TC 900 / 80 px / `#F4F1EA`，左對齊，頂部。
 >
 >   大標下方：一條垂直演化時間軸，從上到下七個節點，每個節點左側為版本號標籤、右側為一句話說明。節點圓形（直徑 20 px，Mint `#97E8D6` 填充），節點之間的連線為 Mint `#97E8D6` 細線（2 px）。七個節點依序：
 >
@@ -63,7 +63,7 @@ reason: "Recap timeline slide; render as a version timeline rather than a formal
 ```
 
 ## GPT Image Prompt
-Create a 1080x1350 vertical educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is RECAP. Title is "v1 到 v7". Follow the source visual direction, with clean line illustration and stable 4:5 social-card composition.
+Create a 1920x1080 horizontal PowerPoint educational slide in the System Design 101 brand. Use Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F only. Kicker is RECAP. Title is "v1 到 v7". Follow the source visual direction, with clean line illustration and stable 16:9 PowerPoint slide composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -75,7 +75,7 @@ Create a 1080x1350 vertical educational slide in the System Design 101 brand. Us
 這張是全課程最關鍵的複習卡。七個版本、七個方塊、七次爆點解藥，一張卡掃完。不需要重新解釋每個技術——學員看到「v3 Cache」就應該自己想起「菜單不再重複查 DB」的那個場景。如果腦子裡能把這條線完整跑一遍，就代表他真的理解了架構演化的邏輯。
 
 ## QA Checklist
-- [ ] Canvas is 1080 x 1350 px with 96 px safe margin.
+- [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
 - [ ] Title fits within 14 Chinese characters or uses the shortened title above.
 - [ ] Kicker reads `RECAP` and uses the correct beat color.
 - [ ] Logo and footer are placed according to the style guide.
