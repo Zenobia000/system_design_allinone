@@ -35,13 +35,13 @@
 ### Slide 03 · 開發護欄
 - 節奏拍：方法（METHOD）
 - 卡片文字（詞彙卡）：
-  - 詞彙卡 1：Git Flow / GitHub Flow — 分支策略，6 人以下用 trunk-based 或 GitHub flow
+  - 詞彙卡 1：GitHub Flow — 分支策略，6 人推薦 GitHub Flow，短命分支合 PR；成熟後可走 trunk-based
   - 詞彙卡 2：Linter / Formatter — ruff + black；Python 格式自動化
   - 詞彙卡 3：CI Gate — PR 合併前跑 lint + test；失敗則不可合併
   - 詞彙卡 4：Scaffold — 專案腳手架；新成員 5 分鐘能跑起來
 - 視覺 prompt：1920x1080，Deep Navy 底，四個詞彙卡 2×2 排列，Deep Teal 底，Warm White 字，METHOD kicker。
 - 品牌：logo 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
-- 旁白：開發護欄不是為了限制工程師，是為了讓 6 人小團隊的新成員第一天就知道規則。分支策略：6 人以下推薦 GitHub Flow 或 trunk-based，feature branch 短命；放棄 Git Flow 的 develop/release 分支，那是 10 人以上才有必要的複雜度。Linter + Formatter：Python 用 ruff（快速 lint）+ black（格式化），一個 .pre-commit-config.yaml 統一全團隊。CI Gate：PR 合併前必過 lint + unit test，用 GitHub Actions / GitLab CI，失敗則不可 merge。Scaffold：一個 `make init` 或 `cookiecutter` 模板，新成員 clone repo 後 5 分鐘跑起來，不需要問「怎麼啟動這個 service」。
+- 旁白：開發護欄不是為了限制工程師，是為了讓 6 人小團隊的新成員第一天就知道規則。分支策略：6 人以下推薦 GitHub Flow（短命 feature branch + PR），團隊更成熟後可走 trunk-based；放棄 Git Flow 的 develop/release 分支，那是 10 人以上才有必要的複雜度。Linter + Formatter：Python 用 ruff（快速 lint）+ black（格式化），一個 .pre-commit-config.yaml 統一全團隊。CI Gate：PR 合併前必過 lint + unit test，用 GitHub Actions / GitLab CI，失敗則不可 merge。Scaffold：一個 `make init` 或 `cookiecutter` 模板，新成員 clone repo 後 5 分鐘跑起來，不需要問「怎麼啟動這個 service」。
 
 ---
 
@@ -108,11 +108,11 @@
 - 卡片文字（詞彙卡 / 句型）：
   - 詞彙卡 1：無實權影響力 — 沒有預算決定權，靠論點說服決策者
   - 詞彙卡 2：因人而異溝通 — 對老闆講錢/風險；對工程師講複雜度
-  - 對老闆的句型：「現在每小時停機損失 $20,000；監控投資每月 $300；把故障發現從 30 分鐘壓到 1 分鐘，一年省 > $100,000」
+  - 對老闆的句型：「現在每小時停機損失 $20,000；監控投資每月 $300；把故障發現從 30 分鐘壓到 1 分鐘，一次停機就省 > $10,000」
   - 對工程師的句型：「有 Traces，你 15 分鐘找到慢查詢；沒有，你除錯三天」
 - 視覺 prompt：1920x1080，Deep Navy 底，兩個詞彙卡 + 兩個引言句框，METHOD kicker，Mint/Teal 對話框視覺。
 - 品牌：logo 右下 64 px + 頁尾「桑尼資料科學 · 版權所有 ©」
-- 旁白：架構師沒有預算決定權，但有說服義務。對老闆，用錢說話：每小時停機 $20,000，監控工具每月 $300（Grafana Cloud free tier 足夠），把故障發現時間從 30 分鐘壓到 1 分鐘，一年省超過 $100,000——ROI 非常清楚。對工程師，用時間說話：有 Traces，你 15 分鐘找到慢查詢在哪個服務；沒有，你 print + 猜、除錯三天。因人而異溝通是實用技能，不是政治技巧——同一件事，換一個聽眾聽得懂的語言說清楚。
+- 旁白：架構師沒有預算決定權，但有說服義務。對老闆，用錢說話：每小時停機 $20,000，監控工具每月 $300（Grafana Cloud free tier 足夠），把故障發現時間從 30 分鐘壓到 1 分鐘，一次停機就省 > $10,000——ROI 非常清楚。對工程師，用時間說話：有 Traces，你 15 分鐘找到慢查詢在哪個服務；沒有，你 print + 猜、除錯三天。因人而異溝通是實用技能，不是政治技巧——同一件事，換一個聽眾聽得懂的語言說清楚。
 
 ---
 

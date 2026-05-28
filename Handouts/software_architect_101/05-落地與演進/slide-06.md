@@ -47,7 +47,7 @@ rendering_mode: "programmatic_diagram"
 - Title: Noto Sans TC 900 / 80 px / Warm White, left-aligned.
 - Main diagram (~65% canvas width, left/center): Telemetry data flow, rendered programmatically per Diagram Spec.
   - All node text: JetBrains Mono 500 / 28 px / Warm White.
-  - New nodes (OTel Collector, Prometheus, Grafana, Trace Backend): Mint `#97E8D6` 4 px border + `NEW` label.
+  - New nodes (OTel Collector, Prometheus, Grafana, Trace Backend, Log Backend): Mint `#97E8D6` 4 px border + `NEW` label.
   - Existing nodes (Ingest API, Processor, Query API): Deep Teal `#2E7D86` 2 px border.
   - Observe edges: Mint `#97E8D6` dashed 2 px.
   - Version label bottom-right of diagram: `白皮書 v5`, JetBrains Mono / 26 px / Mint `#97E8D6`.
@@ -127,7 +127,7 @@ nodes:
     type: "database"
     group: "observability_backends"
     status: "new"
-    note: "v5 新增。Prometheus 以 scrape 模式從 OTel Collector 或各服務 /metrics endpoint 拉取指標。儲存時序數值，供 Grafana 查詢與告警規則評估。"
+    note: "v5 新增。Prometheus 以 scrape（pull）模式從 OTel Collector :8889/metrics 拉取指標。儲存時序數值，供 Grafana 查詢與告警規則評估。"
 
   - id: "grafana"
     label: "Grafana"
@@ -179,10 +179,10 @@ edges:
   # OTel Collector → Backends (observe: export)
   - from: "otel_collector"
     to: "prometheus"
-    label: "Metrics export (scrape / remote_write)"
+    label: "metrics scrape (pull)"
     style: "dashed"
     meaning: "observe"
-    note: "OTel Collector 以 Prometheus remote_write 或 expose /metrics endpoint 讓 Prometheus scrape。指標包含：request_count、latency_p99、consumer_lag、cache_hit_rate 等。"
+    note: "OTel Collector expose /metrics endpoint (:8889)，Prometheus 以 scrape（pull 模式）定期拉取指標。指標包含：request_count、latency_p99、consumer_lag、cache_hit_rate 等。（remote_write 為另一選項，本案採 scrape。）"
 
   - from: "otel_collector"
     to: "trace_backend"
@@ -362,7 +362,7 @@ Grafana 連接三個資料源（Prometheus、Tempo、Loki），提供統一 UI�
 not_applicable — this is an artifact slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v5 · 落地與演進" Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書 v5：可觀察性" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: left/center (~65% width) — telemetry data flow diagram rendered programmatically (topology from Diagram Spec). Three service nodes (Ingest API, Processor, Query API) on left, Deep Teal #2E7D86 2 px border (existing), with dashed Mint #97E8D6 arrows pointing right toward OTel Collector (center, Mint 4 px border + NEW label). OTel Collector fans out dashed arrows to three backend nodes on right: Prometheus (Mint 4 px NEW), Trace Backend/Tempo (Mint 4 px NEW), Log Backend/Loki (Mint 4 px NEW). Grafana node below backends with solid Mint arrows reading from all three. All nodes: JetBrains Mono 28 px Warm White labels, Deep Navy fill, rounded 8 px. Dashed edges = observe semantic. Bottom-right of diagram: "白皮書 v5" JetBrains Mono 26 px Mint. Right side (~30% width): evolution roadmap card with #172A40 background, Mint 1 px border, rounded 12 px, title "演進路線" JetBrains Mono 24 px Mint, rows: Forest Green "現在 monolith", Coral Red "拆微服務條件：" with 3 sub-bullets, Mint "更遠 Event Sourcing/CQRS". Below roadmap: 3-logo strip (OpenTelemetry, Prometheus, Grafana) on Warm White pill 40 px. Bottom-right canvas: logo-light.png 64 px. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v5 · 落地與演進" Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書 v5：可觀察性" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: left/center (~65% width) — telemetry data flow diagram rendered programmatically (topology from Diagram Spec). Three service nodes (Ingest API, Processor, Query API) on left, Deep Teal #2E7D86 2 px border (existing), with dashed Mint #97E8D6 arrows pointing right toward OTel Collector (center, Mint 4 px border + NEW label). OTel Collector fans out dashed arrows to three backend nodes on right: Prometheus (Mint 4 px NEW), Trace Backend/Tempo (Mint 4 px NEW), Log Backend/Loki (Mint 4 px NEW). Grafana node below backends with solid Mint arrows reading from all three backends — Prometheus (PromQL), Trace Backend (TraceQL), and Log Backend (LogQL). All nodes: JetBrains Mono 28 px Warm White labels, Deep Navy fill, rounded 8 px. Dashed edges = observe semantic. Bottom-right of diagram: "白皮書 v5" JetBrains Mono 26 px Mint. Right side (~30% width): evolution roadmap card with #172A40 background, Mint 1 px border, rounded 12 px, title "演進路線" JetBrains Mono 24 px Mint, rows: Forest Green "現在 monolith", Coral Red "拆微服務條件：" with 3 sub-bullets, Mint "更遠 Event Sourcing/CQRS". Below roadmap: 3-logo strip (OpenTelemetry, Prometheus, Grafana) on Warm White pill 40 px. Bottom-right canvas: logo-light.png 64 px. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
 
 ## Negative Prompt
 - Do not invent extra nodes or arrows beyond those defined in the Diagram Spec.
@@ -388,8 +388,8 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Progress capsule `架構白皮書 v5 · 落地與演進` present below kicker.
 - [ ] Diagram Spec is a complete YAML block (not `not_applicable`).
 - [ ] Diagram Spec defines `diagram_type: "data_flow"`.
-- [ ] 7 nodes defined: ingest_api, processor, query_api (existing), otel_collector, prometheus, grafana, trace_backend, log_backend (new).
-- [ ] All 4 new nodes (otel_collector, prometheus, grafana, trace_backend, log_backend) have `status: "new"`.
+- [ ] 8 nodes defined: ingest_api, processor, query_api (existing), otel_collector, prometheus, grafana, trace_backend, log_backend (new).
+- [ ] All 5 new nodes (otel_collector, prometheus, grafana, trace_backend, log_backend) have `status: "new"`.
 - [ ] All 3 service nodes (ingest_api, processor, query_api) have `status: "existing"`.
 - [ ] Edges from services → otel_collector: 3 edges, all dashed/observe.
 - [ ] Edges from otel_collector → backends: 3 edges (prometheus, trace_backend, log_backend), all dashed/observe.

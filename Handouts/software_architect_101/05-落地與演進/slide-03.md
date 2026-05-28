@@ -22,7 +22,7 @@ rendering_mode: "image_prompt"
 - Kicker: `METHOD`
 - Title: 開發護欄
 - Vocabulary Cards (2×2 grid):
-  - Card 1: `GitHub Flow` / 分支策略 — 6 人以下用 trunk-based 或 GitHub Flow
+  - Card 1: `GitHub Flow` / 分支策略 — 6 人推薦，短命分支合 PR
   - Card 2: `Linter / Formatter` / 格式自動化 — ruff + black；commit 前自動執行
   - Card 3: `CI Gate` / 合併守門 — PR 合 main 前必過 lint + test
   - Card 4: `Scaffold` / 專案腳手架 — 新成員 5 分鐘能跑起來的 make init
@@ -69,7 +69,7 @@ not_applicable — this is a method/vocabulary-card slide, not a technical flow 
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Below: Title "開發護欄" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: 2×2 grid of vocabulary cards, each card Deep Teal #2E7D86 background rounded 16 px, gap 24 px, fitting within ~85% canvas width. Each card has: top line — English term in JetBrains Mono 34 px Warm White; then a slash + Chinese name in Noto Sans TC 500 34 px Warm White; then a thin Warm White 1 px horizontal rule; then one short definition line Noto Sans TC 500 34 px Warm White. Cards: "GitHub Flow / 分支策略 — 6 人以下推薦 GitHub Flow", "Linter / Formatter / 格式自動化 — ruff + black 自動執行", "CI Gate / 合併守門 — PR 合 main 前必過測試", "Scaffold / 專案腳手架 — 5 分鐘讓新成員跑起來". Flat card layout, no gradients, no 3D. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Below: Title "開發護欄" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: 2×2 grid of vocabulary cards, each card Deep Teal #2E7D86 background rounded 16 px, gap 24 px, fitting within ~85% canvas width. Each card has: top line — English term in JetBrains Mono 34 px Warm White; then a slash + Chinese name in Noto Sans TC 500 34 px Warm White; then a thin Warm White 1 px horizontal rule; then one short definition line Noto Sans TC 500 34 px Warm White. Cards: "GitHub Flow / 分支策略 — 6 人推薦，短命分支合 PR", "Linter / Formatter / 格式自動化 — ruff + black 自動執行", "CI Gate / 合併守門 — PR 合 main 前必過測試", "Scaffold / 專案腳手架 — 5 分鐘讓新成員跑起來". Flat card layout, no gradients, no 3D. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
 
 ## Negative Prompt
 - Do not invent extra vocabulary cards beyond the 4 defined.
@@ -80,7 +80,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 
 ## Speaker Notes
-開發護欄不是限制工程師，是讓 6 人小團隊的新成員第一天就知道規則。分支策略：6 人以下推薦 GitHub Flow，feature branch 短命，直接向 main 合 PR；放棄 Git Flow 的 develop/release 分支，那是 10 人以上才需要的複雜度。Linter + Formatter：Python 用 ruff（快速 lint）+ black（格式化），一個 .pre-commit-config.yaml 統一全團隊，reviewer 不需要浪費時間在格式問題上。CI Gate：PR 合 main 前必過 lint + unit test，用 GitHub Actions 或 GitLab CI，失敗則不可 merge。Scaffold：一個 make init 或 cookiecutter 模板，新成員 clone repo 後 5 分鐘跑起來，不需要問「怎麼啟動這個 service」。
+開發護欄不是限制工程師，是讓 6 人小團隊的新成員第一天就知道規則。分支策略：6 人以下推薦 GitHub Flow（短命 feature branch，PR 審核後直接合 main），CI gate 自動把關；團隊更成熟後可走 trunk-based（直接推 main + feature flag），但不是現在的需求；放棄 Git Flow 的 develop/release 分支，那是 10 人以上才需要的複雜度。Linter + Formatter：Python 用 ruff（快速 lint）+ black（格式化），一個 .pre-commit-config.yaml 統一全團隊，reviewer 不需要浪費時間在格式問題上。CI Gate：PR 合 main 前必過 lint + unit test，用 GitHub Actions 或 GitLab CI，失敗則不可 merge。Scaffold：一個 make init 或 cookiecutter 模板，新成員 clone repo 後 5 分鐘跑起來，不需要問「怎麼啟動這個 service」。
 
 ## QA Checklist
 - [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
@@ -88,7 +88,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Kicker reads `METHOD` with Deep Teal `#2E7D86` background, Warm White text.
 - [ ] 4 vocabulary cards in 2×2 grid, each with term / name / definition structure.
 - [ ] Each card definition ≤ 18 Chinese characters.
-- [ ] Card 1: GitHub Flow / 分支策略 — definition correct (6 人以下 GitHub Flow).
+- [ ] Card 1: GitHub Flow / 分支策略 — definition correct (6 人推薦，短命分支合 PR)；Speaker Notes 補充 trunk-based 為成熟後選項.
 - [ ] Card 2: Linter / Formatter / 格式自動化 — definition correct (ruff + black).
 - [ ] Card 3: CI Gate / 合併守門 — definition correct (PR 合 main 前必過測試).
 - [ ] Card 4: Scaffold / 專案腳手架 — definition correct (5 分鐘跑起來).
