@@ -30,8 +30,8 @@
 | 0 | 世界觀 | — | 三層架構（Client / Server / DB） | v1：手機 → Server → DB |
 | 1 | 人變多 | Server 一台，塞爆 | 水平擴展 + 負載均衡器 | v2：Load Balancer + 多台 Server |
 | 2 | 狂看菜單 | DB 每次都重查，太慢 | Cache（快取） | v3：Cache 層加入 |
-| 3 | 資料又多又重要 | 訂單存一台，掛了全沒 | 主從複製 + 讀寫分離 | v4：Primary DB + Replica |
-| 4 | 東西會壞 | Server 當機，服務掛掉 | 備援 + Health Check | v5：備援節點 + 監控 |
+| 3 | 資料又多又重要 | 訂單爆量，一台 DB 塞不下也讀不動 | 讀取複本 + 分片（Sharding） | v4：Primary + Replica + 分片 |
+| 4 | 東西會壞 | 機器會掛、客人按兩次重複扣款 | 容錯複本 + 重試 + 冪等 | v5：備援 + 標出會壞的點 |
 | 5 | 照片與影片 | 圖片太大，DB 塞不下 | CDN + 物件儲存 | v6：CDN + Object Storage |
 | 6 | 即時與等待 | 同步處理，一個慢全慢 | 訊息佇列（Message Queue） | v7：Queue + Worker |
 | 7 | 找東西（選配） | 關鍵字搜尋太慢 | 搜尋引擎（Search Index） | v7+：Search Index 旁路 |
@@ -45,8 +45,8 @@
 v1（Ch0）  手機 ──→ Server ──→ DB
 v2（Ch1）  手機 ──→ Load Balancer ──→ [Server × N] ──→ DB
 v3（Ch2）  手機 ──→ LB ──→ [Server × N] ──→ Cache → DB
-v4（Ch3）  ... → Cache → Primary DB ⇌ Replica DB（讀/寫分離）
-v5（Ch4）  備援 Server + Health Check 監控節點加入
+v4（Ch3）  ... → Cache → Primary DB ⇌ Replica DB + 分片（Sharding）
+v5（Ch4）  備援節點 + 重試/冪等（防重複扣款），標出會壞的點
 v6（Ch5）  CDN ─→ 靜態資源；Object Storage 旁掛
 v7（Ch6）  Message Queue + Worker Pool 非同步處理層
 ```
