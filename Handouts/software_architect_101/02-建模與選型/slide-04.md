@@ -52,7 +52,6 @@ ER 圖不是 DB schema——它描述的是業務語言，不是欄位。Reading
 ## Diagram Spec
 ```yaml
 diagram_type: "domain_model"
-whitepaper_version: "v2"
 focus: "IoT 監控五個核心業務實體及其關聯，Reading 為高量時序資料主體"
 rendering_rules:
   canvas: "1920x1080"
