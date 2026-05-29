@@ -26,6 +26,9 @@ rendering_mode: "image_prompt"
   - Card 2: `Metrics` / 可聚合數值 — CPU、latency、lag；看趨勢與告警閾值
   - Card 3: `Traces` / 跨服務請求路徑 — 端對端追蹤；找出慢在哪個服務
   - Card 4: `OpenTelemetry` / 統一遙測 SDK — 一次接入，同時輸出三類訊號
+- Selection rationale gloss (one line below the grid):
+  - `為何用 OTel 統一 SDK：`
+  - `一次接入三類訊號，免維護三套庫`
 
 ## Beginner Anchor
 Logs 問「發生了什麼」，Metrics 問「現在有多少」，Traces 問「慢在哪裡」——三者缺一不可。
@@ -49,6 +52,7 @@ Logs 問「發生了什麼」，Metrics 問「現在有多少」，Traces 問「
   - Thin Warm White `#F4F1EA` horizontal rule (1 px, 80% card width).
   - One-line definition ≤ 18 chars: Noto Sans TC 500 / 34 px / Warm White.
   - Card corner radius: 16 px.
+- Selection rationale gloss (centered, one line below the 2×2 grid, two text rows each ≤ 18 chars): Noto Sans TC 500 / 28 px / Mint `#97E8D6`. Row 1 `為何用 OTel 統一 SDK：`, row 2 `一次接入三類訊號，免維護三套庫`.
 - Logo: `logo-light.png`, 64 px height, bottom-right corner, 96 px from edges.
 - Footer: `桑尼資料科學 · 版權所有 ©`, 22 px / 500 weight / Warm White, 96 px from bottom.
 - No source/citation text. No named facilitation devices.
@@ -69,7 +73,7 @@ not_applicable — this is a method/vocabulary-card slide, not a technical flow 
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Below: Title "可觀察性三本柱" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: 2×2 grid of vocabulary cards, each card Deep Teal #2E7D86 background rounded 16 px, gap 24 px, fitting within ~85% canvas width. Each card: English term JetBrains Mono 34 px Warm White, slash + Chinese name Noto Sans TC 500 34 px Warm White, thin Warm White horizontal rule, one-line definition Noto Sans TC 500 34 px Warm White. Render the four cards verbatim — top-left "Logs / 事件記錄 — 結構化 JSON；記錄是什麼事件發生了"; top-right "Metrics / 可聚合數值 — CPU、latency、lag；看趨勢與告警閾值"; bottom-left "Traces / 跨服務請求路徑 — 端對端追蹤；找出慢在哪個服務"; bottom-right "OpenTelemetry / 統一遙測 SDK — 一次接入，同時輸出三類訊號". For each card the English term is on the first line, then " / " plus the Chinese name, then the rule, then the text after " — " is the one-line definition below the horizontal rule. Flat card layout, no gradients, no 3D. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Below: Title "可觀察性三本柱" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: 2×2 grid of vocabulary cards, each card Deep Teal #2E7D86 background rounded 16 px, gap 24 px, fitting within ~85% canvas width. Each card: English term JetBrains Mono 34 px Warm White, slash + Chinese name Noto Sans TC 500 34 px Warm White, thin Warm White horizontal rule, one-line definition Noto Sans TC 500 34 px Warm White. Render the four cards verbatim — top-left "Logs / 事件記錄 — 結構化 JSON；記錄是什麼事件發生了"; top-right "Metrics / 可聚合數值 — CPU、latency、lag；看趨勢與告警閾值"; bottom-left "Traces / 跨服務請求路徑 — 端對端追蹤；找出慢在哪個服務"; bottom-right "OpenTelemetry / 統一遙測 SDK — 一次接入，同時輸出三類訊號". For each card the English term is on the first line, then " / " plus the Chinese name, then the rule, then the text after " — " is the one-line definition below the horizontal rule. Below the 2×2 grid, centered, render a two-line selection-rationale gloss in Noto Sans TC 500 / 28 px / Mint #97E8D6 — line 1 "為何用 OTel 統一 SDK：", line 2 "一次接入三類訊號，免維護三套庫". Flat card layout, no gradients, no 3D. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra vocabulary cards beyond the 4 defined.

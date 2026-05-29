@@ -27,9 +27,12 @@ rendering_mode: "image_prompt"
   - `Container` / 可部署單元：可獨立部署的服務、資料庫、佇列、前端
   - `Component` / 模組：Container 內部的主要模組或服務邏輯單元
   - `Code` / 類別與函數：Component 內的類別、介面、實作細節
+- 為何分層（caption ×2 行）：
+  - `為何分層：先看整體再看細部`
+  - `對不同對象講不同層`
 
 ## Beginner Anchor
-C4 是「縮放」——Context 看整張地圖，Container 看城市，Component 看街道，Code 看房間。本幕白皮書 v3 停在 Container 層。
+C4 是「縮放」——Context 看整張地圖，Container 看城市，Component 看街道，Code 看房間。本幕白皮書 v3 停在 Container 層。為何分層：先看整體再看細部，對不同對象講不同層。
 
 ## Learning Goal
 讓學員掌握 C4 四個層次的定義與適用場景，理解為什麼白皮書 v3 只需要 Container 圖而不必到 Code 層。
@@ -66,7 +69,7 @@ not_applicable — this is a vocabulary-card / method-introduction slide.
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" kicker pill — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "C4 四層視角" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below title: four vocabulary cards in a 2x2 grid (or single row if they fit), each card: Deep Teal #2E7D86 background, rounded corners 16 px, width ~420 px, height ~180 px. Each card top line = English term JetBrains Mono 500 34 px Mint #97E8D6 + "/" + Chinese name Noto Sans TC 500 34 px Warm White; thin Mint 1 px horizontal divider; card bottom = one-sentence definition Noto Sans TC 500 34 px Warm White line-height 1.40. Render these EXACT four cards verbatim — Card 1 top "Context / 系統情境", definition "系統與外部使用者、外部系統的邊界與互動"; Card 2 top "Container / 可部署單元", definition "可獨立部署的服務、資料庫、佇列、前端"; Card 3 top "Component / 模組", definition "Container 內部的主要模組或服務邏輯單元"; Card 4 top "Code / 類別與函數", definition "Component 內的類別、介面、實作細節". Below all cards: small caption text exactly "白皮書 v3 停在 Container 層" JetBrains Mono 26 px Mint #97E8D6. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean educational layout, no 3D, no photos, no decorative elements beyond brand palette.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" kicker pill — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "C4 四層視角" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below title: four vocabulary cards in a 2x2 grid (or single row if they fit), each card: Deep Teal #2E7D86 background, rounded corners 16 px, width ~420 px, height ~180 px. Each card top line = English term JetBrains Mono 500 34 px Mint #97E8D6 + "/" + Chinese name Noto Sans TC 500 34 px Warm White; thin Mint 1 px horizontal divider; card bottom = one-sentence definition Noto Sans TC 500 34 px Warm White line-height 1.40. Render these EXACT four cards verbatim — Card 1 top "Context / 系統情境", definition "系統與外部使用者、外部系統的邊界與互動"; Card 2 top "Container / 可部署單元", definition "可獨立部署的服務、資料庫、佇列、前端"; Card 3 top "Component / 模組", definition "Container 內部的主要模組或服務邏輯單元"; Card 4 top "Code / 類別與函數", definition "Component 內的類別、介面、實作細節". Below all cards: small caption text exactly "白皮書 v3 停在 Container 層" JetBrains Mono 26 px Mint #97E8D6. Directly beneath that, render a two-line "為何分層" caption in Noto Sans TC 500 / 26 px Warm White, line 1 exactly "為何分層：先看整體再看細部", line 2 exactly "對不同對象講不同層". Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean educational layout, no 3D, no photos, no decorative elements beyond brand palette.
 
 ## Negative Prompt
 - Do not invent extra vocabulary cards beyond Context, Container, Component, Code.
