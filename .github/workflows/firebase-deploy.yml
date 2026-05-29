@@ -23,6 +23,11 @@ permissions:
   id-token: write   # required for Workload Identity Federation OIDC
   pull-requests: write  # required to comment preview URL on PRs
 
+# Run the Node20-based actions (checkout/setup-node/auth) on Node24 ahead of
+# GitHub's 2026-06-02 forced switch. No-op once Node24 becomes the default.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
