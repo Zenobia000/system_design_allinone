@@ -298,7 +298,27 @@ edges:
 not_applicable — this is an artifact slide, not a trade-off decision slide. Trade-off scoring is done on slide-07.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v3 · 系統設計" Mint #97E8D6 text on Deep Navy, rounded capsule 34 px. Title "白皮書 v3：C4 容器圖" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: C4 container diagram rendered programmatically (not by image model — topology defined in Diagram Spec). The diagram area occupies ~75% of canvas width. Visual style: all node boxes rectangular with JetBrains Mono Warm White 28 px labels, Mint #97E8D6 4 px border (all NEW status), Deep Navy fill, corner radius 8 px, small "NEW" badge top-right. Arrows: solid Mint 2 px for sync, dashed Mint 2 px for async. Ingest edge annotated with "~6,000 msg/s peak" in JetBrains Mono 22 px Coral Red #E8634F. Bottom-right of diagram: "白皮書 v3" JetBrains Mono 26 px Mint. Below diagram: small logo strip (4 logos on Warm White pill background, 40 px height). Bottom-right canvas: logo-light.png 64 px. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v3 · 系統設計" Mint #97E8D6 text on Deep Navy, rounded capsule 34 px. Title "白皮書 v3：C4 容器圖" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: a C4 container diagram occupying ~75% of canvas width. Draw EXACTLY these 9 nodes and 8 arrows — no more, no fewer, and use these exact text labels verbatim. Each node is a rectangle, Deep Navy fill, Mint #97E8D6 4 px border, corner radius 8 px, a small "NEW" badge top-right, with a bold JetBrains Mono Warm White 28 px title line and a smaller JetBrains Mono ~20 px subtitle line beneath it. The 9 nodes (title / subtitle):
+  1. "Device / Gateway" / "感測器上報源" — external actor (left edge, leftmost)
+  2. "Ingest API" / "FastAPI · stateless"
+  3. "Message Queue" / "Kafka · topic: sensor-readings"
+  4. "Stream Processor" / "Python Consumer Group"
+  5. "TSDB" / "PostgreSQL + TimescaleDB"
+  6. "Query API" / "FastAPI · stateless"
+  7. "Cache" / "Redis · TTL 60s"
+  8. "Alert Service" / "通知 · Email / Webhook"
+  9. "Dashboard" / "Web UI" — external actor (right edge)
+The backend services (Ingest API and Query API) are FastAPI on Python — NOT Spring Boot, NOT Java, NOT Node. The database node is "PostgreSQL + TimescaleDB" — do not relabel it as plain PostgreSQL, MySQL, or MongoDB. The queue is "Kafka" — not RabbitMQ, not SQS. The cache is "Redis". There is no object store, no MinIO, no S3, no API gateway, no load balancer in this diagram.
+The 8 arrows (all Mint #97E8D6; solid 2 px = synchronous, dashed 2 px = asynchronous) with their exact direction and label:
+  a. "Device / Gateway" → "Ingest API" — SOLID (sync), label "POST /v1/readings"; this is the ingest edge annotated with "~6,000 msg/s peak" in JetBrains Mono 22 px Coral Red #E8634F.
+  b. "Ingest API" → "Message Queue" — DASHED (async), label "async enqueue".
+  c. "Message Queue" → "Stream Processor" — DASHED (async), label "consume".
+  d. "Stream Processor" → "TSDB" — SOLID (sync), label "batch write".
+  e. "Stream Processor" → "Alert Service" — DASHED (async), label "threshold breach".
+  f. "Dashboard" → "Query API" — SOLID (sync), label "GET readings / alerts".
+  g. "Query API" → "Cache" — SOLID (sync), label "cache-aside: GET / SET EX60".
+  h. "Query API" → "TSDB" — SOLID (sync), label "fallback read".
+All arrowheads point in the stated direction only. Do not add any reverse arrows, extra edges, or unlabeled connectors. Bottom-right of diagram: "白皮書 v3" JetBrains Mono 26 px Mint. Below diagram: small logo strip (4 logos on Warm White pill background, 40 px height). Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
 
 ## Negative Prompt
 - Do not invent extra nodes or arrows beyond those defined in the Diagram Spec.
@@ -310,6 +330,8 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not omit the "~6,000 msg/s peak" annotation on the ingest edge.
 - Do not place logo assets inside diagram nodes — logos go in the strip only.
 - Do not move logo or footer outside the 96 px safe margin.
+- Do not draw, invent, or render any brand logo, emblem, badge, monogram, icon, or filename text (e.g. "logo-light.png") in the bottom-right corner — keep it empty for a logo overlaid later. (The product logo strip is allowed.)
+- Do not invent, rename, add, or drop any node — render exactly the nodes and labels listed (e.g. the backend is FastAPI/Python, NOT Spring Boot; the database is PostgreSQL + TimescaleDB).
 
 ## Speaker Notes
 白皮書 v3 的第一個正式產出：C4 容器圖。7 個容器 + 2 個外部角色（Device/Gateway、Dashboard），三條路徑。
