@@ -3,8 +3,8 @@ chapter: "幕 4：風險與韌性"
 chapter_id: "04"
 chapter_slug: "04-風險與韌性"
 slide: "4"
-title: "五種韌性手法"
-original_title: "五種韌性手法"
+title: "三術語的具體例子"
+original_title: "SPOF / 可用性 / FMEA 範例詳解"
 beat: "方法"
 kicker: "METHOD"
 layout_type: "method"
@@ -16,113 +16,92 @@ whitepaper_version: ""
 rendering_mode: "image_prompt"
 ---
 
-# Slide 04 · 五種韌性手法
+# Slide 04 · 三術語的具體例子
 
 ## On-slide Text
 - Kicker: `METHOD`
-- Title: 五種韌性手法
-- Vocabulary Table (5 rows, 2 columns: 術語 | 一句定義):
-  | 術語 | 定義（≤ 18 字） |
-  |------|----------------|
-  | Replica / 複本 | 資料與服務的多個副本，任一掛掉可切換 |
-  | Retry / 重試 | 失敗後自動再試，搭配退避避免雪崩 |
-  | Idempotency / 冪等 | 相同請求重複執行，結果一致，Retry 安全 |
-  | Backpressure / 背壓 | 下游告知上游放慢，避免佇列無限膨脹 |
-  | Circuit Breaker / 熔斷 | 偵測下游異常後斷開，防止故障擴散 |
-- Example lines (one per row, prefixed `例：`, Caption ≤ 18 字, below the matching row's definition, not extra table rows):
-  - Replica 列：`例：TSDB 主備，備庫接讀`
-  - Retry 列：`例：寫失敗自動重試`
-  - Idempotency 列：`例：同筆重送只記一次`
-  - Backpressure 列：`例：Consumer 落後就限流`
-  - Circuit Breaker 列：`例：下游異常先斷開`
-- Inline glosses (Caption 26 px, below the matching row, not extra table rows):
-  - Replica 列下方小註：`Streaming Replication＝主庫即時把變更串流到備庫`
-  - Retry 列下方小註：`Backoff＝重試間隔指數遞增，避免雪上加霜`
+- Title: 三術語的具體例子
+- 三個範例卡：
+  - `SPOF：單台 TSDB`
+    - 單台 TSDB 掛掉會怎樣？
+    - 寫入停・讀取停・告警靜默
+    - → 全廠監控全黑　$20,000/hr
+  - `Availability：99.9% 是多少`
+    - 一年 8,760 小時 × 0.1%
+    - ≈ 8.76 小時/年 ≈ 43 分/月
+    - 99.99% 只剩 4.3 分/月（嚴 10 倍）
+  - `FMEA：一列示範`
+    - 元件：TSDB 單台
+    - 失效：全廠監控黑、$20k/hr
+    - 緩解：加 Replica 主備＋讀寫分離
+- Caption（卡片下方一行）：定義記不住？看一個例子就懂了
 
 ## Beginner Anchor
-詞彙卡：複本 / 重試 / 冪等 / 背壓 / 熔斷——五種韌性工具箱，v4 FMEA 的每個 SPOF 都會對應其中一種或多種。
+定義記不住沒關係——看一個具體例子，SPOF、可用性、FMEA 就活起來了。
 
 ## Learning Goal
-讓學員掌握五種韌性手法的名稱和定義，理解每種手法解決的問題類型，為 slide-05 FMEA 表的「緩解手法」欄位建立詞彙。
+用一個具體例子把 slide-03 的三個抽象術語落地，讓初學者真的「有感」，再進 slide-05 五種韌性手法、slide-06 的 FMEA 全圖。
 
 ## Visual Spec
 - Canvas: `1920 x 1080 px`, safe margin `96 px`.
-- Beat color: Deep Teal `#2E7D86` (METHOD). Kicker pill: Deep Teal background, Warm White text, Inter 700 / 24 px, all-caps.
+- Beat color: Deep Teal `#2E7D86` (METHOD).
 - Background: Deep Navy `#152238`.
-- Kicker label: `METHOD`, top-left, Deep Teal `#2E7D86` pill, Warm White text.
+- Kicker label: `METHOD`, top-left, Deep Teal `#2E7D86` pill, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em.
 - Title: Noto Sans TC 900 / 80 px / Warm White `#F4F1EA`, left-aligned.
-- Vocabulary layout: 5-row mini table (not individual floating cards, since 5 items fit better as a structured table).
-  - Table container: Deep Teal `#2E7D86` background, rounded 16 px, ~80% canvas width, centered below title.
-  - Header row: "術語" / "一句定義" — Inter 700 / 28 px / Warm White, Mint `#97E8D6` bottom border 1 px.
-  - Data rows (5): alternating Deep Teal `#2E7D86` and Deep Navy `#152238` row background.
-  - Left column (術語): English term + Chinese name, JetBrains Mono 500 / 28 px / Warm White. Format: "Replica / 複本".
-  - Right column (定義): Noto Sans TC 500 / 28 px / Warm White, ≤ 18 Chinese characters.
-  - Row padding: 16 px top/bottom. Dividers: Mint `#97E8D6` 1 px at 20% opacity between rows.
-  - Example line (one per row, all 5): directly under the row's definition, prefixed `例：`, Noto Sans TC 400 / 24 px / Mint `#97E8D6`, indented to align with the right (定義) column, ≤ 18 Chinese characters. Not new table rows.
-    - Replica 列：`例：TSDB 主備，備庫接讀`
-    - Retry 列：`例：寫失敗自動重試`
-    - Idempotency 列：`例：同筆重送只記一次`
-    - Backpressure 列：`例：Consumer 落後就限流`
-    - Circuit Breaker 列：`例：下游異常先斷開`
-  - Inline gloss (only for Replica and Retry rows): one Caption line under the example line, Noto Sans TC 400 / 24 px / Mint `#97E8D6`, indented to align with the right (定義) column. These are sub-term explainers, not new table rows. Replica and Retry rows therefore carry definition + 例 line + gloss line (≤ 3 stacked text lines); the other three rows carry definition + 例 line (≤ 2 lines). Tighten row padding to 12 px top/bottom so the table stays within the 80% width container without overflow.
-    - Under Replica 列：`Streaming Replication＝主庫即時把變更串流到備庫`
-    - Under Retry 列：`Backoff＝重試間隔指數遞增，避免雪上加霜`
-- Logo: `logo-light.png`, 64 px height, bottom-right canvas corner, 96 px from edges.
+- Three example cards arranged horizontally (equal width ~530 px, gap 24 px), each:
+  - Background: Deep Teal `#2E7D86`; rounded corners 16 px.
+  - Header line: term label in JetBrains Mono 500 / 30 px / Mint `#97E8D6`.
+  - Divider: thin Mint `#97E8D6` 1 px horizontal rule.
+  - Three example lines: Noto Sans TC 500 / 26 px / Warm White `#F4F1EA`, line-height 1.45; the impact line in Card 1 uses Coral Red `#E8634F`; the mitigation line in Card 3 uses Forest Green `#5B9770`; numbers use JetBrains Mono.
+- Caption below the three cards: `定義記不住？看一個例子就懂了`, Noto Sans TC 400 / 24 px / Warm White, left-aligned.
+- Logo: `logo-light.png`, 64 px height, bottom-right, 96 px from edges.
 - Footer: `桑尼資料科學 · 版權所有 ©`, 22 px / 500 weight / Warm White.
 - No source/citation text. No named facilitation devices.
 
 ## Diagram Spec
 ```yaml
 not_applicable: true
-reason: "METHOD slide — vocabulary table layout, no architecture diagram required."
+reason: "METHOD / worked-example slide — three illustrative example cards, not a formal architecture artifact."
 ```
 
 ## Logo Assets
-none — no named companies, cloud services, frameworks, or packages appear on this slide.
+none — worked examples reference the system's own components (TSDB) in plain language; no official product brand logos are called out on this slide.
 
 ## Technical Flow Details
-not_applicable — this is a vocabulary/method slide defining resilience patterns, not a technical flow diagram.
+not_applicable — this is a worked-example / method slide; the full failure-mode topology is the artifact on slide-06.
 
 ## VCRE Scorecard
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" kicker pill — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, rounded. Title "五種韌性手法" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: a 5-row 2-column table (~80% canvas width, rounded 16 px, Deep Teal #2E7D86 outer background). Header row: "術語" | "一句定義" in Inter 700 28 px Warm White, Mint #97E8D6 1 px bottom border. Five data rows with alternating Deep Teal (#2E7D86) and Deep Navy (#152238) background. Left column = English+Chinese term in JetBrains Mono 500 28 px Warm White; Right column = Chinese definition in Noto Sans TC 500 28 px Warm White. Render all five rows verbatim — Row 1: "Replica / 複本" | "資料與服務的多個副本，任一掛掉可切換"; Row 2: "Retry / 重試" | "失敗後自動再試，搭配退避避免雪崩"; Row 3: "Idempotency / 冪等" | "相同請求重複執行，結果一致，Retry 安全"; Row 4: "Backpressure / 背壓" | "下游告知上游放慢，避免佇列無限膨脹"; Row 5: "Circuit Breaker / 熔斷" | "偵測下游異常後斷開，防止故障擴散". Rows separated by Mint #97E8D6 1 px dividers at low opacity. Under each row's right-column definition add one short example caption line in Noto Sans TC 400 24 px Mint #97E8D6, prefixed "例：" (aligned to the 定義 column, not as new table rows): Row 1 (Replica) "例：TSDB 主備，備庫接讀"; Row 2 (Retry) "例：寫失敗自動重試"; Row 3 (Idempotency) "例：同筆重送只記一次"; Row 4 (Backpressure) "例：Consumer 落後就限流"; Row 5 (Circuit Breaker) "例：下游異常先斷開". Then add two small inline gloss caption lines in Noto Sans TC 400 24 px Mint #97E8D6, each placed directly under the example line of its row (aligned to the 定義 column, not as new table rows): under Row 1 (Replica) render "Streaming Replication＝主庫即時把變更串流到備庫"; under Row 2 (Retry) render "Backoff＝重試間隔指數遞增，避免雪上加霜". Use tight 12 px row padding so all rows fit inside the table container without overflow. Clean, structured, educational. No 3D, no gradients. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "METHOD" kicker pill — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "三術語的具體例子" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below the title: three equal rounded cards in a horizontal row (16 px corner radius, Deep Teal #2E7D86 background, gap 24 px, spanning ~90% width). Render these EXACT three cards verbatim. Card 1 — header "SPOF：單台 TSDB" (JetBrains Mono 30 px Mint #97E8D6); thin Mint divider; then three lines Noto Sans TC 26 px: "單台 TSDB 掛掉會怎樣？" (Warm White), "寫入停・讀取停・告警靜默" (Warm White), "→ 全廠監控全黑　$20,000/hr" (Coral Red #E8634F, the "$20,000/hr" in JetBrains Mono). Card 2 — header "Availability：99.9% 是多少" (Mint); divider; three lines Noto Sans TC 26 px Warm White with numbers in JetBrains Mono: "一年 8,760 小時 × 0.1%", "≈ 8.76 小時/年 ≈ 43 分/月", "99.99% 只剩 4.3 分/月（嚴 10 倍）". Card 3 — header "FMEA：一列示範" (Mint); divider; three lines styled like a small 3-row table, Noto Sans TC 26 px: "元件：TSDB 單台" (Warm White), "失效：全廠監控黑、$20k/hr" (Warm White), "緩解：加 Replica 主備＋讀寫分離" (Forest Green #5B9770). Below the three cards, one caption line Noto Sans TC 24 px Warm White: "定義記不住？看一個例子就懂了". Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean educational layout, no photos, no clipart.
 
 ## Negative Prompt
-- Do not invent extra rows or change the 5 defined resilience terms.
-- Do not change the definitions — Replica uses "資料與服務的多個副本，任一掛掉可切換"; Idempotency uses "相同請求重複執行，結果一致，Retry 安全"; each must be ≤ 18 Chinese characters and technically accurate.
+- Do not invent extra cards beyond the three (SPOF / Availability / FMEA).
 - Do not add source citations, references, or "Source:" lines.
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
-- Do not render fewer or more than 5 rows of vocabulary. The five `例：` example caption lines and the two gloss caption lines (Streaming Replication, Backoff) are sub-term lines under their rows — do not promote them into table rows or count them toward the 5-row total, and do not drop them.
-- Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 - Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
+- Do not change the numbers: 8,760 小時/年, 43 分/月 (99.9%), 4.3 分/月 (99.99%), $20,000/hr must stay exactly.
 
 ## Speaker Notes
-五種韌性工具箱，逐一拆解。Replica（複本）：同一份資料或服務的多個副本，任何一個副本掛掉都可以切換到另一個，消除 SPOF——這是 TSDB 單實例最直接的緩解手法。Retry（重試）：操作失敗後自動再試；但盲目重試會造成雪崩式連鎖，所以必須搭配指數退避（exponential backoff）和 jitter。Idempotency（冪等）：相同請求執行多次，結果一致。在 v3 架構中，Stream Processor 的 TSDB 寫入必須是冪等的（(sensor_id, timestamp) 去重），才能讓 Retry 安全執行。Backpressure（背壓）：下游處理不過來時，主動告知上游放慢速率，避免佇列無限膨脹。Kafka 的 Consumer lag 監控就是一種觀察背壓信號的方式。Circuit Breaker（熔斷）：當下游連續失敗達到閾值時，自動「斷路」，停止繼續把請求送到已失敗的下游，給它時間恢復——防止故障透過呼叫鏈擴散。slide-05 的 FMEA 表會把這五種手法對應到具體 SPOF 節點。
+slide-03 給了三個術語的定義，但定義是抽象的——這一頁用一個具體例子讓它們活起來。SPOF：別只記「單點故障」，記住我們系統裡那台 TSDB——它只有一台，掛了就寫入停、讀取停、告警靜默，整廠監控全黑，每小時燒 $20,000。Availability：99.9% 不是「很高」這種感覺，把它算成時間——一年 8,760 小時的 0.1% 約等於 8.76 小時，攤到每月約 43 分鐘可停機；再嚴一級 99.99% 只剩 4.3 分鐘，這就是「多一個 9 貴十倍」的由來。FMEA：不是玄學，就是一張表，一列示範——元件 TSDB 單台、失效是全廠黑掉、緩解是加 Replica 主備＋讀寫分離。看完這頁，下一張 slide-05 的五種韌性手法、slide-06 的 FMEA 全圖就有畫面了。
 
 ## QA Checklist
 - [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
-- [ ] Title "五種韌性手法" — 7 Chinese characters, within 14-char limit.
-- [ ] Kicker reads `METHOD` with Deep Teal #2E7D86 background pill.
-- [ ] Exactly 5 vocabulary rows: Replica/複本, Retry/重試, Idempotency/冪等, Backpressure/背壓, Circuit Breaker/熔斷.
-- [ ] Each left-column term uses JetBrains Mono for English term.
-- [ ] Each definition is ≤ 18 Chinese characters.
-- [ ] Replica definition: "資料與服務的多個副本，任一掛掉可切換" — 18 chars ✓
-- [ ] Retry definition: "失敗後自動再試，搭配退避避免雪崩" — 16 chars ✓
-- [ ] Idempotency definition: "相同請求重複執行，結果一致，Retry 安全" — 15 CJK chars ✓
-- [ ] Backpressure definition: "下游告知上游放慢，避免佇列無限膨脹" — 17 chars ✓
-- [ ] Circuit Breaker definition: "偵測下游異常後斷開，防止故障擴散" — 16 chars ✓
-- [ ] Replica row gloss caption present: "Streaming Replication＝主庫即時把變更串流到備庫" (Caption 26 px, not a table row).
-- [ ] Retry row gloss caption present: "Backoff＝重試間隔指數遞增，避免雪上加霜" (Caption 26 px, not a table row).
-- [ ] Gloss captions do not change the 5-row count; each row body stays ≤ 3 lines.
+- [ ] Title "三術語的具體例子" — 7 Chinese characters, within 14-char limit.
+- [ ] Kicker reads `METHOD` and uses Deep Teal `#2E7D86` beat color.
+- [ ] Exactly 3 example cards: SPOF / Availability / FMEA.
+- [ ] Card 1 impact line "→ 全廠監控全黑　$20,000/hr" is Coral Red.
+- [ ] Card 2 shows the availability math (8,760 小時 → 43 分/月; 99.99% → 4.3 分/月).
+- [ ] Card 3 mitigation line is Forest Green.
+- [ ] Caption `定義記不住？看一個例子就懂了` present below cards.
+- [ ] Numbers unchanged: 8,760 / 43 / 4.3 / $20,000.
+- [ ] Bottom-right corner empty (no logo drawn).
+- [ ] Footer reads `桑尼資料科學 · 版權所有 ©` at 22 px, bottom-left.
 - [ ] No source/citation text on slide.
 - [ ] No named facilitation device text on slide.
 - [ ] `whitepaper_version` is empty (not an artifact slide).
 - [ ] `rendering_mode` is `image_prompt`.
 - [ ] Diagram Spec marked `not_applicable: true`.
-- [ ] Logo Assets states none.
-- [ ] Logo `logo-light.png` is 64 px height, bottom-right corner.
-- [ ] Footer reads `桑尼資料科學 · 版權所有 ©` at 22 px.

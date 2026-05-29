@@ -23,6 +23,14 @@ rendering_mode: "programmatic_diagram"
 - Progress capsule: `架構白皮書 v1→v5 · 結業 Capstone`
 - Title: 白皮書演化 v1→v5
 - Diagram caption: 一張圖看完五份產出物怎麼長出來
+- Plain caption (above/below diagram): `每一版在上一版加一個能力層`
+- Stage row labels (Chinese 幕名 + 一句加什麼):
+  - `v0 空白委託書`（起點，無新增）
+  - `v1 需求與約束 · 量化需求 NFR`
+  - `v2 建模與選型 · 領域模型＋選型`
+  - `v3 系統設計 · 畫出系統全貌`
+  - `v4 風險與韌性 · 標風險＋緩解`
+  - `v5 落地與演進 · 上線＋可演進`
 - Version label (bottom-right of diagram): `v1→v5`
 
 ## Beginner Anchor
@@ -79,7 +87,7 @@ stages:
     note: "Ghost stage — faded/dashed border, no NEW badge. Arrow to v1 is dashed Warm White opacity 40%."
 
   - id: "v1"
-    label: "v1 · 幕 1：需求與約束"
+    label: "v1 需求與約束 · 量化需求 NFR"
     label_color: "Mint #97E8D6"
     description: "PRD 功能清單 + NFR 矩陣 + 約束清單"
     new_artifacts:
@@ -96,7 +104,7 @@ stages:
         status: "new"
 
   - id: "v2"
-    label: "v2 · 幕 2：建模與選型"
+    label: "v2 建模與選型 · 領域模型＋選型"
     label_color: "Mint #97E8D6"
     description: "領域模型 ER + 技術棧 + ADR-001"
     new_artifacts:
@@ -114,7 +122,7 @@ stages:
         status: "new"
 
   - id: "v3"
-    label: "v3 · 幕 3：系統設計"
+    label: "v3 系統設計 · 畫出系統全貌"
     label_color: "Mint #97E8D6"
     description: "C4 容器圖 + 三條資料流路徑"
     new_artifacts:
@@ -128,7 +136,7 @@ stages:
         status: "new"
 
   - id: "v4"
-    label: "v4 · 幕 4：風險與韌性"
+    label: "v4 風險與韌性 · 標風險＋緩解"
     label_color: "Coral Red #E8634F"
     description: "故障模式圖 + FMEA 三個 SPOF"
     new_artifacts:
@@ -142,7 +150,7 @@ stages:
         status: "warning"
 
   - id: "v5"
-    label: "v5 · 幕 5：落地與演進"
+    label: "v5 落地與演進 · 上線＋可演進"
     label_color: "Forest Green #5B9770"
     description: "開發規範 + 可觀察性管線 + 演進路線"
     new_artifacts:
@@ -226,7 +234,7 @@ none — this diagram represents abstract whitepaper artifacts, not named techno
 not_applicable — this is an artifact slide (evolution diagram), not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone chapter. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v1→v5 · 結業 Capstone" in Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書演化 v1→v5" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: staged evolution diagram rendered programmatically (topology from Diagram Spec). 6 horizontal stage rows, top-to-bottom: first a ghost/faded "v0 空白委託書" row (Warm White label at 40% opacity, dashed Warm White border node, no NEW badge, faded dashed arrow down to v1 — closes the loop from slide-01), then v1 (幕1, Mint label), v2 (幕2, Mint label), v3 (幕3, Mint label), v4 (幕4, Coral Red #E8634F label with warning node markers), v5 (幕5, Forest Green #5B9770 label). Each v1–v5 row contains 2-3 artifact node boxes: Mint #97E8D6 4 px border (new status), JetBrains Mono 24 px Warm White label, Deep Navy fill, rounded 8 px, "NEW" badge top-right. v4 nodes use Coral Red lightning marker. Vertical solid Mint arrows connecting v1→v2→v3→v4→v5 stage rows. Row labels left-aligned: Inter 700 28 px in stage color. Bottom-right of diagram: "v1→v5" JetBrains Mono 26 px Mint. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone chapter. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v1→v5 · 結業 Capstone" in Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書演化 v1→v5" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: staged evolution diagram rendered programmatically (topology from Diagram Spec). 6 horizontal stage rows, top-to-bottom: first a ghost/faded "v0 空白委託書" row (Warm White label at 40% opacity, dashed Warm White border node, no NEW badge, faded dashed arrow down to v1 — closes the loop from slide-01), then v1 row labeled "v1 需求與約束 · 量化需求 NFR" (Mint label), v2 row labeled "v2 建模與選型 · 領域模型＋選型" (Mint label), v3 row labeled "v3 系統設計 · 畫出系統全貌" (Mint label), v4 row labeled "v4 風險與韌性 · 標風險＋緩解" (Coral Red #E8634F label with warning node markers), v5 row labeled "v5 落地與演進 · 上線＋可演進" (Forest Green #5B9770 label). Each row label carries the Chinese 幕名 plus a short "what this version adds" phrase, set Inter 700 28 px in the stage color, left-aligned. Each v1–v5 row contains 2-3 artifact node boxes: Mint #97E8D6 4 px border (new status), JetBrains Mono 24 px Warm White label, Deep Navy fill, rounded 8 px, "NEW" badge top-right. v4 nodes use Coral Red lightning marker. Vertical solid Mint arrows connecting v1→v2→v3→v4→v5 stage rows. A single plain-language caption "每一版在上一版加一個能力層" sits near the diagram in Warm White, reinforcing the stacking idea. Bottom-right of diagram: "v1→v5" JetBrains Mono 26 px Mint. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra artifacts or stages beyond the ghost v0 + 5 versions (v1–v5) defined in Diagram Spec.
@@ -238,6 +246,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not place technology brand logos on diagram nodes — this diagram represents abstract artifacts.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any brand logo, emblem, badge, monogram, icon, or filename text (e.g. "logo-light.png") in the bottom-right corner — keep it empty for a logo overlaid later.
+- Do not alter the diagram topology: keep exactly the ghost v0 row + 5 solid rows (v1–v5) in order. The Chinese 幕名 and short "what this version adds" phrases are label text only — do not add, remove, merge, or reorder any stage row, artifact node, or arrow.
 
 ## Speaker Notes
 這張圖是白皮書演化的全貌。每一行是一個幕，每個方塊是那個幕產出的新文件或新圖表。重點不是技術細節——而是「堆疊感」：每個版本不是推倒重來，是在上一版本基礎上加一個能力層。v1 量化需求，v2 建立語言和選型，v3 畫出全貌，v4 主動標出風險，v5 讓它能跑起來且能演進。五層疊下來，就是一份完整的架構白皮書。

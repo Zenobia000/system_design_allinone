@@ -3,97 +3,423 @@ chapter: "幕 4：風險與韌性"
 chapter_id: "04"
 chapter_slug: "04-風險與韌性"
 slide: "6"
-title: "大廠主動弄壞自己"
-original_title: "大廠主動弄壞自己"
-beat: "業界佐證"
-kicker: "REAL WORLD"
-layout_type: "real_world"
+title: "白皮書 v4：故障模式圖"
+original_title: "白皮書 v4：故障模式圖"
+beat: "產出物"
+kicker: "ARTIFACT"
+layout_type: "artifact"
 audience_level: "intermediate"
 output: "1920x1080"
 source_style_guide: "../0_STYLE_GUIDE.md"
 source_deck: "slides.md"
-whitepaper_version: ""
-rendering_mode: "image_prompt"
+whitepaper_version: "v4"
+rendering_mode: "programmatic_diagram"
 ---
 
-# Slide 06 · 大廠主動弄壞自己
+# Slide 06 · 白皮書 v4：故障模式圖
 
 ## On-slide Text
-- Kicker: `REAL WORLD`
-- Title: 大廠主動弄壞自己
-- Body:
-  - 混沌工程：對三個 SPOF 注入故障，驗證自動切換
-  - 多 AZ 部署：跨可用區，單 AZ 掛不影響整體
-  - 業界共識：韌性要演練，不能只靠設計
+- Kicker: `ARTIFACT`
+- Progress Pill: `架構白皮書 v4 · 風險與韌性`
+- Title: 白皮書 v4：故障模式圖
+- Diagram caption: v3 架構標出 3 個 SPOF · FMEA 失效模式 + 緩解手法
+- Legend (圖例，置於圖面下緣): `⚡＝單點故障 SPOF`、`實線＝同步　虛線＝非同步`
+- Node bilingual labels (節點中英對照，圖內每節點英文上方或下方加中文)：
+  - Device / Gateway 設備/閘道
+  - Ingest API 接收 API
+  - Message Queue 訊息佇列(Kafka)
+  - Stream Processor 串流處理
+  - TSDB 時序資料庫
+  - Query API 查詢 API
+  - Cache 快取(Redis)
+  - Alert Service 告警服務
+  - Dashboard 儀表板
+- FMEA summary (right panel or below diagram):
+  - ⚡ TSDB 單實例｜影響：讀寫全斷 $20k/hr｜緩解：Replica + 讀寫分離
+  - ⚡ Kafka 單 broker｜影響：上報寫入中斷｜緩解：複本 + 背壓
+  - ⚡ Stream Processor｜影響：告警 P99 破 10s｜緩解：Consumer Group 擴展 + 重試/冪等
+- Version label (bottom-right of diagram): `白皮書 v4`
 
 ## Beginner Anchor
-混沌工程 / 多 AZ（業界佐證，不具名來源）——大規模系統的韌性不靠設計圖保證，靠主動注入故障演練和跨區部署確認。
+在 v3 架構上標出 SPOF + FMEA 表。這是架構師主動問「如果這個元件壞了會怎樣」並記錄緩解手法的輸出——比等生產爆炸再說早了幾個月。
 
 ## Learning Goal
-讓學員了解混沌工程和多 AZ 部署是業界成熟的韌性實踐，「主動弄壞自己」不是冒險而是風險控制，從而建立對韌性演練的心理準備。
+讓學員看到 v3 架構的三個 SPOF 節點（TSDB、Kafka broker、Stream Processor）被標記出來，理解每個 SPOF 對 SLA 和停機成本的具體影響，以及對應的韌性緩解手法。
 
 ## Visual Spec
 - Canvas: `1920 x 1080 px`, safe margin `96 px`.
-- Beat color: Forest Green `#5B9770` (REAL WORLD). Kicker pill: Forest Green `#5B9770` background, Warm White text, Inter 700 / 24 px, all-caps.
+- Beat color: Deep Navy `#152238` (ARTIFACT). Kicker pill: Deep Navy background with Mint `#97E8D6` 2 px outline, Warm White text.
 - Background: Deep Navy `#152238`.
-- Kicker label: `REAL WORLD`, top-left, Forest Green `#5B9770` background pill, Warm White text.
-- Title: Noto Sans TC 900 / 80 px / Warm White `#F4F1EA`, left-aligned.
-- Body (3 lines): Noto Sans TC 500 / 34 px / Warm White / line-height 1.60, left-aligned. Technical terms (混沌工程, 多 AZ) in JetBrains Mono where appropriate.
-- Right visual (~40% canvas): two flat illustration panels stacked or side by side:
-  - Panel 1 (Chaos Engineering): A network diagram of 3–4 nodes connected by thin Mint #97E8D6 lines; one node has an intentional Coral Red #E8634F "✕" cut marker on a connection line, with a small Forest Green check icon showing the system rerouting around it. Visual metaphor: controlled failure injection.
-  - Panel 2 (Multi-AZ): Two geographic zone rectangles (labeled "AZ-1" and "AZ-2" in JetBrains Mono Warm White 22 px), each containing a small stack of service nodes. A dashed Mint #97E8D6 arrow connecting them. One zone is dimmed (30% opacity) simulating failure, the other remains bright — the system continues serving. Forest Green #5B9770 subtle border on the active zone.
-  - Both panels: Deep Navy fill, thin 2 px lines, flat, minimal, no gradients, no 3D, no photos, no real company logos.
-- No named company citations, no "Source:" lines.
+- Kicker label: `ARTIFACT`, top-left. Pill style: Deep Navy background, Mint `#97E8D6` 2 px border, Warm White text, Inter 700 / 24 px, all-caps.
+- Progress Capsule: `架構白皮書 v4 · 風險與韌性`, below kicker, Mint text on Deep Navy, rounded capsule, Inter 700 + JetBrains Mono for `v4`, 34 px.
+- Title: Noto Sans TC 900 / 80 px / Warm White, left-aligned.
+- Main diagram area (~65% canvas width, left/center):
+  - Rendered programmatically per Diagram Spec.
+  - SPOF nodes (TSDB, Kafka/message_queue, Stream Processor) carry Coral Red `#E8634F` lightning bolt marker overlaid at top-right corner (⚡), distinct from kicker pill — the marker sits on the node box itself.
+  - All node text: JetBrains Mono 500 / 28 px / Warm White.
+  - Non-SPOF nodes retain Deep Teal `#2E7D86` 2 px border (existing status).
+  - SPOF nodes: retain existing Deep Teal 2 px border + add Coral Red lightning marker badge.
+  - Arrows: Mint `#97E8D6`, solid 2 px (sync), dashed 2 px (async).
+  - Background of diagram area: Deep Navy `#152238`.
+  - Version label bottom-right of diagram: `白皮書 v4`, JetBrains Mono / 26 px / Mint `#97E8D6`.
+- FMEA Summary Panel (right side, ~30% canvas width):
+  - Background: `#172A40` (slightly lighter than Deep Navy), rounded 12 px, Mint `#97E8D6` 1 px border.
+  - Title: `FMEA 摘要` JetBrains Mono / 24 px / Mint `#97E8D6`.
+  - 3 rows, one per SPOF. Each row: ⚡ icon (Coral Red) + component name (JetBrains Mono Warm White 22 px) + impact summary + mitigation (Noto Sans TC 500 Warm White 22 px).
+- Logo strip below FMEA panel: Kafka, Redis — official SVG assets, 40 px height, Warm White pill background.
 - Logo: `logo-light.png`, 64 px height, bottom-right canvas corner, 96 px from edges.
 - Footer: `桑尼資料科學 · 版權所有 ©`, 22 px / 500 weight / Warm White.
+- No source/citation text. No named facilitation devices.
 
 ## Diagram Spec
 ```yaml
-not_applicable: true
-reason: "REAL WORLD slide — illustration-driven, no programmatic architecture diagram required."
+diagram_type: "data_flow"
+whitepaper_version: "v4"
+focus: "在 v3 架構基礎上標記 3 個 SPOF 節點（TSDB、Kafka broker、Stream Processor），展示故障模式與緩解手法"
+rendering_rules:
+  canvas: "1920x1080"
+  safe_margin_px: 96
+  background: "Deep Navy #152238"
+  existing_node_border: "Deep Teal #2E7D86 2px"
+  new_node_border: "Mint #97E8D6 4px + NEW label"
+  warning_node_marker: "Coral Red #E8634F lightning marker — overlaid on top-right corner of the node box, distinct from kicker pill"
+  arrow_sync: "Mint #97E8D6 solid 2px"
+  arrow_async: "Mint #97E8D6 dashed 2px"
+  node_text_font: "JetBrains Mono 500 28px Warm White #F4F1EA"
+  node_label_bilingual: "每節點以 label_zh 中文 + 英文 label 對照呈現（中文 Noto Sans TC，英文 JetBrains Mono），技術名（Kafka/Redis/TimescaleDB/FastAPI）保留原文，不得留裸英文"
+  legend: "圖面下緣放圖例：⚡＝單點故障 SPOF；實線＝同步　虛線＝非同步（Noto Sans TC 22px Warm White）"
+  version_label: "白皮書 v4, JetBrains Mono Caption, bottom-right of diagram"
+
+groups:
+  - id: "external"
+    label: "External"
+  - id: "ingest_layer"
+    label: "Ingest Layer"
+  - id: "processing_layer"
+    label: "Processing Layer"
+  - id: "storage_layer"
+    label: "Storage Layer"
+  - id: "query_layer"
+    label: "Query Layer"
+  - id: "alert_layer"
+    label: "Alert Layer"
+
+nodes:
+  - id: "device_gateway"
+    label: "Device / Gateway"
+    label_zh: "設備/閘道"
+    subtitle: "10,000 台 · 6,000 msg/s peak"
+    type: "external"
+    group: "external"
+    is_external_actor: true
+    status: "existing"
+    note: "外部角色，不在韌性改善範圍內。上報流量均值 2,000 msg/s、尖峰 6,000 msg/s。"
+
+  - id: "ingest_api"
+    label: "Ingest API"
+    label_zh: "接收 API"
+    subtitle: "FastAPI · stateless"
+    type: "service"
+    group: "ingest_layer"
+    status: "existing"
+    note: "Stateless，水平可擴展，不是 SPOF。可在 Kafka 之前加 backpressure 信號。"
+
+  - id: "message_queue"
+    label: "Message Queue"
+    label_zh: "訊息佇列(Kafka)"
+    subtitle: "Kafka · single broker ⚡"
+    type: "queue"
+    group: "ingest_layer"
+    status: "warning"
+    fmea:
+      failure_mode: "單一 Kafka broker 掛掉"
+      impact: "sensor-readings topic 不可用，上報寫入中斷，Processor 消費停止"
+      sla_impact: "寫入路徑全斷；Kafka 積壓；告警靜默"
+      cost_impact: "寫入中斷期間上報資料丟失，設備重連 backoff 累積，TSDB 出現資料缺口；與 TSDB 全停的 $20,000/hr 屬不同量級"
+      mitigation: "複本（Kafka multi-broker cluster）+ 背壓（consumer lag 監控告警）"
+    note: "SPOF：單一 Kafka broker。v4 緩解：部署 3-broker cluster，設定 replication.factor=3，min.insync.replicas=2。"
+
+  - id: "stream_processor"
+    label: "Stream Processor"
+    label_zh: "串流處理"
+    subtitle: "Single Consumer ⚡"
+    type: "service"
+    group: "processing_layer"
+    status: "warning"
+    fmea:
+      failure_mode: "單一 Consumer 實例崩潰或 rebalance 時間過長"
+      impact: "Kafka 訊息積壓，TSDB 寫入延遲，閾值比對暫停，告警停止"
+      sla_impact: "告警 P99 破 10s SLA；積壓回放導致 TSDB 寫入突波"
+      cost_impact: "積壓訊息重播時 TSDB 寫入壓力倍增"
+      mitigation: "Consumer Group 多實例（水平擴展）+ Retry + Idempotency（sensor_id+timestamp 去重）"
+    note: "SPOF：單一 Stream Processor。v4 緩解：Consumer Group 至少 2 實例，搭配健康檢查 + 自動重啟。"
+
+  - id: "tsdb"
+    label: "TSDB"
+    label_zh: "時序資料庫"
+    subtitle: "TimescaleDB · single instance ⚡"
+    type: "database"
+    group: "storage_layer"
+    status: "warning"
+    fmea:
+      failure_mode: "TimescaleDB 單實例掛掉（OOM、磁碟滿、OS crash）"
+      impact: "寫入路徑中斷（Processor batch INSERT 失敗）；讀取路徑中斷（cache miss 後打 TSDB 失敗）；告警靜默"
+      sla_impact: "整廠監控全黑；告警 P99 無限大；可用性降為 0%"
+      cost_impact: "每小時停機 ~$20,000"
+      mitigation: "Replica（Primary + Standby，streaming replication）+ 讀寫分離（Standby 承擔讀取）"
+    note: "SPOF：TimescaleDB 單實例，是 v3 架構最嚴重的 SPOF。v4 緩解：PostgreSQL streaming replication，Standby 承擔 Query API 的讀取流量。"
+
+  - id: "query_api"
+    label: "Query API"
+    label_zh: "查詢 API"
+    subtitle: "FastAPI · stateless"
+    type: "service"
+    group: "query_layer"
+    status: "existing"
+    note: "Stateless，可水平擴展，不是 SPOF。但 cache miss 時打 TSDB，需防 thundering herd（當 Redis 重啟後大量 miss 同時打 TSDB）。"
+
+  - id: "cache"
+    label: "Cache"
+    label_zh: "快取(Redis)"
+    subtitle: "Redis · TTL 60s"
+    type: "cache"
+    group: "query_layer"
+    status: "existing"
+    note: "單實例 Redis 也是潛在 SPOF，但 cache miss 可降級到直接打 TSDB，影響 SLA 但不造成完全中斷。v4 觀察；v5 可升級 Redis Sentinel。"
+
+  - id: "alert_service"
+    label: "Alert Service"
+    label_zh: "告警服務"
+    subtitle: "Email / Webhook"
+    type: "service"
+    group: "alert_layer"
+    status: "existing"
+    note: "依賴 Stream Processor 的告警觸發事件。Processor 掛掉則告警靜默——SPOF 影響透過 Processor 傳遞。"
+
+  - id: "dashboard"
+    label: "Dashboard"
+    label_zh: "儀表板"
+    subtitle: "Web UI"
+    type: "frontend"
+    group: "external"
+    is_external_actor: true
+    status: "existing"
+    note: "外部角色，不在韌性改善範圍內。"
+
+edges:
+  - from: "device_gateway"
+    to: "ingest_api"
+    label: "POST · 6,000 msg/s peak"
+    style: "solid"
+    meaning: "write"
+    note: "尖峰 6,000 msg/s，Ingest API 需能承受。若 Kafka 背壓，Ingest API 可回 429 Too Many Requests。"
+
+  - from: "ingest_api"
+    to: "message_queue"
+    label: "async enqueue"
+    style: "dashed"
+    meaning: "async"
+    note: "非同步 enqueue；Kafka broker 若掛掉，Producer 無法 ack，Ingest API 應回 503 給設備。"
+
+  - from: "message_queue"
+    to: "stream_processor"
+    label: "consume (at-least-once)"
+    style: "dashed"
+    meaning: "async"
+    note: "Consumer Group 消費；Processor 掛掉觸發 rebalance（延遲約 30–60 秒），期間訊息積壓。"
+
+  - from: "stream_processor"
+    to: "tsdb"
+    label: "batch write"
+    style: "solid"
+    meaning: "write"
+    note: "批次 INSERT，成功後提交 offset。TSDB 掛掉：INSERT 失敗，offset 不提交，Kafka 重試。"
+
+  - from: "stream_processor"
+    to: "alert_service"
+    label: "threshold breach"
+    style: "dashed"
+    meaning: "async"
+    note: "Processor 掛掉則告警靜默——SPOF 影響鏈。"
+
+  - from: "dashboard"
+    to: "query_api"
+    label: "GET readings / alerts"
+    style: "solid"
+    meaning: "read"
+    note: "同步讀取。"
+
+  - from: "query_api"
+    to: "cache"
+    label: "cache-aside: GET / SET EX60"
+    style: "solid"
+    meaning: "read"
+    note: "Cache hit：P99 < 10ms，滿足 SLA。Cache miss：打 TSDB 並回填。Redis 掛掉：降級直打 TSDB，P99 可能破 10s。"
+
+  - from: "query_api"
+    to: "tsdb"
+    label: "fallback read (cache miss)"
+    style: "solid"
+    meaning: "read"
+    note: "TSDB 掛掉時此路徑也失敗，讀取完全中斷。"
 ```
 
 ## Logo Assets
-none — no named companies, cloud services, frameworks, or open-source products are cited on this slide. The slide describes industry practices generically without naming specific vendors or sources.
+此頁面的 FMEA 摘要區標記了以下技術產品，logo 放在圖面旁邊的工具識別區（不取代節點標籤）：
+
+| 名稱 | Expected Asset Path | 可從 101 重用 | 備註 |
+|------|---------------------|--------------|------|
+| Apache Kafka | `assets/logos/messaging/kafka.svg` | 是（101 已有 kafka.svg） | 官方 Kafka logo，SVG 優先 |
+| Redis | `assets/logos/cache/redis.svg` | 是（101 已有） | 官方立方體 logo |
+
+**Logo Strip 規格**：
+- 位置：FMEA 摘要面板下方識別區，不與節點標籤重疊
+- 高度：40 px（等比例縮放）
+- 間距：水平 20 px
+- 背景：Warm White `#F4F1EA` 小底板，padding 12 px，rounded 8 px
+- 最多 2 個（本頁 2 個：Kafka、Redis）
 
 ## Technical Flow Details
-not_applicable — this is an industry practice slide, not a technical flow diagram.
+
+### v4 故障模式分析（FMEA）— 三個 SPOF
+
+---
+
+#### SPOF 1：TimescaleDB 單實例（最嚴重）
+
+**失效模式：** TimescaleDB Primary 實例掛掉（OOM、磁碟滿、作業系統崩潰、硬體故障）。
+
+**影響鏈（對 SLA 和停機成本）：**
+- 寫入路徑中斷：Stream Processor 的 `batch INSERT` 失敗 → consumer offset 不提交 → Kafka 訊息積壓（積壓速率 = 消費速率 ~2,000–6,000 msg/s）
+- 讀取路徑中斷：Query API 的 cache miss 路徑打 TSDB → 失敗 → 無法取得讀數 → Dashboard 無法顯示資料
+- 告警路徑間接中斷：Stream Processor 持續重試 TSDB 寫入 → 批次延遲 → 告警觸發延遲 → P99 破 10s SLA
+- 整廠監控全黑；可用性降為 0%；停機成本 ~$20,000/hr
+
+**緩解手法（v4 目標）：**
+- **Replica（複本）**：PostgreSQL streaming replication — Primary 寫入，Standby 熱備援。Primary 掛掉後，Standby 可在 ~30–60 秒內切換為 Primary（手動或自動 failover）。
+- **讀寫分離**：Query API 的讀取請求導向 Standby，減少 Primary 負載，也讓讀取路徑在 Primary 切換期間有部分可用性。
+- **監控**：PostgreSQL replication lag 監控，lag > 5s 告警。
+
+---
+
+#### SPOF 2：單一 Kafka Broker
+
+**失效模式：** 單一 Kafka broker 實例掛掉（JVM OOM、磁碟故障、網路中斷）。
+
+**影響鏈：**
+- `sensor-readings` topic 的 partition leader 在單一 broker 上 → broker 掛掉 → topic 不可用
+- Ingest API 無法 enqueue → Producer 無法 ack → Ingest API 回傳 503 給設備 → 設備上報失敗
+- Stream Processor 無法消費 → Kafka 無法服務 Consumer → 訊息無法繼續處理
+- 告警靜默、TSDB 寫入停止
+
+**緩解手法（v4 目標）：**
+- **Replica（複本）**：部署 3-broker Kafka cluster，設定 `replication.factor=3`，`min.insync.replicas=2`。任一 broker 掛掉，partition leader 自動選舉到其他 broker，中斷時間 ~10–30 秒。
+- **背壓（Backpressure）**：監控 Consumer lag（consumer-group-offsets）；lag 持續增長時觸發告警，限制上游生產速率或擴展 Consumer。
+- **Producer 配置**：`acks=all`（所有 ISR 確認）確保訊息持久化，避免 broker 切換時訊息丟失。
+
+---
+
+#### SPOF 3：單一 Stream Processor（Consumer）
+
+**失效模式：** 單一 Consumer 實例 OOM 崩潰、或 rebalance 時間過長（例如 GC pause 觸發心跳超時）。
+
+**影響鏈：**
+- Consumer 崩潰 → Kafka 觸發 Consumer Group rebalance（預設 session.timeout.ms = 45s，即 ~45 秒重平衡期間無消費）
+- 重平衡期間 Kafka 訊息積壓（積壓 ~45s × 6,000 msg/s = 最多 270,000 筆）
+- 閾值比對暫停 → 告警靜默長達 45 秒 → P99 告警延遲破 10s SLA
+- 重平衡完成後，Consumer 需批次回放積壓訊息 → 對 TSDB 造成突波寫入壓力
+
+**緩解手法（v4 目標）：**
+- **Consumer Group 多實例（Replica）**：至少 2 個 Consumer 實例。任一崩潰，另一個繼續消費（rebalance 後接管其 partition）。搭配健康檢查 + 容器自動重啟。
+- **重試（Retry）**：Consumer 對 TSDB 寫入失敗加指數退避重試（最多 3 次）。
+- **冪等（Idempotency）**：TSDB 寫入以 `(sensor_id, timestamp)` 為 unique key，`ON CONFLICT DO NOTHING`，確保 rebalance 後重播不產生重複資料。
+- **Consumer lag 監控**：lag > 10,000 筆時告警，主動擴展 Consumer 實例。
+
+---
+
+### 正常讀寫路徑（v4 維持 v3 語意）
+
+**寫入路徑（正常）：**
+1. Device → POST /v1/readings → Ingest API
+2. Ingest API → enqueue → Kafka（dashed/async）
+3. Kafka → consume → Stream Processor（dashed/async，at-least-once）
+4. Stream Processor → batch INSERT → TSDB（solid/write；失敗則 offset 不提交，Kafka 重試）
+5. 同時：Stream Processor → threshold breach → Alert Service（dashed/async）
+
+**讀取路徑（正常）：**
+1. Dashboard → GET → Query API（solid/read）
+2. Query API → Redis cache GET（solid/read）
+   - Cache hit：直接回傳（P99 < 10ms）
+   - Cache miss → Query API → TSDB fallback read（solid/read）→ Redis SET EX60 → 回傳
+3. v4 增加防範：Redis 重啟後的 thundering herd 問題（大量同時 cache miss）→ 緩解：distributed lock 或 probabilistic early expiration（v4 備選）
+
+---
+
+### Redis 的 SPOF 狀態（v4 觀察，v5 處理）
+
+Redis 單實例也是潛在 SPOF，但影響程度比 TSDB 低：
+- Redis 掛掉：所有 Query API 請求走 cache miss 路徑直打 TSDB → TSDB 讀取壓力暴增 → P99 可能破 10s SLA，但讀取功能仍可用（降級，非全斷）
+- v4 標記為「觀察」；v5 升級 Redis Sentinel 或 Redis Cluster 處理
+
+---
+
+### v4 FMEA 摘要表
+
+| SPOF 元件 | 失效模式 | SLA 影響 | 停機成本影響 | 緩解手法 |
+|-----------|---------|---------|------------|---------|
+| TSDB（TimescaleDB 單實例） | 實例崩潰 | 整廠監控全黑，可用性 0% | ~$20,000/hr | Replica（Primary+Standby）+ 讀寫分離 |
+| Kafka（單 broker） | broker 掛掉，topic 不可用 | 上報寫入中斷，告警靜默 | 上報資料丟失 + 設備重連 backoff 累積，TSDB 資料缺口；與 TSDB 全停 $20k/hr 屬不同量級 | 3-broker cluster，replication.factor=3 |
+| Stream Processor（單實例） | OOM 崩潰或 rebalance 逾時 | 告警 P99 > 10s，積壓回放突波 | 間接：告警未及時，停機發現延遲 | Consumer Group ≥2 + Retry + Idempotency |
 
 ## VCRE Scorecard
-not_applicable — this is a real world evidence slide, not a trade-off decision slide.
+not_applicable — this is an artifact slide, not a trade-off decision slide. Trade-off scoring is on slide-08.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "REAL WORLD" kicker pill — Forest Green #5B9770 background, Warm White text, Inter 700 / 24 px, all-caps, rounded. Title "大廠主動弄壞自己" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: exactly 3 body lines Noto Sans TC 500 / 34 px / Warm White, line-height 1.60, left-aligned, rendered verbatim — Line 1: "混沌工程：對三個 SPOF 注入故障，驗證自動切換"; Line 2: "多 AZ 部署：跨可用區，單 AZ 掛不影響整體"; Line 3: "業界共識：韌性要演練，不能只靠設計". Render "SPOF" and "AZ" in JetBrains Mono. Right side (~40% canvas): two flat minimal illustration panels. Panel 1 (top): a simple node-and-line network diagram — 4 rectangular nodes (Deep Navy fill, Deep Teal #2E7D86 2 px border, JetBrains Mono Warm White labels) connected by Mint #97E8D6 2 px lines; one connecting line has a Coral Red #E8634F ✕ cut marker (intentional failure), and a curved rerouting arrow in Forest Green #5B9770 shows traffic bypassing the failure. Small "Chaos" label in JetBrains Mono 20 px Mint above the panel. Panel 2 (bottom): two zone rectangles labeled "AZ-1" and "AZ-2" in JetBrains Mono 22 px Warm White — "AZ-1" contains 2 small node stacks at 25% opacity (failed/dim), "AZ-2" contains 2 small node stacks at full brightness with Forest Green #5B9770 2 px border accent; a dashed Mint arrow flows from AZ-1 to AZ-2 indicating failover. Small "Multi-AZ" label JetBrains Mono 20 px Mint above. All flat, 2 px line-art, no 3D, no gradients, no neon, no real company logos, no photos. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v4 · 風險與韌性" Mint #97E8D6 text on Deep Navy, rounded capsule 34 px. Title "白皮書 v4：故障模式圖" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Left/center (~65% width): a left-to-right data flow architecture diagram. Render EXACTLY these 9 boxes and nothing else — 7 service nodes plus 2 external actors. Every node box shows a Chinese label and an English label together (bilingual): the Chinese label in Noto Sans TC, the English label in JetBrains Mono, plus the technical subtitle below in smaller mono. Technical product names (Kafka, Redis, TimescaleDB, FastAPI, PostgreSQL) stay in their original form. No node may show bare English only. The 2 external actors: "設備/閘道 · Device / Gateway" (subtitle "10,000 台 · 6,000 msg/s peak") on the far left, and "儀表板 · Dashboard" (subtitle "Web UI"). The 7 service nodes (each box shows Chinese + English label on top, subtitle below in smaller mono): (1) "接收 API · Ingest API" (subtitle "FastAPI · stateless"); (2) "訊息佇列 · Message Queue" (subtitle "Kafka · single broker ⚡"); (3) "串流處理 · Stream Processor" (subtitle "Single Consumer ⚡"); (4) "時序資料庫 · TSDB" (subtitle "TimescaleDB · single instance ⚡"); (5) "查詢 API · Query API" (subtitle "FastAPI · stateless"); (6) "快取 · Cache" (subtitle "Redis · TTL 60s"); (7) "告警服務 · Alert Service" (subtitle "Email / Webhook"). The stack is Python/FastAPI services, Kafka, TimescaleDB on PostgreSQL, and Redis — never any other framework or database. Draw EXACTLY these 8 arrows, arrowhead pointing in the stated direction; solid = synchronous read/write, dashed = asynchronous enqueue/consume: (a) Device / Gateway → Ingest API, SOLID (write, "POST · 6,000 msg/s peak"); (b) Ingest API → Message Queue, DASHED (async enqueue); (c) Message Queue → Stream Processor, DASHED (consume, at-least-once); (d) Stream Processor → TSDB, SOLID (batch write); (e) Stream Processor → Alert Service, DASHED (threshold breach); (f) Dashboard → Query API, SOLID (read, "GET readings / alerts"); (g) Query API → Cache, SOLID (read, cache-aside GET/SET EX60); (h) Query API → TSDB, SOLID (fallback read on cache miss). This yields a write/ingest path Device/Gateway → Ingest API → Message Queue → Stream Processor → TSDB (with Stream Processor branching to Alert Service) and a read/query path Dashboard → Query API → Cache, with Query API falling back to TSDB on cache miss. Nodes with SPOF status — exactly these 3: Message Queue (Kafka), Stream Processor, TSDB — retain Deep Teal #2E7D86 2 px border + add a bold Coral Red #E8634F lightning bolt icon (⚡) badge at node top-right corner — this marker is on the node box, distinct from the kicker pill. The other 4 service nodes and both external actors: Deep Teal #2E7D86 2 px border only, no lightning. All node text: JetBrains Mono 28 px Warm White. Arrows: Mint #97E8D6 solid 2 px (sync), dashed 2 px (async). At the bottom edge of the diagram area, place a legend row in Noto Sans TC 22 px Warm White: "⚡＝單點故障 SPOF" and "實線＝同步　虛線＝非同步". Bottom-right of diagram: "白皮書 v4" JetBrains Mono 26 px Mint. Right side (~30% width): FMEA summary panel with #172A40 background, Mint 1 px border, rounded 12 px, title "FMEA 摘要" JetBrains Mono 24 px Mint, exactly 3 rows (one per SPOF), each with a Coral Red ⚡ icon + component name in JetBrains Mono Warm White and impact + mitigation text in Noto Sans TC 22 px Warm White, with this exact wording: row 1 "⚡ TSDB 單實例 · 影響：讀寫全斷 $20k/hr · 緩解：Replica + 讀寫分離"; row 2 "⚡ Kafka 單 broker · 影響：上報寫入中斷 · 緩解：複本 + 背壓"; row 3 "⚡ Stream Processor · 影響：告警 P99 破 10s · 緩解：Consumer Group 擴展 + 重試/冪等". Below panel: 2-logo strip (Kafka, Redis) on Warm White 40 px background. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
 
 ## Negative Prompt
-- Do not invent extra Chinese text or rewrite the title or body lines.
-- Do not add source citations, references, or "Source:" lines of any kind.
-- Do not add company names, product names, or brand logos in the illustrations.
+- Do not invent extra nodes or arrows beyond those defined in the Diagram Spec.
+- Do not generate fake, approximate, or AI-invented brand logos — logos must be composited from official assets separately.
+- Do not add source citations, references, or "Source:" lines.
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
-- Do not use photos of real data centers, server rooms, or real-world facilities.
+- Do not omit the "白皮書 v4" version label on the diagram.
+- Do not omit the Coral Red lightning markers on the 3 SPOF nodes (Message Queue, Stream Processor, TSDB).
+- Do not place the SPOF lightning marker as a standalone element disconnected from the node — it must visually belong to the node box.
+- Do not place logo assets inside diagram nodes — logos go in the strip only.
 - Do not move logo or footer outside the 96 px safe margin.
-- Do not render fewer or more than 3 body lines.
-- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
-- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
+- Do not omit the FMEA summary panel on the right side.
+- Do not draw, invent, or render any brand logo, emblem, badge, monogram, icon, or filename text (e.g. "logo-light.png") in the bottom-right corner — keep it empty for a logo overlaid later. (The product logo strip is allowed.)
+- Do not invent, rename, add, or drop any node — render exactly the 7 services + 2 external actors and labels listed; the stack is FastAPI/Python + PostgreSQL/TimescaleDB + Kafka + Redis, never Spring Boot.
+- Do not leave any node label as bare English — every node must show the Chinese label alongside the English label (technical product names like Kafka/Redis/TimescaleDB/FastAPI stay in original form).
+- Do not omit the legend (⚡＝單點故障 SPOF；實線＝同步　虛線＝非同步) at the bottom of the diagram.
 
 ## Speaker Notes
-韌性不是紙上設計，需要主動演練。混沌工程的核心理念是：在受控的環境下，主動向系統中注入故障，觀察系統的實際行為——而不是等到生產環境真的爆炸再發現問題。對 v4 架構的三個 SPOF，具體的注入場景是：殺掉 TSDB Primary（驗證 Standby 自動切換是否真的在 30–60 秒內完成）、停掉一個 Kafka broker（驗證 partition leader 重選舉後 Producer / Consumer 能否自動恢復）、讓 Stream Processor OOM 崩潰（驗證 Consumer Group rebalance 後另一個實例接管，Retry + Idempotency 確保不重複寫入）。設計圖上的韌性手法只是「預期行為」——演練才能確認它真的有效。多 AZ（Multi-Availability Zone）部署：雲端服務的「可用區」是實體隔離的資料中心群，電力、網路、冷卻系統各自獨立。把服務部署在至少兩個 AZ，任何單一 AZ 發生故障，另一個 AZ 繼續服務。注意：多 AZ 增加延遲（跨 AZ 網路 typically 1–5ms），也增加成本——這是 slide-07 要打 VCRE 分的取捨決策。
+白皮書 v4 的核心產出：在 v3 架構圖上，我們主動標出三個 SPOF，並為每個 SPOF 寫出 FMEA——失效模式、對 SLA 和 $20,000/hr 停機成本的影響、緩解手法。最嚴重的是 TSDB 單實例：它一掛，寫入中斷（Processor 無法 INSERT，offset 不提交，Kafka 積壓）、讀取中斷（cache miss 後打 TSDB 失敗）、告警靜默，整廠監控全黑。緩解手法是 Replica——PostgreSQL streaming replication，Primary + Standby，讀寫分離讓讀取有部分可用性。Kafka 單 broker 的緩解是 3-broker cluster，replication.factor=3；Stream Processor 單實例的緩解是 Consumer Group ≥2，搭配 Retry + Idempotency 讓 rebalance 後重播安全。這不是過度設計：三個緩解手法（複本、重試、冪等）都是 slide-05 詞彙卡裡的標準工具。Redis 單實例也是潛在 SPOF，但影響程度比 TSDB 低（降級而非全斷），v4 標記觀察，v5 處理。
 
 ## QA Checklist
 - [ ] Canvas is 1920 x 1080 px with 96 px safe margin.
-- [ ] Title "大廠主動弄壞自己" — 9 Chinese characters, within 14-char limit.
-- [ ] Kicker reads `REAL WORLD` with Forest Green #5B9770 background pill.
-- [ ] Body has exactly 3 lines, each ≤ 18 Chinese characters.
-- [ ] Body line 1: "混沌工程：對三個 SPOF 注入故障，驗證自動切換" — 18 chars ✓
-- [ ] Body line 2: "多 AZ 部署：跨可用區，單 AZ 掛不影響整體" — within 18 chars ✓
-- [ ] Body line 3: "業界共識：韌性要演練，不能只靠設計" — 16 chars ✓
-- [ ] No source/citation text on slide (no "Source:" or named company as citation).
-- [ ] No named facilitation device text on slide.
-- [ ] Right visual panels are generic illustrations (no real company logos, no brand names).
-- [ ] `whitepaper_version` is empty (not an artifact slide).
-- [ ] `rendering_mode` is `image_prompt`.
-- [ ] Diagram Spec marked `not_applicable: true`.
-- [ ] Logo Assets states none.
-- [ ] Logo `logo-light.png` is 64 px height, bottom-right corner.
+- [ ] Title "白皮書 v4：故障模式圖" — 10 Chinese characters (CJK only), within 14-char limit.
+- [ ] Kicker reads `ARTIFACT` with Deep Navy background + Mint #97E8D6 2 px outline.
+- [ ] `whitepaper_version: "v4"` in frontmatter (artifact slide).
+- [ ] `rendering_mode: "programmatic_diagram"` in frontmatter.
+- [ ] Progress capsule `架構白皮書 v4 · 風險與韌性` present below kicker.
+- [ ] Diagram Spec is a complete YAML block (not `not_applicable`).
+- [ ] Diagram Spec defines `diagram_type: "data_flow"`.
+- [ ] Exactly 3 nodes have `status: "warning"`: message_queue, stream_processor, tsdb.
+- [ ] All 3 warning nodes have `fmea` block with: failure_mode, impact, sla_impact, cost_impact, mitigation.
+- [ ] Non-SPOF nodes have `status: "existing"`.
+- [ ] Warning node marker is described as Coral Red #E8634F lightning bolt on node box (not on kicker).
+- [ ] All v3 architecture nodes are present: ingest_api, message_queue, stream_processor, tsdb, query_api, cache, alert_service, device_gateway, dashboard.
+- [ ] SPOF nodes match v3 architecture node IDs: message_queue (Kafka), stream_processor, tsdb.
+- [ ] Technical Flow Details covers all 3 SPOFs with FMEA: failure mode, impact chain, SLA/cost impact, mitigation for each.
+- [ ] Technical Flow Details includes FMEA summary table.
+- [ ] Logo Assets lists Kafka and Redis with expected asset paths.
+- [ ] Version label `白皮書 v4` appears in diagram bottom-right.
+- [ ] FMEA summary panel present (3 rows, one per SPOF).
+- [ ] Logo strip below FMEA panel: Kafka, Redis.
+- [ ] Logo `logo-light.png` is 64 px height, bottom-right canvas corner.
 - [ ] Footer reads `桑尼資料科學 · 版權所有 ©` at 22 px.
+- [ ] No source/citation text on slide.
+- [ ] No named facilitation device text on slide.
+- [ ] Numbers consistent with shared IoT: 6,000 msg/s peak, $20,000/hr, P99 < 10s, 10,000 台.

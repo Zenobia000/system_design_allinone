@@ -1,6 +1,6 @@
 # 幕 4：風險與韌性 — 架構師 101
 
-> 本文件是幕 4 七張投影片的敘事草稿，產圖用單頁規格見 `slide-01.md`…`slide-07.md`。
+> 本文件是幕 4 八張投影片的敘事草稿，產圖用單頁規格見 `slide-01.md`…`slide-08.md`。
 
 ---
 
@@ -70,7 +70,7 @@
   - Circuit Breaker / 熔斷：偵測到下游異常後自動斷開，防止故障擴散
 - 視覺 prompt：深海軍藍底，五個詞彙卡以 mini 表格或縱列方式排列。每行：英文術語 JetBrains Mono + 中文定義 Noto Sans TC，≤ 18 字。Deep Teal 底色卡，Warm White 文字。Kicker「METHOD」。
 - 品牌：logo-light.png 右下 64 px + 頁尾
-- 旁白：這五種手法是韌性工具箱。Replica 解決 SPOF；Retry + Idempotency 解決暫時性失敗；Backpressure 解決流量暴增；Circuit Breaker 解決雪崩式連鎖故障。後面 slide-05 的 FMEA 表會把這五種手法對應到具體元件。
+- 旁白：這五種手法是韌性工具箱。Replica 解決 SPOF；Retry + Idempotency 解決暫時性失敗；Backpressure 解決流量暴增；Circuit Breaker 解決雪崩式連鎖故障。後面 slide-06 的 FMEA 表會把這五種手法對應到具體元件。
 
 ---
 

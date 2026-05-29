@@ -93,7 +93,7 @@ not_applicable — this is a consolidated trade-off summary slide, not a technic
 | 幕 1：需求與約束 | 99.9% vs 99.99% 可用性 | 2 | 4 | 4 | 5 | v1 先定 99.9%，v4 演進至 99.99% | ch01/slide-07 |
 | 幕 2：建模與選型 | TimescaleDB vs 通用 PostgreSQL | 4 | 3 | 2 | 4 | 選 TimescaleDB（extension，非新系統，值得） | ch02/slide-08 |
 | 幕 3：系統設計 | 同步寫 vs Queue 非同步（Kafka） | 4 | 3 | 4 | 5 | Queue 非同步是正確選擇，成本是多學一層 Kafka | ch03/slide-07 |
-| 幕 4：風險與韌性 | 多 AZ 備援現在做 vs 等 v5 | 3 | 5 | 3 | 5 | v4 先做 SPOF 緩解，v5 再演進多 AZ | ch04/slide-07 |
+| 幕 4：風險與韌性 | 多 AZ 備援現在做 vs 等 v5 | 3 | 5 | 3 | 5 | v4 先做 SPOF 緩解，v5 再演進多 AZ | ch04/slide-08 |
 | 幕 5：落地與演進 | 微服務先行 vs Modular Monolith 先行 | 4 | 2 | 2 | 4 | Modular monolith 先行；有觸發條件再拆 | ch05/slide-08 |
 
 ### 各幕 VCRE 分數詳細說明
@@ -119,7 +119,7 @@ not_applicable — this is a consolidated trade-off summary slide, not a technic
 - E=5：Queue 架構的演進性極佳：v4 可加多個 Consumer Group 做並行處理；未來需要多種資料流只需加 Consumer，不改 Ingest API；若未來換 TimescaleDB，只需改 Consumer 寫入邏輯。
 - 結論：Kafka 的引入讓架構多了一層（複雜度和 TCO 增加），但換來的是削峰保護、故障隔離、獨立重試和優秀的演進性——代價完全值得。
 
-**幕 4：多 AZ 備援現在做 vs 等 v5（來自 ch04/slide-07）**
+**幕 4：多 AZ 備援現在做 vs 等 v5（來自 ch04/slide-08）**
 - V=3：多 AZ 確實提升可用性，但 MVP 階段用戶規模有限，每月少損失的停機費是假設性收益。
 - C=5：多 AZ 部署需要所有有狀態服務（TSDB、Kafka、Redis）跨 AZ 複製，額外雲費保守估計 $3,000–$6,000/月，超出 $5k/月預算（總費預估 $8,000–$11,000/月），TCO 壓力極高。
 - R=3：多 AZ 架構複雜度大幅提升——跨 AZ 延遲影響 TSDB replication、Kafka ISR、Redis Sentinel 選舉。6 人熟 Python 剛碰雲端的團隊在 3 個月 MVP 內部署並正確維運多 AZ，失敗風險中等偏高。
@@ -173,12 +173,12 @@ VCRE 是整門課的第二條螺旋。從幕 1 開始，每一幕都有一個 VC
 - [ ] VCRE scores for幕 1 (ch01/slide-07): V=2, C=4, R=4, E=5 ✓
 - [ ] VCRE scores for幕 2 (ch02/slide-08): V=4, C=3, R=2, E=4 ✓
 - [ ] VCRE scores for幕 3 (ch03/slide-07): V=4, C=3, R=4, E=5 ✓
-- [ ] VCRE scores for幕 4 (ch04/slide-07): V=3, C=5, R=3, E=5 ✓
+- [ ] VCRE scores for幕 4 (ch04/slide-08): V=3, C=5, R=3, E=5 ✓
 - [ ] VCRE scores for幕 5 (ch05/slide-08): V=4, C=2, R=2, E=4 ✓
 - [ ] 幕 1 決策題目: "99.9% vs 99.99%" — matches ch01/slide-07.
 - [ ] 幕 2 決策題目: "TimescaleDB vs 純 PostgreSQL" — matches ch02/slide-08.
 - [ ] 幕 3 決策題目: "同步寫 vs Queue 非同步" — matches ch03/slide-07.
-- [ ] 幕 4 決策題目: "多 AZ 備援現在做 vs 等 v5" — matches ch04/slide-07.
+- [ ] 幕 4 決策題目: "多 AZ 備援現在做 vs 等 v5" — matches ch04/slide-08.
 - [ ] 幕 5 決策題目: "微服務先行 vs Modular Monolith 先行" — matches ch05/slide-08.
 - [ ] Score color polarity correct: V/E high → Forest Green; C/R high → Coral Red; 幕5 C=2/R=2 → Forest Green (exception noted in Visual Spec and VCRE Scorecard).
 - [ ] Polarity caption present below table: "V/E 高=好；C/R 高=該擔心（幕 3 R=4＝Kafka 新依賴；幕 4 C=5＝超預算）；幕 5 C/R 低=成本低/風險低，是優點".

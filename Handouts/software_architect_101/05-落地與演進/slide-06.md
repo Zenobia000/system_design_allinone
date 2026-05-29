@@ -23,6 +23,16 @@ rendering_mode: "programmatic_diagram"
 - Progress Pill: `架構白皮書 v5 · 落地與演進`
 - Title: 白皮書 v5：可觀察性
 - Diagram caption: 遙測三本柱資料流 · OpenTelemetry 統一收集 · 演進觸發條件
+- Node bilingual labels (每節點英文主標 + 中文副標)：
+  - `Ingest API 接收API`
+  - `Processor 處理`
+  - `Query API 查詢API`
+  - `OTel Collector 收集器`
+  - `Prometheus 指標庫`
+  - `Trace Backend 追蹤庫(Tempo)`
+  - `Log Backend 日誌庫(Loki)`
+  - `Grafana 儀表板`
+- Diagram legend (圖例，置於圖區角落)：`虛線＝上報/觀測　實線＝查詢`
 - Evolution Roadmap (right panel):
   - 現在：modular monolith，單一 codebase
   - 觸發條件（才考慮拆微服務）：
@@ -93,6 +103,7 @@ groups:
 nodes:
   - id: "ingest_api"
     label: "Ingest API"
+    subtitle_zh: "接收API"
     subtitle: "FastAPI · /metrics endpoint"
     type: "service"
     group: "services"
@@ -101,6 +112,7 @@ nodes:
 
   - id: "processor"
     label: "Processor"
+    subtitle_zh: "處理"
     subtitle: "Consumer Group · /metrics"
     type: "service"
     group: "services"
@@ -109,6 +121,7 @@ nodes:
 
   - id: "query_api"
     label: "Query API"
+    subtitle_zh: "查詢API"
     subtitle: "FastAPI · /metrics endpoint"
     type: "service"
     group: "services"
@@ -117,6 +130,7 @@ nodes:
 
   - id: "otel_collector"
     label: "OTel Collector"
+    subtitle_zh: "收集器"
     subtitle: "OpenTelemetry Collector"
     type: "service"
     group: "telemetry_pipeline"
@@ -125,6 +139,7 @@ nodes:
 
   - id: "prometheus"
     label: "Prometheus"
+    subtitle_zh: "指標庫"
     subtitle: "Metrics scrape + store"
     type: "database"
     group: "observability_backends"
@@ -133,6 +148,7 @@ nodes:
 
   - id: "grafana"
     label: "Grafana"
+    subtitle_zh: "儀表板"
     subtitle: "Dashboard + Alert Rules"
     type: "frontend"
     group: "observability_backends"
@@ -141,6 +157,7 @@ nodes:
 
   - id: "trace_backend"
     label: "Trace Backend"
+    subtitle_zh: "追蹤庫(Tempo)"
     subtitle: "Tempo / Jaeger"
     type: "database"
     group: "observability_backends"
@@ -149,6 +166,7 @@ nodes:
 
   - id: "log_backend"
     label: "Log Backend"
+    subtitle_zh: "日誌庫(Loki)"
     subtitle: "Loki / stdout → Fluentd"
     type: "database"
     group: "observability_backends"
@@ -364,7 +382,7 @@ Grafana 連接三個資料源（Prometheus、Tempo、Loki），提供統一 UI�
 not_applicable — this is an artifact slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v5 · 落地與演進" Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書 v5：可觀察性" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: left/center (~65% width) — telemetry data flow diagram, rendered programmatically. Draw EXACTLY these 8 nodes and 9 arrows, no more, no less. NODES — left column, three stacked existing service nodes, each Deep Teal #2E7D86 2 px border, Deep Navy fill, rounded 8 px: "Ingest API" (top), "Processor" (middle), "Query API" (bottom). Center, one new node with Mint #97E8D6 4 px border + small "NEW" badge: "OTel Collector". Right column, three stacked new backend nodes, each Mint #97E8D6 4 px border + "NEW" badge, rounded 8 px: "Prometheus" (top), "Trace Backend" (middle, subtitle "Tempo / Jaeger"), "Log Backend" (bottom, subtitle "Loki"). Below the right column, one new node with Mint 4 px border + "NEW" badge: "Grafana". All node labels JetBrains Mono 28 px Warm White. ARROWS — (1) three DASHED Mint #97E8D6 arrows pointing RIGHT, one from each service into "OTel Collector", every one labeled "OTLP (Logs + Metrics + Traces)"; (2) three DASHED Mint arrows fanning out RIGHT from "OTel Collector", one to each backend: to "Prometheus" labeled "metrics scrape (pull)", to "Trace Backend" labeled "Traces export (OTLP)", to "Log Backend" labeled "Logs export (OTLP / Loki)"; (3) three SOLID Mint arrows from "Grafana" reading UP into the three backends: to "Prometheus" labeled "PromQL query", to "Trace Backend" labeled "Trace query (TraceQL)", to "Log Backend" labeled "LogQL query". Dashed arrows = observe (push/export) semantic; solid arrows = read (query) semantic. Do not draw any other arrows between nodes. Bottom-right of diagram: "白皮書 v5" JetBrains Mono 26 px Mint. Right side (~30% width): evolution roadmap card with #172A40 background, Mint 1 px border, rounded 12 px, title "演進路線" JetBrains Mono 24 px Mint, rows: Forest Green "現在 monolith", Coral Red "拆微服務條件：" with 3 sub-bullets, Mint "更遠 Event Sourcing/CQRS" followed by two small Warm White what-is gloss lines (18 px) reading "Event Sourcing＝存每次變更事件，可回溯歷史" and "CQRS＝讀寫模型分離，各自最佳化". Below roadmap: 3-logo strip (OpenTelemetry, Prometheus, Grafana) on Warm White pill 40 px. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v5 · 落地與演進" Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書 v5：可觀察性" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: left/center (~65% width) — telemetry data flow diagram, rendered programmatically. Draw EXACTLY these 8 nodes and 9 arrows, no more, no less. Every node shows an English title (JetBrains Mono 28 px Warm White) with a smaller Chinese gloss directly underneath (Noto Sans TC 20 px Mint #97E8D6) so beginners can read it — never leave a node as bare English. NODES — left column, three stacked existing service nodes, each Deep Teal #2E7D86 2 px border, Deep Navy fill, rounded 8 px: "Ingest API" / "接收API" (top), "Processor" / "處理" (middle), "Query API" / "查詢API" (bottom). Center, one new node with Mint #97E8D6 4 px border + small "NEW" badge: "OTel Collector" / "收集器". Right column, three stacked new backend nodes, each Mint #97E8D6 4 px border + "NEW" badge, rounded 8 px: "Prometheus" / "指標庫" (top), "Trace Backend" / "追蹤庫(Tempo)" (middle), "Log Backend" / "日誌庫(Loki)" (bottom). Below the right column, one new node with Mint 4 px border + "NEW" badge: "Grafana" / "儀表板". A small legend sits in a free corner of the diagram area reading exactly "虛線＝上報/觀測　實線＝查詢" (Noto Sans TC 22 px Warm White, with a short dashed sample line and a short solid sample line beside the matching phrase). ARROWS — (1) three DASHED Mint #97E8D6 arrows pointing RIGHT, one from each service into "OTel Collector", every one labeled "OTLP (Logs + Metrics + Traces)"; (2) three DASHED Mint arrows fanning out RIGHT from "OTel Collector", one to each backend: to "Prometheus" labeled "metrics scrape (pull)", to "Trace Backend" labeled "Traces export (OTLP)", to "Log Backend" labeled "Logs export (OTLP / Loki)"; (3) three SOLID Mint arrows from "Grafana" reading UP into the three backends: to "Prometheus" labeled "PromQL query", to "Trace Backend" labeled "Trace query (TraceQL)", to "Log Backend" labeled "LogQL query". Dashed arrows = observe (push/export) semantic; solid arrows = read (query) semantic. Do not draw any other arrows between nodes. Bottom-right of diagram: "白皮書 v5" JetBrains Mono 26 px Mint. Right side (~30% width): evolution roadmap card with #172A40 background, Mint 1 px border, rounded 12 px, title "演進路線" JetBrains Mono 24 px Mint, rows: Forest Green "現在 monolith", Coral Red "拆微服務條件：" with 3 sub-bullets, Mint "更遠 Event Sourcing/CQRS" followed by two small Warm White what-is gloss lines (18 px) reading "Event Sourcing＝存每次變更事件，可回溯歷史" and "CQRS＝讀寫模型分離，各自最佳化". Below roadmap: 3-logo strip (OpenTelemetry, Prometheus, Grafana) on Warm White pill 40 px. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
 
 ## Negative Prompt
 - Do not invent extra nodes or arrows beyond those defined in the Diagram Spec.
@@ -380,6 +398,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not draw, invent, or render any brand logo, emblem, badge, monogram, icon, or filename text (e.g. "logo-light.png") in the bottom-right corner — keep it empty for a logo overlaid later. (The product logo strip is allowed.)
 - Do not invent, rename, add, or drop any node or edge — render exactly the telemetry nodes and labels listed (Ingest API / Processor / Query API → OTel Collector → Prometheus / Tempo / Loki → Grafana) with dashed=observe and solid=read semantics.
 - Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
+- Do not leave any node as bare English — every node must carry its Chinese gloss exactly as listed (Ingest API 接收API / Processor 處理 / Query API 查詢API / OTel Collector 收集器 / Prometheus 指標庫 / Trace Backend 追蹤庫(Tempo) / Log Backend 日誌庫(Loki) / Grafana 儀表板), and do not change, translate, or drop the legend "虛線＝上報/觀測　實線＝查詢".
 
 ## Speaker Notes
 白皮書 v5 的第二個產出：可觀察性資料流 + 演進路線圖。三個服務（Ingest API、Processor、Query API）透過 OpenTelemetry SDK 同時輸出 Logs、Metrics、Traces，OTel Collector 統一接收後分發：Metrics 給 Prometheus，Traces 給 Tempo/Jaeger，Logs 給 Loki。Grafana 查詢全部三個後端，一個 UI 就能看到儀表板、告警規則、Trace 瀑布圖、Log 關聯。這樣的監控架構讓故障發現時間從 30 分鐘（靠用戶回報）壓到 1 分鐘（consumer_lag 告警），直接對著 $20,000/hr 停機成本說話。演進路線不是「未來可能要做的事」，是「有觸發條件才做」——現在 6 人 monolith 不拆；團隊 > 20 人、部署衝突頻繁、單一模組需獨立擴展，才考慮拆微服務，且沿著 v5 monorepo 的 package 邊界切。Event Sourcing 和 CQRS 更遠，有業務觸發條件再評估。先把這兩個冷僻名詞講清楚：Event Sourcing 是「不只存目前狀態，而是把每一次變更當成一筆不可變事件依序存下來」——目前的狀態是把所有事件重播出來的結果，好處是能完整回溯歷史、重建任意時間點的狀態（適合審計、法規、狀態重建需求）。CQRS（Command Query Responsibility Segregation）是「把寫入（Command）和讀取（Query）拆成兩套模型」——寫入模型專注一致性與正確性，讀取模型可針對查詢做各種聚合視圖最佳化，兩邊各自演化。兩者常一起出現但不綁定：本系統現階段 TimescaleDB 已能回溯讀數、Redis cache-aside 已能扛讀取，這兩招都還屬過度設計，列在路線圖只是讓團隊知道「之後若讀寫負載拉開或要事件審計，往這個方向走」。

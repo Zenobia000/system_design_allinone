@@ -30,7 +30,7 @@ rendering_mode: "image_prompt"
 問：暴增 10 倍？queue 塞爆？哪個元件死了最痛？把「會不會壞」逼成三個可量化的風險問題，是 FMEA 分析的起點。
 
 ## Learning Goal
-讓學員把模糊的「系統穩定性」逼成三個具體問題，分別對應容量風險、佇列風險、SLA 風險，為後續 FMEA 分析（slide-05）奠定提問框架。
+讓學員把模糊的「系統穩定性」逼成三個具體問題，分別對應容量風險、佇列風險、SLA 風險，為後續 FMEA 分析（slide-06）奠定提問框架。
 
 ## Visual Spec
 - Canvas: `1920 x 1080 px`, safe margin `96 px`.

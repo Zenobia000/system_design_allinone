@@ -23,6 +23,8 @@ rendering_mode: "programmatic_diagram"
 - Progress Pill: `架構白皮書 v3 · 系統設計`
 - Title: 白皮書 v3：C4 容器圖
 - Diagram caption: 7 個容器 · 2 個外部角色 · 三條路徑：上報寫入 / 查詢讀取 / 告警
+- Plain-language caption (below diagram): `C4 容器層：每個方塊＝一個可獨立部署的服務`
+- Legend (diagram corner): `實線＝同步　虛線＝非同步`
 - Version label (bottom-right of diagram): `白皮書 v3`
 
 ## Beginner Anchor
@@ -84,7 +86,7 @@ groups:
 nodes:
   - id: "device_gateway"
     label: "Device / Gateway"
-    subtitle: "感測器上報源"
+    subtitle: "設備/閘道 · 感測器上報源"
     type: "external"
     group: "external"
     is_external_actor: true
@@ -93,7 +95,7 @@ nodes:
 
   - id: "ingest_api"
     label: "Ingest API"
-    subtitle: "FastAPI · stateless"
+    subtitle: "接收 API · FastAPI · stateless"
     type: "service"
     group: "ingest_layer"
     status: "new"
@@ -101,7 +103,7 @@ nodes:
 
   - id: "message_queue"
     label: "Message Queue"
-    subtitle: "Kafka · topic: sensor-readings"
+    subtitle: "訊息佇列 · Kafka · topic: sensor-readings"
     type: "queue"
     group: "ingest_layer"
     status: "new"
@@ -109,7 +111,7 @@ nodes:
 
   - id: "stream_processor"
     label: "Stream Processor"
-    subtitle: "Python Consumer Group"
+    subtitle: "串流處理 · Python Consumer Group"
     type: "service"
     group: "processing_layer"
     status: "new"
@@ -117,7 +119,7 @@ nodes:
 
   - id: "tsdb"
     label: "TSDB"
-    subtitle: "PostgreSQL + TimescaleDB"
+    subtitle: "時序資料庫 · PostgreSQL + TimescaleDB"
     type: "database"
     group: "storage_layer"
     status: "new"
@@ -125,7 +127,7 @@ nodes:
 
   - id: "query_api"
     label: "Query API"
-    subtitle: "FastAPI · stateless"
+    subtitle: "查詢 API · FastAPI · stateless"
     type: "service"
     group: "query_layer"
     status: "new"
@@ -133,7 +135,7 @@ nodes:
 
   - id: "cache"
     label: "Cache"
-    subtitle: "Redis · TTL 60s"
+    subtitle: "快取 · Redis · TTL 60s"
     type: "cache"
     group: "query_layer"
     status: "new"
@@ -141,7 +143,7 @@ nodes:
 
   - id: "alert_service"
     label: "Alert Service"
-    subtitle: "通知 · Email / Webhook"
+    subtitle: "告警服務 · 通知 Email / Webhook"
     type: "service"
     group: "alert_layer"
     status: "new"
@@ -149,7 +151,7 @@ nodes:
 
   - id: "dashboard"
     label: "Dashboard"
-    subtitle: "Web UI"
+    subtitle: "儀表板 · Web UI"
     type: "frontend"
     group: "external"
     is_external_actor: true
@@ -298,16 +300,16 @@ edges:
 not_applicable — this is an artifact slide, not a trade-off decision slide. Trade-off scoring is done on slide-07.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v3 · 系統設計" Mint #97E8D6 text on Deep Navy, rounded capsule 34 px. Title "白皮書 v3：C4 容器圖" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: a C4 container diagram occupying ~75% of canvas width. Draw EXACTLY these 9 nodes and 8 arrows — no more, no fewer, and use these exact text labels verbatim. Each node is a rectangle, Deep Navy fill, Mint #97E8D6 4 px border, corner radius 8 px, a small "NEW" badge top-right, with a bold JetBrains Mono Warm White 28 px title line and a smaller JetBrains Mono ~20 px subtitle line beneath it. The 9 nodes (title / subtitle):
-  1. "Device / Gateway" / "感測器上報源" — external actor (left edge, leftmost)
-  2. "Ingest API" / "FastAPI · stateless"
-  3. "Message Queue" / "Kafka · topic: sensor-readings"
-  4. "Stream Processor" / "Python Consumer Group"
-  5. "TSDB" / "PostgreSQL + TimescaleDB"
-  6. "Query API" / "FastAPI · stateless"
-  7. "Cache" / "Redis · TTL 60s"
-  8. "Alert Service" / "通知 · Email / Webhook"
-  9. "Dashboard" / "Web UI" — external actor (right edge)
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v3 · 系統設計" Mint #97E8D6 text on Deep Navy, rounded capsule 34 px. Title "白皮書 v3：C4 容器圖" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: a C4 container diagram occupying ~75% of canvas width. Draw EXACTLY these 9 nodes and 8 arrows — no more, no fewer, and use these exact text labels verbatim. Each node is a rectangle, Deep Navy fill, Mint #97E8D6 4 px border, corner radius 8 px, a small "NEW" badge top-right. EVERY node shows THREE stacked text lines and must NOT be left as a bare English label: (line 1) a bold JetBrains Mono Warm White 28 px English title; (line 2) directly beneath it the Chinese name in Noto Sans TC ~22 px Warm White — this Chinese line is mandatory for every node so beginners can read it; (line 3) a smaller JetBrains Mono ~18 px Mint #97E8D6 technical descriptor. The 9 nodes (English title / 中文名 / technical descriptor):
+  1. "Device / Gateway" / "設備／閘道" / "感測器上報源" — external actor (left edge, leftmost)
+  2. "Ingest API" / "接收 API" / "FastAPI · stateless"
+  3. "Message Queue" / "訊息佇列" / "Kafka · topic: sensor-readings"
+  4. "Stream Processor" / "串流處理" / "Python Consumer Group"
+  5. "TSDB" / "時序資料庫" / "PostgreSQL + TimescaleDB"
+  6. "Query API" / "查詢 API" / "FastAPI · stateless"
+  7. "Cache" / "快取" / "Redis · TTL 60s"
+  8. "Alert Service" / "告警服務" / "通知 Email / Webhook"
+  9. "Dashboard" / "儀表板" / "Web UI" — external actor (right edge)
 The backend services (Ingest API and Query API) are FastAPI on Python — NOT Spring Boot, NOT Java, NOT Node. The database node is "PostgreSQL + TimescaleDB" — do not relabel it as plain PostgreSQL, MySQL, or MongoDB. The queue is "Kafka" — not RabbitMQ, not SQS. The cache is "Redis". There is no object store, no MinIO, no S3, no API gateway, no load balancer in this diagram.
 The 8 arrows (all Mint #97E8D6; solid 2 px = synchronous, dashed 2 px = asynchronous) with their exact direction and label:
   a. "Device / Gateway" → "Ingest API" — SOLID (sync), label "POST /v1/readings"; this is the ingest edge annotated with "~6,000 msg/s peak" in JetBrains Mono 22 px Coral Red #E8634F.
@@ -318,7 +320,7 @@ The 8 arrows (all Mint #97E8D6; solid 2 px = synchronous, dashed 2 px = asynchro
   f. "Dashboard" → "Query API" — SOLID (sync), label "GET readings / alerts".
   g. "Query API" → "Cache" — SOLID (sync), label "cache-aside: GET / SET EX60".
   h. "Query API" → "TSDB" — SOLID (sync), label "fallback read".
-All arrowheads point in the stated direction only. Do not add any reverse arrows, extra edges, or unlabeled connectors. Bottom-right of diagram: "白皮書 v3" JetBrains Mono 26 px Mint. Below diagram: small logo strip (4 logos on Warm White pill background, 40 px height). Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+All arrowheads point in the stated direction only. Do not add any reverse arrows, extra edges, or unlabeled connectors. In a free corner of the diagram (e.g. top-right, not overlapping any node or arrow) draw a small arrow legend: a short solid Mint line labelled "實線＝同步" and a short dashed Mint line labelled "虛線＝非同步", Noto Sans TC ~20 px Warm White. Directly below the diagram, centered, place one plain-language caption line "C4 容器層：每個方塊＝一個可獨立部署的服務" in Noto Sans TC ~24 px Warm White. Bottom-right of diagram: "白皮書 v3" JetBrains Mono 26 px Mint. Below diagram: small logo strip (4 logos on Warm White pill background, 40 px height). Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
 
 ## Negative Prompt
 - Do not invent extra nodes or arrows beyond those defined in the Diagram Spec.
@@ -332,6 +334,8 @@ All arrowheads point in the stated direction only. Do not add any reverse arrows
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any brand logo, emblem, badge, monogram, icon, or filename text (e.g. "logo-light.png") in the bottom-right corner — keep it empty for a logo overlaid later. (The product logo strip is allowed.)
 - Do not invent, rename, add, or drop any node — render exactly the nodes and labels listed (e.g. the backend is FastAPI/Python, NOT Spring Boot; the database is PostgreSQL + TimescaleDB).
+- Every node must show both the English title and its Chinese name — do not leave any node as a bare English-only label.
+- Do not invent, paraphrase, or alter any on-slide text.
 
 ## Speaker Notes
 白皮書 v3 的第一個正式產出：C4 容器圖。7 個容器 + 2 個外部角色（Device/Gateway、Dashboard），三條路徑。
