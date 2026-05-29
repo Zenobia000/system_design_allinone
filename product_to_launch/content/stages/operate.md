@@ -12,7 +12,7 @@ source: "software_develop_journey/process_map/index.html §operate"
 
 ## 這個階段要回答什麼
 
-**「上線之後呢？」** 多數團隊以為 ship 就結束——但軟體真正的成本，70% 在 operate。
+**「上線之後呢？」** 多數團隊以為 ship 就結束。但軟體真正的成本，70% 在 operate。
 
 **核心循環**：observe → learn → re-prioritize。production signal 必須能回寫 backlog，否則下個 release 還是踩同一個坑。
 

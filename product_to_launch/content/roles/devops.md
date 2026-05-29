@@ -13,7 +13,7 @@ source: "deep-research-report.md §DevOps/SRE"
 
 ## 這個角色做什麼
 
-**DevOps 不是裝完伺服器就走的水電工，是 24 小時待命的物業管理。** CI/CD、IaC、監控、on-call、災難演練——這條鏈決定「上線後系統會不會死」。
+**DevOps 不是裝完伺服器就走的水電工，是 24 小時待命的物業管理。** CI/CD、IaC、監控、on-call、災難演練。這條鏈決定「上線後系統會不會死」。
 
 **DevOps vs SRE**：DevOps 是文化+工具鏈；SRE 則是以 SLO / Error Budget 管理可靠性的角色（源自大型網路公司的可靠性工程實踐）。小公司一人扛全部。
 

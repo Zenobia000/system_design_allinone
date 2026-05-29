@@ -13,7 +13,7 @@ source: "deep-research-report.md §產品與需求相關角色"
 
 ## 解決什麼問題
 
-PRD 寫得再好，工程師也不能直接拿去寫 code——粒度太大、無法估時、無法驗收。
+PRD 寫得再好，工程師也不能直接拿去寫 code，粒度太大、無法估時、無法驗收。
 User Story 把 PRD 切成「一個 sprint 內可做完」的最小單位，並把「誰、為何、做什麼」寫清楚。
 沒有 user story，sprint planning 變成猜謎遊戲；估時不準、驗收不清、demo 沒看點。
 

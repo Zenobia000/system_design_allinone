@@ -13,7 +13,7 @@ source: "deep-research-report.md §QA"
 
 ## 這個角色做什麼
 
-**QA 不是按按鈕的，是提供 evidence 讓團隊敢/不敢上線的人。** 測試策略、測試資料、自動化、defect triage、exit criteria——這條鏈在告訴 PM「現在上線會死多少使用者」。
+**QA 不是按按鈕的，是提供 evidence 讓團隊敢/不敢上線的人。** 測試策略、測試資料、自動化、defect triage、exit criteria。這條鏈在告訴 PM「現在上線會死多少使用者」。
 
 **核心心態**：QA 不擁有「品質」，整個團隊擁有。QA 擁有的是「品質的證據」。
 

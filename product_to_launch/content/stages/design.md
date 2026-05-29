@@ -12,7 +12,7 @@ source: "software_develop_journey/process_map/index.html §design"
 
 ## 這個階段要回答什麼
 
-**「怎麼蓋？邊界在哪？哪些決策現在不定後面會死？」** Design 不是序列化的——UX、architecture、data design 應該並行，只在關鍵節點 freeze。
+**「怎麼蓋？邊界在哪？哪些決策現在不定後面會死？」** Design 不是序列化的，UX、architecture、data design 應該並行，只在關鍵節點 freeze。
 
 **核心 freeze 點**：API contract、DB schema、NFR baseline。這三個沒 freeze，FE/BE/Mobile 開做就是踩在濕地上跑。
 

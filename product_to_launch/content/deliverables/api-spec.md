@@ -13,7 +13,7 @@ source: "deep-research-report.md §可複製範本 / §Freeze 與 readiness"
 
 ## 解決什麼問題
 
-FE 跟 BE 並行開發，整合那一刻才發現欄位名不同、型別不同、error code 不一致——一週都在補洞。
+FE 跟 BE 並行開發，整合那一刻才發現欄位名不同、型別不同、error code 不一致。一週都在補洞。
 API Spec（OpenAPI 3.1）的核心價值是**讓契約先穩定**，雙方可以從 mock server 開始平行寫 code、寫 test。
 沒 freeze 契約就動工，等同沒對齊就一起跑步。
 

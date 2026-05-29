@@ -14,7 +14,7 @@ source: "software_develop_journey/process_map/index.html §ship"
 
 **「敢不敢上？炸了怎麼救？」** Ship 不是「按下 deploy 按鈕」，是用證據決策、不用氣氛決策。
 
-**核心 gate**：Release Readiness Review——build、defect、perf、security、rollback 五件事齊全才上。
+**核心 gate**：Release Readiness Review：build、defect、perf、security、rollback 五件事齊全才上。
 
 ## 必要產出
 

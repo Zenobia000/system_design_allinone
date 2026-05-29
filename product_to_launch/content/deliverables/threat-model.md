@@ -33,7 +33,7 @@ source: "software_architect/ppt/05-ilities §Security, NIST SSDF"
 
 ## 文件範本
 
-下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給 PoC / 內部工具 / 單一 trust boundary 場景用，**完整範本** 給對外暴露 / 處理 PII/PCI/PHI / 跨多個 trust boundary / 合規稽核場景用。**威脅建模必用 STRIDE 框架**（Spoofing / Tampering / Repudiation / Information-disclosure / DoS / Elevation-of-Privilege）——抄 OWASP Top 10 當交付不算 threat model。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給 PoC / 內部工具 / 單一 trust boundary 場景用，**完整範本** 給對外暴露 / 處理 PII/PCI/PHI / 跨多個 trust boundary / 合規稽核場景用。**威脅建模必用 STRIDE 框架**（Spoofing / Tampering / Repudiation / Information-disclosure / DoS / Elevation-of-Privilege）。抄 OWASP Top 10 當交付不算 threat model。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
 ```template-light
 ---

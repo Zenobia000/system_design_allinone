@@ -12,7 +12,7 @@ source: "software_develop_journey/process_map/index.html §build"
 
 ## 這個階段要回答什麼
 
-**「能不能合、能不能測、能不能部署？」** Build 不只是寫 code——是讓每個 PR 都帶著 test、telemetry、feature flag 一起合進來。
+**「能不能合、能不能測、能不能部署？」** Build 不只是寫 code，是讓每個 PR 都帶著 test、telemetry、feature flag 一起合進來。
 
 **核心心態**：「完成」不是「我 local 跑得起來」，是「可以安全地推到 production」。
 
@@ -26,7 +26,7 @@ source: "software_develop_journey/process_map/index.html §build"
 
 ## 典型卡關
 
-- **「我 local 沒 bug」**：環境差異——staging 要像 production
+- **「我 local 沒 bug」**：環境差異，staging 要像 production
 - **缺 feature flag**：上線了沒法回滾、沒法灰度
 - **Telemetry 後補**：上線後不知道哪裡慢、哪裡錯
 - **API contract 漂移**：FE 與 BE 各自實作、合不上

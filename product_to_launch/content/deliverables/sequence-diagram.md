@@ -35,7 +35,7 @@ Sequence Diagram 強迫把**時間順序、訊息類型、失敗路徑、補償�
 
 ## 文件範本
 
-下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給 ≤ 3 服務 / 純 sync 互動場景用（只畫 happy + 1 個關鍵 failure），**完整範本** 給 ≥ 3 服務 / 有異步事件 / saga 補償場景用（happy + ≥ 2 failure path + 補償交易）。**只畫 happy path = 沒畫**——sequence diagram 的價值就在於 failure / timeout / retry / 補償。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給 ≤ 3 服務 / 純 sync 互動場景用（只畫 happy + 1 個關鍵 failure），**完整範本** 給 ≥ 3 服務 / 有異步事件 / saga 補償場景用（happy + ≥ 2 failure path + 補償交易）。**只畫 happy path = 沒畫**。sequence diagram 的價值就在於 failure / timeout / retry / 補償。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
 ````template-light
 ---

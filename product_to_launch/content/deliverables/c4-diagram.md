@@ -13,7 +13,7 @@ source: "deep-research-report.md §產品與需求相關角色 / §開發生命�
 
 ## 解決什麼問題
 
-Architect 在白板上畫一張圖，工程師看不懂、PM 看不懂、SRE 看不懂——因為每個人想看的抽象層不同。
+Architect 在白板上畫一張圖，工程師看不懂、PM 看不懂、SRE 看不懂，因為每個人想看的抽象層不同。
 C4 模型（Context / Container / Component / Code）的價值是**分層**：高層給 stakeholder、中層給工程師、低層給 code reviewer。
 沒有 C4，每次溝通都得重畫一張新圖。
 
@@ -35,7 +35,7 @@ C4 模型（Context / Container / Component / Code）的價值是**分層**：�
 
 ## 文件範本
 
-下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給 solo / 小團隊 / PoC 用（只畫 Context + Container 兩層），**完整範本** 給跨系統整合 / ≥ 10 人團隊 / 外部 stakeholder 溝通場景用（Context + Container + Component 三層）。Level 4 (code) 預設不畫——只在 reviewer 需要時另開 component-level 卡。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
+下面兩個 tab 是同一份契約的兩種版本，AI 讀同一份範本可雙模式輸出：**輕量範本** 給 solo / 小團隊 / PoC 用（只畫 Context + Container 兩層），**完整範本** 給跨系統整合 / ≥ 10 人團隊 / 外部 stakeholder 溝通場景用（Context + Container + Component 三層）。Level 4 (code) 預設不畫，只在 reviewer 需要時另開 component-level 卡。範本內所有 `> [!IMPORTANT]` 是 AI 章節級規則、`<!-- ai-fill / ai-rule -->` 是欄位級微指引、結尾 `> [!CAUTION]` 是輸出前自檢清單。
 
 ````template-light
 ---
