@@ -22,9 +22,9 @@ rendering_mode: "image_prompt"
 - Kicker: `METHOD`
 - Title: SQL vs NoSQL
 - Vocabulary Cards (3 cards, stacked vertically):
-  - Card A: `ACID` / ACID 事務 — 強一致、原子、可回滾的事務保障
-  - Card B: `BASE` / BASE 特性 — 最終一致、高可用、犧牲即時一致
-  - Card C: `Time-Series DB` / 時序資料庫 — 以時間為主鍵、原生壓縮與保留策略
+  - Card A: `ACID` / ACID 事務 — 強一致、原子、可回滾的事務保障 · 例：寫入讀數要嘛全成全敗
+  - Card B: `BASE` / BASE 特性 — 最終一致、高可用、犧牲即時一致 · 例：告警延幾秒可接受
+  - Card C: `Time-Series DB` / 時序資料庫 — 以時間為主鍵、原生壓縮與保留策略 · 例：35 GB/天 按時間查
 
 ## Beginner Anchor
 ACID 和 BASE 不是對立，是取捨：業務交易需要 ACID，IoT 時序讀數不需要複雜事務，但 TimescaleDB 給你兩全：ACID 底座 + 時序原生能力。
@@ -42,9 +42,10 @@ ACID 和 BASE 不是對立，是取捨：業務交易需要 ACID，IoT 時序讀
   - Card content layout (horizontal):
     - Left block: English term in JetBrains Mono 500 / 34 px / Mint `#97E8D6` + ` / ` separator + Chinese name in Noto Sans TC 500 / 34 px / Warm White. Left-padded 40 px.
     - Right block (after em-dash `—`): definition in Noto Sans TC 500 / 34 px / Warm White / line-height 1.40. ≤ 18 chars.
-  - Card A: `ACID` / ACID 事務 — 強一致、原子、可回滾的事務保障
-  - Card B: `BASE` / BASE 特性 — 最終一致、高可用、犧牲即時一致
-  - Card C: `Time-Series DB` / 時序資料庫 — 以時間為主鍵、原生壓縮與保留策略
+    - Example line (below definition): `例：…` caption in Noto Sans TC 500 / 26 px / Mint `#97E8D6`, ≤ 18 chars, drawn from this course's case (Reading 寫入 / 告警 / 35 GB/天 時序). Sits inside the card, below the definition.
+  - Card A: `ACID` / ACID 事務 — 強一致、原子、可回滾的事務保障 · example: 例：寫入讀數要嘛全成全敗
+  - Card B: `BASE` / BASE 特性 — 最終一致、高可用、犧牲即時一致 · example: 例：告警延幾秒可接受
+  - Card C: `Time-Series DB` / 時序資料庫 — 以時間為主鍵、原生壓縮與保留策略 · example: 例：35 GB/天 按時間查
 - Logo: `logo-light.png`, 64 px height, bottom-right, 96 px from edges.
 - Footer: `桑尼資料科學 · 版權所有 ©`, 22 px / 500 weight / Warm White.
 - No source/citation text. No named facilitation devices.
@@ -65,7 +66,7 @@ not_applicable — this is a vocabulary/method slide, not a technical flow diagr
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge, Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em, rounded capsule. Title "SQL vs NoSQL" Noto Sans TC 900 / 80 px / Warm White, left-aligned below kicker. Below title: 3 vocabulary cards stacked vertically, gap 24 px, each spanning full content width, height ~160 px, rounded corners 16 px, Deep Teal #2E7D86 fill. Each card: left side shows English acronym/term in JetBrains Mono 500 / 34 px / Mint #97E8D6, then " / " separator in Warm White, then Chinese name in Noto Sans TC 500 / 34 px / Warm White; right side shows em-dash "—" then a ≤ 18-char Chinese definition in Noto Sans TC 500 / 34 px / Warm White. Card A: "ACID / ACID 事務 — 強一致、原子、可回滾的事務保障". Card B: "BASE / BASE 特性 — 最終一致、高可用、犧牲即時一致". Card C: "Time-Series DB / 時序資料庫 — 以時間為主鍵、原生壓縮與保留策略". No decorative icons, no 3D, no gradients. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge, Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em, rounded capsule. Title "SQL vs NoSQL" Noto Sans TC 900 / 80 px / Warm White, left-aligned below kicker. Below title: 3 vocabulary cards stacked vertically, gap 24 px, each spanning full content width, height ~160 px, rounded corners 16 px, Deep Teal #2E7D86 fill. Each card: left side shows English acronym/term in JetBrains Mono 500 / 34 px / Mint #97E8D6, then " / " separator in Warm White, then Chinese name in Noto Sans TC 500 / 34 px / Warm White; right side shows em-dash "—" then a ≤ 18-char Chinese definition in Noto Sans TC 500 / 34 px / Warm White, and below that definition a smaller example caption "例：…" in Noto Sans TC 500 / 26 px / Mint #97E8D6, ≤ 18 chars. Card A: "ACID / ACID 事務 — 強一致、原子、可回滾的事務保障" with example caption "例：寫入讀數要嘛全成全敗". Card B: "BASE / BASE 特性 — 最終一致、高可用、犧牲即時一致" with example caption "例：告警延幾秒可接受". Card C: "Time-Series DB / 時序資料庫 — 以時間為主鍵、原生壓縮與保留策略" with example caption "例：35 GB/天 按時間查". No decorative icons, no 3D, no gradients. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra vocabulary cards or change the three terms listed.
@@ -86,9 +87,9 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Title "SQL vs NoSQL" — within 14-char visual limit (all ASCII + space) ✓.
 - [ ] Kicker reads `METHOD` and uses Deep Teal `#2E7D86` beat color.
 - [ ] Exactly 3 vocabulary cards present, stacked vertically.
-- [ ] Card A: `ACID` / ACID 事務 — definition ≤ 18 chars ✓ (14 chars).
-- [ ] Card B: `BASE` / BASE 特性 — definition ≤ 18 chars ✓ (14 chars).
-- [ ] Card C: `Time-Series DB` / 時序資料庫 — definition ≤ 18 chars ✓ (14 chars).
+- [ ] Card A: `ACID` / ACID 事務 — definition ≤ 18 chars ✓ (14 chars); example `例：寫入讀數要嘛全成全敗` ≤ 18 chars.
+- [ ] Card B: `BASE` / BASE 特性 — definition ≤ 18 chars ✓ (14 chars); example `例：告警延幾秒可接受` ≤ 18 chars.
+- [ ] Card C: `Time-Series DB` / 時序資料庫 — definition ≤ 18 chars ✓ (14 chars); example `例：35 GB/天 按時間查` ≤ 18 chars.
 - [ ] English terms use JetBrains Mono 34 px / Mint #97E8D6.
 - [ ] Card background is Deep Teal `#2E7D86` with 16 px rounded corners.
 - [ ] No body text outside the vocabulary cards (only title + 3 cards).

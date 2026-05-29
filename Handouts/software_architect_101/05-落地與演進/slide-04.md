@@ -22,10 +22,10 @@ rendering_mode: "image_prompt"
 - Kicker: `METHOD`
 - Title: 可觀察性三本柱
 - Vocabulary Cards (2×2 grid):
-  - Card 1: `Logs` / 事件記錄 — 結構化 JSON；記錄是什麼事件發生了
-  - Card 2: `Metrics` / 可聚合數值 — CPU、latency、lag；看趨勢與告警閾值
-  - Card 3: `Traces` / 跨服務請求路徑 — 端對端追蹤；找出慢在哪個服務
-  - Card 4: `OpenTelemetry` / 統一遙測 SDK — 一次接入，同時輸出三類訊號
+  - Card 1: `Logs` / 事件記錄 — 結構化 JSON；記錄是什麼事件發生了；`例：記下告警觸發事件`
+  - Card 2: `Metrics` / 可聚合數值 — CPU、latency、lag；看趨勢與告警閾值；`例：CPU、consumer_lag`
+  - Card 3: `Traces` / 跨服務請求路徑 — 端對端追蹤；找出慢在哪個服務；`例：一次請求跨服務追蹤`
+  - Card 4: `OpenTelemetry` / 統一遙測 SDK — 一次接入，同時輸出三類訊號；`例：一套 SDK 收三類訊號`
 - Selection rationale gloss (one line below the grid):
   - `為何用 OTel 統一 SDK：`
   - `一次接入三類訊號，免維護三套庫`
@@ -51,6 +51,7 @@ Logs 問「發生了什麼」，Metrics 問「現在有多少」，Traces 問「
   - Slash separator + Chinese name: Noto Sans TC 500 / 34 px / Warm White.
   - Thin Warm White `#F4F1EA` horizontal rule (1 px, 80% card width).
   - One-line definition ≤ 18 chars: Noto Sans TC 500 / 34 px / Warm White.
+  - Example line (prefixed `例：`, ≤ 18 chars): Noto Sans TC 500 / 28 px / Mint `#97E8D6`, one row below the definition.
   - Card corner radius: 16 px.
 - Selection rationale gloss (centered, one line below the 2×2 grid, two text rows each ≤ 18 chars): Noto Sans TC 500 / 28 px / Mint `#97E8D6`. Row 1 `為何用 OTel 統一 SDK：`, row 2 `一次接入三類訊號，免維護三套庫`.
 - Logo: `logo-light.png`, 64 px height, bottom-right corner, 96 px from edges.
@@ -73,7 +74,7 @@ not_applicable — this is a method/vocabulary-card slide, not a technical flow 
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Below: Title "可觀察性三本柱" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: 2×2 grid of vocabulary cards, each card Deep Teal #2E7D86 background rounded 16 px, gap 24 px, fitting within ~85% canvas width. Each card: English term JetBrains Mono 34 px Warm White, slash + Chinese name Noto Sans TC 500 34 px Warm White, thin Warm White horizontal rule, one-line definition Noto Sans TC 500 34 px Warm White. Render the four cards verbatim — top-left "Logs / 事件記錄 — 結構化 JSON；記錄是什麼事件發生了"; top-right "Metrics / 可聚合數值 — CPU、latency、lag；看趨勢與告警閾值"; bottom-left "Traces / 跨服務請求路徑 — 端對端追蹤；找出慢在哪個服務"; bottom-right "OpenTelemetry / 統一遙測 SDK — 一次接入，同時輸出三類訊號". For each card the English term is on the first line, then " / " plus the Chinese name, then the rule, then the text after " — " is the one-line definition below the horizontal rule. Below the 2×2 grid, centered, render a two-line selection-rationale gloss in Noto Sans TC 500 / 28 px / Mint #97E8D6 — line 1 "為何用 OTel 統一 SDK：", line 2 "一次接入三類訊號，免維護三套庫". Flat card layout, no gradients, no 3D. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Below: Title "可觀察性三本柱" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: 2×2 grid of vocabulary cards, each card Deep Teal #2E7D86 background rounded 16 px, gap 24 px, fitting within ~85% canvas width. Each card: English term JetBrains Mono 34 px Warm White, slash + Chinese name Noto Sans TC 500 34 px Warm White, thin Warm White horizontal rule, one-line definition Noto Sans TC 500 34 px Warm White, then one short example line prefixed "例：" in Noto Sans TC 500 28 px Mint #97E8D6. Render the four cards verbatim — top-left "Logs / 事件記錄 — 結構化 JSON；記錄是什麼事件發生了 · 例：記下告警觸發事件"; top-right "Metrics / 可聚合數值 — CPU、latency、lag；看趨勢與告警閾值 · 例：CPU、consumer_lag"; bottom-left "Traces / 跨服務請求路徑 — 端對端追蹤；找出慢在哪個服務 · 例：一次請求跨服務追蹤"; bottom-right "OpenTelemetry / 統一遙測 SDK — 一次接入，同時輸出三類訊號 · 例：一套 SDK 收三類訊號". For each card the English term is on the first line, then " / " plus the Chinese name, then the rule, then the text after " — " is the one-line definition below the horizontal rule, and the "例：" line is the Mint example row below the definition. Below the 2×2 grid, centered, render a two-line selection-rationale gloss in Noto Sans TC 500 / 28 px / Mint #97E8D6 — line 1 "為何用 OTel 統一 SDK：", line 2 "一次接入三類訊號，免維護三套庫". Flat card layout, no gradients, no 3D. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra vocabulary cards beyond the 4 defined.
@@ -82,6 +83,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
 - Do not generate brand logos (OpenTelemetry) inside cards — terms only. Logo strip appears on slide-06.
+- Do not invent example lines beyond the four `例：` lines specified, and do not change their wording.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 - Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
@@ -100,6 +102,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Card 3: Traces / 跨服務請求路徑 — definition correct (端對端追蹤，找慢點).
 - [ ] Card 4: OpenTelemetry / 統一遙測 SDK — definition correct (一次接入，三類輸出).
 - [ ] Logs ≠ Metrics ≠ Traces — three distinct concepts correctly distinguished.
+- [ ] Each card has a Mint `例：` line ≤ 18 chars (記下告警觸發事件 / CPU、consumer_lag / 一次請求跨服務追蹤 / 一套 SDK 收三類訊號).
 - [ ] All cards use Deep Teal `#2E7D86` background, Warm White text, rounded 16 px.
 - [ ] Term text uses JetBrains Mono.
 - [ ] `whitepaper_version` is empty (not an artifact slide).

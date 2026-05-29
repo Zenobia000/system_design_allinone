@@ -22,10 +22,10 @@ rendering_mode: "image_prompt"
 - Kicker: `METHOD`
 - Title: 開發護欄
 - Vocabulary Cards (2×2 grid):
-  - Card 1: `GitHub Flow` / 分支策略 — 6 人推薦，短命分支合 PR
-  - Card 2: `Linter / Formatter` / 格式自動化 — ruff + black；commit 前自動執行
-  - Card 3: `CI Gate` / 合併守門 — PR 合 main 前必過 lint + test
-  - Card 4: `Scaffold` / 專案腳手架 — 新成員 5 分鐘能跑起來的 make init
+  - Card 1: `GitHub Flow` / 分支策略 — 6 人推薦，短命分支合 PR；`例：feature 分支＋PR`
+  - Card 2: `Linter / Formatter` / 格式自動化 — ruff + black；commit 前自動執行；`例：ruff+black commit 前跑`
+  - Card 3: `CI Gate` / 合併守門 — PR 合 main 前必過 lint + test；`例：測試沒過不准合`
+  - Card 4: `Scaffold` / 專案腳手架 — 新成員 5 分鐘能跑起來的 make init；`例：make init 一鍵起服務`
 
 ## Beginner Anchor
 護欄不是限制工程師，是讓 6 人小團隊的新成員第一天就知道規則、不問就能開工。
@@ -48,6 +48,7 @@ rendering_mode: "image_prompt"
   - Slash separator + Chinese name: Noto Sans TC 500 / 34 px / Warm White.
   - Thin Warm White `#F4F1EA` horizontal rule (1 px, 80% card width).
   - One-line definition ≤ 18 chars: Noto Sans TC 500 / 34 px / Warm White.
+  - Example line (prefixed `例：`, ≤ 18 chars): Noto Sans TC 500 / 28 px / Mint `#97E8D6`, one row below the definition.
   - Card corner radius: 16 px.
 - Logo: `logo-light.png`, 64 px height, bottom-right corner, 96 px from edges.
 - Footer: `桑尼資料科學 · 版權所有 ©`, 22 px / 500 weight / Warm White, 96 px from bottom.
@@ -69,7 +70,7 @@ not_applicable — this is a method/vocabulary-card slide, not a technical flow 
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Below: Title "開發護欄" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: 2×2 grid of vocabulary cards, each card Deep Teal #2E7D86 background rounded 16 px, gap 24 px, fitting within ~85% canvas width. Each card has: top line — English term in JetBrains Mono 34 px Warm White; then a slash + Chinese name in Noto Sans TC 500 34 px Warm White; then a thin Warm White 1 px horizontal rule; then one short definition line Noto Sans TC 500 34 px Warm White. Render the four cards verbatim — top-left "GitHub Flow / 分支策略 — 6 人推薦，短命分支合 PR"; top-right "Linter / Formatter / 格式自動化 — ruff + black；commit 前自動執行"; bottom-left "CI Gate / 合併守門 — PR 合 main 前必過 lint + test"; bottom-right "Scaffold / 專案腳手架 — 新成員 5 分鐘能跑起來的 make init". For each card the English term is on the first line, then " / " plus the Chinese name, then the rule, then the text after " — " is the one-line definition below the horizontal rule. Flat card layout, no gradients, no 3D. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Below: Title "開發護欄" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: 2×2 grid of vocabulary cards, each card Deep Teal #2E7D86 background rounded 16 px, gap 24 px, fitting within ~85% canvas width. Each card has: top line — English term in JetBrains Mono 34 px Warm White; then a slash + Chinese name in Noto Sans TC 500 34 px Warm White; then a thin Warm White 1 px horizontal rule; then one short definition line Noto Sans TC 500 34 px Warm White; then one short example line prefixed "例：" in Noto Sans TC 500 28 px Mint #97E8D6. Render the four cards verbatim — top-left "GitHub Flow / 分支策略 — 6 人推薦，短命分支合 PR · 例：feature 分支＋PR"; top-right "Linter / Formatter / 格式自動化 — ruff + black；commit 前自動執行 · 例：ruff+black commit 前跑"; bottom-left "CI Gate / 合併守門 — PR 合 main 前必過 lint + test · 例：測試沒過不准合"; bottom-right "Scaffold / 專案腳手架 — 新成員 5 分鐘能跑起來的 make init · 例：make init 一鍵起服務". For each card the English term is on the first line, then " / " plus the Chinese name, then the rule, then the text after " — " is the one-line definition below the horizontal rule, and the "例：" line is the Mint example row below the definition. Flat card layout, no gradients, no 3D. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra vocabulary cards beyond the 4 defined.
@@ -77,6 +78,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
 - Do not generate brand logos (ruff, GitHub) inside the cards — terms only.
+- Do not invent example lines beyond the four `例：` lines specified, and do not change their wording.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 - Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
@@ -94,6 +96,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - [ ] Card 2: Linter / Formatter / 格式自動化 — definition correct (ruff + black).
 - [ ] Card 3: CI Gate / 合併守門 — definition correct (PR 合 main 前必過測試).
 - [ ] Card 4: Scaffold / 專案腳手架 — definition correct (5 分鐘跑起來).
+- [ ] Each card has a Mint `例：` line ≤ 18 chars (feature 分支＋PR / ruff+black commit 前跑 / 測試沒過不准合 / make init 一鍵起服務).
 - [ ] All cards use Deep Teal `#2E7D86` background, Warm White text, rounded 16 px.
 - [ ] Term text uses JetBrains Mono.
 - [ ] `whitepaper_version` is empty (not an artifact slide).

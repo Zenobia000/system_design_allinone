@@ -22,9 +22,9 @@ rendering_mode: "image_prompt"
 - Kicker: `METHOD`
 - Title: 功能 vs 非功能需求
 - Vocabulary Cards (replaces plain body lines — 3 cards):
-  - Card 1 — `NFR` / 非功能需求：系統「怎麼運作」，不是「做什麼」
-  - Card 2 — `SLA` / 服務等級協議：可用性和延遲的白紙黑字承諾
-  - Card 3 — `SLO` / `SLI`：SLO 是內部目標，SLI 是量到的實際比例
+  - Card 1 — `NFR` / 非功能需求：系統「怎麼運作」，不是「做什麼」｜例：P99 延遲 < 10 秒
+  - Card 2 — `SLA` / 服務等級協議：可用性和延遲的白紙黑字承諾｜例：可用性 99.9% 寫進合約
+  - Card 3 — `SLO` / `SLI`：SLO 是內部目標，SLI 是量到的實際比例｜例：內部 SLO 跑 99.95%
 
 ## Beginner Anchor
 工程師寫的「顯示設備狀態」是功能需求（做什麼）；「P99 延遲 < 10 秒」是非功能需求（怎麼運作）。架構師必須兩者都寫清楚。
@@ -44,6 +44,7 @@ rendering_mode: "image_prompt"
   - Middle: Chinese name in Noto Sans TC 700 / 34 px / Warm White.
   - Separator line: Mint `#97E8D6` / 1 px.
   - Bottom: one-sentence plain definition ≤ 18 Chinese chars, Noto Sans TC 500 / 30 px / Warm White, line-height 1.40.
+  - Example caption (below definition): one short example line prefixed `例：`, ≤ 18 Chinese chars, Noto Sans TC 500 / 26 px / Mint `#97E8D6`, line-height 1.35. Card 1 `例：P99 延遲 < 10 秒`; Card 2 `例：可用性 99.9% 寫進合約`; Card 3 `例：內部 SLO 跑 99.95%`. Numbers in JetBrains Mono.
 - Logo: `logo-dark.png` or `logo-main.png`, 64 px height, bottom-right.
 - Footer: `桑尼資料科學 · 版權所有 ©`, Noto Sans TC 500 / 22 px / Deep Navy `#152238`, 96 px from bottom.
 - No source/citation text on slide. No named facilitation devices.
@@ -64,7 +65,7 @@ not_applicable — this is a vocabulary/method introduction slide, not a technic
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86 background, Warm White text, rounded pill, 24 px Inter 700. Title "功能 vs 非功能需求" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: three equal horizontal vocabulary cards (rounded 16 px, gap 20 px, ~90% content width). Each card background Deep Teal #2E7D86, with these exact Chinese strings verbatim. Card 1: top term "NFR" in JetBrains Mono 34 px Warm White; middle Chinese name "非功能需求" Noto Sans TC 700 34 px Warm White; separator line Mint #97E8D6 1 px; bottom definition "系統「怎麼運作」，不是「做什麼」" Noto Sans TC 500 30 px Warm White. Card 2: top term "SLA"; middle "服務等級協議"; bottom definition "可用性和延遲的白紙黑字承諾"; same layout. Card 3: top term "SLO / SLI"; bottom definition "SLO 是內部目標，SLI 是量到的實際比例"; same layout. Below cards: optional thin Mint #97E8D6 1 px rule. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy at bottom-left. Clean tool-like presentation.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86 background, Warm White text, rounded pill, 24 px Inter 700. Title "功能 vs 非功能需求" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: three equal horizontal vocabulary cards (rounded 16 px, gap 20 px, ~90% content width). Each card background Deep Teal #2E7D86, with these exact Chinese strings verbatim. Card 1: top term "NFR" in JetBrains Mono 34 px Warm White; middle Chinese name "非功能需求" Noto Sans TC 700 34 px Warm White; separator line Mint #97E8D6 1 px; bottom definition "系統「怎麼運作」，不是「做什麼」" Noto Sans TC 500 30 px Warm White; below it an example caption "例：P99 延遲 < 10 秒" Noto Sans TC 500 26 px Mint #97E8D6. Card 2: top term "SLA"; middle "服務等級協議"; bottom definition "可用性和延遲的白紙黑字承諾"; example caption "例：可用性 99.9% 寫進合約"; same layout. Card 3: top term "SLO / SLI"; bottom definition "SLO 是內部目標，SLI 是量到的實際比例"; example caption "例：內部 SLO 跑 99.95%"; same layout. Below cards: optional thin Mint #97E8D6 1 px rule. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy at bottom-left. Clean tool-like presentation.
 
 ## Negative Prompt
 - Do not invent extra Chinese text, extra cards, or extra terms beyond NFR, SLA, SLO/SLI.

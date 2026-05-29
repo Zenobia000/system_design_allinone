@@ -22,9 +22,9 @@ rendering_mode: "image_prompt"
 - Kicker: `METHOD`
 - Title: 統一語言與限界
 - Vocabulary Cards (3 cards, stacked vertically):
-  - Card A: `Ubiquitous Language` / 統一語言 — 全團隊用同一套術語描述業務
-  - Card B: `Bounded Context` / 限界上下文 — 術語意義有效的邊界範圍
-  - Card C: `Domain Model` / 領域模型 — 業務實體與關係的結構化描述
+  - Card A: `Ubiquitous Language` / 統一語言 — 全團隊用同一套術語描述業務 · 例：全員都叫它 Reading
+  - Card B: `Bounded Context` / 限界上下文 — 術語意義有效的邊界範圍 · 例：監控與計費各自獨立
+  - Card C: `Domain Model` / 領域模型 — 業務實體與關係的結構化描述 · 例：Device 一對多 Reading
 
 ## Beginner Anchor
 DDD 三個核心術語：統一語言是共識，限界上下文是邊界，領域模型是產出。這三件事做完，下一張的 ER 圖就是你的白皮書 v2。
@@ -42,9 +42,10 @@ DDD 三個核心術語：統一語言是共識，限界上下文是邊界，領�
   - Card content layout (horizontal):
     - Left block: English term in JetBrains Mono 500 / 34 px / Mint `#97E8D6` + ` / ` separator in Warm White + Chinese name in Noto Sans TC 500 / 34 px / Warm White. Left-padded 40 px.
     - Right block (after em-dash `—`): White-paper definition in Noto Sans TC 500 / 34 px / Warm White / line-height 1.40. ≤ 18 chars.
-  - Card A definition: 全團隊用同一套術語描述業務
-  - Card B definition: 術語意義有效的邊界範圍
-  - Card C definition: 業務實體與關係的結構化描述
+    - Example line (below definition): `例：…` caption in Noto Sans TC 500 / 26 px / Mint `#97E8D6`, ≤ 18 chars, drawn from this course's case (Device/Reading domain). Sits inside the card, below the definition.
+  - Card A definition: 全團隊用同一套術語描述業務 · example: 例：全員都叫它 Reading
+  - Card B definition: 術語意義有效的邊界範圍 · example: 例：監控與計費各自獨立
+  - Card C definition: 業務實體與關係的結構化描述 · example: 例：Device 一對多 Reading
 - Logo: `logo-light.png`, 64 px height, bottom-right, 96 px from edges.
 - Footer: `桑尼資料科學 · 版權所有 ©`, 22 px / 500 weight / Warm White.
 - No source/citation text. No named facilitation devices.
@@ -65,7 +66,7 @@ not_applicable — this is a vocabulary/method slide, not a technical flow diagr
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge, Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em, rounded capsule. Title "統一語言與限界" Noto Sans TC 900 / 80 px / Warm White, left-aligned below kicker. Below title: 3 vocabulary cards stacked vertically, gap 24 px, each spanning full content width, height ~160 px, rounded corners 16 px, Deep Teal #2E7D86 fill. Each card: left side shows English term in JetBrains Mono 500 / 34 px / Mint #97E8D6, then " / " separator, then Chinese name in Noto Sans TC 500 / 34 px / Warm White; right side shows em-dash "—" followed by a single-line Chinese definition in Noto Sans TC 500 / 34 px / Warm White, ≤ 18 chars. Card A: "Ubiquitous Language / 統一語言 — 全團隊用同一套術語描述業務". Card B: "Bounded Context / 限界上下文 — 術語意義有效的邊界範圍". Card C: "Domain Model / 領域模型 — 業務實體與關係的結構化描述". No decorative icons, no 3D, no gradients. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean structured layout.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge, Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em, rounded capsule. Title "統一語言與限界" Noto Sans TC 900 / 80 px / Warm White, left-aligned below kicker. Below title: 3 vocabulary cards stacked vertically, gap 24 px, each spanning full content width, height ~160 px, rounded corners 16 px, Deep Teal #2E7D86 fill. Each card: left side shows English term in JetBrains Mono 500 / 34 px / Mint #97E8D6, then " / " separator, then Chinese name in Noto Sans TC 500 / 34 px / Warm White; right side shows em-dash "—" followed by a single-line Chinese definition in Noto Sans TC 500 / 34 px / Warm White, ≤ 18 chars, and below that definition a smaller example caption "例：…" in Noto Sans TC 500 / 26 px / Mint #97E8D6, ≤ 18 chars. Card A: "Ubiquitous Language / 統一語言 — 全團隊用同一套術語描述業務" with example caption "例：全員都叫它 Reading". Card B: "Bounded Context / 限界上下文 — 術語意義有效的邊界範圍" with example caption "例：監控與計費各自獨立". Card C: "Domain Model / 領域模型 — 業務實體與關係的結構化描述" with example caption "例：Device 一對多 Reading". No decorative icons, no 3D, no gradients. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean structured layout.
 
 ## Negative Prompt
 - Do not invent extra vocabulary cards or change the three DDD terms listed.
@@ -86,9 +87,9 @@ DDD 三個術語是這幕的工具箱。Ubiquitous Language：全團隊——工
 - [ ] Title "統一語言與限界" — 7 Chinese characters, within 14-char limit.
 - [ ] Kicker reads `METHOD` and uses Deep Teal `#2E7D86` beat color.
 - [ ] Exactly 3 vocabulary cards present, stacked vertically.
-- [ ] Card A: `Ubiquitous Language` / 統一語言 — definition ≤ 18 chars ✓ (12 chars).
-- [ ] Card B: `Bounded Context` / 限界上下文 — definition ≤ 18 chars ✓ (11 chars).
-- [ ] Card C: `Domain Model` / 領域模型 — definition ≤ 18 chars ✓ (12 chars).
+- [ ] Card A: `Ubiquitous Language` / 統一語言 — definition ≤ 18 chars ✓ (12 chars); example `例：全員都叫它 Reading` ≤ 18 chars.
+- [ ] Card B: `Bounded Context` / 限界上下文 — definition ≤ 18 chars ✓ (11 chars); example `例：監控與計費各自獨立` ≤ 18 chars.
+- [ ] Card C: `Domain Model` / 領域模型 — definition ≤ 18 chars ✓ (12 chars); example `例：Device 一對多 Reading` ≤ 18 chars.
 - [ ] English terms use JetBrains Mono 34 px / Mint #97E8D6.
 - [ ] Card background is Deep Teal `#2E7D86` with 16 px rounded corners.
 - [ ] No body text outside the vocabulary cards (only title + 3 cards).

@@ -22,8 +22,17 @@ rendering_mode: "programmatic_diagram"
 - Kicker: `ARTIFACT`
 - Progress Pill: `架構白皮書 v2 · 建模與選型`
 - Title: 白皮書 v2：領域模型
-- Diagram caption: Device / Sensor / Reading / Threshold / Alert — 五個核心實體
-- Gloss caption (near Device node): `聚合根 Aggregate Root＝資料所有權的起點`
+- Entities (英文名 + 中文 + 關鍵欄位):
+  - `Device 設備`：device_id · 型號 · 位置
+  - `Sensor 感測器`：sensor_id · 類型 · 單位
+  - `Reading 讀數`：timestamp · value（~35 GB/天）
+  - `Threshold 閾值`：min/max · 嚴重度
+  - `Alert 告警`：觸發時間 · 狀態
+- Aggregate-root label (貼 Device): `聚合根：一切資料的起點`
+- Relationship legend: `1:N＝一對多　虛線＝非同步（事後比對才觸發）`
+- Story strip (底部兩行):
+  - `一台設備有多個感測器，每 5 秒產生讀數`
+  - `感測器設閾值，超標就觸發告警`
 - Version label (bottom-right of diagram): `白皮書 v2`
 
 ## Beginner Anchor
@@ -174,7 +183,7 @@ none — this slide presents the domain model ER diagram; no named companies, cl
 not_applicable — this is an artifact slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v2 · 建模與選型" in Mint #97E8D6 text on Deep Navy, rounded capsule 34 px. Title "白皮書 v2：領域模型" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: an ER diagram with 5 rectangular entity nodes arranged in a logical flow — Device (left), Sensor (center-left), Reading (center-right, slightly larger to show high volume), Threshold (center-right-bottom), Alert (right). All nodes: Mint #97E8D6 4 px border (NEW status), Warm White text JetBrains Mono 28 px, Deep Navy fill, corner radius 8 px, small "NEW" badge top-right in Mint 18 px. Connection lines: Mint #97E8D6 solid 2 px between Device→Sensor (label "1:N"), Sensor→Reading (label "1:N"), Sensor→Threshold (label "1:N"), Threshold→Alert (dashed line, label "1:N async"). Cardinality labels in JetBrains Mono 24 px Mint. Reading node has a subtle caption "~35 GB/天" in JetBrains Mono 22 px Coral Red to indicate high volume. Near the Device node (just above or beside it, not overlapping the node box or any relationship arrow), place a small visible gloss caption "聚合根 Aggregate Root＝資料所有權的起點" in Noto Sans TC 500 / 22 px / Mint #97E8D6 on Deep Navy. Bottom-right of diagram: "白皮書 v2" JetBrains Mono 26 px Mint. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Technical diagram composition, no photos, no clipart.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v2 · 建模與選型" in Mint #97E8D6 text on Deep Navy, rounded capsule 34 px. Title "白皮書 v2：領域模型" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: a beginner-readable ER (entity-relationship) diagram with 5 rounded rectangular entity nodes. EACH node stacks three parts: top = English name (JetBrains Mono 28 px Warm White), middle = Chinese name (Noto Sans TC 22 px Mint), bottom = 2-3 key fields (JetBrains Mono 18 px Warm White, slightly dimmed). Render exactly these 5 nodes with this exact text: "Device" / "設備" / fields "device_id · 型號 · 位置" (far left); "Sensor" / "感測器" / fields "sensor_id · 類型 · 單位" (center-left); "Reading" / "讀數" / fields "timestamp · value" plus a Coral Red #E8634F caption "~35 GB/天" (center-right, drawn slightly larger to signal high volume); "Threshold" / "閾值" / fields "min/max · 嚴重度" (center, lower row); "Alert" / "告警" / fields "觸發時間 · 狀態" (right). All nodes: Mint #97E8D6 4 px border, Deep Navy fill, corner radius 8 px, small "NEW" badge top-right in Mint 18 px. Relationship arrows are Mint #97E8D6 solid 2 px, each carrying a "1:N" label: Device→Sensor, Sensor→Reading, Sensor→Threshold; PLUS one dashed Mint arrow Threshold→Alert labeled "1:N · 非同步". Cardinality labels in JetBrains Mono 24 px Mint. Beside the Device node (not overlapping it), a small label "聚合根 aggregate root：一切資料的起點" in Noto Sans TC 20 px Mint. Bottom-left of the diagram area, a one-line legend "1:N＝一對多　虛線＝非同步（事後比對才觸發）" in Noto Sans TC 20 px Warm White. Spanning the full width just below the diagram, a story strip on a subtle #1E3450 rounded bar with two short centered lines in Noto Sans TC 24 px Warm White: line 1 "一台設備有多個感測器，每 5 秒產生讀數", line 2 "感測器設閾值，超標就觸發告警". Bottom-right of diagram: "白皮書 v2" JetBrains Mono 26 px Mint. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, icon, or the text "logo-light.png" there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Technical diagram composition, no photos, no clipart.
 
 ## Negative Prompt
 - Do not invent extra entities beyond Device, Sensor, Reading, Threshold, Alert.
@@ -188,6 +197,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any brand logo, emblem, badge, monogram, icon, or filename text (e.g. "logo-light.png") in the bottom-right corner — keep it empty for a logo overlaid later.
 - Do not invent, paraphrase, or alter any on-slide text.
+- Render each entity's Chinese name and key fields exactly as specified — do not leave nodes as bare English names; do not invent extra fields.
 
 ## Speaker Notes
 這張 ER 圖是白皮書 v2 的第一個產出。五個實體是我們整個 IoT 監控系統的業務語言。Device 是聚合根，所有東西從它出發。一台設備有多個感測器（1:N），每個感測器持續產生讀數（1:N）——讀數就是資料量最大的地方，每天約 35 GB。每個感測器也可以設定多條閾值規則，閾值被觸發才會產生告警記錄。注意 Threshold 到 Alert 是虛線——代表這不是同步寫入，是 Consumer 非同步比對後觸發的，告警 P99 < 10 秒的 SLA 就是這段路徑的測量目標。Reading 的查詢和刪除模式完全不像一般業務資料——它就是時序資料的原型，這決定了下一個選型決策。
