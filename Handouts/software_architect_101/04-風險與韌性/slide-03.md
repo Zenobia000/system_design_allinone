@@ -68,7 +68,7 @@ not_applicable — this is a vocabulary/method slide, not a technical flow diagr
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" kicker pill — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, rounded. Title "找出單點故障" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 3 vocabulary cards arranged in a horizontal strip across ~85% of canvas width, equal width, 24 px gap, rounded 16 px, Deep Teal #2E7D86 background. Card 1: top "SPOF" in JetBrains Mono 34 px Warm White bold, below a thin Mint #97E8D6 1 px divider, below "一個元件掛掉即造成整體服務中斷" in Noto Sans TC 500 34 px Warm White. Card 2: top "Availability" JetBrains Mono 34 px, definition "系統在約定時間內正常服務的比例". Card 3: top "FMEA" JetBrains Mono 34 px, definition "逐一問：這個元件壞了，影響是什麼？". All definitions ≤ 18 Chinese characters. Balanced, clean, educational card layout. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" kicker pill — Deep Teal #2E7D86 background, Warm White text, Inter 700 / 24 px, all-caps, rounded. Title "找出單點故障" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 3 vocabulary cards arranged in a horizontal strip across ~85% of canvas width, equal width, 24 px gap, rounded 16 px, Deep Teal #2E7D86 background. Card 1: top "SPOF" in JetBrains Mono 34 px Warm White bold, below a thin Mint #97E8D6 1 px divider, below "一個元件掛掉即造成整體服務中斷" in Noto Sans TC 500 34 px Warm White. Card 2: top "Availability" JetBrains Mono 34 px, definition "系統在約定時間內正常服務的比例". Card 3: top "FMEA" JetBrains Mono 34 px, definition "逐一問：這個元件壞了，影響是什麼？". All definitions ≤ 18 Chinese characters. Balanced, clean, educational card layout. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or extra vocabulary cards beyond the 3 defined.
@@ -79,6 +79,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not use a different background color for the vocabulary cards (must be Deep Teal #2E7D86).
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not render more or fewer than 3 vocabulary cards.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 
 ## Speaker Notes
 三個術語是本幕的分析語言。SPOF（Single Point of Failure，單點故障）：一個元件掛掉就讓整體服務中斷。SPOF 不一定是壞設計，但需要被識別出來並決定是否要消除它。Availability（可用性）：正常服務時間除以總時間，99.9% = 每月允許約 43 分鐘停機。我們的 SLA 目標是 99.9%。FMEA（Failure Mode and Effects Analysis，故障模式分析）：不是等壞掉再說，而是主動問「如果這個元件壞了，影響是什麼？要怎麼緩解？」把這三個術語貫通，就能在 slide-05 的 v4 白皮書圖上，有系統地標出 SPOF 並制定緩解策略。

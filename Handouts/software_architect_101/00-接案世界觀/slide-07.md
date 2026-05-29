@@ -71,7 +71,7 @@ not_applicable — this is a course preview/wrap-up slide with no technical flow
 not_applicable — this is a preview slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "PREVIEW" pill badge in Mint #97E8D6 background, Deep Navy #152238 text. Title "你的任務開始了" in Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 2 body lines in Warm White 34 px. Below body: a horizontal row of 5 small capsules connected by arrows (v1→v5 acts), all in Mint #97E8D6 at 50% opacity (semi-transparent "locked" look), JetBrains Mono 24 px. Below the capsule row: a practice zone rounded rect with dashed Mint border (2 px), background #1E3450, containing "畫給我看" label (Mint, 24 px) and a centered prompt line inside. Bottom-right: logo placeholder 64 px. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Structured, forward-looking composition. No extra invented text.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "PREVIEW" pill badge in Mint #97E8D6 background, Deep Navy #152238 text. Title "你的任務開始了" in Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 2 body lines in Warm White 34 px. Below body: a horizontal row of 5 small capsules connected by arrows (v1→v5 acts), all in Mint #97E8D6 at 50% opacity (semi-transparent "locked" look), JetBrains Mono 24 px. Below the capsule row: a practice zone rounded rect with dashed Mint border (2 px), background #1E3450, containing "畫給我看" label (Mint, 24 px) and a centered prompt line inside. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Structured, forward-looking composition. No extra invented text.
 
 ## Negative Prompt
 - Do not invent extra Chinese text, extra acts, or extra capsules.
@@ -80,6 +80,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not use neon colors, pure black, glossy 3D, gradient glows, random stickers, or clipart.
 - Do not render the capsules at full opacity — they should look semi-transparent / locked.
 - Do not move logo or footer outside the 96 px safe margin.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 - Do not fill in the practice zone with additional content beyond the prompt text.
 
 ## Speaker Notes

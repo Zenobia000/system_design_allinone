@@ -61,7 +61,7 @@ not_applicable — this is a question-framing slide, not a technical flow diagra
 not_applicable — this is a key-questions slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" kicker pill — Mint #97E8D6 background, Deep Navy #152238 text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "要微服務嗎" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Left edge: thin Mint #97E8D6 vertical bar (4 px) running height of body text. Below title: 3 body lines Noto Sans TC 500 / 34 px / Warm White, line-height 1.60; terms REST / gRPC / Queue / stateless / Session in JetBrains Mono Mint #97E8D6. Right portion (~35% canvas): three oversized "?" glyphs in Mint #97E8D6, decreasing opacity right-to-left, as decorative background element. Flat design, no 3D, no photos. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" kicker pill — Mint #97E8D6 background, Deep Navy #152238 text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "要微服務嗎" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Left edge: thin Mint #97E8D6 vertical bar (4 px) running height of body text. Below title: 3 body lines Noto Sans TC 500 / 34 px / Warm White, line-height 1.60; terms REST / gRPC / Queue / stateless / Session in JetBrains Mono Mint #97E8D6. Right portion (~35% canvas): three oversized "?" glyphs in Mint #97E8D6, decreasing opacity right-to-left, as decorative background element. Flat design, no 3D, no photos. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title or body lines.
@@ -70,6 +70,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not place any architecture diagram on this slide — it is a question-framing slide only.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 
 ## Speaker Notes
 把「要微服務嗎」這個大問題拆成三個可以回答的具體設計問題。

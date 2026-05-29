@@ -57,7 +57,7 @@ not_applicable — this is a cover slide with no technical content.
 not_applicable — this is an intro slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F. Left side: large bold Chinese title "你被任命為架構師" in Noto Sans TC 900 / 80 px / #F4F1EA, left-aligned, vertically centered. Right side: a clean minimal line-art illustration of a commission brief document, with simplified circuit board / sensor node motifs drawn in Mint #97E8D6 thin lines (2 px), flat style, no gradients, no 3D. Top-left: "INTRO" pill badge in Deep Teal #2E7D86 background, Warm White text, rounded pill, 24 px. Bottom-right: brand logo placeholder (64 px height). Footer text "桑尼資料科學 · 版權所有 ©" in 22 px Warm White at 96 px from bottom. Stable 16:9 composition, no extra text.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: Deep Navy #152238, Warm White #F4F1EA, Deep Teal #2E7D86, Mint #97E8D6, Coral Red #E8634F. Left side: large bold Chinese title "你被任命為架構師" in Noto Sans TC 900 / 80 px / #F4F1EA, left-aligned, vertically centered. Right side: a clean minimal line-art illustration of a commission brief document, with simplified circuit board / sensor node motifs drawn in Mint #97E8D6 thin lines (2 px), flat style, no gradients, no 3D. Top-left: "INTRO" pill badge in Deep Teal #2E7D86 background, Warm White text, rounded pill, 24 px. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo that is overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer text "桑尼資料科學 · 版權所有 ©" in 22 px Warm White at bottom-left, 96 px from bottom edge. Stable 16:9 composition, no extra text.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title.
@@ -65,6 +65,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
 - Do not use neon colors, pure black #000000 backgrounds, glossy 3D effects, gradient glows, random stickers, or clipart.
 - Do not move logo or footer outside the 96 px safe margin.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 - Do not shrink text below style guide sizes to fit long copy.
 
 ## Speaker Notes

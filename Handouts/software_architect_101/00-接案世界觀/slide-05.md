@@ -66,7 +66,7 @@ not_applicable — this is a course artifact introduction slide. The document ar
 not_applicable — this is an artifact presentation slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" pill badge with Deep Navy background and Mint #97E8D6 left accent bar, Warm White text. Below kicker: a small progress capsule "架構白皮書 v0 · 接案世界觀" in Mint #97E8D6 text. Title "架構白皮書 v0" in Noto Sans TC 900 / 80 px / Warm White, left-aligned. Right side of canvas: a document-style rounded rect with dashed Mint #97E8D6 border (2 px), background #1E3450, containing 4 blank horizontal lines (simulating empty form fields) and a "v0" badge top-right (JetBrains Mono, Mint). A small "NEW" mini pill label in Mint. Left/below: 3 body lines in Warm White 34 px. Bottom-right: logo placeholder 64 px. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Clean, deliberate empty-document aesthetic.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" pill badge with Deep Navy background and Mint #97E8D6 left accent bar, Warm White text. Below kicker: a small progress capsule "架構白皮書 v0 · 接案世界觀" in Mint #97E8D6 text. Title "架構白皮書 v0" in Noto Sans TC 900 / 80 px / Warm White, left-aligned. Right side of canvas: a document-style rounded rect with dashed Mint #97E8D6 border (2 px), background #1E3450, containing 4 blank horizontal lines (simulating empty form fields) and a "v0" badge top-right (JetBrains Mono, Mint). A small "NEW" mini pill label in Mint. Left/below: 3 body lines in Warm White 34 px. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean, deliberate empty-document aesthetic.
 
 ## Negative Prompt
 - Do not fill in the blank document fields with content.
@@ -76,6 +76,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not use neon colors, pure black, glossy 3D, gradient glows, random stickers, or clipart.
 - Do not omit the dashed border on the document — it must look intentionally blank/empty.
 - Do not move logo or footer outside the 96 px safe margin.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 
 ## Speaker Notes
 白皮書是這門課最核心的主線任務。v0 是空的，代表你剛接下委託，什麼都還沒決定。學員要感受到：這份文件最後會變成 v5，裡面每一個格子都是他們做的決策。空白本身就是一種視覺懸念——「這些格子要怎麼填？」就是接下來五幕要回答的問題。進度膠囊「架構白皮書 v0 · 接案世界觀」是第一次啟動，之後每幕都會更新版本號。

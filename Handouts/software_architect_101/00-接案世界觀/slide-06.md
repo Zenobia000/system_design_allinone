@@ -66,16 +66,18 @@ not_applicable — this is a decision framework introduction slide, not a techni
 not_applicable: VCRE 定義頁，實際打分從幕1開始
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge Deep Teal #2E7D86, Warm White text. Title "VCRE 計分卡" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: four equal horizontal cards (rounded 16 px, spacing 20 px, ~90% width total). Alternating backgrounds: card 1 Deep Navy #152238, card 2 Deep Teal #2E7D86, card 3 Deep Navy, card 4 Deep Teal. Each card has: large letter (V/C/R/E) at top, Chinese dimension name in middle, English name in JetBrains Mono, one-line question at bottom — all in Warm White / Mint. Below cards: caption "沒有最好的答案，只有取捨。" in Deep Navy 26 px. Bottom-right: logo placeholder 64 px (dark version). Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy. Balanced, tool-like presentation.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge Deep Teal #2E7D86, Warm White text. Title "VCRE 計分卡" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: four equal horizontal cards (rounded 16 px, spacing 20 px, ~90% width total), left to right exactly as follows. Card 1 (background Deep Navy #152238): big letter "V" at top, Chinese name "商業價值" in middle, English "Value" in JetBrains Mono, bottom question "這決策賺錢/省錢/降風險嗎？". Card 2 (background Deep Teal #2E7D86): big letter "C", Chinese name "成本", English "Cost TCO" in JetBrains Mono, bottom question "雲費＋人力＋維運總和？". Card 3 (background Deep Navy #152238): big letter "R", Chinese name "風險", English "Risk" in JetBrains Mono, bottom question "SPOF 在哪？十倍流量撐得住？". Card 4 (background Deep Teal #2E7D86): big letter "E", Chinese name "可演進", English "Evolvability" in JetBrains Mono, bottom question "三年後要改，會被卡住嗎？". In every card: letter at top (Inter 800), Chinese name (Noto Sans TC 700), English name below it, one-line question at the bottom — text in Warm White with Mint #97E8D6 accents on the letter and English name. Below cards: caption "沒有最好的答案，只有取捨。" in Deep Navy 26 px. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy at bottom-left. Balanced, tool-like presentation.
 
 ## Negative Prompt
 - Do not invent extra Chinese text, extra cards, or extra dimensions beyond V/C/R/E.
+- Do not rename the dimensions. They must be exactly V=商業價值/Value, C=成本/Cost TCO, R=風險/Risk, E=可演進/Evolvability. Never render 複雜度, Complexity, 可執行性, or Executability.
 - Do not add source citations, references, or "Source:" lines.
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
 - Do not use a white #FFFFFF large-area background (use Warm White #F4F1EA only).
 - Do not render fewer or more than four VCRE cards.
 - Do not move logo or footer outside the 96 px safe margin.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 
 ## Speaker Notes
 這是課程最核心的決策工具，從 Ch0 發放、每幕的取捨拍都要用。學員要記住 V/C/R/E 四個字母——每個技術決策都要從這四個維度想一遍。本課從這張起正式啟動 VCRE 思維：不再問「這方案好不好？」，而是問「V 方面它賺什麼？C 方面要多少成本？R 方面最大的風險是？E 方面三年後好不好改？」最後那句「沒有最好的答案，只有取捨」是課程哲學核心，不可省略。

@@ -62,7 +62,7 @@ not_applicable — this is a vocabulary/constraint-definition slide, not a techn
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86 background, Warm White text, rounded pill, 24 px Inter 700. Title "別忘了三種約束" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: three equal horizontal vocabulary cards (rounded 16 px, gap 20 px, ~90% content width). All three card backgrounds Deep Teal #2E7D86. Card 1: "Budget" JetBrains Mono 34 px top / "預算" Noto Sans TC 700 middle / Mint 1 px separator / "$5,000/月" definition Noto Sans TC 500 30 px Warm White. Card 2: "Deadline" / "截止日" / "3 個月 MVP" same layout. Card 3: "Team Skills" / "技能樹" / "6 人熟 Python" same layout. Bottom-right: logo placeholder 64 px (dark version). Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy. Balanced tool-like layout.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86 background, Warm White text, rounded pill, 24 px Inter 700. Title "別忘了三種約束" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: three equal horizontal vocabulary cards (rounded 16 px, gap 20 px, ~90% content width). All three card backgrounds Deep Teal #2E7D86. Card 1: "Budget" JetBrains Mono 34 px top / "預算" Noto Sans TC 700 middle / Mint 1 px separator / "$5,000/月" definition Noto Sans TC 500 30 px Warm White. Card 2: "Deadline" / "截止日" / "3 個月 MVP" same layout. Card 3: "Team Skills" / "技能樹" / "6 人熟 Python" same layout. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy at bottom-left. Balanced tool-like layout.
 
 ## Negative Prompt
 - Do not invent extra Chinese text, extra cards, or extra constraint types.
@@ -72,6 +72,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not use a white #FFFFFF large-area background (use Warm White #F4F1EA only).
 - Do not render fewer or more than 3 constraint cards.
 - Do not move logo or footer outside the 96 px safe margin.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 
 ## Speaker Notes
 NFR 說的是技術上的非功能要求；約束說的是現實邊界——就算你想要 99.99% 可用性，但雲費上限 $5,000/月，那就是個硬限制。這三種約束是架構師最容易忽略的輸入：預算決定可選的雲服務和機器規格；Deadline 決定你不能從頭設計，要找成熟方案；技能樹決定選什麼技術棧，6 人熟 Python 剛碰雲，選一個需要 Go 加 Kubernetes 深度運維的架構，三個月根本做不完。約束不是限制你的枷鎖，是幫你快速淘汰不可行選項的篩子。

@@ -60,7 +60,7 @@ not_applicable — this is a key questions slide establishing risk dimensions, n
 not_applicable — this is a key questions slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" kicker pill — Mint #97E8D6 background, Deep Navy #152238 text, Inter 700 / 24 px, all-caps, rounded. Title "SPOF 在哪" Noto Sans TC 900 / 80 px / Warm White, with "SPOF" in JetBrains Mono, left-aligned. Below: 3 body lines Noto Sans TC 500 / 34 px / Warm White, technical terms in JetBrains Mono. Right side (~40% canvas): a simplified flat node diagram — 4 rectangular boxes (labeled Device, Kafka, Processor, TSDB in JetBrains Mono 22 px Warm White) connected by thin Mint #97E8D6 2 px arrows. Each box has a small translucent question-mark badge at top-right in Mint #97E8D6. The Kafka box has a subtle Coral Red #E8634F 2 px border highlight. All nodes Deep Navy fill, Deep Teal #2E7D86 2 px border default. Flat, minimal, educational, no 3D, no gradients. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" kicker pill — Mint #97E8D6 background, Deep Navy #152238 text, Inter 700 / 24 px, all-caps, rounded. Title "SPOF 在哪" Noto Sans TC 900 / 80 px / Warm White, with "SPOF" in JetBrains Mono, left-aligned. Below: 3 body lines Noto Sans TC 500 / 34 px / Warm White, technical terms in JetBrains Mono. Right side (~40% canvas): a simplified flat node diagram — 4 rectangular boxes (labeled Device, Kafka, Processor, TSDB in JetBrains Mono 22 px Warm White) connected by thin Mint #97E8D6 2 px arrows. Each box has a small translucent question-mark badge at top-right in Mint #97E8D6. The Kafka box has a subtle Coral Red #E8634F 2 px border highlight. All nodes Deep Navy fill, Deep Teal #2E7D86 2 px border default. Flat, minimal, educational, no 3D, no gradients. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title or body lines.
@@ -70,6 +70,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not add more than 4 nodes in the right-side diagram stub.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not render fewer or more than 3 body question lines.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 
 ## Speaker Notes
 三個問題，三個風險維度。第一個：流量暴增 10 倍（20,000 msg/s），v3 的 Ingest API 和 Kafka 有沒有設計容量上限？哪個元件會是瓶頸？第二個：Kafka 只有一個 broker——broker 掛掉，整個 sensor-readings topic 不可用，上報寫入全部失敗，Processor 消費也停了。這是 queue 塞爆的風險，也是 SPOF。第三個：TSDB 單實例掛掉，Stream Processor 無法批次寫入，offset 不提交，Kafka 訊息積壓；同時 Query API 的 cache miss 路徑打 TSDB 也失敗——告警 P99 直接破 10 秒 SLA。把「會不會壞」逼成這三個具體問題，是 FMEA 分析的起點。

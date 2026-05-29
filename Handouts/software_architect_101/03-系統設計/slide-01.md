@@ -60,7 +60,7 @@ not_applicable — this is a scenario/problem-statement slide, not a technical f
 not_applicable — this is a scenario slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "SCENARIO" kicker pill — Coral Red #E8634F background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "元件兜不起來" Noto Sans TC 900 / 80 px / Warm White, left-aligned, ~55% canvas width. Below title: 3 body lines Noto Sans TC 500 / 34 px / Warm White, line-height 1.60; technical names FastAPI / Kafka / Redis rendered in JetBrains Mono Mint #97E8D6. Right side (~45% width): scattered flat box nodes (5–6 boxes, each with a short tech name in JetBrains Mono Warm White 22 px, Deep Teal #2E7D86 2 px border, Deep Navy fill, rounded 8 px) connected by crossing dashed arrows in Mint #97E8D6 2 px — deliberately chaotic, no clear routing. Background of diagram area stays Deep Navy. Bottom-right: logo placeholder 64 px (light). Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White. Clean flat design, no 3D, no gradients, no clipart.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "SCENARIO" kicker pill — Coral Red #E8634F background, Warm White text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Title "元件兜不起來" Noto Sans TC 900 / 80 px / Warm White, left-aligned, ~55% canvas width. Below title: 3 body lines Noto Sans TC 500 / 34 px / Warm White, line-height 1.60; technical names FastAPI / Kafka / Redis rendered in JetBrains Mono Mint #97E8D6. Right side (~45% width): scattered flat box nodes (5–6 boxes, each with a short tech name in JetBrains Mono Warm White 22 px, Deep Teal #2E7D86 2 px border, Deep Navy fill, rounded 8 px) connected by crossing dashed arrows in Mint #97E8D6 2 px — deliberately chaotic, no clear routing. Background of diagram area stays Deep Navy. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean flat design, no 3D, no gradients, no clipart.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title or body lines.
@@ -69,6 +69,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not add "委員質詢", "蘇格拉底", "武僧委員會", or any named facilitation device text.
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
 - Do not move logo or footer outside the 96 px safe margin.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 
 ## Speaker Notes
 幕 2 結束時，學員手上有一張 ER 圖（領域模型）和一張技術棧選型表（ADR-001）。但「有技術棧清單」不等於「知道怎麼接」——FastAPI 跟 Kafka 誰先誰後？Redis 放在讀取路徑還是寫入路徑？Ingest API 和 Query API 能共用還是要分開？這些問題不畫成圖就無法對齊，3 個月後寫程式才發現接錯就來不及了。這一幕要做的就是把這個糊塗狀態，轉換成白皮書 v3 的兩個正式產出：C4 容器圖和關鍵資料流圖。

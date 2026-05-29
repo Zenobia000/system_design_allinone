@@ -64,7 +64,7 @@ not_applicable — this is a vocabulary/method introduction slide, not a technic
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86 background, Warm White text, rounded pill, 24 px Inter 700. Title "功能 vs 非功能需求" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: three equal horizontal vocabulary cards (rounded 16 px, gap 20 px, ~90% content width). Each card background Deep Teal #2E7D86. Card 1: top "NFR" in JetBrains Mono 34 px Warm White; middle "非功能需求" Noto Sans TC 700 34 px Warm White; separator line Mint #97E8D6 1 px; bottom definition line Noto Sans TC 500 30 px Warm White. Card 2: same layout, "SLA" / "服務等級協議" / definition. Card 3: "SLO / SLI" / "服務目標與指標" / definition. Below cards: optional thin Mint #97E8D6 1 px rule. Bottom-right: logo placeholder 64 px (dark version). Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy. Clean tool-like presentation.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Warm White #F4F1EA. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86 background, Warm White text, rounded pill, 24 px Inter 700. Title "功能 vs 非功能需求" in Noto Sans TC 900 / 80 px / Deep Navy #152238, left-aligned. Center: three equal horizontal vocabulary cards (rounded 16 px, gap 20 px, ~90% content width). Each card background Deep Teal #2E7D86. Card 1: top "NFR" in JetBrains Mono 34 px Warm White; middle "非功能需求" Noto Sans TC 700 34 px Warm White; separator line Mint #97E8D6 1 px; bottom definition line Noto Sans TC 500 30 px Warm White. Card 2: same layout, "SLA" / "服務等級協議" / definition. Card 3: "SLO / SLI" / "服務目標與指標" / definition. Below cards: optional thin Mint #97E8D6 1 px rule. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Deep Navy at bottom-left. Clean tool-like presentation.
 
 ## Negative Prompt
 - Do not invent extra Chinese text, extra cards, or extra terms beyond NFR, SLA, SLO/SLI.
@@ -74,6 +74,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not use a white #FFFFFF large-area background (use Warm White #F4F1EA only).
 - Do not render fewer or more than 3 vocabulary cards.
 - Do not move logo or footer outside the 96 px safe margin.
+- Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 
 ## Speaker Notes
 工程師習慣想功能需求：「系統要顯示設備狀態、要發告警、要畫趨勢圖」——這是「做什麼」。非功能需求是「怎麼運作」：多快回應、多少人同時用、掛掉多久算違約。SLA 是對外承諾，SLO 是內部目標（通常比 SLA 更嚴，例如 SLA 99.9% 但內部 SLO 跑 99.95%），SLI 是你真正在量的數字，例如每分鐘成功請求比例。三個術語架構師都必須會用，不能混著說。
