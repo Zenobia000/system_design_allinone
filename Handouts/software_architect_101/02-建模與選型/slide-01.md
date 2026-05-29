@@ -61,7 +61,7 @@ not_applicable — this is a scenario/context slide, not a technical flow diagra
 not_applicable — this is a scenario slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "SCENARIO" pill badge, Coral Red #E8634F background, Warm White text, Inter 700 / 24 px, letter-spacing 0.12 em, rounded capsule. Title "名詞滿天飛" Noto Sans TC 900 / 80 px / Warm White, left-aligned, below kicker. Body: 3 lines Noto Sans TC 500 / 34 px / Warm White / line-height 1.60, left side. Right side: three side-by-side flat speech bubbles — first bubble in Coral Red with monospace text "data point", second in Mint #97E8D6 with "讀數", third in Warm White outline with "row". A thin red diagonal strike-through line crosses all three bubbles. Clean geometric style, no photos, no 3D, no gradients. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Balanced 16:9 composition.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "SCENARIO" pill badge, Coral Red #E8634F background, Warm White text, Inter 700 / 24 px, letter-spacing 0.12 em, rounded capsule. Title "名詞滿天飛" Noto Sans TC 900 / 80 px / Warm White, left-aligned, below kicker. Body: 3 lines Noto Sans TC 500 / 34 px / Warm White / line-height 1.60, left side, reading exactly — line 1 "工程師叫「data point」、PM 叫「讀數」、DBA 叫「row」", line 2 "同一件事叫三個名字，需求就會漏掉", line 3 "建模第一步：把名詞統一成一張表". Right side: three side-by-side flat speech bubbles — first bubble in Coral Red with monospace text "data point", second in Mint #97E8D6 with "讀數", third in Warm White outline with "row". A thin red diagonal strike-through line crosses all three bubbles. Clean geometric style, no photos, no 3D, no gradients. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Balanced 16:9 composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite any body lines.
@@ -71,6 +71,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not put realistic logos or product screenshots in the speech bubbles.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 這是最常見的建模災難場景。工程師說 data point、PM 說讀數、DBA 說 row——但他們說的是同一件事。當三種名字在需求文件、API spec 和 DB schema 裡混著用，需求就會漏掉，討論就會浪費時間。解法不是開會爭，是先做一件事：把核心名詞統一成一張表。這就是領域建模的起點。

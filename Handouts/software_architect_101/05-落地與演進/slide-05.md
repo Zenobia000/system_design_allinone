@@ -152,7 +152,18 @@ iot-monitor/
 not_applicable — this is an artifact slide, not a trade-off decision slide. Trade-off scoring for monolith vs microservices is on slide-08.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v5 · 落地與演進" Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書 v5：開發規範" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Content split into left (~55%) and right (~38%) panels, with 16 px gap. Left panel: code-block card with #172A40 background, Mint #97E8D6 1 px border, rounded 12 px. Title "專案結構" JetBrains Mono 24 px Mint. Directory tree in JetBrains Mono 26 px Warm White — showing iot-monitor/ with subfolders ingest/, processor/, query/, shared/, tests/, .pre-commit-config.yaml, pyproject.toml; inline comments after # in dimmed Mint #97E8D6 color; small flat folder icons in Mint preceding each folder. Right panel: rules card with #172A40 background, Mint 1 px border, rounded 12 px. Title "開發規範" JetBrains Mono 24 px Mint. Three labeled bullets: "分支：", "Lint：", "CI：" labels in JetBrains Mono Mint, descriptions in Noto Sans TC 500 26 px Warm White, tool names in JetBrains Mono Mint. Bottom-right of content area: "白皮書 v5" JetBrains Mono 26 px Mint. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Structured document layout, no diagrams, no gradients, no 3D.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v5 · 落地與演進" Mint text on Deep Navy, rounded capsule 34 px. Title "白皮書 v5：開發規範" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Content split into left (~55%) and right (~38%) panels, with 16 px gap. Left panel: code-block card with #172A40 background, Mint #97E8D6 1 px border, rounded 12 px. Title "專案結構" JetBrains Mono 24 px Mint. Directory tree in JetBrains Mono 26 px Warm White, rendered verbatim with these exact lines and inline comments (comments after # in dimmed Mint #97E8D6 color):
+```
+iot-monitor/
+├── ingest/          # 上報接收
+├── processor/       # 消費 + 告警
+├── query/           # Dashboard API
+├── shared/          # 共用 model/config
+├── tests/
+├── .pre-commit-config.yaml
+└── pyproject.toml
+```
+Small flat folder icons in Mint precede each folder. Right panel: rules card with #172A40 background, Mint 1 px border, rounded 12 px. Title "開發規範" JetBrains Mono 24 px Mint. Three labeled bullets rendered verbatim, label in JetBrains Mono Mint, description in Noto Sans TC 500 26 px Warm White with tool names (GitHub Flow, ruff, black) in JetBrains Mono Mint — "分支：GitHub Flow，feature/<name>，PR 合 main"; "Lint：ruff + black，pre-commit hook 自動執行"; "CI：PR 合 main 前必過 lint + unit test". Bottom-right of content area: "白皮書 v5" JetBrains Mono 26 px Mint. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Structured document layout, no diagrams, no gradients, no 3D.
 
 ## Negative Prompt
 - Do not invent extra files, directories, or rules beyond those defined in On-slide Text.
@@ -164,6 +175,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not add microservices or Docker/K8s icons to the project tree — this is a monorepo, not a multi-service deployment diagram.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 白皮書 v5 的第一個產出：開發規範 + 專案結構。這個 monorepo 的結構直接體現了幕 3 的決策：ingest、processor、query 是三個 Python package，不是三個 repo、也不是三個微服務。shared 套件放所有服務共用的 Pydantic model、DB 連線、設定——這樣修改 Reading model 只需要一個 PR，不需要跨 repo 協調。開發規範三條：分支用 GitHub Flow（6 人以下最簡）、Lint 用 ruff + black（一個 .pre-commit-config.yaml 搞定）、CI 用 GitHub Actions（PR 合 main 前必過測試）。Scaffold 讓新成員 clone + make init 就能跑起來，不需要問「怎麼啟動」。

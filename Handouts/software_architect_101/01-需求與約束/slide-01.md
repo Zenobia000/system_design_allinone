@@ -60,7 +60,7 @@ not_applicable — this is a scenario/problem-framing slide with no technical fl
 not_applicable — this is a scenario slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "SCENARIO" pill badge in Coral Red #E8634F background, Warm White text, rounded pill, 24 px Inter 700. Title "老闆只說要快要穩" in Noto Sans TC 900 / 80 px / Warm White #F4F1EA, left-aligned, upper section. Below title: 3 body lines in Noto Sans TC 500 / 34 px / Warm White, line-height 1.60, left-aligned. Right section: a minimal flat line-art illustration of a blank document/requirements sheet showing only the characters「快」and「穩」and several large question mark symbols, drawn in Mint #97E8D6 thin 2 px lines, flat style, no gradients, no 3D, no photos. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean 16:9 composition, no extra invented text.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "SCENARIO" pill badge in Coral Red #E8634F background, Warm White text, rounded pill, 24 px Inter 700. Title "老闆只說要快要穩" in Noto Sans TC 900 / 80 px / Warm White #F4F1EA, left-aligned, upper section. Below title: exactly 3 body lines in Noto Sans TC 500 / 34 px / Warm White, line-height 1.60, left-aligned, with these exact Chinese strings verbatim — line 1: "「快」是多快？1 秒？10 秒？允許多少例外？"; line 2: "「穩」是幾個 9？99%？99.9%？還是 99.99%？"; line 3: "模糊形容詞無法施工，系統無從驗收。". Right section: a minimal flat line-art illustration of a blank document/requirements sheet showing only the characters「快」and「穩」and several large question mark symbols, drawn in Mint #97E8D6 thin 2 px lines, flat style, no gradients, no 3D, no photos. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean 16:9 composition, no extra invented text.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title or body lines.
@@ -70,6 +70,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not add a complete filled-in requirements document on the right side — it must look blank/empty with only question marks.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 這是接到新案後最常見的開局。老闆說「要快要穩」，技術主管點頭說「沒問題」，然後大家開始畫架構圖——結果兩個月後才發現快的標準是每個人心中不同的數字。架構師的第一刀不是選技術，是把「快」和「穩」逼出一個所有人都認可的數字。這一幕就是教這個。

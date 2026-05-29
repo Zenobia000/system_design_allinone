@@ -61,7 +61,7 @@ not_applicable — this is a key-questions framing slide, not a technical flow d
 not_applicable — this is a key-questions slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6. Top-left: "KEY QUESTIONS" pill badge — Mint #97E8D6 background, Deep Navy text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Left side (~35% width): three vertically arranged flat geometric question-mark symbols, each Mint #97E8D6 / 120 px, on a small Deep Teal #2E7D86 circle backdrop; with short JetBrains Mono 28 px Warm White labels: "開工", "監控", "演進" below each. Right side (~60% width): Title "怎麼讓人開工" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 3 body lines Noto Sans TC 500 / 34 px / Warm White / line-height 1.60. Flat minimal composition, no gradients, no 3D, no photos, no clipart. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6. Top-left: "KEY QUESTIONS" pill badge — Mint #97E8D6 background, Deep Navy text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em. Left side (~35% width): three vertically arranged flat geometric question-mark symbols, each Mint #97E8D6 / 120 px, on a small Deep Teal #2E7D86 circle backdrop; with short JetBrains Mono 28 px Warm White labels: "開工", "監控", "演進" below each. Right side (~60% width): Title "怎麼讓人開工" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: exactly 3 body lines in Noto Sans TC 500 / 34 px / Warm White / line-height 1.60, rendered verbatim — line 1 "怎麼開工？分支怎麼開？CI 守什麼門？"; line 2 "上線後怎麼知道系統活著？"; line 3 "何時才該把 monolith 拆成微服務？". Flat minimal composition, no gradients, no 3D, no photos, no clipart. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite any body lines.
@@ -70,6 +70,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not use neon colors, pure black #000000, glossy 3D, gradient glows, random stickers, or clipart.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 本幕要回答三個問題。開工問題——給開發規範，讓工程師第一天就知道怎麼開分支、用什麼 linter、CI 守門什麼。健康問題——建立可觀察性三本柱：Logs、Metrics、Traces，告警靜默、CPU 飆高、Consumer lag 積壓，一個都不能漏。演進問題——何時才是拆微服務、引 Event Sourcing/CQRS 的正確時機，給出可量化的觸發條件，不靠直覺。三個問題對應白皮書 v5 的三個部分。

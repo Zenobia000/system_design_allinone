@@ -76,6 +76,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not shrink font size below 34 px to force more text.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 三個術語的關係：ACID 和 BASE 是兩種一致性策略的取捨——不是好壞，是場景。銀行轉帳需要 ACID（原子性保證錢不丟），IoT 讀數只需要 BASE（允許短暫不一致，換取高吞吐）。但時序資料有第三個維度：資料的時間結構——它天生是按時間戳排序的 append-only 流，需要的操作是時間範圍查詢和批量刪除，不是隨機 UPDATE 和複雜 JOIN。時序資料庫的原生壓縮（columnar compression for time-ordered data）和 retention policy 是通用 SQL 沒有的功能。TimescaleDB 的聰明之處：它是 PostgreSQL 的 extension，所以既有 ACID 保障、又有時序原生能力，不需要學一套全新系統。

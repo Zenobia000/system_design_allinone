@@ -68,7 +68,7 @@ not_applicable — this is a method/vocabulary slide, not a technical flow diagr
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86, Warm White text. Title "架構師不是最強工程師" in Noto Sans TC 900 / 80 px / #F4F1EA, left-aligned, upper section. Center: a large vocabulary card (rounded rect 16 px, background Deep Teal #2E7D86, ~70% width, centered). Inside the card: top line shows monospace text "Software Architect" and Chinese "軟體架構師" side by side; a thin divider; bottom line shows the one-line Chinese definition. Below the card: two contrast lines in Mint #97E8D6 showing engineer vs architect distinction. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean, focused layout with the vocabulary card as the visual anchor. No extra invented text.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86, Warm White text. Title "架構師不是最強工程師" in Noto Sans TC 900 / 80 px / #F4F1EA, left-aligned, upper section. Center: a large vocabulary card (rounded rect 16 px, background Deep Teal #2E7D86, ~70% width, centered). Inside the card: top line shows monospace text "Software Architect" then " / " then Chinese "軟體架構師" side by side; a thin divider; bottom line shows the one-line Chinese definition reading exactly "把商業目標翻譯成技術決策的人". Below the card: two contrast lines in Mint #97E8D6, line 1 reads "工程師：讓系統跑起來" and line 2 reads "架構師：決定系統長成什麼樣". Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean, focused layout with the vocabulary card as the visual anchor. No extra invented text.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or alter the vocabulary card definition.
@@ -78,6 +78,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 - Do not render the vocabulary card in a different color — it must be Deep Teal #2E7D86.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 這張打破最常見的誤解：架構師不是技術最強的人，而是能把商業約束翻成技術決策的人。本課的案例：業主說「每小時停機損失 $20,000，要把故障發現時間從 30 分鐘壓到 1 分鐘以內」——架構師的工作就是把這句話翻成「告警系統 P99 延遲 < 10 秒」。詞彙卡要乾淨，視覺衝擊強，一句白話就說清楚。

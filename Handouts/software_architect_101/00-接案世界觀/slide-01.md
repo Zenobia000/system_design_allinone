@@ -67,6 +67,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 - Do not shrink text below style guide sizes to fit long copy.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 開場不說廢話。一個身份宣告，讓學員想：「我就是那個架構師？那我的責任是什麼？」把學員推進角色扮演的狀態——他們不是來觀看的，他們是來做決策的。視覺上委託書輪廓暗示「有人找你接案了」。

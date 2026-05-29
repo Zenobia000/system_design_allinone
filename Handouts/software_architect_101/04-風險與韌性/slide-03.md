@@ -80,6 +80,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not render more or fewer than 3 vocabulary cards.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 三個術語是本幕的分析語言。SPOF（Single Point of Failure，單點故障）：一個元件掛掉就讓整體服務中斷。SPOF 不一定是壞設計，但需要被識別出來並決定是否要消除它。Availability（可用性）：正常服務時間除以總時間，99.9% = 每月允許約 43 分鐘停機。我們的 SLA 目標是 99.9%。FMEA（Failure Mode and Effects Analysis，故障模式分析）：不是等壞掉再說，而是主動問「如果這個元件壞了，影響是什麼？要怎麼緩解？」把這三個術語貫通，就能在 slide-05 的 v4 白皮書圖上，有系統地標出 SPOF 並制定緩解策略。

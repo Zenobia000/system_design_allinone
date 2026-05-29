@@ -62,7 +62,7 @@ not_applicable — this is a settings slide establishing the IoT scenario contex
 not_applicable — this is an intro/context slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Left section: oversized number "10,000" in Inter 900 / 160 px / Mint #97E8D6 as the visual anchor, with "台設備" subtitle below in Noto Sans TC 34 px Warm White. Below: title "主角：工廠監控系統" in Noto Sans TC 900 / 80 px / #F4F1EA, left-aligned. Below title: 3 body lines in 34 px Warm White showing key numbers. Right section: clean flat line-art of 3 industrial machines with small sensor icons, thin Mint #97E8D6 lines, 2 px, no gradients, no 3D, no photos. Top-left: "INTRO" pill badge Deep Teal #2E7D86. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Stable 16:9 composition, no extra invented text.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Left section: oversized number "10,000" in Inter 900 / 160 px / Mint #97E8D6 as the visual anchor, with "台設備" subtitle below in Noto Sans TC 34 px Warm White. Below: title "主角：工廠監控系統" in Noto Sans TC 900 / 80 px / #F4F1EA, left-aligned. Below title: exactly 3 body lines in Noto Sans TC 34 px Warm White, line 1 reads "10,000 台設備 · 每 5 秒上報 · 2,000 msg/s 均值 · 尖峰 6,000", line 2 reads "告警 P99 < 10 秒；可用性 99.9%", line 3 reads "6 人團隊 · 3 個月 · 初期雲費 < $5,000/月" (technical numbers in JetBrains Mono). Right section: clean flat line-art of 3 industrial machines with small sensor icons, thin Mint #97E8D6 lines, 2 px, no gradients, no 3D, no photos. Top-left: "INTRO" pill badge Deep Teal #2E7D86. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Stable 16:9 composition, no extra invented text.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite any body lines.
@@ -72,6 +72,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not omit the big number "10,000" as the visual anchor.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 這是整門課的共用設定數字，必須在這張卡片讓學員記住。10,000 台設備、每 5 秒一筆、平均 2,000 msg/s 尖峰 6,000 msg/s、告警 P99 < 10 秒、可用性 99.9%、6 人熟 Python 剛碰雲、3 個月 MVP、初期雲費 < $5,000/月。商業約束：每小時非計畫停機損失約 $20,000，目標把故障發現時間從 30 分鐘壓到 1 分鐘內。後面每一章做決策時都會回來對照這些約束，「這樣設計，我們的 SLA 撐得住嗎？」

@@ -71,7 +71,7 @@ not_applicable — this is a course preview/wrap-up slide with no technical flow
 not_applicable — this is a preview slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "PREVIEW" pill badge in Mint #97E8D6 background, Deep Navy #152238 text. Title "你的任務開始了" in Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: 2 body lines in Warm White 34 px. Below body: a horizontal row of 5 small capsules connected by arrows (v1→v5 acts), all in Mint #97E8D6 at 50% opacity (semi-transparent "locked" look), JetBrains Mono 24 px. Below the capsule row: a practice zone rounded rect with dashed Mint border (2 px), background #1E3450, containing "畫給我看" label (Mint, 24 px) and a centered prompt line inside. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Structured, forward-looking composition. No extra invented text.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "PREVIEW" pill badge in Mint #97E8D6 background, Deep Navy #152238 text. Title "你的任務開始了" in Noto Sans TC 900 / 80 px / Warm White, left-aligned. Below: exactly 2 body lines in Noto Sans TC Warm White 34 px, line 1 reads "幕一到幕五，你來決定每個架構選擇", line 2 reads "結業時能默畫 v1→v5 完整白皮書演化". Below body: a horizontal row of 5 small capsules connected by arrows, reading left to right "v1 幕一需求評估" → "v2 幕二建模選型" → "v3 幕三系統設計" → "v4 幕四風險韌性" → "v5 幕五落地演進", all in Mint #97E8D6 at 50% opacity (semi-transparent "locked" look), JetBrains Mono 24 px. Below the capsule row: a practice zone rounded rect with dashed Mint border (2 px), background #1E3450, containing "畫給我看" label (Mint, 24 px) and a centered prompt line inside reading exactly "闔上這頁，默畫五幕地圖，v1→v5。". Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Structured, forward-looking composition. No extra invented text.
 
 ## Negative Prompt
 - Do not invent extra Chinese text, extra acts, or extra capsules.
@@ -82,6 +82,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
 - Do not fill in the practice zone with additional content beyond the prompt text.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 結尾製造啟程感而非懸念。學員已經知道主角（IoT 監控）、工具（VCRE）、地圖（五幕）、產出物（白皮書）；現在要感受到「我準備好了，任務開始了」。五幕膠囊半透明代表「尚未解鎖」——每幕完成一個就會點亮。練習區「畫給我看」是主線任務的第一次啟動：現在只要能在心裡跑過五幕名字就夠了，結業時要能把 v1→v5 的白皮書演化路徑完整默畫出來。

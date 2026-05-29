@@ -60,7 +60,7 @@ not_applicable — this is a key-questions/quantification slide, not a technical
 not_applicable — this is a key-questions slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" pill badge in Mint #97E8D6 background, Deep Navy #152238 text, rounded pill, 24 px Inter 700. Title "把形容詞逼成數字" in Noto Sans TC 900 / 80 px / Warm White, left-aligned, upper section. Below: 3 body lines in Noto Sans TC 500 / 34 px / Warm White, line-height 1.60, technical numbers in JetBrains Mono. Right section: a clean flat-line arrow diagram showing 2 transformations: 1) vague word「快」(dashed border box) → rightward arrow → concrete「P99 < 10s」(solid Mint border box); 2) vague「穩」→「99.9%」. All drawn in Mint #97E8D6 thin 2 px lines, flat style, no gradients, no 3D. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Stable 16:9, no extra invented text.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" pill badge in Mint #97E8D6 background, Deep Navy #152238 text, rounded pill, 24 px Inter 700. Title "把形容詞逼成數字" in Noto Sans TC 900 / 80 px / Warm White, left-aligned, upper section. Below: exactly 3 body lines in Noto Sans TC 500 / 34 px / Warm White, line-height 1.60, technical numbers in JetBrains Mono, with these exact Chinese strings verbatim — line 1: "告警延遲：P99 < 10 秒，允許最多 1% 例外"; line 2: "設備規模：10,000 台，峰值 6,000 msg/s"; line 3: "可用性：99.9%（每月停機 ≤ 43 分鐘）". Right section: a clean flat-line arrow diagram showing 2 transformations: 1) vague word「快」(dashed border box) → rightward arrow → concrete「P99 < 10s」(solid Mint border box); 2) vague「穩」→「99.9%」. All drawn in Mint #97E8D6 thin 2 px lines, flat style, no gradients, no 3D. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Stable 16:9, no extra invented text.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite the title or body lines.
@@ -70,6 +70,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not add more than 2 transformation arrow pairs on the right side.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 具體問法是：「請給我一個可以用測試驗證的指標。」告警延遲不說「快」，說 P99 < 10 秒——99% 的告警必須在 10 秒以內觸達，剩下 1% 允許更慢，但這個邊界要明確。設備數量 10,000 台，每台每 5 秒一筆，平均 2,000 msg/s，考慮尖峰估 3 倍為 6,000 msg/s。每日資料量 10,000 台 × 17,280 筆/天 × 200 B ≈ 35 GB/天。這些數字不是老闆給的，是架構師去問出來的。

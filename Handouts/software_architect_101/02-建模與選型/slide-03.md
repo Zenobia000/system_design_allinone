@@ -76,6 +76,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not shrink font size below 34 px to force more text.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 DDD 三個術語是這幕的工具箱。Ubiquitous Language：全團隊——工程師、PM、客服——用同一套詞彙描述業務，沒有暗語翻譯。Bounded Context：一個術語在哪個邊界內有效？比如「Customer」在結帳系統和後台管理系統可能是不同的模型；邊界內的語言一致，邊界外可以不同。Domain Model：用結構化的方式把業務實體（名詞）和它們的關係畫出來——這就是下一張的 ER 圖。三個概念的順序是：先共識語言，再劃邊界，最後畫模型。

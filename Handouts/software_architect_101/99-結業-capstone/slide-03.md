@@ -134,7 +134,14 @@ reason: "One-page whitepaper summary card — structured document layout with 6 
 not_applicable — this is an artifact slide (one-page whitepaper summary), not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone chapter. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v1→v5 · 結業 Capstone" in Mint text on Deep Navy, rounded capsule 34 px. Title "一頁式架構白皮書" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: large summary card (~90% canvas width, ~65% canvas height). Card background #1E3450, rounded 16 px, Mint #97E8D6 2 px border. Inside card: 6 sections in a 3-row × 2-column grid layout, each cell separated by thin Mint 0.5 px divider lines. Section labels in JetBrains Mono 22 px Mint: "系統名稱", "關鍵 NFR", "技術棧", "核心架構", "主要風險與緩解", "演進觸發條件". Section content in Noto Sans TC 500 24 px Warm White; tool names and technical values in JetBrains Mono Mint (FastAPI, TimescaleDB, Redis, Kafka, P99 < 10s, 6,000 msg/s, 99.9%, 35 GB, $5,000/月). Top-right of card: "v1→v5" version badge JetBrains Mono 22 px Mint. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Dense but readable document-card composition.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course Capstone chapter. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F, #5B9770. Top-left: "ARTIFACT" kicker pill — Deep Navy background with Mint #97E8D6 2 px outline, Warm White text, Inter 700 / 24 px, all-caps. Below: progress capsule "架構白皮書 v1→v5 · 結業 Capstone" in Mint text on Deep Navy, rounded capsule 34 px. Title "一頁式架構白皮書" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Main content: large summary card (~90% canvas width, ~65% canvas height). Card background #1E3450, rounded 16 px, Mint #97E8D6 2 px border. Inside card: 6 sections in a 3-row × 2-column grid layout, each cell separated by thin Mint 0.5 px divider lines. Section labels in JetBrains Mono 22 px Mint; section content in Noto Sans TC 500 24 px Warm White, with tool names and technical values in JetBrains Mono Mint. Render each section's label and body text exactly as the following Chinese strings:
+  - Section 1 — label "系統名稱"; body "IoT 設備監控系統（即時告警）".
+  - Section 2 — label "關鍵 NFR"; body two lines "告警 P99 < 10s · 峰值 6,000 msg/s · 可用性 99.9%" and "每日資料量 ≤ 35 GB · 雲費 < $5,000/月".
+  - Section 3 — label "技術棧"; body "FastAPI · PostgreSQL+TimescaleDB · Redis · Kafka".
+  - Section 4 — label "核心架構"; body two lines "modular monolith · Ingest/Processor/Query 三包" and "非同步削峰（Kafka）· 快取輔助（Redis，TTL 60s）".
+  - Section 5 — label "主要風險與緩解"; body three lines "TSDB SPOF → Replica + 讀寫分離", "Kafka 單點 → 3-broker cluster", "Processor 單點 → Consumer Group ≥2 + Idempotency".
+  - Section 6 — label "演進觸發條件"; body two lines "團隊 > 20 人 / 獨立擴展需求 → 沿 package 邊界拆微服務" and "讀取負載 > 寫入 5× → CQRS（屆時再評）".
+  Top-right of card: "v1→v5" version badge JetBrains Mono 22 px Mint. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Dense but readable document-card composition.
 
 ## Negative Prompt
 - Do not invent extra sections or change the 6 section labels defined above.
@@ -146,6 +153,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not place brand logos inside the card — technical names appear as text in JetBrains Mono only.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 這是整門課最重要的一張投影片。這是你帶走的成品。一頁式架構白皮書把五幕的決策壓縮到一張卡片裡：系統叫什麼、NFR 是什麼（量化的）、技術棧選了什麼（為什麼選）、核心架構長什麼樣（關鍵設計決策）、最大風險在哪裡（有緩解手法）、什麼時候才演進（有觸發條件）。任何人拿到這一頁，不需要讀五幕的投影片，就能理解這個系統。這就是架構師的可交付物（deliverable）——不是一堆 PowerPoint，是讓人能做決策的精煉文件。

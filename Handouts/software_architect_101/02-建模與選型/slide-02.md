@@ -62,7 +62,7 @@ not_applicable — this is a key-questions slide, not a technical flow diagram.
 not_applicable — this is a key-questions slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" pill badge, Mint #97E8D6 background, Deep Navy text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em, rounded capsule. Title "核心名詞與邊界" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Left portion: 3 body lines Noto Sans TC 500 / 34 px / Warm White / line-height 1.60. Right portion: three vertically stacked flat geometric circles (~120 px diameter) in Mint #97E8D6 outline / 2 px, each containing a "?" in Inter 900 Mint, paired with small label text "實體？", "所有權？", "語義？" to the right of each circle, Noto Sans TC 500 / 28 px / Mint. Thin Mint 1 px dividers between each icon-label pair. No 3D, no gradients, no photos. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean 16:9 composition.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "KEY QUESTIONS" pill badge, Mint #97E8D6 background, Deep Navy text, Inter 700 / 24 px, all-caps, letter-spacing 0.12 em, rounded capsule. Title "核心名詞與邊界" Noto Sans TC 900 / 80 px / Warm White, left-aligned. Left portion: 3 body lines Noto Sans TC 500 / 34 px / Warm White / line-height 1.60, reading exactly — line 1 "哪些是核心實體？誰擁有資料？", line 2 "Device 跟 Sensor 是同一件事嗎？", line 3 "Alert 是資料還是事件？邊界在哪？". Right portion: three vertically stacked flat geometric circles (~120 px diameter) in Mint #97E8D6 outline / 2 px, each containing a "?" in Inter 900 Mint, paired with small label text "實體？", "所有權？", "語義？" to the right of each circle, Noto Sans TC 500 / 28 px / Mint. Thin Mint 1 px dividers between each icon-label pair. No 3D, no gradients, no photos. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Clean 16:9 composition.
 
 ## Negative Prompt
 - Do not invent extra Chinese text or rewrite any body lines.
@@ -72,6 +72,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not render more than 3 question icons.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 三個問題本身就是建模的驅動力。第一問：哪些是核心實體，誰擁有資料？一台設備歸某個客戶，所有它的感測器資料也歸它。第二問：Device 跟 Sensor 是同一件事嗎？不是——一台設備可以有多個感測器，1:N 關係。第三問：Alert 是資料還是事件？Alert 是業務語義——是「某個閾值被超過的記錄」，不只是 DB 裡的一個 row，但它確實要持久化。邊界問清楚，ER 圖的五個實體就自然浮出來了。

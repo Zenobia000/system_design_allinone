@@ -65,7 +65,7 @@ not_applicable — this is a course roadmap / method slide, not a technical flow
 not_applicable — this is a method slide, not a trade-off decision slide.
 
 ## GPT Image Prompt
-Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86. Title "架構師的五幕地圖" in Noto Sans TC 900 / 80 px / #F4F1EA, left-aligned. Center: five equal rounded-rect nodes arranged horizontally, each with Deep Teal #2E7D86 fill and Mint #97E8D6 border (2 px), connected by Mint arrows (→). Each node has two text lines: act number on top (Mint), act name below (Warm White). Below each node: a small version capsule (v1 through v5) in JetBrains Mono Mint. Below the diagram: 3 body lines in Warm White 34 px. Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Stable 16:9 layout, no extra invented text.
+Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" course. Background: Deep Navy #152238. Brand colors only: #152238, #F4F1EA, #2E7D86, #97E8D6, #E8634F. Top-left: "METHOD" pill badge in Deep Teal #2E7D86. Title "架構師的五幕地圖" in Noto Sans TC 900 / 80 px / #F4F1EA, left-aligned. Center: five equal rounded-rect nodes arranged horizontally, each with Deep Teal #2E7D86 fill and Mint #97E8D6 border (2 px), connected by Mint arrows (→). Each node has two text lines: act number on top in Mint reading "幕 1" / "幕 2" / "幕 3" / "幕 4" / "幕 5" left to right, act name below in Warm White reading "需求評估" / "建模選型" / "系統設計" / "風險韌性" / "落地演進" respectively. Below each node: a small version capsule in JetBrains Mono Mint reading "v1" / "v2" / "v3" / "v4" / "v5" respectively. Below the diagram: exactly 3 body lines in Noto Sans TC Warm White 34 px, line 1 reads "五幕走完，白皮書從 v0 長到 v5", line 2 reads "每幕一個決策，每決策一張 VCRE 計分", line 3 reads "你是決策者，不是旁觀者". Bottom-right corner: keep it clean and completely empty (reserved for a brand logo overlaid later) — do not draw any logo, emblem, badge, monogram, or icon there. Footer "桑尼資料科學 · 版權所有 ©" 22 px Warm White at bottom-left. Stable 16:9 layout, no extra invented text.
 
 ## Negative Prompt
 - Do not invent extra Chinese text, act names, or extra nodes.
@@ -75,6 +75,7 @@ Create a 1920x1080 horizontal PowerPoint educational slide for "架構師 101" c
 - Do not render more or fewer than 5 nodes.
 - Do not move logo or footer outside the 96 px safe margin.
 - Do not draw, invent, or render any logo, brand mark, emblem, badge, monogram, or icon in the bottom-right corner — that space must stay empty for a logo overlay added later.
+- Do not invent, paraphrase, or alter any on-slide text — render the Chinese text exactly as specified in this prompt.
 
 ## Speaker Notes
 這是整門課的地圖。五幕對應架構白皮書 v1→v5。學員要知道自己現在走到哪一幕，白皮書又長到哪個版本。幕一「需求評估」——把模糊業務需求轉化為可量化的技術約束；幕二「建模選型」——資料模型與技術元件初選；幕三「系統設計」——C4 容器圖 + 關鍵資料流；幕四「風險韌性」——SPOF 分析 + failover；幕五「落地演進」——MVP 路徑 + 三年演進。這張是方向感，不是細節——學員現在只需要感受到「我會走過這五幕」。
