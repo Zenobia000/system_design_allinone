@@ -17,7 +17,7 @@ export default function Footer() {
             落地圖鑑 · Launch Atlas
           </span>
           <p>
-            一張從假設走到可運維系統的地圖。11 角色、58 交付物、6 階段、每張卡附 AI 加速 prompt。
+            一張從假設走到可運維系統的地圖。12 角色、58 交付物、6 階段、每張卡附 AI 加速 prompt。
           </p>
           <p style={{ marginTop: 4 }} className="mono">
             <span style={{ color: "var(--accent)" }}>·</span> Part of System Design All-in-One
@@ -26,7 +26,7 @@ export default function Footer() {
         <div>
           <h4>Atlas</h4>
           <ul>
-            <li><Link href="/roles/">11 角色</Link></li>
+            <li><Link href="/roles/">12 角色</Link></li>
             <li><Link href="/stages/">6 階段</Link></li>
             <li><Link href="/deliverables/">58 交付物</Link></li>
             <li><Link href="/about/">About</Link></li>

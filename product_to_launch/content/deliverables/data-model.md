@@ -2,7 +2,7 @@
 title: "Data Model · 資料模型"
 slug: "data-model"
 stage: "design"
-roles: ["architect", "dev"]
+roles: ["dba", "architect", "dev"]
 order: 26
 hook: "把資料關係講清楚，避免半年後查不出真相"
 when_to_use: "新 entity、跨系統資料整合、合規/稽核產業時"

@@ -20,6 +20,7 @@ export type RoleSlug =
   | "sa"
   | "architect"
   | "sd"
+  | "dba"
   | "dev"
   | "qa"
   | "devops";
@@ -61,9 +62,10 @@ export const ROLES: RoleMeta[] = [
   { slug: "sa",        num: "06", title: "系統分析",   titleEn: "System Analyst",  hook: "在商業需求與技術可行性之間架橋", primaryStages: ["define", "design"], hex: "#e54d4d" },
   { slug: "architect", num: "07", title: "架構師",     titleEn: "Architect",       hook: "為十年後的負載做今天的取捨", primaryStages: ["design"], hex: "#ff6a1a" },
   { slug: "sd",        num: "08", title: "系統設計",   titleEn: "System Designer", hook: "把架構決策落地成 Dev 不用問就能寫的細部設計", primaryStages: ["design"], hex: "#d97757" },
-  { slug: "dev",       num: "09", title: "開發者",     titleEn: "Developer",       hook: "把藍圖變成 production code", primaryStages: ["build"], hex: "#d97757" },
-  { slug: "qa",        num: "10", title: "品質工程",   titleEn: "QA Engineer",     hook: "在使用者之前找到所有 bug", primaryStages: ["build", "ship"], hex: "#8b6f47" },
-  { slug: "devops",    num: "11", title: "DevOps/SRE", titleEn: "DevOps · SRE",    hook: "讓系統凌晨三點不會把人叫醒", primaryStages: ["ship", "operate"], hex: "#2e7d8c" },
+  { slug: "dba",       num: "09", title: "資料庫管理", titleEn: "Database Admin",  hook: "讓資料真出事還回得來", primaryStages: ["design", "operate"], hex: "#6dd5ed" },
+  { slug: "dev",       num: "10", title: "開發者",     titleEn: "Developer",       hook: "把藍圖變成 production code", primaryStages: ["build"], hex: "#d97757" },
+  { slug: "qa",        num: "11", title: "品質工程",   titleEn: "QA Engineer",     hook: "在使用者之前找到所有 bug", primaryStages: ["build", "ship"], hex: "#8b6f47" },
+  { slug: "devops",    num: "12", title: "DevOps/SRE", titleEn: "DevOps · SRE",    hook: "讓系統凌晨三點不會把人叫醒", primaryStages: ["ship", "operate"], hex: "#2e7d8c" },
 ];
 
 export const STAGE_MAP: Record<StageSlug, StageMeta> = Object.fromEntries(
@@ -122,7 +124,7 @@ export const DELIVERABLES: DeliverableIndex[] = [
   { slug: "adr",              order: 23, title: "ADR · 架構決策紀錄", stage: "design", roles: ["architect"], essential: true },
   { slug: "c4-diagram",       order: 24, title: "C4 圖 · 四層架構視圖", stage: "design", roles: ["architect", "sa"], essential: true },
   { slug: "api-spec",         order: 25, title: "API Spec · OpenAPI 契約", stage: "design", roles: ["architect", "sd", "dev"], essential: true },
-  { slug: "data-model",       order: 26, title: "Data Model · 資料模型", stage: "design", roles: ["architect", "dev"], essential: true },
+  { slug: "data-model",       order: 26, title: "Data Model · 資料模型", stage: "design", roles: ["dba", "architect", "dev"], essential: true },
   { slug: "sequence-diagram", order: 27, title: "Sequence Diagram · 時序圖", stage: "design", roles: ["sa", "sd", "architect"] },
   { slug: "tech-spike",       order: 28, title: "Tech Spike · 技術探索", stage: "design", roles: ["architect", "dev"] },
   { slug: "threat-model",     order: 29, title: "Threat Model · 威脅建模", stage: "design", roles: ["architect"] },
@@ -157,7 +159,7 @@ export const DELIVERABLES: DeliverableIndex[] = [
   { slug: "postmortem",       order: 52, title: "Postmortem · 事後回顧", stage: "operate", roles: ["devops"], essential: true },
   { slug: "observability-spec", order: 53, title: "Observability Spec · 可觀測規格", stage: "operate", roles: ["devops", "architect"] },
   { slug: "on-call-rotation", order: 54, title: "On-Call Rotation · 值班輪值", stage: "operate", roles: ["devops"] },
-  { slug: "capacity-planning", order: 55, title: "Capacity Planning · 容量規劃", stage: "operate", roles: ["devops", "architect"] },
+  { slug: "capacity-planning", order: 55, title: "Capacity Planning · 容量規劃", stage: "operate", roles: ["devops", "architect", "dba"] },
   { slug: "cost-monitor",     order: 56, title: "Cost Monitor · 成本監控", stage: "operate", roles: ["devops"] },
   { slug: "deprecation-plan", order: 57, title: "Deprecation Plan · 廢棄計畫", stage: "operate", roles: ["architect", "po"] },
   { slug: "retro",            order: 58, title: "Retrospective · 回顧會議", stage: "operate", roles: ["pm", "po"] },

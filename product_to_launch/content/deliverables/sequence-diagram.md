@@ -2,7 +2,7 @@
 title: "Sequence Diagram · 時序圖"
 slug: "sequence-diagram"
 stage: "design"
-roles: ["sa", "architect"]
+roles: ["sa", "sd", "architect"]
 order: 27
 hook: "把跨服務互動的順序、失敗、回滾畫清楚"
 when_to_use: "跨 ≥ 3 服務互動、有異步事件、有重試/補償邏輯時"

@@ -2,7 +2,7 @@
 title: "Capacity Planning · 容量規劃"
 slug: "capacity-planning"
 stage: "operate"
-roles: ["devops", "architect"]
+roles: ["devops", "architect", "dba"]
 order: 51
 hook: "在洪峰來臨前先把『撐不撐得住』算清楚"
 when_to_use: "預期流量成長、季節性活動、或硬體/雲端預算規劃時"

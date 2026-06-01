@@ -23,7 +23,7 @@ export default function NotFound() {
         <div style={{ marginTop: 32, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <Link href="/" style={{ borderBottom: "1px solid currentColor" }}>回首頁</Link>
           <Link href="/deliverables/" style={{ borderBottom: "1px solid currentColor" }}>58 交付物</Link>
-          <Link href="/roles/" style={{ borderBottom: "1px solid currentColor" }}>11 角色</Link>
+          <Link href="/roles/" style={{ borderBottom: "1px solid currentColor" }}>12 角色</Link>
           <Link href="/stages/" style={{ borderBottom: "1px solid currentColor" }}>6 階段</Link>
         </div>
       </div>

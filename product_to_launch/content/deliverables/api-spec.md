@@ -2,7 +2,7 @@
 title: "API Spec · OpenAPI 契約"
 slug: "api-spec"
 stage: "design"
-roles: ["architect", "dev"]
+roles: ["architect", "sd", "dev"]
 order: 25
 hook: "Freeze 契約，讓 FE/BE/QA 可平行開發"
 when_to_use: "跨團隊整合、FE/BE 並行開發、對外開放 API 時"

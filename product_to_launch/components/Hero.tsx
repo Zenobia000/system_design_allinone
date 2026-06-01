@@ -11,13 +11,13 @@ export default function Hero() {
         的系統。
       </h1>
       <p className="lede">
-        11 個角色 · <b>58 個交付物</b> · 一張可走完的地圖。
+        12 個角色 · <b>58 個交付物</b> · 一張可走完的地圖。
         <br />
         每張卡片只回答四件事：<b>解決什麼、誰負責、何時用、AI 怎麼加速</b>。
       </p>
       <div className="meta">
         <span><i /> 6 Stages</span>
-        <span><i /> 11 Roles</span>
+        <span><i /> 12 Roles</span>
         <span><i /> 58 Deliverables</span>
         <span><i /> AI-augmented</span>
       </div>

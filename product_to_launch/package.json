@@ -5,8 +5,9 @@
   "description": "落地圖鑑 · Launch Atlas — 從一個假設，到一座可運維的系統",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/build-skills.mjs",
-    "predev": "node scripts/build-skills.mjs",
+    "prebuild": "node scripts/check-role-sync.mjs && node scripts/build-skills.mjs",
+    "predev": "node scripts/check-role-sync.mjs && node scripts/build-skills.mjs",
+    "check:roles": "node scripts/check-role-sync.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
