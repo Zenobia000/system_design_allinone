@@ -19,6 +19,7 @@ export type RoleSlug =
   | "ui"
   | "sa"
   | "architect"
+  | "sd"
   | "dev"
   | "qa"
   | "devops";
@@ -59,9 +60,10 @@ export const ROLES: RoleMeta[] = [
   { slug: "ui",        num: "05", title: "UI 設計",   titleEn: "UI Designer",     hook: "把功能變成看得懂、按得到的介面", primaryStages: ["design"], hex: "#6dd5ed" },
   { slug: "sa",        num: "06", title: "系統分析",   titleEn: "System Analyst",  hook: "在商業需求與技術可行性之間架橋", primaryStages: ["define", "design"], hex: "#e54d4d" },
   { slug: "architect", num: "07", title: "架構師",     titleEn: "Architect",       hook: "為十年後的負載做今天的取捨", primaryStages: ["design"], hex: "#ff6a1a" },
-  { slug: "dev",       num: "08", title: "開發者",     titleEn: "Developer",       hook: "把藍圖變成 production code", primaryStages: ["build"], hex: "#d97757" },
-  { slug: "qa",        num: "09", title: "品質工程",   titleEn: "QA Engineer",     hook: "在使用者之前找到所有 bug", primaryStages: ["build", "ship"], hex: "#8b6f47" },
-  { slug: "devops",    num: "10", title: "DevOps/SRE", titleEn: "DevOps · SRE",    hook: "讓系統凌晨三點不會把人叫醒", primaryStages: ["ship", "operate"], hex: "#2e7d8c" },
+  { slug: "sd",        num: "08", title: "系統設計",   titleEn: "System Designer", hook: "把架構決策落地成 Dev 不用問就能寫的細部設計", primaryStages: ["design"], hex: "#d97757" },
+  { slug: "dev",       num: "09", title: "開發者",     titleEn: "Developer",       hook: "把藍圖變成 production code", primaryStages: ["build"], hex: "#d97757" },
+  { slug: "qa",        num: "10", title: "品質工程",   titleEn: "QA Engineer",     hook: "在使用者之前找到所有 bug", primaryStages: ["build", "ship"], hex: "#8b6f47" },
+  { slug: "devops",    num: "11", title: "DevOps/SRE", titleEn: "DevOps · SRE",    hook: "讓系統凌晨三點不會把人叫醒", primaryStages: ["ship", "operate"], hex: "#2e7d8c" },
 ];
 
 export const STAGE_MAP: Record<StageSlug, StageMeta> = Object.fromEntries(
@@ -119,42 +121,46 @@ export const DELIVERABLES: DeliverableIndex[] = [
   { slug: "usability-test",   order: 22, title: "可用性測試 · Usability Test", stage: "design", roles: ["ux"] },
   { slug: "adr",              order: 23, title: "ADR · 架構決策紀錄", stage: "design", roles: ["architect"], essential: true },
   { slug: "c4-diagram",       order: 24, title: "C4 圖 · 四層架構視圖", stage: "design", roles: ["architect", "sa"], essential: true },
-  { slug: "api-spec",         order: 25, title: "API Spec · OpenAPI 契約", stage: "design", roles: ["architect", "dev"], essential: true },
+  { slug: "api-spec",         order: 25, title: "API Spec · OpenAPI 契約", stage: "design", roles: ["architect", "sd", "dev"], essential: true },
   { slug: "data-model",       order: 26, title: "Data Model · 資料模型", stage: "design", roles: ["architect", "dev"], essential: true },
-  { slug: "sequence-diagram", order: 27, title: "Sequence Diagram · 時序圖", stage: "design", roles: ["sa", "architect"] },
+  { slug: "sequence-diagram", order: 27, title: "Sequence Diagram · 時序圖", stage: "design", roles: ["sa", "sd", "architect"] },
   { slug: "tech-spike",       order: 28, title: "Tech Spike · 技術探索", stage: "design", roles: ["architect", "dev"] },
   { slug: "threat-model",     order: 29, title: "Threat Model · 威脅建模", stage: "design", roles: ["architect"] },
   { slug: "non-functional-reqs", order: 30, title: "非功能需求 · NFR / -ilities", stage: "design", roles: ["architect", "sa"], essential: true },
+  { slug: "module-design",    order: 31, title: "Module Design · 模組設計", stage: "design", roles: ["sd"] },
+  { slug: "component-design", order: 32, title: "Component Design · 元件設計", stage: "design", roles: ["sd"] },
+  { slug: "class-diagram",    order: 33, title: "Class Diagram · 類別圖", stage: "design", roles: ["sd"] },
+  { slug: "error-handling",   order: 34, title: "Error Handling · 錯誤處理設計", stage: "design", roles: ["sd", "dev"] },
 
   // — Build —
-  { slug: "coding-standard",  order: 31, title: "Coding Standard · 編碼規範", stage: "build", roles: ["dev"] },
-  { slug: "pr-template",      order: 32, title: "PR Template · PR 模板", stage: "build", roles: ["dev"] },
-  { slug: "code-review-checklist", order: 33, title: "Code Review Checklist", stage: "build", roles: ["dev"], essential: true },
-  { slug: "unit-test",        order: 34, title: "Unit Test · 單元測試", stage: "build", roles: ["dev", "qa"], essential: true },
-  { slug: "integration-test", order: 35, title: "Integration Test · 整合測試", stage: "build", roles: ["qa", "dev"] },
-  { slug: "test-plan",        order: 36, title: "Test Plan · 測試計畫", stage: "build", roles: ["qa"] },
-  { slug: "feature-flag",     order: 37, title: "Feature Flag · 功能旗標", stage: "build", roles: ["dev", "po"] },
+  { slug: "coding-standard",  order: 35, title: "Coding Standard · 編碼規範", stage: "build", roles: ["dev"] },
+  { slug: "pr-template",      order: 36, title: "PR Template · PR 模板", stage: "build", roles: ["dev"] },
+  { slug: "code-review-checklist", order: 37, title: "Code Review Checklist", stage: "build", roles: ["dev"], essential: true },
+  { slug: "unit-test",        order: 38, title: "Unit Test · 單元測試", stage: "build", roles: ["dev", "qa"], essential: true },
+  { slug: "integration-test", order: 39, title: "Integration Test · 整合測試", stage: "build", roles: ["qa", "dev"] },
+  { slug: "test-plan",        order: 40, title: "Test Plan · 測試計畫", stage: "build", roles: ["qa"] },
+  { slug: "feature-flag",     order: 41, title: "Feature Flag · 功能旗標", stage: "build", roles: ["dev", "po"] },
 
   // — Ship —
-  { slug: "ci-cd-pipeline",   order: 38, title: "CI/CD Pipeline · 持續交付管線", stage: "ship", roles: ["devops", "dev"] },
-  { slug: "release-plan",     order: 39, title: "Release Plan · 上線計畫", stage: "ship", roles: ["po", "devops"], essential: true },
-  { slug: "rollback-plan",    order: 40, title: "Rollback Plan · 回滾計畫", stage: "ship", roles: ["devops"], essential: true },
-  { slug: "canary-strategy",  order: 41, title: "Canary Strategy · 灰度策略", stage: "ship", roles: ["devops"] },
-  { slug: "uat",              order: 42, title: "UAT · 使用者驗收測試", stage: "ship", roles: ["qa", "po"] },
-  { slug: "go-no-go-checklist", order: 43, title: "Go/No-Go Checklist · 上線檢查表", stage: "ship", roles: ["po", "devops"] },
+  { slug: "ci-cd-pipeline",   order: 42, title: "CI/CD Pipeline · 持續交付管線", stage: "ship", roles: ["devops", "dev"] },
+  { slug: "release-plan",     order: 43, title: "Release Plan · 上線計畫", stage: "ship", roles: ["po", "devops"], essential: true },
+  { slug: "rollback-plan",    order: 44, title: "Rollback Plan · 回滾計畫", stage: "ship", roles: ["devops"], essential: true },
+  { slug: "canary-strategy",  order: 45, title: "Canary Strategy · 灰度策略", stage: "ship", roles: ["devops"] },
+  { slug: "uat",              order: 46, title: "UAT · 使用者驗收測試", stage: "ship", roles: ["qa", "po"] },
+  { slug: "go-no-go-checklist", order: 47, title: "Go/No-Go Checklist · 上線檢查表", stage: "ship", roles: ["po", "devops"] },
 
   // — Operate —
-  { slug: "slo",              order: 44, title: "SLO · 服務等級目標", stage: "operate", roles: ["devops"] },
-  { slug: "error-budget",     order: 45, title: "Error Budget · 誤差預算", stage: "operate", roles: ["devops"] },
-  { slug: "runbook",          order: 46, title: "Runbook · 維運手冊", stage: "operate", roles: ["devops"], essential: true },
-  { slug: "incident-report",  order: 47, title: "Incident Report · 事故報告", stage: "operate", roles: ["devops"] },
-  { slug: "postmortem",       order: 48, title: "Postmortem · 事後回顧", stage: "operate", roles: ["devops"], essential: true },
-  { slug: "observability-spec", order: 49, title: "Observability Spec · 可觀測規格", stage: "operate", roles: ["devops", "architect"] },
-  { slug: "on-call-rotation", order: 50, title: "On-Call Rotation · 值班輪值", stage: "operate", roles: ["devops"] },
-  { slug: "capacity-planning", order: 51, title: "Capacity Planning · 容量規劃", stage: "operate", roles: ["devops", "architect"] },
-  { slug: "cost-monitor",     order: 52, title: "Cost Monitor · 成本監控", stage: "operate", roles: ["devops"] },
-  { slug: "deprecation-plan", order: 53, title: "Deprecation Plan · 廢棄計畫", stage: "operate", roles: ["architect", "po"] },
-  { slug: "retro",            order: 54, title: "Retrospective · 回顧會議", stage: "operate", roles: ["pm", "po"] },
+  { slug: "slo",              order: 48, title: "SLO · 服務等級目標", stage: "operate", roles: ["devops"] },
+  { slug: "error-budget",     order: 49, title: "Error Budget · 誤差預算", stage: "operate", roles: ["devops"] },
+  { slug: "runbook",          order: 50, title: "Runbook · 維運手冊", stage: "operate", roles: ["devops"], essential: true },
+  { slug: "incident-report",  order: 51, title: "Incident Report · 事故報告", stage: "operate", roles: ["devops"] },
+  { slug: "postmortem",       order: 52, title: "Postmortem · 事後回顧", stage: "operate", roles: ["devops"], essential: true },
+  { slug: "observability-spec", order: 53, title: "Observability Spec · 可觀測規格", stage: "operate", roles: ["devops", "architect"] },
+  { slug: "on-call-rotation", order: 54, title: "On-Call Rotation · 值班輪值", stage: "operate", roles: ["devops"] },
+  { slug: "capacity-planning", order: 55, title: "Capacity Planning · 容量規劃", stage: "operate", roles: ["devops", "architect"] },
+  { slug: "cost-monitor",     order: 56, title: "Cost Monitor · 成本監控", stage: "operate", roles: ["devops"] },
+  { slug: "deprecation-plan", order: 57, title: "Deprecation Plan · 廢棄計畫", stage: "operate", roles: ["architect", "po"] },
+  { slug: "retro",            order: 58, title: "Retrospective · 回顧會議", stage: "operate", roles: ["pm", "po"] },
 ];
 
 export function pad(n: number): string {

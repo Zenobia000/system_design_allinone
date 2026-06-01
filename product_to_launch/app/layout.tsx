@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: `%s · ${SITE_NAME}`,
   },
   description:
-    "9 個角色 · 54 個交付物 · 一張可走完的地圖。每張卡片只回答四件事：解決什麼、誰負責、何時用、AI 怎麼加速。",
+    "11 個角色 · 58 個交付物 · 一張可走完的地圖。每張卡片只回答四件事：解決什麼、誰負責、何時用、AI 怎麼加速。",
   keywords: [
     "產品開發",
     "SDLC",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: SITE_NAME,
-    description: `${SITE_TAGLINE}。9 角色 · 54 交付物 · 一張可走完的地圖。`,
+    description: `${SITE_TAGLINE}。11 角色 · 58 交付物 · 一張可走完的地圖。`,
     type: "website",
     locale: SITE_LOCALE,
     url: SITE_URL,

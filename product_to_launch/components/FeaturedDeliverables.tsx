@@ -29,7 +29,7 @@ export default function FeaturedDeliverables() {
         <h2>每個階段，一張關鍵交付物。</h2>
         <p className="sub">
           這 6 張代表整段 SDLC 旅程 — Discovery / Define / Design / Build / Ship / Operate。
-          想看全部 54 張、按 Stage 或 Role 過濾？走網格頁。
+          想看全部 58 張、按 Stage 或 Role 過濾？走網格頁。
         </p>
       </div>
       <div className="grid">
@@ -39,7 +39,7 @@ export default function FeaturedDeliverables() {
       </div>
       <div className="section-foot">
         <Link href="/deliverables/" className="see-all">
-          看全部 54 個交付物 →
+          看全部 58 個交付物 →
         </Link>
       </div>
     </section>

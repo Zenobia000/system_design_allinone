@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "About · 關於落地圖鑑",
-  description: "為架構工作打造的決策手冊。由桑尼資料科學 Lab 整理發行 — 九個角色、六道 SDLC 閘門、五十四項交付物。",
+  description: "為架構工作打造的決策手冊。由桑尼資料科學 Lab 整理發行 — 十一個角色、六道 SDLC 閘門、五十八項交付物。",
   alternates: {
     canonical: "/about/",
     languages: { "zh-Hant": "/about/", "x-default": "/about/" },
@@ -25,7 +25,7 @@ export default function AboutPage() {
               </div>
               <h1>為架構工作打造的決策手冊。</h1>
               <p className="hook">
-                由桑尼資料科學 Lab 整理發行。九個角色、六道 SDLC 閘門、五十四項交付物——
+                由桑尼資料科學 Lab 整理發行。十一個角色、六道 SDLC 閘門、五十八項交付物——
                 每張卡只回答四件事：解決什麼、誰負責、何時用、AI 怎麼加速。
               </p>
             </div>

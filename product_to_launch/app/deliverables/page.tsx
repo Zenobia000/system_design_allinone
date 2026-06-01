@@ -6,7 +6,7 @@ import { DELIVERABLES } from "@/lib/taxonomy";
 import { getAllDeliverables } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "54 個交付物 · Deliverables",
+  title: "58 個交付物 · Deliverables",
   description: "從 User Research 到 Postmortem — 每張卡，一個可帶走的決策工具。",
   alternates: {
     canonical: "/deliverables/",
@@ -28,7 +28,7 @@ export default function DeliverablesIndexPage() {
             <div>
               <div className="meta-row">
                 <span className="tag accent">Atlas · Deliverables</span>
-                <span className="tag">54 張卡片</span>
+                <span className="tag">58 張卡片</span>
               </div>
               <h1>每張卡，一個可帶走的決策工具。</h1>
               <p className="hook">

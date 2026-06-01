@@ -10,7 +10,7 @@ export default function RolesCompass({ variant = "full" }: Props) {
   return (
     <section className="section" style={{ background: "var(--cream-2)" }}>
       <div className="section-head">
-        <span className="label">+ Roles · 10 角色羅盤</span>
+        <span className="label">+ Roles · 11 角色羅盤</span>
         <h2>誰在這條路上同行。</h2>
         <p className="sub">
           從 PM 到 SRE，每個角色都解決一種特定的不確定性。
@@ -36,7 +36,7 @@ export default function RolesCompass({ variant = "full" }: Props) {
       {compact && (
         <div className="section-foot">
           <Link href="/roles/" className="see-all">
-            看完整 10 個角色 →
+            看完整 11 個角色 →
           </Link>
         </div>
       )}
