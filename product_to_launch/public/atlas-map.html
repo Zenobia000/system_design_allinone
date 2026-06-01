@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Atlas · Blueprint Studio — 落地圖鑑</title>
-<meta name="description" content="落地圖鑑的 Blueprint 配套視圖 — 9 角色 × 50+ 交付物的 DAG 協作流程地圖，每個階段的必要工作項目、責任邊界與 handoff 鏈。" />
+<meta name="description" content="落地圖鑑的 Blueprint 配套視圖 — 12 角色 × 50+ 交付物的 DAG 協作流程地圖，每個階段的必要工作項目、責任邊界與 handoff 鏈。" />
 
 <link rel="icon" href="/logo/logo-main.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -554,7 +554,7 @@ footer .stamp .acc { color: var(--accent); }
   <p class="deck" data-reveal data-reveal-delay="1">
     這份文件把一個產品從<span class="acc">「客戶說一句話」</span>
     到<span class="acc">「使用者打開 App」</span>之間的每一棒拆開——
-    <strong style="color:var(--paper);font-weight:500;">9 個角色 · 50+ 必要交付物 · 完整 DAG 協作鏈</strong>。
+    <strong style="color:var(--paper);font-weight:500;">12 個角色 · 50+ 必要交付物 · 完整 DAG 協作鏈</strong>。
     每個交付物都附上一個你可以直接複製貼上的公開範本連結。
   </p>
 
@@ -663,6 +663,15 @@ footer .stamp .acc { color: var(--accent); }
       <!-- QA → Dev bug return -->
       <path class="dag-edge" d="M1220,330 C 1180,360 1140,360 1120,330" stroke="#6dd5ed" stroke-width="0.9" stroke-dasharray="3 5" fill="none" marker-end="url(#arrowhead-feed)" opacity="0.7"/>
 
+      <!-- PM → PO -->
+      <path class="dag-edge" d="M270,270 C 270,225 270,175 270,148" stroke="#ff6a1a" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- PM → BA -->
+      <path class="dag-edge" d="M270,330 C 270,360 270,388 270,408" stroke="#ff6a1a" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- BA → SA -->
+      <path class="dag-edge" d="M320,437 C 350,438 375,439 398,440" stroke="#ff6a1a" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)"/>
+      <!-- UX → UI -->
+      <path class="dag-edge" d="M460,200 C 460,220 460,238 460,253" stroke="#ff6a1a" stroke-width="1.2" fill="none" marker-end="url(#arrowhead)"/>
+
       <!-- ============ NODES -->
       <!-- Boss / Customer -->
       <g class="dag-node-g">
@@ -679,12 +688,36 @@ footer .stamp .acc { color: var(--accent); }
         <text x="270" y="318" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">PRODUCT MGR</text>
       </g>
 
+      <!-- PO -->
+      <g class="dag-node-g" onclick="document.getElementById('po').scrollIntoView()">
+        <rect class="nb" x="220" y="90" width="100" height="55" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="235" cy="104" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="270" y="116" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="20" font-style="italic">PO</text>
+        <text x="270" y="135" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8" letter-spacing="1">PROD OWNER</text>
+      </g>
+
+      <!-- BA -->
+      <g class="dag-node-g" onclick="document.getElementById('ba').scrollIntoView()">
+        <rect class="nb" x="220" y="410" width="100" height="55" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="235" cy="424" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="270" y="436" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="20" font-style="italic">BA</text>
+        <text x="270" y="455" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8" letter-spacing="1">BIZ ANALYST</text>
+      </g>
+
+      <!-- UI -->
+      <g class="dag-node-g" onclick="document.getElementById('ui').scrollIntoView()">
+        <rect class="nb" x="400" y="255" width="120" height="55" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
+        <circle class="nf" cx="415" cy="269" r="5" fill="#ff6a1a"/>
+        <text class="nt" x="460" y="281" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="20" font-style="italic">UI</text>
+        <text x="460" y="300" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8" letter-spacing="1">DESIGNER</text>
+      </g>
+
       <!-- UX -->
       <g class="dag-node-g" onclick="document.getElementById('ux').scrollIntoView()">
         <rect class="nb" x="400" y="140" width="120" height="60" rx="2" fill="#11161e" stroke="#ff6a1a" stroke-width="1.2"/>
         <circle class="nf" cx="415" cy="155" r="5" fill="#ff6a1a"/>
-        <text class="nt" x="465" y="174" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">UX / UI</text>
-        <text x="460" y="192" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">DESIGNER</text>
+        <text class="nt" x="465" y="174" text-anchor="middle" fill="#ece5d3" font-family="Instrument Serif" font-size="22" font-style="italic">UX</text>
+        <text x="460" y="192" text-anchor="middle" fill="#8e887a" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1">USER FLOW</text>
       </g>
 
       <!-- SA -->
@@ -868,21 +901,152 @@ footer .stamp .acc { color: var(--accent); }
       </div>
     </article>
 
-    <!-- ===== 02 · UX/UI ===== -->
-    <article class="stage" id="ux" data-role-slug="ux">
-      <div class="glyph"><span class="n">/02</span>U<br><span style="color:var(--accent);">X</span></div>
+    <!-- ===== 02 · PO ===== -->
+    <article class="stage" id="po" data-role-slug="po">
+      <div class="glyph"><span class="n">/02</span>P<br><span style="color:var(--accent);">O</span></div>
       <div class="body">
         <div class="head">
-          <h3><em>UX</em> · UI</h3>
-          <span class="latin">UX · 動線 / UI · 樣品屋</span>
+          <h3><em>PO</em> · Owner</h3>
+          <span class="latin">PO · 排序與驗收</span>
         </div>
-        <div class="sub">UX 決定「能不能順利做完」 · UI 決定「看起來想不想做」</div>
+        <div class="sub">PO 決定「這個 Sprint 先做哪個 · 什麼叫做完」</div>
         <div class="insight">
-          <strong>核心 ·</strong> UX 是動線、UI 是樣品屋。新手最常見的盲點是「打開 Figma 就開始畫」——成熟的 UX 會先問「給誰看、看什麼決策、多久看一次」。
+          <strong>核心 ·</strong> PM 決定方向、PO 把方向切成可執行的 backlog 與<em>驗收條件</em>。新手盲點是寫了 user story 卻沒寫 acceptance criteria——Dev 做完沒人說得清「這樣算不算對」。
         </div>
 
         <div class="delv">
-          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">4 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Product Backlog</td>
+                <td class="what">排序過的工作項目清單</td>
+                <td class="tmpl">
+                  <a href="https://www.atlassian.com/agile/scrum/backlogs" target="_blank" rel="noopener">Atlassian Backlog</a>
+                  <a href="https://www.scrum.org/resources/what-is-a-product-backlog" target="_blank" rel="noopener">Scrum.org</a>
+                </td>
+              </tr>
+              <tr>
+                <td>User Story</td>
+                <td class="what">As a / I want / so that + INVEST</td>
+                <td class="tmpl">
+                  <a href="https://www.mountaingoatsoftware.com/agile/user-stories" target="_blank" rel="noopener">Mountain Goat</a>
+                  <a href="https://www.atlassian.com/agile/project-management/user-stories" target="_blank" rel="noopener">Atlassian Stories</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Acceptance Criteria</td>
+                <td class="what">Given / When / Then · 驗收條件</td>
+                <td class="tmpl">
+                  <a href="https://cucumber.io/docs/gherkin/reference/" target="_blank" rel="noopener">Gherkin</a>
+                  <a href="https://www.productplan.com/glossary/acceptance-criteria/" target="_blank" rel="noopener">ProductPlan</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Sprint Goal</td>
+                <td class="what">這個 Sprint 要達成的單一焦點</td>
+                <td class="tmpl">
+                  <a href="https://www.scrum.org/resources/blog/sprint-goal" target="_blank" rel="noopener">Scrum.org Sprint Goal</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">PM</div><div class="desc">拿產品方向 / 北極星 / 優先級來切 backlog</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">Dev · QA · SA</div><div class="desc">把 story + 驗收條件交給開發與測試</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">越界寫<strong>「用哪個 framework / 怎麼實作」</strong>——那是 SD / Architect。PO 管 <em>what / when / done</em>，不管 <em>how</em>。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 03 · BA ===== -->
+    <article class="stage" id="ba" data-role-slug="ba">
+      <div class="glyph"><span class="n">/03</span>B<br><span style="color:var(--accent);">A</span></div>
+      <div class="body">
+        <div class="head">
+          <h3><em>BA</em> · Analyst</h3>
+          <span class="latin">BA · 流程考古學家</span>
+        </div>
+        <div class="sub">把現況流程 · stakeholder · 業務規則挖成可追溯文件</div>
+        <div class="insight">
+          <strong>核心 ·</strong> 在動工前把現有 SOP、業務規則、法規限制全挖出來。<em>「誰擁有這條規則、例外時誰拍板、規則互相矛盾時聽誰的」</em>——沒 BA，這些會在 release 前夜爆炸。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">4 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Stakeholder Map</td>
+                <td class="what">誰有 interest / influence / 能拍板</td>
+                <td class="tmpl">
+                  <a href="https://www.mindtools.com/ar0o1mr/stakeholder-analysis" target="_blank" rel="noopener">MindTools</a>
+                  <a href="https://miro.com/templates/stakeholder-map/" target="_blank" rel="noopener">Miro Stakeholder</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Business Rules Catalog</td>
+                <td class="what">每條規則 · ID / 來源 / owner / 例外</td>
+                <td class="tmpl">
+                  <a href="https://www.modernanalyst.com/Resources/Templates.aspx" target="_blank" rel="noopener">Modern Analyst</a>
+                  <a href="https://www.iiba.org/career-resources/business-analysis-resources/" target="_blank" rel="noopener">IIBA Resources</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Process Map</td>
+                <td class="what">As-Is vs To-Be 流程 · BPMN</td>
+                <td class="tmpl">
+                  <a href="https://www.bpmn.org/" target="_blank" rel="noopener">BPMN.org</a>
+                  <a href="https://www.lucidchart.com/pages/bpmn" target="_blank" rel="noopener">Lucidchart BPMN</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Use Cases</td>
+                <td class="what">actor / event / precondition / postcondition</td>
+                <td class="tmpl">
+                  <a href="https://www.usability.gov/how-to-and-tools/methods/use-cases.html" target="_blank" rel="noopener">Usability.gov</a>
+                  <a href="https://plantuml.com/use-case-diagram" target="_blank" rel="noopener">PlantUML Use Case</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">Stakeholder · SOP · 法規</div><div class="desc">訪談、現行流程文件、法規條文</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">SA · PM</div><div class="desc">rule catalog 給 SA、stakeholder map 給 PM</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">只記<strong>主流程、忽略例外與責任歸屬</strong>——「大家都知道」就不寫，等於把矛盾留給 UAT 前夜引爆。BA 要把<em>口頭規則變成有 ID 的規則表</em>。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 04 · UX ===== -->
+    <article class="stage" id="ux" data-role-slug="ux">
+      <div class="glyph"><span class="n">/04</span>U<br><span style="color:var(--accent);">X</span></div>
+      <div class="body">
+        <div class="head">
+          <h3><em>UX</em></h3>
+          <span class="latin">UX · 使用者動線</span>
+        </div>
+        <div class="sub">UX 決定「使用者能不能順利做完這趟旅程」</div>
+        <div class="insight">
+          <strong>核心 ·</strong> UX 是動線。新手最常見的盲點是「打開 Figma 就開始畫」——成熟的 UX 會先問「給誰看、看什麼決策、多久看一次」，把流程跑通才交給 UI 上妝。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">4 items</span></div>
           <table>
             <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
             <tbody>
@@ -896,6 +1060,14 @@ footer .stamp .acc { color: var(--accent); }
                 </td>
               </tr>
               <tr>
+                <td>Information Architecture</td>
+                <td class="what">資訊結構 · 導覽 / 分類 / 命名</td>
+                <td class="tmpl">
+                  <a href="https://www.nngroup.com/articles/information-architecture-study-guide/" target="_blank" rel="noopener">NN/g IA</a>
+                  <a href="https://www.optimalworkshop.com/" target="_blank" rel="noopener">Optimal Workshop</a>
+                </td>
+              </tr>
+              <tr>
                 <td>Wireframe</td>
                 <td class="what">畫面骨架 · 灰階線框 · 不關心顏色字型</td>
                 <td class="tmpl">
@@ -905,29 +1077,11 @@ footer .stamp .acc { color: var(--accent); }
                 </td>
               </tr>
               <tr>
-                <td>Prototype</td>
-                <td class="what">可點擊互動原型</td>
+                <td>Usability Test</td>
+                <td class="what">可用性測試 · 任務成功率 / 卡關點</td>
                 <td class="tmpl">
-                  <a href="https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma" target="_blank" rel="noopener">Figma Prototyping</a>
-                  <a href="https://www.proto.io/" target="_blank" rel="noopener">Proto.io</a>
-                </td>
-              </tr>
-              <tr>
-                <td>Mockup</td>
-                <td class="what">高保真視覺稿 · 含顏色 / 字型 / 圖片</td>
-                <td class="tmpl">
-                  <a href="https://www.figma.com/templates/" target="_blank" rel="noopener">Figma Templates</a>
-                  <a href="https://dribbble.com/tags/ui_design" target="_blank" rel="noopener">Dribbble UI</a>
-                </td>
-              </tr>
-              <tr>
-                <td>Design System</td>
-                <td class="what">元件庫 + 規範 + Color / Spacing token</td>
-                <td class="tmpl">
-                  <a href="https://m3.material.io/" target="_blank" rel="noopener">Material Design 3</a>
-                  <a href="https://developer.apple.com/design/human-interface-guidelines" target="_blank" rel="noopener">Apple HIG</a>
-                  <a href="https://atlassian.design/" target="_blank" rel="noopener">Atlassian DS</a>
-                  <a href="https://polaris.shopify.com/" target="_blank" rel="noopener">Shopify Polaris</a>
+                  <a href="https://www.nngroup.com/articles/usability-testing-101/" target="_blank" rel="noopener">NN/g Usability</a>
+                  <a href="https://maze.co/" target="_blank" rel="noopener">Maze</a>
                 </td>
               </tr>
             </tbody>
@@ -946,9 +1100,77 @@ footer .stamp .acc { color: var(--accent); }
       </div>
     </article>
 
-    <!-- ===== 03 · SA ===== -->
+    <!-- ===== 05 · UI ===== -->
+    <article class="stage" id="ui" data-role-slug="ui">
+      <div class="glyph"><span class="n">/05</span>U<br><span style="color:var(--accent);">I</span></div>
+      <div class="body">
+        <div class="head">
+          <h3><em>UI</em></h3>
+          <span class="latin">UI · 樣品屋</span>
+        </div>
+        <div class="sub">UI 決定「看起來想不想做」——把跑通的流程上妝成可交付介面</div>
+        <div class="insight">
+          <strong>核心 ·</strong> UI 接 UX 跑通的動線，補上顏色、字型、間距與元件狀態。新手盲點是「只畫 happy state」——成熟的 UI 會把 loading / empty / error / disabled 每個狀態都畫齊，Dev 才不用猜。
+        </div>
+
+        <div class="delv">
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">4 items</span></div>
+          <table>
+            <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Mockup</td>
+                <td class="what">高保真視覺稿 · 含顏色 / 字型 / 圖片</td>
+                <td class="tmpl">
+                  <a href="https://www.figma.com/templates/" target="_blank" rel="noopener">Figma Templates</a>
+                  <a href="https://dribbble.com/tags/ui_design" target="_blank" rel="noopener">Dribbble UI</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Design System</td>
+                <td class="what">元件庫 + 規範 + Color / Spacing token</td>
+                <td class="tmpl">
+                  <a href="https://m3.material.io/" target="_blank" rel="noopener">Material Design 3</a>
+                  <a href="https://developer.apple.com/design/human-interface-guidelines" target="_blank" rel="noopener">Apple HIG</a>
+                  <a href="https://atlassian.design/" target="_blank" rel="noopener">Atlassian DS</a>
+                  <a href="https://polaris.shopify.com/" target="_blank" rel="noopener">Shopify Polaris</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Component States</td>
+                <td class="what">每元件 default / hover / loading / empty / error / disabled</td>
+                <td class="tmpl">
+                  <a href="https://www.figma.com/best-practices/component-architecture/" target="_blank" rel="noopener">Figma Components</a>
+                  <a href="https://storybook.js.org/" target="_blank" rel="noopener">Storybook</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Accessibility Spec</td>
+                <td class="what">對比度 / 焦點順序 / ARIA · WCAG 2.2</td>
+                <td class="tmpl">
+                  <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener">WCAG 2.2 Quickref</a>
+                  <a href="https://www.a11yproject.com/checklist/" target="_blank" rel="noopener">A11y Checklist</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bounds">
+          <div class="bound in"><div class="lbl">UPSTREAM</div><div class="who">UX</div><div class="desc">拿跑通的動線 / wireframe / IA 來上妝</div></div>
+          <div class="bound out"><div class="lbl">DOWNSTREAM</div><div class="who">FE Dev</div><div class="desc">把 token + 元件狀態交給前端實作</div></div>
+        </div>
+
+        <div class="trap">
+          <span class="tag">Anti-Pattern</span>
+          <div class="body">越界改<strong>「這步驟拿掉」「順序對調」</strong>——那是 UX 的動線決策。UI 只<em>上妝</em>，不<em>改流程</em>；也別只交 happy state 害 Dev 自己猜 error 樣式。</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ===== 06 · SA ===== -->
     <article class="stage" id="sa" data-role-slug="sa">
-      <div class="glyph"><span class="n">/03</span>S<br><span style="color:var(--accent);">A</span></div>
+      <div class="glyph"><span class="n">/06</span>S<br><span style="color:var(--accent);">A</span></div>
       <div class="body">
         <div class="head">
           <h3>System <em>Analyst</em></h3>
@@ -1028,9 +1250,9 @@ footer .stamp .acc { color: var(--accent); }
       </div>
     </article>
 
-    <!-- ===== 04 · Architect ===== -->
+    <!-- ===== 07 · Architect ===== -->
     <article class="stage" id="arch" data-role-slug="architect" data-accent="blue">
-      <div class="glyph"><span class="n">/04</span>A<br><span style="color:var(--blue);">R</span></div>
+      <div class="glyph"><span class="n">/07</span>A<br><span style="color:var(--blue);">R</span></div>
       <div class="body">
         <div class="head">
           <h3>System <em>Architect</em></h3>
@@ -1114,9 +1336,9 @@ footer .stamp .acc { color: var(--accent); }
       </div>
     </article>
 
-    <!-- ===== 05 · SD ===== -->
+    <!-- ===== 08 · SD ===== -->
     <article class="stage" id="sd" data-role-slug="sd">
-      <div class="glyph"><span class="n">/05</span>S<br><span style="color:var(--accent);">D</span></div>
+      <div class="glyph"><span class="n">/08</span>S<br><span style="color:var(--accent);">D</span></div>
       <div class="body">
         <div class="head">
           <h3>System <em>Design</em></h3>
@@ -1200,9 +1422,9 @@ footer .stamp .acc { color: var(--accent); }
       </div>
     </article>
 
-    <!-- ===== 06 · DBA ===== -->
+    <!-- ===== 09 · DBA ===== -->
     <article class="stage" id="dba" data-role-slug="dba" data-accent="blue">
-      <div class="glyph"><span class="n">/06</span>D<br><span style="color:var(--blue);">B</span></div>
+      <div class="glyph"><span class="n">/09</span>D<br><span style="color:var(--blue);">B</span></div>
       <div class="body">
         <div class="head">
           <h3><em>DBA</em> · Data</h3>
@@ -1276,9 +1498,9 @@ footer .stamp .acc { color: var(--accent); }
       </div>
     </article>
 
-    <!-- ===== 07 · Dev ===== -->
+    <!-- ===== 10 · Dev ===== -->
     <article class="stage" id="dev" data-role-slug="dev">
-      <div class="glyph"><span class="n">/07</span>D<br><span style="color:var(--accent);">v</span></div>
+      <div class="glyph"><span class="n">/10</span>D<br><span style="color:var(--accent);">v</span></div>
       <div class="body">
         <div class="head">
           <h3><em>Developer</em></h3>
@@ -1354,9 +1576,9 @@ footer .stamp .acc { color: var(--accent); }
       </div>
     </article>
 
-    <!-- ===== 08 · QA ===== -->
+    <!-- ===== 11 · QA ===== -->
     <article class="stage" id="qa" data-role-slug="qa">
-      <div class="glyph"><span class="n">/08</span>Q<br><span style="color:var(--accent);">A</span></div>
+      <div class="glyph"><span class="n">/11</span>Q<br><span style="color:var(--accent);">A</span></div>
       <div class="body">
         <div class="head">
           <h3>Quality <em>Assurance</em></h3>
@@ -1431,9 +1653,9 @@ footer .stamp .acc { color: var(--accent); }
       </div>
     </article>
 
-    <!-- ===== 09 · DevOps ===== -->
+    <!-- ===== 12 · DevOps ===== -->
     <article class="stage" id="devops" data-role-slug="devops" data-accent="blue">
-      <div class="glyph"><span class="n">/09</span>O<br><span style="color:var(--blue);">P</span></div>
+      <div class="glyph"><span class="n">/12</span>O<br><span style="color:var(--blue);">P</span></div>
       <div class="body">
         <div class="head">
           <h3>DevOps · <em>SRE</em></h3>
@@ -1519,7 +1741,7 @@ footer .stamp .acc { color: var(--accent); }
   <div class="section-head">
     <div class="ix">SECTION<span class="num">03</span>Decision</div>
     <div>
-      <h2>誰<em>拍板</em> · 誰參與。<br>11 個決策 × 9 個角色。</h2>
+      <h2>誰<em>拍板</em> · 誰參與。<br>11 個決策 × 12 個角色。</h2>
       <p class="deck">
         Overlap 不是壞事，是必要的多重視角——<strong style="color:var(--paper);font-weight:500;">問題不是 overlap，是 overlap 時誰拍板</strong>。<span style="color:var(--accent);">★ 主</span>是拍板人；<span style="color:var(--blue);">●</span>是參與者，「－」代表通常不碰。
       </p>
@@ -1530,21 +1752,21 @@ footer .stamp .acc { color: var(--accent); }
     <table class="matrix">
       <thead>
         <tr>
-          <th>決策</th><th>PM</th><th>UX</th><th>SA</th><th>Arch</th><th>SD</th><th>DBA</th><th>Dev</th><th>QA</th><th>Ops</th>
+          <th>決策</th><th>PM</th><th>PO</th><th>BA</th><th>UX</th><th>UI</th><th>SA</th><th>Arch</th><th>SD</th><th>DBA</th><th>Dev</th><th>QA</th><th>Ops</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>商業目標 / KPI</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td></tr>
-        <tr><td>使用者旅程</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td></tr>
-        <tr><td>業務規則 · 狀態機</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td></tr>
-        <tr><td>服務邊界 · 拆幾個 service</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td></tr>
-        <tr><td>技術選型 / NFR / SLA</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td></tr>
-        <tr><td>Data Schema · Index 策略</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td></tr>
-        <tr><td>API endpoint 命名 · Sequence</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td></tr>
-        <tr><td>程式碼結構 · Function 切分</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="lead">★</td><td class="skip">－</td><td class="skip">－</td></tr>
-        <tr><td>Unit / Integration / E2E</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td></tr>
-        <tr><td>CI/CD · Deploy 策略</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td></tr>
-        <tr><td>監控 · Alert · Incident</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td></tr>
+        <tr><td>商業目標 / KPI</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td></tr>
+        <tr><td>使用者旅程</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td></tr>
+        <tr><td>業務規則 · 狀態機</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td></tr>
+        <tr><td>服務邊界 · 拆幾個 service</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td></tr>
+        <tr><td>技術選型 / NFR / SLA</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td></tr>
+        <tr><td>Data Schema · Index 策略</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td></tr>
+        <tr><td>API endpoint 命名 · Sequence</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="skip">－</td></tr>
+        <tr><td>程式碼結構 · Function 切分</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="lead">★</td><td class="skip">－</td><td class="skip">－</td></tr>
+        <tr><td>Unit / Integration / E2E</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="lead">★</td><td class="part">●</td></tr>
+        <tr><td>CI/CD · Deploy 策略</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td></tr>
+        <tr><td>監控 · Alert · Incident</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="skip">－</td><td class="part">●</td><td class="skip">－</td><td class="part">●</td><td class="part">●</td><td class="part">●</td><td class="lead">★</td></tr>
       </tbody>
     </table>
   </div>
@@ -1635,11 +1857,26 @@ call_payment_gateway()
     <div class="handoff-cell"><div class="arrow"><span class="from">PM</span><span class="sep">━━▸</span><span class="to">UX</span></div>
       <ul><li>PRD</li><li>User Story</li><li>KPI · Persona</li></ul>
     </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">PM</span><span class="sep">━━▸</span><span class="to">PO</span></div>
+      <ul><li>產品方向 · 北極星</li><li>優先級</li><li>Roadmap</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">PM</span><span class="sep">━━▸</span><span class="to">BA</span></div>
+      <ul><li>商業目標</li><li>待釐清流程</li><li>stakeholder 名單</li></ul>
+    </div>
     <div class="handoff-cell"><div class="arrow"><span class="from">PM</span><span class="sep">━━▸</span><span class="to">SA</span></div>
       <ul><li>PRD</li><li>Business Goal</li><li>核心 Use Cases</li></ul>
     </div>
-    <div class="handoff-cell"><div class="arrow"><span class="from">UX</span><span class="sep">━━▸</span><span class="to">FE Dev</span></div>
-      <ul><li>Wireframe + Mockup</li><li>Prototype 連結</li><li>Design System token</li></ul>
+    <div class="handoff-cell"><div class="arrow"><span class="from">BA</span><span class="sep">━━▸</span><span class="to">SA</span></div>
+      <ul><li>Business Rules</li><li>Process Map</li><li>Use Cases</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">PO</span><span class="sep">━━▸</span><span class="to">Dev · QA</span></div>
+      <ul><li>User Story</li><li>Acceptance Criteria</li><li>Sprint Goal</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">UX</span><span class="sep">━━▸</span><span class="to">UI</span></div>
+      <ul><li>User Journey</li><li>Wireframe + IA</li><li>Usability 結論</li></ul>
+    </div>
+    <div class="handoff-cell"><div class="arrow"><span class="from">UI</span><span class="sep">━━▸</span><span class="to">FE Dev</span></div>
+      <ul><li>Mockup</li><li>Design System token</li><li>Component States</li></ul>
     </div>
     <div class="handoff-cell"><div class="arrow"><span class="from">SA</span><span class="sep">━━▸</span><span class="to">Architect</span></div>
       <ul><li>Use Case</li><li>State Diagram</li><li>Permission Matrix</li></ul>
@@ -1718,14 +1955,17 @@ call_payment_gateway()
     <h5>角色快速跳 · ROLES</h5>
     <ul>
       <li><a href="#pm">/01 PM</a></li>
-      <li><a href="#ux">/02 UX · UI</a></li>
-      <li><a href="#sa">/03 SA</a></li>
-      <li><a href="#arch">/04 Architect</a></li>
-      <li><a href="#sd">/05 SD</a></li>
-      <li><a href="#dba">/06 DBA</a></li>
-      <li><a href="#dev">/07 Dev</a></li>
-      <li><a href="#qa">/08 QA</a></li>
-      <li><a href="#devops">/09 DevOps · SRE</a></li>
+      <li><a href="#po">/02 PO</a></li>
+      <li><a href="#ba">/03 BA</a></li>
+      <li><a href="#ux">/04 UX</a></li>
+      <li><a href="#ui">/05 UI</a></li>
+      <li><a href="#sa">/06 SA</a></li>
+      <li><a href="#arch">/07 Architect</a></li>
+      <li><a href="#sd">/08 SD</a></li>
+      <li><a href="#dba">/09 DBA</a></li>
+      <li><a href="#dev">/10 Dev</a></li>
+      <li><a href="#qa">/11 QA</a></li>
+      <li><a href="#devops">/12 DevOps · SRE</a></li>
     </ul>
   </div>
 </footer>
