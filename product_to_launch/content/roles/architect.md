@@ -22,6 +22,7 @@ source: "deep-research-report.md §Architect"
 - **C4 Diagrams** — context / container / component 三層
 - **ADR** — context / drivers / options / decision / consequences
 - **NFR Matrix** — latency、availability、security、auditability
+- **Threat Model** — 攻擊面、信任邊界、資料分級（STRIDE）
 - **Option Paper** — 重大選型的 trade-off 分析
 
 ## 跟誰對接

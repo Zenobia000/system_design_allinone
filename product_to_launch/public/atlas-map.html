@@ -1038,11 +1038,11 @@ footer .stamp .acc { color: var(--accent); }
         </div>
         <div class="sub">NFR 才是真正的產品 · 架構圖只是溝通工具</div>
         <div class="insight">
-          <strong>核心 ·</strong> 新手以為架構師的產出 = 一張漂亮的架構圖。錯。架構師真正在交付的是 <em>NFR（非功能需求）</em>——系統能不能撐流量、會不會掛、好不好改、能不能 debug。功能撐不住 = 全部歸零。
+          <strong>核心 ·</strong> 新手以為架構師的產出 = 一張漂亮的架構圖。錯。架構師真正在交付的是 <em>NFR（非功能需求）</em>——系統能不能撐流量、會不會掛、好不好改、能不能 debug、夠不夠安全。功能撐不住 = 全部歸零。
         </div>
 
         <div class="delv">
-          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">6 items</span></div>
           <table>
             <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
             <tbody>
@@ -1089,6 +1089,15 @@ footer .stamp .acc { color: var(--accent); }
                   <a href="https://microservices.io/patterns/index.html" target="_blank" rel="noopener">microservices.io</a>
                 </td>
               </tr>
+              <tr>
+                <td>Threat Model</td>
+                <td class="what">攻擊面 · STRIDE / 信任邊界 / 資料分級</td>
+                <td class="tmpl">
+                  <a href="https://owasp.org/www-community/Threat_Modeling" target="_blank" rel="noopener">OWASP Threat Modeling</a>
+                  <a href="https://owasp.org/www-project-threat-dragon/" target="_blank" rel="noopener">OWASP Threat Dragon</a>
+                  <a href="https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Threat_Modeling_Cheat_Sheet.md" target="_blank" rel="noopener">Threat Modeling Cheat Sheet</a>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -1119,7 +1128,7 @@ footer .stamp .acc { color: var(--accent); }
         </div>
 
         <div class="delv">
-          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">5 items</span></div>
+          <div class="delv-head"><h4>Deliverables</h4><span class="cnt">6 items</span></div>
           <table>
             <thead><tr><th>Artifact</th><th>What for</th><th>Reference templates · 直接可貼</th></tr></thead>
             <tbody>
@@ -1164,6 +1173,15 @@ footer .stamp .acc { color: var(--accent); }
                 <td class="tmpl">
                   <a href="https://plantuml.com/class-diagram" target="_blank" rel="noopener">PlantUML Class</a>
                   <a href="https://mermaid.js.org/syntax/classDiagram.html" target="_blank" rel="noopener">Mermaid Class</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Error Handling</td>
+                <td class="what">錯誤碼表 · 4xx/5xx + 重試 / 冪等策略</td>
+                <td class="tmpl">
+                  <a href="https://www.rfc-editor.org/rfc/rfc9457" target="_blank" rel="noopener">RFC 9457 Problem Details</a>
+                  <a href="https://github.com/zalando/restful-api-guidelines" target="_blank" rel="noopener">Zalando Error Guidelines</a>
+                  <a href="https://google.aip.dev/193" target="_blank" rel="noopener">Google AIP-193 Errors</a>
                 </td>
               </tr>
             </tbody>
