@@ -7,7 +7,7 @@ hook: "把架構決策落地成 Dev 不用問就能寫的細部設計"
 hires_for: "讓 Dev 拿到文件，從頭到尾不用再問問題就能寫完"
 fired_when: "寫的「設計文件」滿是業務術語、沒 endpoint、沒欄位、沒錯誤碼，Dev 看完還是要問三遍"
 ai_leverage: "把 C4 + ADR + use case → Claude 生模組切分、類別圖、錯誤碼目錄草稿"
-art: "/generated/stage-design.webp"
+art: "/generated/role-hero-sd.webp"
 source: "deep-research-report.md §SD"
 ---
 

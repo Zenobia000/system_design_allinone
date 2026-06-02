@@ -7,7 +7,7 @@ hook: "讓資料真出事還回得來"
 hires_for: "把 Schema、Index、Transaction、Backup、Governance 五件事連在一起設計"
 fired_when: "寫完 CREATE TABLE 就收工，沒人想過備份怎麼還原、index 怎麼長、退款怎麼不重複扣"
 ai_leverage: "把 data model + 查詢樣式 → Claude 生 index 建議、Saga/Outbox 草稿、PITR 備份計畫"
-art: "/generated/stage-design.webp"
+art: "/generated/role-hero-dba.webp"
 source: "deep-research-report.md §DBA"
 ---
 
