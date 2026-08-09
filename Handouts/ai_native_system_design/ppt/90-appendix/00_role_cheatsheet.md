@@ -15,6 +15,7 @@ footer: 'AI 時代系統設計速成 '
 |---|---|---|---|---|---|
 | PM | 企劃 | 決定做什麼 | PRD, roadmap | 競調、文案 | 商業假設、優先級 |
 | UX | 室內設計 | 設計動線 | wireframe, prototype | 線稿、icon | 真實訪談 |
+| UI | 樣品屋 | 畫面怎麼長 | mockup, design system | 視覺稿、元件 | 品味、品牌調性 |
 | SA | 建築師 | 翻業務→系統 | spec, 狀態圖 | edge case 展開 | 規則仲裁 |
 | Architect | 結構技師 | 系統活下去 | 架構圖, ADR | 方案表、ADR 草稿 | 風險取捨 |
 | SD | 施工圖 | 模組拆分 | API spec, 序列圖 | OpenAPI、proto | 領域邊界 |

@@ -58,7 +58,7 @@ footer: '軟體開發旅程 · v1.0'
 |---|---|
 | **蓋房子對應** | 地基 + 水塔 + 管線總圖 |
 | **一句話定義** | 守住資料正確性、效能、可靠性 |
-| **降低的不確定性** | 資料正確性、效能、可靠性風險 |
+| **降低的不確定性** | 資料正確性、效能、可靠性 |
 | **經典產出** | ERD / Schema+Index / Tx 策略 / Backup / Governance |
 | **主要工具** | dbdiagram / pt-query-digest / pgBadger / Liquibase |
 | **AI 取代不了的** | 業務 context / 效能直覺 / 災難判斷 |
