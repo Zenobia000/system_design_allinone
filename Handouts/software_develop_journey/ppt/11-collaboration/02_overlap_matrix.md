@@ -46,12 +46,32 @@ API 名稱 SD / Dev / Architect 都會講
 
 <!-- _class: compact -->
 
-## MATRIX · 11 個決策 × 5 個角色
+## MATRIX · ① 產品與體驗層
+
+| 決策 | PM | UX | UI | SA |
+|---|---|---|---|---|
+| 商業目標 / KPI | ★ 主 | 參與 | – | 參與 |
+| 使用者旅程 | 參與 | ★ 主 | 參與 | 參與 |
+| 畫面排版 / 資訊層級 | – | ★ 主 | 參與 | – |
+| 互動細節（按哪 / 跳哪） | – | ★ 主 | 參與 | 參與 |
+| 視覺風格 / 品牌調性 | 參與 | 參與 | ★ 主 | – |
+| Design System 規範 | – | 參與 | ★ 主 | – |
+| 可用性測試結論 | 參與 | ★ 主 | 參與 | – |
+
+<span class="muted">**UX vs UI 的分界**：動線與骨架歸 UX，視覺與元件歸 UI。**兩個都不主導業務規則**——那是 SA 的事。</span>
+
+> Source: _source/braindump.md · §UX vs UI
+
+
+---
+
+
+<!-- _class: compact -->
+
+## MATRIX · ② 規則與系統層
 
 | 決策 | PM | UX | SA | Arch | DBA |
 |---|---|---|---|---|---|
-| 商業目標 / KPI | ★ 主 | 參與 | 參與 | – | – |
-| 使用者旅程 | 參與 | ★ 主 | 參與 | – | – |
 | 業務規則 | 參與 | 參與 | ★ 主 | 參與 | 參與 |
 | 狀態機 | – | 參與 | ★ 主 | 參與 | 參與 |
 | 服務邊界 | – | – | 參與 | ★ 主 | 參與 |
@@ -62,6 +82,8 @@ API 名稱 SD / Dev / Architect 都會講
 | 一致性策略 | – | – | 參與 | ★ 主 | ★ 主 |
 | NFR / SLA | 參與 | – | 參與 | ★ 主 | 參與 |
 
+<span class="muted">**NFR / SLA 由 Architect 定設計目標**；上線後的 **SLO / 錯誤預算由 DevOps 定運行門檻**（見表 ③）——同一件事的兩面。</span>
+
 > Source: _source/braindump.md · §SA vs Architect
 
 
@@ -70,7 +92,7 @@ API 名稱 SD / Dev / Architect 都會講
 
 <!-- _class: compact -->
 
-## MATRIX · 下游 4 個角色
+## MATRIX · ③ 實作與交付層
 
 | 決策 | SD | Dev | QA | DevOps |
 |---|---|---|---|---|
@@ -81,12 +103,30 @@ API 名稱 SD / Dev / Architect 都會講
 | Unit Test | – | ★ 主 | 參與 | – |
 | Integration / E2E | – | 參與 | ★ 主 | – |
 | Bug 嚴重度 | – | 參與 | ★ 主 | 參與 |
+
+<span class="muted">**Dev vs QA 的分界**：Dev 主導 unit（單一單元對），QA 主導 integration / E2E（整棟樓不會塌）。</span>
+
+> Source: _source/braindump.md · §SDLC 全流程
+
+
+---
+
+
+<!-- _class: compact -->
+
+## MATRIX · ④ 維運與可靠性層
+
+| 決策 | SD | Dev | QA | DevOps |
+|---|---|---|---|---|
 | CI/CD pipeline | – | 參與 | 參與 | ★ 主 |
 | Deploy 策略 | – | 參與 | – | ★ 主 |
+| SLO / 錯誤預算 | – | 參與 | 參與 | ★ 主 |
 | 監控 / Alert | – | 參與 | 參與 | ★ 主 |
 | Incident 回應 | – | 參與 | – | ★ 主 |
 
-> Source: _source/braindump.md · §SDLC 全流程
+<span class="muted">**這一層 DevOps 全部是 ★ 主**——但每一格 Dev 都「參與」。維運不是丟給 DevOps 就沒事，**寫 code 的人要看得懂自己的 alert**。</span>
+
+> Source: _source/braindump.md · §DevOps / SRE 視角
 
 
 ---

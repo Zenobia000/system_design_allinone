@@ -83,10 +83,11 @@
 - **為什麼不用 AI 生圖**：gpt-image-2 / DALL-E 無法準確渲染**特定的網格儲存格位置**——每次重生都會把橘色 / 棕色圓圈擺到隨機位置，資料一定錯。Python + matplotlib 直接從 canonical data 渲染，**100% 準確**且可重現。
 
 - **資料對應**：
-  - 上游 11 個決策（rows 1–11）來自 `11-collaboration/02_overlap_matrix.md` 第一張表（PM/UX/SA/Arch/DBA）
-  - 下游 11 個決策（rows 12–22）來自第二張表（SD/Dev/QA/DevOps）
-  - 兩塊 side-by-side 排列以符合 16:9 + 涵蓋全部 22 個決策
-  - 9 個角色欄位：PM, UX, SA, Arch, SD, DBA, Dev, QA, Ops
+  - 上游 14 個決策（rows 1–14）來自 `11-collaboration/02_overlap_matrix.md` 表 ①（產品與體驗層）+ 表 ②（規則與系統層，扣掉 Data Schema / Index）
+  - 下游 14 個決策（rows 15–28）來自表 ②（Data Schema / Index）+ 表 ③（實作與交付層）+ 表 ④（維運與可靠性層）
+  - 兩塊 side-by-side 排列以符合 16:9 + 涵蓋全部 28 個決策
+  - 10 個角色欄位：PM, UX, UI, SA, Arch, SD, DBA, Dev, QA, Ops
+  - **改資料時務必三處一起改**：slide 的四張表、`_generate_overlap_matrix.py` 的 `UPSTREAM` / `DOWNSTREAM`、`Handouts/ROLE_UNCERTAINTY_MATRIX.md` 的表 C，是同一份資料的三個 rendering
 
 - **三態圖示**：
   - **橘色實心圓 ●**：★ 主 Primary（拍板人）

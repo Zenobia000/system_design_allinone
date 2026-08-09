@@ -7,7 +7,7 @@ This script renders the matrix from the canonical data defined in
 `software_develop_journey/ppt/11-collaboration/02_overlap_matrix.md`
 with 100% accuracy.
 
-Layout: two side-by-side blocks (上游 11 decisions × 9 roles | 下游 11 decisions × 9 roles)
+Layout: two side-by-side blocks (上游 14 decisions × 10 roles | 下游 14 decisions × 10 roles)
 so the data is comprehensive AND the image fits 16:9 landscape.
 
 Run: python _generate_overlap_matrix.py
@@ -44,38 +44,44 @@ for candidate in (
 else:
     matplotlib.rcParams["font.family"] = "sans-serif"
 
-ROLES = ["PM", "UX", "SA", "Arch", "SD", "DBA", "Dev", "QA", "Ops"]
+ROLES = ["PM", "UX", "UI", "SA", "Arch", "SD", "DBA", "Dev", "QA", "Ops"]
 
 # Cell values: 2 = ★ 主 (primary), 1 = 參與 (supporting), 0 = – (none)
 # Order of columns must match ROLES.
 UPSTREAM = [
-    # label,                              PM UX SA AR SD DB DV QA OP
-    ("1. 商業目標 / KPI",                 [2, 1, 1, 0, 0, 0, 0, 0, 0]),
-    ("2. 使用者旅程",                     [1, 2, 1, 0, 0, 0, 0, 0, 0]),
-    ("3. 業務規則",                       [1, 1, 2, 1, 0, 1, 0, 0, 0]),
-    ("4. 狀態機",                         [0, 1, 2, 1, 0, 1, 0, 0, 0]),
-    ("5. 服務邊界",                       [0, 0, 1, 2, 0, 1, 0, 0, 0]),
-    ("6. 技術選型",                       [0, 0, 0, 2, 0, 1, 0, 0, 0]),
-    ("7. 同步 / 非同步",                  [0, 0, 1, 2, 0, 1, 0, 0, 0]),
-    ("8. Data Schema",                     [1, 0, 1, 1, 0, 2, 0, 0, 0]),
-    ("9. Index 策略",                     [0, 0, 0, 1, 0, 2, 0, 0, 0]),
-    ("10. 一致性策略",                    [0, 0, 1, 2, 0, 2, 0, 0, 0]),
-    ("11. NFR / SLA",                      [1, 0, 1, 2, 0, 1, 0, 0, 0]),
+    # label,                              PM UX UI SA AR SD DB DV QA OP
+    ("1. 商業目標 / KPI",                 [2, 1, 0, 1, 0, 0, 0, 0, 0, 0]),
+    ("2. 使用者旅程",                     [1, 2, 1, 1, 0, 0, 0, 0, 0, 0]),
+    ("3. 畫面排版 / 資訊層級",            [0, 2, 1, 0, 0, 0, 0, 0, 0, 0]),
+    ("4. 互動細節（按哪 / 跳哪）",        [0, 2, 1, 1, 0, 0, 0, 0, 0, 0]),
+    ("5. 視覺風格 / 品牌調性",            [1, 1, 2, 0, 0, 0, 0, 0, 0, 0]),
+    ("6. Design System 規範",              [0, 1, 2, 0, 0, 0, 0, 0, 0, 0]),
+    ("7. 可用性測試結論",                 [1, 2, 1, 0, 0, 0, 0, 0, 0, 0]),
+    ("8. 業務規則",                       [1, 1, 0, 2, 1, 0, 1, 0, 0, 0]),
+    ("9. 狀態機",                         [0, 1, 0, 2, 1, 0, 1, 0, 0, 0]),
+    ("10. 服務邊界",                      [0, 0, 0, 1, 2, 0, 1, 0, 0, 0]),
+    ("11. 技術選型",                      [0, 0, 0, 0, 2, 0, 1, 0, 0, 0]),
+    ("12. 同步 / 非同步",                 [0, 0, 0, 1, 2, 0, 1, 0, 0, 0]),
+    ("13. 一致性策略",                    [0, 0, 0, 1, 2, 0, 2, 0, 0, 0]),
+    ("14. NFR / SLA",                      [1, 0, 0, 1, 2, 0, 1, 0, 0, 0]),
 ]
 
 DOWNSTREAM = [
-    # label,                              PM UX SA AR SD DB DV QA OP
-    ("12. API endpoint 命名",             [0, 0, 0, 0, 2, 0, 1, 0, 0]),
-    ("13. Sequence 細節",                 [0, 0, 0, 0, 2, 0, 1, 1, 0]),
-    ("14. 程式碼結構",                    [0, 0, 0, 0, 1, 0, 2, 0, 0]),
-    ("15. 命名 / 設計模式",               [0, 0, 0, 0, 1, 0, 2, 0, 0]),
-    ("16. Unit Test",                      [0, 0, 0, 0, 0, 0, 2, 1, 0]),
-    ("17. Integration / E2E",              [0, 0, 0, 0, 0, 0, 1, 2, 0]),
-    ("18. Bug 嚴重度",                     [0, 0, 0, 0, 0, 0, 1, 2, 1]),
-    ("19. CI/CD pipeline",                 [0, 0, 0, 0, 0, 0, 1, 1, 2]),
-    ("20. Deploy 策略",                    [0, 0, 0, 0, 0, 0, 1, 0, 2]),
-    ("21. 監控 / Alert",                   [0, 0, 0, 0, 0, 0, 1, 1, 2]),
-    ("22. Incident 回應",                  [0, 0, 0, 0, 0, 0, 1, 0, 2]),
+    # label,                              PM UX UI SA AR SD DB DV QA OP
+    ("15. Data Schema",                    [1, 0, 0, 1, 1, 0, 2, 0, 0, 0]),
+    ("16. Index 策略",                    [0, 0, 0, 0, 1, 0, 2, 0, 0, 0]),
+    ("17. API endpoint 命名",             [0, 0, 0, 0, 0, 2, 0, 1, 0, 0]),
+    ("18. Sequence 細節",                 [0, 0, 0, 0, 0, 2, 0, 1, 1, 0]),
+    ("19. 程式碼結構",                    [0, 0, 0, 0, 0, 1, 0, 2, 0, 0]),
+    ("20. 命名 / 設計模式",               [0, 0, 0, 0, 0, 1, 0, 2, 0, 0]),
+    ("21. Unit Test",                      [0, 0, 0, 0, 0, 0, 0, 2, 1, 0]),
+    ("22. Integration / E2E",              [0, 0, 0, 0, 0, 0, 0, 1, 2, 0]),
+    ("23. Bug 嚴重度",                     [0, 0, 0, 0, 0, 0, 0, 1, 2, 1]),
+    ("24. CI/CD pipeline",                 [0, 0, 0, 0, 0, 0, 0, 1, 1, 2]),
+    ("25. Deploy 策略",                    [0, 0, 0, 0, 0, 0, 0, 1, 0, 2]),
+    ("26. SLO / 錯誤預算",                 [0, 0, 0, 0, 0, 0, 0, 1, 1, 2]),
+    ("27. 監控 / Alert",                   [0, 0, 0, 0, 0, 0, 0, 1, 1, 2]),
+    ("28. Incident 回應",                  [0, 0, 0, 0, 0, 0, 0, 1, 0, 2]),
 ]
 
 
@@ -191,14 +197,14 @@ def main() -> None:
     # Layout (in axis units):
     #   left labels    | upstream block | gap | right labels   | downstream block
     #   width  ~4.5    |   9            | 1   |   ~4.5         |   9
-    LEFT_PAD = 5.0     # space for upstream row labels (left margin)
-    BLOCK_W = n_cols   # 9
-    MID_PAD = 5.0      # space for downstream row labels between the two blocks
+    LEFT_PAD = 7.0     # space for upstream row labels (left margin)
+    BLOCK_W = n_cols   # 10
+    MID_PAD = 7.0      # space for downstream row labels between the two blocks
     upstream_x = LEFT_PAD
     downstream_x = LEFT_PAD + BLOCK_W + MID_PAD
     total_w = downstream_x + BLOCK_W + 0.5  # tiny right margin
 
-    BLOCK_H = 11
+    BLOCK_H = max(len(UPSTREAM), len(DOWNSTREAM))
     y_top = BLOCK_H  # top of block in axis units
     total_h_top = y_top + 4   # extra room for title + headers
     total_h_bottom = -2.5     # legend area
@@ -217,7 +223,7 @@ def main() -> None:
     ax.text(
         total_w / 2,
         y_top + 2.4,
-        "22 decisions × 9 roles · 誰主導什麼決策",
+        "28 decisions × 10 roles · 誰主導什麼決策",
         ha="center",
         va="center",
         fontsize=12,
@@ -231,7 +237,7 @@ def main() -> None:
         x_offset=upstream_x,
         y_top=y_top,
         title="上游決策",
-        subtitle="Discovery / Design (1–11)",
+        subtitle="Product / Rules / System (1–14)",
     )
     draw_block(
         ax,
@@ -239,15 +245,17 @@ def main() -> None:
         x_offset=downstream_x,
         y_top=y_top,
         title="下游決策",
-        subtitle="Build / Run (12–22)",
+        subtitle="Data / Build / Run (15–28)",
     )
 
     # Legend at the bottom, two items spaced apart
     legend_y = -1.5
-    # Primary swatch + label (left of center)
+    # Primary swatch + label (left of center).
+    # Offsets are in axis units; the label text is ~7 units wide at fontsize 12,
+    # so keep >= 8 units between the two swatches or the labels collide.
     ax.add_patch(
         Circle(
-            (total_w / 2 - 6.5, legend_y),
+            (total_w / 2 - 8.5, legend_y),
             0.25,
             facecolor=COLOR_PRIMARY,
             edgecolor=COLOR_TEXT,
@@ -255,7 +263,7 @@ def main() -> None:
         )
     )
     ax.text(
-        total_w / 2 - 6.1,
+        total_w / 2 - 8.1,
         legend_y,
         "★ 主  Primary (Decision-Maker)",
         ha="left",
