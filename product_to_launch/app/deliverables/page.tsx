@@ -7,7 +7,7 @@ import { getAllDeliverables } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "58 個交付物 · Deliverables",
-  description: "從 User Research 到 Postmortem — 每張卡，一個可帶走的決策工具。",
+  description: "從 User Research 到 Postmortem，每張卡都能先學會，再把工作包帶進 Coding Agent。",
   alternates: {
     canonical: "/deliverables/",
     languages: { "zh-Hant": "/deliverables/", "x-default": "/deliverables/" },
@@ -30,10 +30,10 @@ export default function DeliverablesIndexPage() {
                 <span className="tag accent">Atlas · Deliverables</span>
                 <span className="tag">58 張卡片</span>
               </div>
-              <h1>每張卡，一個可帶走的決策工具。</h1>
+              <h1>先看懂文件，再帶進 Coding Agent。</h1>
               <p className="hook">
-                從 User Research 到 Postmortem — 用 Stage 或 Role 過濾。
-                點進任一張，看「解決什麼問題、誰負責、何時用、AI 怎麼加速」四問。
+                從 User Research 到 Postmortem，用 Stage 或 Role 過濾。
+                每張卡都有學習模式與專案實戰：前者解釋大綱、範本與案例；後者呈現文件關聯並提供 Agent 工作包。
               </p>
             </div>
           </div>

@@ -3,9 +3,12 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Rail from "@/components/Rail";
 import Footer from "@/components/Footer";
-import PromptActionsMounter from "@/components/PromptActionsMounter";
+import DeliverableExperience from "@/components/DeliverableExperience";
+import DeliverableLearningDemo from "@/components/DeliverableLearningDemo";
+import PrdLearningDemo from "@/components/PrdLearningDemo";
 import { DELIVERABLES, STAGE_MAP, ROLE_MAP, pad } from "@/lib/taxonomy";
-import { getDeliverable, renderMarkdown } from "@/lib/content";
+import { getAllDeliverables, getDeliverable } from "@/lib/content";
+import { buildDeliverableLearningContent, buildDeliverableRelationship } from "@/lib/deliverable-learning";
 import {
   absoluteUrl,
   articleJsonLd,
@@ -60,8 +63,10 @@ export default async function DeliverablePage({ params }: { params: Promise<{ sl
   if (!d) notFound();
 
   const fm = d.frontmatter;
+  const isPrdDemo = slug === "prd";
   const stage = STAGE_MAP[fm.stage];
-  const html = renderMarkdown(d.body);
+  const learningContent = buildDeliverableLearningContent(d.body, slug);
+  const relationship = buildDeliverableRelationship(d, getAllDeliverables());
   const idx = DELIVERABLES.findIndex((x) => x.slug === slug);
   const prev = idx > 0 ? DELIVERABLES[idx - 1] : null;
   const next = idx < DELIVERABLES.length - 1 ? DELIVERABLES[idx + 1] : null;
@@ -89,7 +94,7 @@ export default async function DeliverablePage({ params }: { params: Promise<{ sl
       />
       <Rail active="deliverables" />
       <main>
-        <section className="detail-hero">
+        <section className={`detail-hero${isPrdDemo ? " detail-hero-learning" : ""}`}>
           <div className="container">
             <div>
               <div className="meta-row">
@@ -101,7 +106,14 @@ export default async function DeliverablePage({ params }: { params: Promise<{ sl
                   <span className="tag" key={r}>{ROLE_MAP[r].title}</span>
                 ))}
               </div>
-              <h1>{fm.title}</h1>
+              <h1>
+                {isPrdDemo ? (
+                  <>
+                    <span className="learning-title-prefix">PRD · </span>
+                    <span>產品需求文件</span>
+                  </>
+                ) : fm.title}
+              </h1>
               <p className="hook">{fm.hook}</p>
             </div>
             {fm.art && (
@@ -123,9 +135,26 @@ export default async function DeliverablePage({ params }: { params: Promise<{ sl
 
         <section className="detail-body">
           <div className="container">
-            <article dangerouslySetInnerHTML={{ __html: html }} />
-            <PromptActionsMounter slug={slug} />
+            <article className="learning-demo-article">
+              <DeliverableExperience slug={slug} title={fm.title} relationship={relationship}>
+                {isPrdDemo ? (
+                  <PrdLearningDemo />
+                ) : (
+                  <DeliverableLearningDemo
+                    title={fm.title}
+                    hook={fm.hook}
+                    content={learningContent}
+                    next={next ? { slug: next.slug, title: next.title } : null}
+                  />
+                )}
+              </DeliverableExperience>
+            </article>
             <aside>
+              <section>
+                <h4>兩種使用方式</h4>
+                <p><strong>學習模式</strong><br />理解大綱、範本、案例與驗收方式。</p>
+                <p style={{ marginTop: 10 }}><strong>專案實戰</strong><br />查看文件關聯，下載工作包後交給 Coding Agent。</p>
+              </section>
               {fm.when_to_use && (
                 <section>
                   <h4>何時用</h4>

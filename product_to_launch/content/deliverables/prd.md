@@ -4,9 +4,9 @@ slug: "prd"
 stage: "define"
 roles: ["pm"]
 order: 8
-hook: "把模糊需求變可執行規格"
+hook: "先把為什麼做、替誰做、這一版做到哪裡講清楚"
 when_to_use: "團隊 ≥ 3 人、跨職能新功能、需求穩定度 < 60% 時必要"
-ai_leverage: "用 Claude 把訪談 + JTBD + journey → PRD draft，人工審 trade-off"
+ai_leverage: "先讓 AI 找出未知，再依範本產生草稿；人負責確認需求、範圍與驗收標準"
 art: "/generated/key-deliverable-prd.webp"
 source: "deep-research-report.md §產品與需求相關角色 / §可複製範本"
 ---

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Build-time: extract the first fenced code block from each deliverable
-// and emit a Claude Code skill-shaped markdown file to public/skills/.
+// Build-time: extract each deliverable template and emit a portable Coding Agent
+// work package. Stable operating rules stay separate from the task trigger.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -11,6 +11,30 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const SRC = path.join(ROOT, "content", "deliverables");
 const OUT = path.join(ROOT, "public", "skills");
+
+const SYMBOL_REPLACEMENTS = [
+  [/\u2705/g, "[YES]"],
+  [/\u274c/g, "[NO]"],
+  [/\u26a0\ufe0f?/g, "[CAUTION]"],
+  [/\u23eb/g, "[INCREASE]"],
+  [/\u23ec/g, "[DECREASE]"],
+  [/\u{1f4a1}/gu, "[INSIGHT]"],
+  [/\u{1f6e1}\ufe0f?/gu, "[GUARDRAIL]"],
+  [/\u2b50/g, "[RATING]"],
+  [/\u{1f53a}/gu, "[UP]"],
+  [/\u{1f53b}/gu, "[DOWN]"],
+  [/\u270b/g, "[STOP]"],
+  [/\u2713/g, "YES"],
+  [/\u2717/g, "NO"],
+  [/\ufe0f/g, ""],
+];
+
+function normalizeSymbols(value) {
+  return SYMBOL_REPLACEMENTS.reduce(
+    (result, [pattern, replacement]) => result.replace(pattern, replacement),
+    value,
+  );
+}
 
 // CommonMark N-backtick rule: opening uses ≥ 3 backticks; closing must match or
 // exceed the opening count. Inner fences with fewer backticks are content.
@@ -50,26 +74,35 @@ function buildSkill(fm, prompt, variant) {
   const variantLabel = variant === "quick" ? "Quick (≤ 12 行)"
                      : variant === "full" ? "Full (含 markdown 分段 / schema / self-verify)"
                      : null;
-  return `---
+  return normalizeSymbols(`---
 name: ${name}
 description: ${yamlScalar(description)}
 metadata:
-  type: prompt
+  type: work-package
   variant: ${variant}
   source: launch-atlas
   stage: ${yamlScalar(fm.stage)}
   roles: ${yamlList(fm.roles)}
   deliverable_slug: ${yamlScalar(fm.slug)}
+  context_strategy: repository-first
 ---
 
-# ${fm.title}${variantLabel ? ` · ${variantLabel}` : ""}
+# ${fm.title}${variantLabel ? ` · ${variantLabel}` : ""} · 工作包
 
-${fm.when_to_use ? `**何時用：** ${fm.when_to_use}\n\n` : ""}${fm.ai_leverage ? `**AI 加速：** ${fm.ai_leverage}\n\n` : ""}## Prompt
+${fm.when_to_use ? `**何時用：** ${fm.when_to_use}\n\n` : ""}${fm.ai_leverage ? `**AI 加速：** ${fm.ai_leverage}\n\n` : ""}## Agent 協作規則
+
+1. 這份工作包定義輸出品質，不代表上游文件必須依序存在。
+2. 先搜尋 Repository、既有文件、設定與測試；找到等價證據即可使用，並標示來源路徑。
+3. 人類負責需求、限制、驗收標準與衝突決策。不得替人類猜測決策。
+4. 先回報 FOUND、MISSING、CONFLICT。只有缺口會改變輸出時才提問，每次最多 5 題。
+5. 資訊不足但不阻擋草稿時保留 TODO，並註明需要什麼證據，不得編造。
+
+## 輸出範本
 
 \`\`\`
 ${prompt}
 \`\`\`
-`;
+`);
 }
 
 function main() {

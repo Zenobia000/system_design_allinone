@@ -5,7 +5,7 @@ import { useState } from "react";
 interface Props {
   prompt: string;
   slug: string;
-  /** Override the default `<slug>.md` skill filename (e.g. `<slug>-quick.md`). */
+  /** Override the default `<slug>.md` work-package filename (e.g. `<slug>-quick.md`). */
   skillFilename?: string;
   /**
    * Visual variant. When "ptc", adds the `ptc__actions` class hook so the
@@ -60,7 +60,7 @@ export default function PromptActions({ prompt, slug, skillFilename, variant }: 
         onClick={onCopy}
         aria-live="polite"
       >
-        {copyState === "copied" ? "已複製 ✓" : copyState === "failed" ? "複製失敗" : "📋 複製 prompt"}
+        {copyState === "copied" ? "已複製" : copyState === "failed" ? "複製失敗" : "複製 prompt"}
       </button>
 
       <div className="pa-chatbots">
@@ -87,7 +87,7 @@ export default function PromptActions({ prompt, slug, skillFilename, variant }: 
       </div>
 
       <a className="pa-skill-link" href={skillHref} download>
-        ⬇ 下載為 Claude Code skill
+        下載 Coding Agent 工作包
       </a>
     </div>
   );
