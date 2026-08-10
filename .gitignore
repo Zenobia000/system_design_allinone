@@ -47,6 +47,12 @@ out/
 # Personal reference images (not project content)
 40803296.jpeg
 
+# Raw gpt-image-2 intermediates. Every generator run drops a timestamped
+# *_raw_*.png next to the retouched slide; nothing in the repo references
+# them and they are reproducible, so keeping them cost ~115 MB of history
+# for zero readers. The retouched slide-NN.png files stay tracked.
+**/generated/*_raw_*.png
+
 # Stray images at repo root — Playwright runs, downloads, screenshots.
 # Anchored with leading "/" so subproject assets (product_to_launch/public/**)
 # are not affected.
