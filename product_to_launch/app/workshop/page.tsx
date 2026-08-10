@@ -4,8 +4,8 @@ import Footer from "@/components/Footer";
 import WorkshopPathway from "@/components/WorkshopPathway";
 
 export const metadata: Metadata = {
-  title: "我的工作坊路徑 · Workshop",
-  description: "依據你的種子簡報生成的 15 卡個人化學習路徑。每張卡含模板輸入、完整工作範例對照與進度追蹤。",
+  title: "15 卡核心學習路徑 · Workshop",
+  description: "以專案底稿為共同起點，依 15 張核心卡理解 SDLC；實際專案則依不確定性選擇需要的文件。",
   alternates: {
     canonical: "/workshop/",
     languages: { "zh-Hant": "/workshop/", "x-default": "/workshop/" },
@@ -24,12 +24,10 @@ export default function WorkshopPage() {
                 <span className="tag accent">Workshop</span>
                 <span className="tag">15 cards · 6 stages</span>
               </div>
-              <h1>你的 15 卡學習路徑</h1>
+              <h1>15 卡核心學習路徑</h1>
               <p className="hook">
-                這 15 張是「沒有它整個產品流程會斷掉」的最小必要集。
-                跟著順序走，每張卡有自己的「模板輸入」（已套上你的 brief）與
-                完整工作範例的「實際結果」可以對照。
-                進度自動存在你瀏覽器，關掉再開還在。
+                這條路徑是用來理解完整 SDLC 的課程順序，不是實際專案必須逐張完成的文件流水線。
+                學習時依序建立全貌；進入專案時，再依目前最大的未知選擇文件並交給 Coding Agent。
               </p>
             </div>
           </div>
@@ -42,10 +40,10 @@ export default function WorkshopPage() {
 
               <h2 style={{ marginTop: 48 }}>怎麼跟這份路徑學</h2>
               <ol>
-                <li>從第 1 張開始，依順序走 — 每張卡都依賴前面的輸出</li>
-                <li>點「前往卡片」→ 打開站上教學頁，於「文件範本」段選「<strong>輕量範本</strong>」或「<strong>完整範本</strong>」tab 並複製</li>
-                <li>於「怎麼觸發」段複製薄 trigger，把貼位區換成你上方<strong>「我的種子簡報」</strong>＋上游卡產出，整段送 Claude</li>
-                <li>送出後，點「看完整工作範例」對照你的產出</li>
+                <li>第一次學習可從第 1 張開始，依序建立角色、階段與文件關聯的全貌</li>
+                <li>點「前往卡片」，使用<strong>學習模式</strong>閱讀大綱、範本與 SmartTrip 案例</li>
+                <li>真的要在專案產出時，切到<strong>專案實戰</strong>查看局部文件關聯與必要資訊來源</li>
+                <li>下載工作包並把短啟動詞交給 Coding Agent；讓它先掃描 Repository，再詢問阻擋性缺口</li>
                 <li>勾起 checkbox 標完成，往下一張走</li>
               </ol>
 
@@ -53,8 +51,7 @@ export default function WorkshopPage() {
               <p>
                 如果走到一半發現問卷答案根本不對（例如 Discovery 跑完才發現受眾錯了），
                 點上方<strong>「重新填寫」</strong>清掉重來。
-                這比硬撐到 PRD 才發現整個方向錯要省時間 — Linus 說的 &ldquo;Never break userspace&rdquo;
-                只適用於上線系統，<em>學習階段就是要敢推翻自己</em>。
+                專案底稿是目前理解的基準，不是不能更動的合約。新的證據足以改變方向時，就應更新底稿並保留變更原因。
               </p>
             </article>
             <aside>

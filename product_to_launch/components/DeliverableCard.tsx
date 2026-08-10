@@ -14,7 +14,7 @@ export default function DeliverableCard({ d, hook }: Props) {
     <Link
       href={`/deliverables/${d.slug}/`}
       className={cls}
-      aria-label={d.essential ? `${d.title}（最小必要集）` : undefined}
+      aria-label={d.essential ? `${d.title}（核心學習路徑）` : undefined}
     >
       <span className="num">{`#${pad(d.order)} · ${stage.titleEn.toUpperCase()}`}</span>
       <h3>{d.title}</h3>

@@ -13,7 +13,7 @@ export default function Hero() {
       <p className="lede">
         12 個角色 · <b>58 個交付物</b> · 一張可走完的地圖。
         <br />
-        每張卡片只回答四件事：<b>解決什麼、誰負責、何時用、AI 怎麼加速</b>。
+        每張卡先教你看懂，再把工作包帶進 <b>Coding Agent</b>。
       </p>
       <div className="meta">
         <span><i /> 6 Stages</span>

@@ -4,9 +4,9 @@ import Footer from "@/components/Footer";
 import StartQuestionnaire from "@/components/StartQuestionnaire";
 
 export const metadata: Metadata = {
-  title: "工作坊起點 · 5 分鐘問卷生成你的學習路徑",
+  title: "工作坊起點 · 5 分鐘建立專案底稿",
   description:
-    "5 題極簡問卷產出專案種子簡報（project-brief.md），自動串接 15 張必要卡片的學習路徑。降低 SDLC 框架的入門門檻。",
+    "用 5 題產出 project-brief.md，作為學習 SDLC 與啟動 Coding Agent 上下文盤點的共同起點。",
   alternates: {
     canonical: "/start/",
     languages: { "zh-Hant": "/start/", "x-default": "/start/" },
@@ -25,13 +25,13 @@ export default function StartPage() {
                 <span className="tag accent">Workshop</span>
                 <span className="tag">5 分鐘 · 5 題</span>
               </div>
-              <h1>用 5 題搭一份種子簡報，
-                <br />然後跟著 15 張卡走完整個產品流程。</h1>
+              <h1>用 5 題建立專案底稿，
+                <br />再讓 Agent 找出真正缺少的資訊。</h1>
               <p className="hook">
                 你不需要懂程式。用日常語言描述你想做什麼，
                 系統會把答案整理成一份 markdown 簡報，
-                成為後續每張 AI prompt 的「上游輸入」。
-                附完整工作範例可對照，全程口語、無術語。
+                讓每張教學卡有共同起點。進入實際專案後，Coding Agent 會再讀取 Repository 與既有文件，
+                只針對會阻擋需求、限制或驗收的缺口提問。
               </p>
             </div>
           </div>
@@ -47,15 +47,13 @@ export default function StartPage() {
                 </li>
                 <li>
                   瀏覽器會自動下載 <code>project-brief.md</code>，
-                  並跳到 <code>/workshop/</code> 你的個人化學習路徑頁
+                  並跳到 <code>/workshop/</code> 建議學習路徑頁
                 </li>
                 <li>
-                  跟著 15 張卡走 — 每張卡有<strong>「模板輸入」</strong>（已套上你的 brief 的 prompt）
-                  與<strong>「實際結果」</strong>（完整工作範例的 AI 輸出 + 教學要點）
+                  初次學習可依 15 張核心卡理解完整流程；它是課程順序，不是實際專案必須完成的文件清單
                 </li>
                 <li>
-                  把每張卡的「模板輸入」整段貼到 Claude 或 ChatGPT，
-                  AI 會依照同樣的 schema 產出你的版本
+                  需要在真實專案產出文件時，切到卡片的<strong>「專案實戰」</strong>，下載工作包並交給 Coding Agent 掃描上下文
                 </li>
               </ol>
 
@@ -72,7 +70,7 @@ export default function StartPage() {
               <h2>沒靈感？</h2>
               <p>
                 看 <a href="https://github.com/Zenobia000/system_design_allinone/blob/main/demo/%E7%A8%AE%E5%AD%90%E7%B0%A1%E5%A0%B1.md" target="_blank" rel="noopener">範例種子簡報</a>
-                是怎麼寫的 — 同樣 5 段、同樣口語，你的 brief 也會長那樣。
+                是怎麼寫的。同樣 5 段、同樣口語，你的 brief 也會長那樣。
               </p>
             </article>
             <aside>
@@ -88,7 +86,7 @@ export default function StartPage() {
               <section>
                 <h4>填完之後</h4>
                 <p>
-                  <a href="/workshop/">前往 /workshop/ ↗</a>
+                  <a href="/workshop/">前往 /workshop/</a>
                   <br />
                   <span style={{ fontSize: 11, color: "var(--ink-mute)" }}>
                     沒填問卷直接訪問會看到「先填問卷」CTA。

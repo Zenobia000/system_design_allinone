@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: `%s · ${SITE_NAME}`,
   },
   description:
-    "12 個角色 · 58 個交付物 · 一張可走完的地圖。每張卡片只回答四件事：解決什麼、誰負責、何時用、AI 怎麼加速。",
+    "12 個角色 · 58 個交付物 · 一張可走完的地圖。每張卡先教你看懂，再把文件工作包帶進 Coding Agent。",
   keywords: [
     "產品開發",
     "SDLC",

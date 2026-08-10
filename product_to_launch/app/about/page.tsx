@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "About · 關於落地圖鑑",
-  description: "為架構工作打造的決策手冊。由桑尼資料科學 Lab 整理發行 — 十二個角色、六道 SDLC 閘門、五十八項交付物。",
+  description: "讓初學者理解 SDLC，並把正確文件工作包帶進 Coding Agent。收錄十二個角色、六個階段與五十八項交付物。",
   alternates: {
     canonical: "/about/",
     languages: { "zh-Hant": "/about/", "x-default": "/about/" },
@@ -23,10 +23,10 @@ export default function AboutPage() {
                 <span className="tag accent">About</span>
                 <span className="tag">v1.0 · 2026</span>
               </div>
-              <h1>為架構工作打造的決策手冊。</h1>
+              <h1>看懂 SDLC，再把工作交給 Agent。</h1>
               <p className="hook">
-                由桑尼資料科學 Lab 整理發行。十二個角色、六道 SDLC 閘門、五十八項交付物——
-                每張卡只回答四件事：解決什麼、誰負責、何時用、AI 怎麼加速。
+                由桑尼資料科學 Lab 整理發行。十二個角色、六個 SDLC 階段、五十八項交付物。
+                每張卡都有學習模式與專案實戰，網站負責教學，Coding Agent 負責讀取專案並產出文件。
               </p>
             </div>
           </div>
@@ -38,11 +38,11 @@ export default function AboutPage() {
               <h2>為什麼做這個</h2>
               <p>
                 市面上的產品框架知識庫已經很多了。但工程團隊真正需要的，從來不是「更多框架」，
-                而是一條<strong>可走完的路</strong> — 從一個商業假設，走到一個凌晨三點還活著的系統。
+                而是一條<strong>可走完的路</strong>。從一個商業假設，走到一個凌晨三點還活著的系統。
               </p>
               <p>
-                落地圖鑑把工具放回它「該被使用」的位置上 — 不依附特定方法論、不堆砌名詞，
-                每張交付物卡片只回答四件事：<strong>解決什麼問題、誰負責、何時用、AI 怎麼加速</strong>。
+                落地圖鑑把工具放回它該被使用的位置，不依附特定方法論、不堆砌名詞。
+                學習模式解釋用途、責任、大綱與案例；專案實戰則把文件關聯和工作包交給 Coding Agent。
               </p>
 
               <h2>給誰用的</h2>
@@ -86,7 +86,7 @@ export default function AboutPage() {
                   rel="noopener"
                   className="cta-primary"
                 >
-                  前往桑尼資料科學 <span className="arrow">↗</span>
+                  前往桑尼資料科學
                 </a>
               </div>
 
@@ -125,7 +125,7 @@ export default function AboutPage() {
                 <h4>主站</h4>
                 <p>
                   <a href="https://sunnydatascience.com/" target="_blank" rel="noopener">
-                    sunnydatascience.com ↗
+                    sunnydatascience.com
                   </a>
                   <br />
                   <span style={{ fontSize: 11, color: "var(--ink-mute)" }}>AI 第二專長課程平台</span>

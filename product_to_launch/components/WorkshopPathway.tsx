@@ -170,7 +170,7 @@ export default function WorkshopPathway() {
         <pre>{brief.markdown}</pre>
         <div className="workshop-brief-actions">
           <button type="button" onClick={copyBrief}>
-            {copied ? "已複製 ✓" : "複製到剪貼簿"}
+            {copied ? "已複製" : "複製到剪貼簿"}
           </button>
           <button type="button" onClick={downloadBrief}>下載 .md</button>
           <button type="button" onClick={reset}>重新填寫</button>
@@ -208,7 +208,7 @@ export default function WorkshopPathway() {
                       <div className="workshop-card-links">
                         <Link href={`/deliverables/${c.slug}/`}>前往卡片 →</Link>
                         <a href={demoUrl} target="_blank" rel="noopener" className="secondary">
-                          看完整工作範例 ↗
+                          看完整工作範例
                         </a>
                       </div>
                     </div>

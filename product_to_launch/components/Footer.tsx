@@ -17,7 +17,7 @@ export default function Footer() {
             落地圖鑑 · Launch Atlas
           </span>
           <p>
-            一張從假設走到可運維系統的地圖。12 角色、58 交付物、6 階段、每張卡附 AI 加速 prompt。
+            一張從假設走到可運維系統的地圖。12 角色、58 交付物、6 階段，每張卡都有學習模式與 Agent 工作包。
           </p>
           <p style={{ marginTop: 4 }} className="mono">
             <span style={{ color: "var(--accent)" }}>·</span> Part of System Design All-in-One
@@ -53,7 +53,7 @@ export default function Footer() {
         <span>© 2026 · Launch Atlas · MIT License</span>
         <span>
           <a href="https://sunnydatascience.com/" target="_blank" rel="noopener" className="lab-credit">
-            桑尼資料科學 Lab 出品 <span style={{ color: "var(--accent)" }}>↗</span>
+            桑尼資料科學 Lab 出品
           </a>
         </span>
       </div>
