@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ROLES, STAGE_MAP } from "@/lib/taxonomy";
+import { getAllRoles } from "@/lib/content";
 
 interface Props {
   variant?: "full" | "compact";
@@ -7,6 +8,9 @@ interface Props {
 
 export default function RolesCompass({ variant = "full" }: Props) {
   const compact = variant === "compact";
+  // Hooks come from content/roles/<slug>.md, the same source the detail page
+  // renders — taxonomy no longer carries a second copy to drift from.
+  const hooks = new Map(getAllRoles().map((r) => [r.frontmatter.slug, r.frontmatter.hook]));
   return (
     <section className="section" style={{ background: "var(--cream-2)" }}>
       <div className="section-head">
@@ -22,7 +26,7 @@ export default function RolesCompass({ variant = "full" }: Props) {
           <Link href={`/roles/${r.slug}/`} key={r.slug}>
             <span className="num">Role · {r.num}</span>
             <h3>{r.title}</h3>
-            {!compact && <p className="role-hook">{r.hook}</p>}
+            {!compact && <p className="role-hook">{hooks.get(r.slug)}</p>}
             <div className="role-tags">
               {r.primaryStages.map((s) => (
                 <span className="tag" key={s} style={{ color: STAGE_MAP[s].hex, borderColor: STAGE_MAP[s].hex }}>

@@ -34,12 +34,21 @@ export interface StageMeta {
   hex: string;
 }
 
+/**
+ * Structural role data only — ordering, stage mapping, colour.
+ *
+ * Prose (hook, and anything else a human rewrites) lives ONLY in
+ * content/roles/<slug>.md frontmatter. It used to be duplicated here and
+ * drifted on 9 of 12 roles: the compass card said one thing, the detail page
+ * another, and BA/SA had outright swapped descriptions. Read prose via
+ * getAllRoles() / getRole() instead. scripts/check-role-sync.mjs enforces
+ * that title/titleEn stay in step with the markdown.
+ */
 export interface RoleMeta {
   slug: RoleSlug;
   num: string;
   title: string;
   titleEn: string;
-  hook: string;
   primaryStages: StageSlug[];
   hex: string;
 }
@@ -54,18 +63,18 @@ export const STAGES: StageMeta[] = [
 ];
 
 export const ROLES: RoleMeta[] = [
-  { slug: "pm",        num: "01", title: "產品經理",   titleEn: "Product Manager", hook: "決定要解決哪個問題、不解決哪個", primaryStages: ["discovery", "define"], hex: "#ff6a1a" },
-  { slug: "po",        num: "02", title: "產品負責人", titleEn: "Product Owner",   hook: "在 Sprint 顆粒度上排優先級", primaryStages: ["define", "build"], hex: "#d97757" },
-  { slug: "ba",        num: "03", title: "業務分析師", titleEn: "Business Analyst", hook: "把商業語言翻成系統語言", primaryStages: ["discovery", "define"], hex: "#8b6f47" },
-  { slug: "ux",        num: "04", title: "UX 設計",   titleEn: "UX Designer",     hook: "確保使用者真的走得完這趟旅程", primaryStages: ["discovery", "design"], hex: "#2e7d8c" },
-  { slug: "ui",        num: "05", title: "UI 設計",   titleEn: "UI Designer",     hook: "把功能變成看得懂、按得到的介面", primaryStages: ["design"], hex: "#6dd5ed" },
-  { slug: "sa",        num: "06", title: "系統分析",   titleEn: "System Analyst",  hook: "在商業需求與技術可行性之間架橋", primaryStages: ["define", "design"], hex: "#e54d4d" },
-  { slug: "architect", num: "07", title: "架構師",     titleEn: "Architect",       hook: "為十年後的負載做今天的取捨", primaryStages: ["design"], hex: "#ff6a1a" },
-  { slug: "sd",        num: "08", title: "系統設計",   titleEn: "System Designer", hook: "把架構決策落地成 Dev 不用問就能寫的細部設計", primaryStages: ["design"], hex: "#d97757" },
-  { slug: "dba",       num: "09", title: "資料庫管理", titleEn: "Database Admin",  hook: "讓資料真出事還回得來", primaryStages: ["design", "operate"], hex: "#6dd5ed" },
-  { slug: "dev",       num: "10", title: "開發者",     titleEn: "Developer",       hook: "把藍圖變成 production code", primaryStages: ["build"], hex: "#d97757" },
-  { slug: "qa",        num: "11", title: "品質工程",   titleEn: "QA Engineer",     hook: "在使用者之前找到所有 bug", primaryStages: ["build", "ship"], hex: "#8b6f47" },
-  { slug: "devops",    num: "12", title: "DevOps/SRE", titleEn: "DevOps · SRE",    hook: "讓系統凌晨三點不會把人叫醒", primaryStages: ["ship", "operate"], hex: "#2e7d8c" },
+  { slug: "pm",        num: "01", title: "產品經理",    titleEn: "Product Manager",  primaryStages: ["discovery", "define"], hex: "#ff6a1a" },
+  { slug: "po",        num: "02", title: "產品負責人",  titleEn: "Product Owner",    primaryStages: ["define", "build"], hex: "#d97757" },
+  { slug: "ba",        num: "03", title: "業務分析師",  titleEn: "Business Analyst", primaryStages: ["discovery", "define"], hex: "#8b6f47" },
+  { slug: "ux",        num: "04", title: "UX 設計",     titleEn: "UX Designer",      primaryStages: ["discovery", "design"], hex: "#2e7d8c" },
+  { slug: "ui",        num: "05", title: "UI 設計",     titleEn: "UI Designer",      primaryStages: ["design"], hex: "#6dd5ed" },
+  { slug: "sa",        num: "06", title: "系統分析",    titleEn: "System Analyst",   primaryStages: ["define", "design"], hex: "#e54d4d" },
+  { slug: "architect", num: "07", title: "架構師",      titleEn: "Architect",        primaryStages: ["design"], hex: "#ff6a1a" },
+  { slug: "sd",        num: "08", title: "系統設計",    titleEn: "System Designer",  primaryStages: ["design"], hex: "#d97757" },
+  { slug: "dba",       num: "09", title: "資料庫管理",  titleEn: "Database Admin",   primaryStages: ["design", "operate"], hex: "#6dd5ed" },
+  { slug: "dev",       num: "10", title: "開發者",      titleEn: "Developer",        primaryStages: ["build"], hex: "#d97757" },
+  { slug: "qa",        num: "11", title: "品質工程",    titleEn: "QA Engineer",      primaryStages: ["build", "ship"], hex: "#8b6f47" },
+  { slug: "devops",    num: "12", title: "DevOps · SRE", titleEn: "DevOps · SRE",    primaryStages: ["ship", "operate"], hex: "#2e7d8c" },
 ];
 
 export const STAGE_MAP: Record<StageSlug, StageMeta> = Object.fromEntries(
@@ -87,9 +96,9 @@ export interface DeliverableIndex {
   title: string;
   stage: StageSlug;
   roles: RoleSlug[];
-  /** Minimum necessary set — kept small so the "without this the product
-   *  process actually breaks" signal stays loud. Currently 15 cards:
-   *  2 per stage, with Design weighted at 5 (SA/SD critical mass). */
+  /** Core learning path used to teach the complete SDLC shape. These cards
+   *  are a curriculum sequence, not a mandatory document pipeline for every
+   *  real project. Currently 15 cards, with Design weighted at 5. */
   essential?: boolean;
 }
 
