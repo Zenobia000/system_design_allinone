@@ -8,9 +8,9 @@ interface Props {
 
 export default function RolesCompass({ variant = "full" }: Props) {
   const compact = variant === "compact";
-  // Hooks come from content/roles/<slug>.md, the same source the detail page
+  // Prose comes from content/roles/<slug>.md, the same source the detail page
   // renders — taxonomy no longer carries a second copy to drift from.
-  const hooks = new Map(getAllRoles().map((r) => [r.frontmatter.slug, r.frontmatter.hook]));
+  const front = new Map(getAllRoles().map((r) => [r.frontmatter.slug, r.frontmatter]));
   return (
     <section className="section" style={{ background: "var(--cream-2)" }}>
       <div className="section-head">
@@ -26,7 +26,12 @@ export default function RolesCompass({ variant = "full" }: Props) {
           <Link href={`/roles/${r.slug}/`} key={r.slug}>
             <span className="num">Role · {r.num}</span>
             <h3>{r.title}</h3>
-            {!compact && <p className="role-hook">{hooks.get(r.slug)}</p>}
+            {!compact && <p className="role-hook">{front.get(r.slug)?.hook}</p>}
+            {!compact && front.get(r.slug)?.uncertainty && (
+              <p className="role-hook" style={{ color: r.hex, fontSize: 12, marginTop: -2 }}>
+                消除不確定性 · {front.get(r.slug)!.uncertainty}
+              </p>
+            )}
             <div className="role-tags">
               {r.primaryStages.map((s) => (
                 <span className="tag" key={s} style={{ color: STAGE_MAP[s].hex, borderColor: STAGE_MAP[s].hex }}>

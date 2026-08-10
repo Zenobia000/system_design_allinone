@@ -24,9 +24,15 @@ export interface RoleFront {
   slug: RoleSlug;
   num: string;
   hook: string;
+  /** The one uncertainty this role exists to eliminate. Shown on the compass card. */
+  uncertainty?: string;
   hires_for?: string;
   fired_when?: string;
   ai_leverage?: string;
+  /** AI division of labour: what AI drafts, where it stops, what a human must rule on. */
+  ai_can?: string;
+  ai_cannot?: string;
+  human_decides?: string;
   art?: string;
   source?: string;
 }

@@ -93,6 +93,11 @@ export default async function RolePage({ params }: { params: Promise<{ slug: str
               </div>
               <h1>{role.frontmatter.title}</h1>
               <p className="hook">{role.frontmatter.hook}</p>
+              {role.frontmatter.uncertainty && (
+                <p className="coord" style={{ marginTop: 14, color: meta.hex }}>
+                  消除不確定性 · {role.frontmatter.uncertainty}
+                </p>
+              )}
               <p className="coord" style={{ marginTop: 28 }}>{role.frontmatter.title_en}</p>
             </div>
             {role.frontmatter.art && (
@@ -132,6 +137,36 @@ export default async function RolePage({ params }: { params: Promise<{ slug: str
                 <section>
                   <h4>AI 加速一句話</h4>
                   <p>{role.frontmatter.ai_leverage}</p>
+                </section>
+              )}
+              {(role.frontmatter.ai_can ||
+                role.frontmatter.ai_cannot ||
+                role.frontmatter.human_decides) && (
+                <section>
+                  <h4>AI 分工</h4>
+                  <ul>
+                    {role.frontmatter.ai_can && (
+                      <li>
+                        <strong>AI 可代勞</strong>
+                        <br />
+                        {role.frontmatter.ai_can}
+                      </li>
+                    )}
+                    {role.frontmatter.ai_cannot && (
+                      <li>
+                        <strong>AI 做不了</strong>
+                        <br />
+                        {role.frontmatter.ai_cannot}
+                      </li>
+                    )}
+                    {role.frontmatter.human_decides && (
+                      <li>
+                        <strong style={{ color: "var(--accent)" }}>你必須拍板</strong>
+                        <br />
+                        {role.frontmatter.human_decides}
+                      </li>
+                    )}
+                  </ul>
                 </section>
               )}
               <section>
