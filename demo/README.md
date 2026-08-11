@@ -27,6 +27,7 @@
 demo/
 ├── README.md                ← 你正在讀的這份
 ├── 種子簡報.md               ← SmartTrip FX 的 brief（= /start/ 問卷產出的 project-brief.md）
+├── derived/                 ← AI 推導 · 待審定的 43 份案例（非工作坊教材，見下方說明）
 │
 ├── 01-discovery/
 │   ├── 01-jtbd/             ← 訪談覆盤會（PM 主責）
@@ -64,6 +65,32 @@ demo/
 - `角色場景.md` — 這場會議在做什麼、誰在場、你扮的角色、禁忌動作、結束時桌上要有什麼
 - `關鍵提問.md` — 主責角色必問的 5–7 個尖銳問題 + 送命題清單
 - `SmartTrip示範.md` — 用種子簡報實際把問題答一遍 + 現場對話片段 + 下游影響
+
+---
+
+## 兩種案例，地位不同
+
+站台 [`product_to_launch`](../product_to_launch/) 的交付物卡會顯示 SmartTrip 案例，來源有兩類，**不可混用**：
+
+| | `demo/<階段>/<NN-slug>/SmartTrip示範.md` | `demo/derived/<slug>.md` |
+|---|---|---|
+| 數量 | **15**（本工作坊的 15 卡） | **43**（其餘交付物） |
+| 產製方式 | **手刻**，課堂實跑後收斂 | **AI 依 canon 推導** |
+| 審定狀態 | 已審定 | **未審定** |
+| 站上標示 | 無標示，直接顯示 | **「AI 推導 · 待審定」** |
+| 可以拿來 | 當標準答案對照、當教材 | **看結構與提問方式**；數字與細節需自行查核 |
+
+`derived/` 的每一份都由 [`種子簡報.md`](./種子簡報.md) + 根目錄 [`PRD.md`](../PRD.md) + 既有 15 份手刻示範推導而成，
+並在檔頭與文末保留 `Confidence` 與 `TODO` 欄位標示哪些內容沒有依據。
+
+> **為什麼要標示**：站台原本的文案是「不以 AI 臨時生成的內容冒充實際案例」。
+> 補上案例之後，這句承諾靠的就是**標示**而不是**留白** — 審定過的與推導的必須一眼分得出來。
+
+**審定流程**：逐份人工看過並修正後，`git mv demo/derived/<slug>.md demo/curated/<slug>.md`。
+站台會自動改判為 curated 並移除標示，**不需要改任何程式碼**（掃描規則見 `product_to_launch/lib/deliverable-learning.ts`）。
+
+> `curated/` 是「審定過但不屬於 15 卡工作坊」的位置。
+> 審定不等於升格成工作坊卡 — 後者需要另外補 `角色場景.md` 與 `關鍵提問.md`，並重排卡號。
 
 ---
 
@@ -194,7 +221,9 @@ debrief 時的關鍵討論題：「**我為什麼選 X，老師為什麼選 Y—
 
 ## 開發者注意事項
 
-- `demo/` 的 `.md` 檔不會被 Next.js 站台 build；只作為對照標準
+- `SmartTrip示範.md`、`derived/*.md`、`curated/*.md` **會**在 build 時被讀入交付物卡的「案例」分頁
+  （`product_to_launch/lib/deliverable-learning.ts`）。改動這些檔案要重跑 build 才會反映到站上。
+- `角色場景.md` 與 `關鍵提問.md` 不會被 build，只作為課堂對照標準
 - [`/workshop/`](http://localhost:3000/workshop/) 的「看 SmartTrip FX 標準答案」按鈕直接連到 GitHub 上的 demo/ blob
 - 若要在站上開新路由直接 render demo（避免外連 GitHub），可參考 plan 檔的「不做的事」段落
 
