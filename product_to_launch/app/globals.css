@@ -1044,6 +1044,15 @@ body {
   font-size: 12px;
   line-height: 1.55;
 }
+/* Derived examples are generated from the SmartTrip canon and not yet reviewed;
+   the accent shift keeps them visually distinct from curated workshop cases. */
+.learning-demo .case-status-derived {
+  border-left-color: var(--accent-dark);
+}
+.learning-demo .case-status-derived strong {
+  color: var(--accent-dark);
+  letter-spacing: 0.04em;
+}
 .detail-body article.learning-demo-article pre.learning-code {
   max-height: 560px;
   margin: 0;

@@ -151,10 +151,11 @@ export default function DeliverableLearningDemo({ title, hook, content, next }: 
   }), [outlineNames, title]);
 
   const selectedPrompt = prompts[promptStep];
+  const isDerivedExample = content.example?.provenance === "derived";
   const artifactText = artifactView === "full"
     ? content.fullTemplate
     : artifactView === "example"
-      ? content.example ?? ""
+      ? content.example?.text ?? ""
       : content.template;
 
   const flashCopied = (key: string, ok: boolean) => {
@@ -272,6 +273,12 @@ export default function DeliverableLearningDemo({ title, hook, content, next }: 
             <p>這張卡目前提供已審定的輕量與完整範本；不以 AI 臨時生成的內容冒充實際案例。</p>
           </div>
         )}
+        {isDerivedExample && (
+          <div className="case-status case-status-derived" role="status">
+            <strong>AI 推導 · 待審定</strong>
+            <p>本案例由 SmartTrip FX 的種子簡報與 PRD 推導而成，尚未經課堂實跑與人工審定。可作結構參考，數字與細節請自行查核。</p>
+          </div>
+        )}
         <div className="artifact-workbench">
           <div className="artifact-toolbar">
             <div className="artifact-tabs" role="tablist" aria-label={`切換 ${title} 範本與案例`}>
@@ -292,8 +299,22 @@ export default function DeliverableLearningDemo({ title, hook, content, next }: 
             </button>
           </div>
           <div className="artifact-caption">
-            <span>{artifactView === "template" ? "LIGHT TEMPLATE" : artifactView === "full" ? "FULL TEMPLATE" : "WORKED EXAMPLE"}</span>
-            <p>{artifactView === "template" ? "30 分鐘內先完成核心章節。" : artifactView === "full" ? "需要正式交棒時，再擴充到完整深度。" : "這是工作坊實例；重點是判斷如何連回素材與限制。"}</p>
+            <span>
+              {artifactView === "template"
+                ? "LIGHT TEMPLATE"
+                : artifactView === "full"
+                  ? "FULL TEMPLATE"
+                  : isDerivedExample ? "DERIVED EXAMPLE · UNREVIEWED" : "WORKED EXAMPLE"}
+            </span>
+            <p>
+              {artifactView === "template"
+                ? "30 分鐘內先完成核心章節。"
+                : artifactView === "full"
+                  ? "需要正式交棒時，再擴充到完整深度。"
+                  : isDerivedExample
+                    ? "依 SmartTrip canon 推導；重點是看判斷如何連回素材與限制，不是背數字。"
+                    : "這是工作坊實例；重點是判斷如何連回素材與限制。"}
+            </p>
           </div>
           <pre className="learning-code"><code>{artifactText}</code></pre>
         </div>

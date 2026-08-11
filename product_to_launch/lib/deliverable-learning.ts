@@ -14,6 +14,17 @@ export interface LearningTimingItem {
   text: string;
 }
 
+/**
+ * curated = hand-written workshop reference under demo/<stage>/<nn>-<slug>/.
+ * derived = generated from the SmartTrip canon, not yet reviewed by a human.
+ */
+export type ExampleProvenance = "curated" | "derived";
+
+export interface DeliverableExample {
+  text: string;
+  provenance: ExampleProvenance;
+}
+
 export interface DeliverableLearningContent {
   problem: string[];
   roles: string[];
@@ -21,7 +32,7 @@ export interface DeliverableLearningContent {
   template: string;
   fullTemplate: string;
   outline: LearningOutlineItem[];
-  example: string | null;
+  example: DeliverableExample | null;
 }
 
 export interface RelationshipNode {
@@ -47,23 +58,9 @@ interface RelationshipCandidate {
   body: string;
 }
 
-const SMARTTRIP_EXAMPLES: Record<string, string> = {
-  jtbd: "demo/01-discovery/01-jtbd/SmartTrip示範.md",
-  "value-hypothesis": "demo/01-discovery/02-value-hypothesis/SmartTrip示範.md",
-  prd: "demo/02-define/03-prd/SmartTrip示範.md",
-  "acceptance-criteria": "demo/02-define/04-acceptance-criteria/SmartTrip示範.md",
-  adr: "demo/03-design/05-adr/SmartTrip示範.md",
-  "c4-diagram": "demo/03-design/06-c4-diagram/SmartTrip示範.md",
-  "api-spec": "demo/03-design/07-api-spec/SmartTrip示範.md",
-  "data-model": "demo/03-design/08-data-model/SmartTrip示範.md",
-  "non-functional-reqs": "demo/03-design/09-non-functional-reqs/SmartTrip示範.md",
-  "code-review-checklist": "demo/04-build/10-code-review-checklist/SmartTrip示範.md",
-  "unit-test": "demo/04-build/11-unit-test/SmartTrip示範.md",
-  "release-plan": "demo/05-ship/12-release-plan/SmartTrip示範.md",
-  "rollback-plan": "demo/05-ship/13-rollback-plan/SmartTrip示範.md",
-  runbook: "demo/06-operate/14-runbook/SmartTrip示範.md",
-  postmortem: "demo/06-operate/15-postmortem/SmartTrip示範.md",
-};
+const WORKSHOP_EXAMPLE_FILE = "SmartTrip示範.md";
+const DERIVED_EXAMPLE_DIR = "derived";
+const CURATED_EXAMPLE_DIR = "curated";
 
 const SOURCE_LABELS: Record<string, string> = {
   "project-brief": "專案底稿",
@@ -263,12 +260,62 @@ function findRepoRoot(): string {
   return path.resolve(process.cwd(), "..");
 }
 
-function readExample(slug: string): string | null {
-  const relativePath = SMARTTRIP_EXAMPLES[slug];
-  if (!relativePath) return null;
-  const absolutePath = path.join(findRepoRoot(), relativePath);
-  if (!fs.existsSync(absolutePath)) return null;
-  return normalizeSymbols(fs.readFileSync(absolutePath, "utf-8").trim());
+function directories(root: string): string[] {
+  if (!fs.existsSync(root)) return [];
+  return fs
+    .readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
+}
+
+function flatExamples(
+  dir: string,
+  provenance: ExampleProvenance,
+): Array<[string, { file: string; provenance: ExampleProvenance }]> {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((name) => name.endsWith(".md"))
+    .map((name) => [name.slice(0, -3), { file: path.join(dir, name), provenance }]);
+}
+
+/**
+ * Examples live under demo/ by convention, so adding one is a file drop with no
+ * code change. Later sources win, so reviewing an example is a `git mv` from
+ * derived/ to curated/ — no edit here:
+ *   demo/derived/<slug>.md                          → derived (awaiting review)
+ *   demo/curated/<slug>.md                          → curated (reviewed)
+ *   demo/<nn>-<stage>/<nn>-<slug>/SmartTrip示範.md  → curated (workshop canon)
+ */
+function discoverExamples(): Map<string, { file: string; provenance: ExampleProvenance }> {
+  const demoRoot = path.join(findRepoRoot(), "demo");
+  const found = new Map([
+    ...flatExamples(path.join(demoRoot, DERIVED_EXAMPLE_DIR), "derived"),
+    ...flatExamples(path.join(demoRoot, CURATED_EXAMPLE_DIR), "curated"),
+  ]);
+
+  for (const stage of directories(demoRoot)) {
+    if (stage === DERIVED_EXAMPLE_DIR || stage === CURATED_EXAMPLE_DIR) continue;
+    for (const card of directories(path.join(demoRoot, stage))) {
+      const file = path.join(demoRoot, stage, card, WORKSHOP_EXAMPLE_FILE);
+      if (!fs.existsSync(file)) continue;
+      found.set(card.replace(/^\d+-/, ""), { file, provenance: "curated" });
+    }
+  }
+
+  return found;
+}
+
+let exampleCache: Map<string, { file: string; provenance: ExampleProvenance }> | null = null;
+
+function readExample(slug: string): DeliverableExample | null {
+  exampleCache ??= discoverExamples();
+  const entry = exampleCache.get(slug);
+  if (!entry) return null;
+  return {
+    text: normalizeSymbols(fs.readFileSync(entry.file, "utf-8").trim()),
+    provenance: entry.provenance,
+  };
 }
 
 export function buildDeliverableLearningContent(body: string, slug: string): DeliverableLearningContent {
