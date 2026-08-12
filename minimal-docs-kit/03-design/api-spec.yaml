@@ -1,0 +1,74 @@
+# 卡片:api-spec · 文件 3a/4:API 契約。治「AI 幻覺介面」與「多端 / 多 agent 並行漂移」。
+# 並行實作前 Freeze;Freeze 後 breaking change 不准直接改,先過決策負責人。
+openapi: 3.1.0
+info:
+  title: <Service API>
+  version: 0.1.0
+  description: |
+    <這個服務的目的與邊界,一兩句>
+    對應 PRD:../02-define/prd.md
+    相關決策:./adr.md
+
+servers:
+  - url: https://api.example.com
+
+paths:
+  /resources:
+    post:
+      summary: <動作,例:建立資源>
+      operationId: createResource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceRequest'
+      responses:
+        '201':
+          description: 建立成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+        '400':
+          description: 驗證失敗(錯誤格式見 Error schema)
+        '409':
+          description: 重複請求 / idempotency 衝突
+
+components:
+  schemas:
+    CreateResourceRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          maxLength: 100
+    Resource:
+      type: object
+      required: [id, name, created_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+# --- 治理欄位:契約的生命週期 ---
+x-governance:
+  owner: <決策負責人>
+  consumers: [FE, Mobile, QA, ai-agents]
+  status: Draft   # Draft | Frozen
+  frozen_date: null
+  change_policy: "Frozen 後 breaking change 需 owner 簽核並通知所有 consumers"
