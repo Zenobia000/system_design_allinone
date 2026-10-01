@@ -185,6 +185,16 @@ case "${cmd}" in
     render_pdf  "${src}" "${OUT_DIR}/${name}.pdf"
     render_html "${src}" "${OUT_DIR}/${name}.html"
     ;;
+  pitch)
+    src="${ROOT_DIR}/pitch/deck.md"
+    if [[ ! -f "${src}" ]]; then
+      echo "Error: pitch deck not found: ${src}" >&2
+      exit 1
+    fi
+    render_pdf  "${src}" "${OUT_DIR}/pitch.pdf"
+    render_html "${src}" "${OUT_DIR}/pitch.html"
+    echo "Done. Output in ${OUT_DIR}/"
+    ;;
   html-only)
     src=$(combine_full)
     render_html "${src}" "${OUT_DIR}/dev_journey_full.html"
